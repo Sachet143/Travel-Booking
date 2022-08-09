@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { PUBLIC_ROUTES } from './@core/services/constants';
+import { EXCLUDE_ROUTES } from '@/services/constants';
 
-const FORMATTED_PUBLIC_PATHNAME = PUBLIC_ROUTES.map(route => route + '/');
+const FORMATTED_PUBLIC_PATHNAME = EXCLUDE_ROUTES.map(route => route + '/');
 
 export async function middleware(request: NextRequest) {
     const { pathname: requestedPathname } = request.nextUrl;
@@ -43,19 +43,15 @@ export async function middleware(request: NextRequest) {
     middleware gets triggered only in these routes,
     exclude all the routes of assets and chunks
  */
-// export const config = {
-//     matcher: [
-//         // public routes
-//         '/',
-//         '/login',
-//         '/register',
-//         '/forgot-password',
-//         '/reset-password',
+export const config = {
+    matcher: [
+        // public routes
+        '/',
+        '/login',
+        '/register',
+        '/forgot-password',
+        '/reset-password',
 
-//         // admin routes
-//         '/admin',
-//         '/admin/account-settings',
-//         '/admin/courses',
-//         '/admin/courses/create',
-//     ]
-// }
+        // admin routes
+    ]
+}

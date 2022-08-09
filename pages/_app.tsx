@@ -2,9 +2,21 @@ import '../styles/globals.css'
 import type { AppContext, AppProps } from 'next/app'
 import { deleteCookie, getCookies } from 'cookies-next'
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+import { SWRConfig } from 'swr';
+import axiosClient from '@/services/axios/clientfetch';
+import axiosServer from '@/services/axios/serverfetch';
+import { kyleDecrypt } from '@/services/helper';
 
 function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <SWRConfig
+      value={{
+        fetcher: (resource, init) => axiosClient(resource, init).then(res => res.data)
+      }}
+    >
+      <Component {...pageProps} />
+    </SWRConfig>
+  )
 }
 
 App.getInitialProps = async (appContext: AppContext) => {
