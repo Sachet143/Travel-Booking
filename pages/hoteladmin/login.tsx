@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { appEncrypt, responseErrorHandler } from '@/services/helper';
 import { Button, Form, Input } from 'antd';
 import { setCookie } from 'cookies-next';
+import { hoteladminLogin } from '@/api/hoteladmin/auth';
 
 function SuperAdminLogin() {
 
@@ -18,11 +19,11 @@ function SuperAdminLogin() {
     //   password: "Password123@"
     // }
     setLoading(true);
-    superadminLogin(data)
+    hoteladminLogin(data)
       .then((res: any) => {
         toast.success(res.message);
         setCookie('token', appEncrypt(res.data.token))
-        setCookie('user_type', appEncrypt("superadmin"))
+        setCookie('user_type', appEncrypt("hoteladmin"))
         Router.push('/superadmin')
       })
       .catch(err => responseErrorHandler(err, setError))

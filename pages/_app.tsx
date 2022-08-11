@@ -5,7 +5,9 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import { SWRConfig } from 'swr';
 import axiosClient from '@/services/axios/clientfetch';
 import axiosServer from '@/services/axios/serverfetch';
-import { kyleDecrypt } from '@/services/helper';
+import { appDecrypt } from '@/services/helper';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -14,6 +16,7 @@ function App({ Component, pageProps }: AppProps) {
         fetcher: (resource, init) => axiosClient(resource, init).then(res => res.data)
       }}
     >
+      <ToastContainer />
       <Component {...pageProps} />
     </SWRConfig>
   )
@@ -23,29 +26,29 @@ App.getInitialProps = async (appContext: AppContext) => {
   const { ctx: { req, res } } = appContext;
   const { token } = getCookies({ req });
 
-  if (token) {
+  // if (token && !process.browser) {
 
-    // @ts-ignore
-    const { data: serverUser } = await axiosServer(kyleDecrypt(token)).get('/user')
-      .catch((err: any) => {
+  //   // @ts-ignore
+  //   const { data: serverUser } = await axiosServer(appDecrypt(token)).get('/user')
+  //     .catch((err: any) => {
 
-        // log
-        console.log('get user error', err);
+  //       // log
+  //       console.log('get user error', err);
 
-        // delete cookies
-        deleteCookie("token", { req, res });
+  //       // delete cookies
+  //       deleteCookie("token", { req, res });
 
-        // redirect
-        res?.writeHead(301, {
-          Location: '/login'
-        });
-        res?.end();
+  //       // redirect
+  //       res?.writeHead(301, {
+  //         Location: '/login'
+  //       });
+  //       res?.end();
 
-        return { serverUser: null }
-      })
+  //       return { serverUser: null }
+  //     })
 
-    return { serverUser }
-  }
+  //   return { serverUser }
+  // }
 
   return { serverUser: null }
 }

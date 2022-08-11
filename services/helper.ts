@@ -28,13 +28,14 @@ export function responseErrorHandler(res: any, setError?: any) {
         throw toast.error(res.message);
     }
 
+    console.log({ res })
     throw toast.error("Something went wrong. Please try again later!");
 }
 
-export function kyleEncrypt(data: string) {
+export function appEncrypt(data: string) {
     return cryptr.encrypt(data);
 
 }
-export function kyleDecrypt(data: string) {
+export function appDecrypt(data: string) {
     return cryptr.decrypt(data);
 }

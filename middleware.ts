@@ -8,43 +8,34 @@ export async function middleware(request: NextRequest) {
     const { pathname: requestedPathname } = request.nextUrl;
     const url = request.nextUrl.clone();
     const token = request.cookies.get('token');
+    const userType = request.cookies.get('user_type');
+    // user types
+    const isSuperAdmin = userType === "superadmin";
+    const isHotelAdmin = userType === "hoteladmin";
+    const isUser = userType === "user";
+    // route types
+    const isSuperAdminRoutes = url.pathname.includes("/superadmin") || url.pathname.includes("/superadmin/");
+    const isHotelAdminRoutes = url.pathname.includes("/admin") || url.pathname.includes("/hoteladmin/");
 
-    // const visitSuperAdmin = FORMATTED_PUBLIC_PATHNAME.includes(requestedPathname);
-    // const visitHotelAdmin = FORMATTED_PUBLIC_PATHNAME.includes(requestedPathname);
+    if (token) {
+        // protect superadmin and hoteladmin routes
+        if (
+            (!isSuperAdmin && isSuperAdminRoutes) ||
+            (!isHotelAdmin && isHotelAdminRoutes)) {
 
-    if (!url.pathname.includes("/superadmin") && !url.pathname.includes("/admin")) {
-        url.pathname = `client${url.pathname}`;
-        return NextResponse.rewrite(url);
+            url.pathname = "/";
+            return NextResponse.redirect(url);
+        }
+
+    } else {
+        if (isSuperAdminRoutes || isHotelAdminRoutes) {
+            url.pathname = "/";
+            return NextResponse.redirect(url);
+        }
     }
 
-    //     if (token) {
-    //         const visitingPublicRoutes = FORMATTED_PUBLIC_PATHNAME.includes(requestedPathname);
-    //         if (visitingPublicRoutes) {
-    //             url.pathname = "/admin";
-
-    //             return NextResponse.redirect(url);
-    //         }
-
-    //         // `/pages/admin`
-    //         const routeStartsWithAdmin = url.pathname.startsWith('/admin/');
-    //         if (!routeStartsWithAdmin) {
-    //             url.pathname = "/admin" + url.pathname;
-
-    //             return NextResponse.redirect(url);
-    //         }
-
-    //     } else {
-    //         const visitingAdminRoutes = requestedPathname.includes('/admin');
-    //         if (visitingAdminRoutes) {
-    //             url.pathname = "/login";
-
-    //             return NextResponse.redirect(url);
-    //         }
-    //     }
-
-    // const responseMain = NextResponse.next()
-
-    // return responseMain;
+    const responseMain = NextResponse.next()
+    return responseMain;
 }
 
 /*
@@ -55,7 +46,9 @@ export const config = {
     matcher: [
         // public routes
         '/',
-        // '/login',
+        '/login',
+        '/superadmin/login',
+        '/hoteladmin/login',
         // '/register',
         // '/forgot-password',
         // '/reset-password',
