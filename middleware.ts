@@ -9,34 +9,42 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     const token = request.cookies.get('token');
 
-    if (token) {
-        const visitingPublicRoutes = FORMATTED_PUBLIC_PATHNAME.includes(requestedPathname);
-        if (visitingPublicRoutes) {
-            url.pathname = "/admin";
+    // const visitSuperAdmin = FORMATTED_PUBLIC_PATHNAME.includes(requestedPathname);
+    // const visitHotelAdmin = FORMATTED_PUBLIC_PATHNAME.includes(requestedPathname);
 
-            return NextResponse.redirect(url);
-        }
-
-        // `/pages/admin`
-        const routeStartsWithAdmin = url.pathname.startsWith('/admin/');
-        if (!routeStartsWithAdmin) {
-            url.pathname = "/admin" + url.pathname;
-
-            return NextResponse.redirect(url);
-        }
-
-    } else {
-        const visitingAdminRoutes = requestedPathname.includes('/admin');
-        if (visitingAdminRoutes) {
-            url.pathname = "/login";
-
-            return NextResponse.redirect(url);
-        }
+    if (!url.pathname.includes("/superadmin") && !url.pathname.includes("/admin")) {
+        url.pathname = `client${url.pathname}`;
+        return NextResponse.rewrite(url);
     }
 
-    const responseMain = NextResponse.next()
+    //     if (token) {
+    //         const visitingPublicRoutes = FORMATTED_PUBLIC_PATHNAME.includes(requestedPathname);
+    //         if (visitingPublicRoutes) {
+    //             url.pathname = "/admin";
 
-    return responseMain;
+    //             return NextResponse.redirect(url);
+    //         }
+
+    //         // `/pages/admin`
+    //         const routeStartsWithAdmin = url.pathname.startsWith('/admin/');
+    //         if (!routeStartsWithAdmin) {
+    //             url.pathname = "/admin" + url.pathname;
+
+    //             return NextResponse.redirect(url);
+    //         }
+
+    //     } else {
+    //         const visitingAdminRoutes = requestedPathname.includes('/admin');
+    //         if (visitingAdminRoutes) {
+    //             url.pathname = "/login";
+
+    //             return NextResponse.redirect(url);
+    //         }
+    //     }
+
+    // const responseMain = NextResponse.next()
+
+    // return responseMain;
 }
 
 /*
@@ -46,7 +54,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
     matcher: [
         // public routes
-        // '/',
+        '/',
         // '/login',
         // '/register',
         // '/forgot-password',
