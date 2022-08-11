@@ -8,7 +8,8 @@ function SuperadminIndex() {
                 <label htmlFor="name">Enter your name: </label>
                 <input type="text" id="name" />
             </div>
-            <p>Enter your HTML here</p><nav className="sidebar">
+            <p>Enter your HTML here</p>
+            <nav className="sidebar">
                 <div className="logo d-flex justify-content-between">
                     <a className="large_logo" href="index-2.html"><img src="admin/img/logo.png" alt="" /></a>
                     <a className="small_logo" href="index-2.html"><img src="admin/img/mini_logo.png" alt="" /></a>
