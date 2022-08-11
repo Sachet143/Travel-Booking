@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import "@/public/client/assets/js/testing"
+
 function Index() {
   useEffect(() => {
     $('.promotional_tour_slider').owlCarousel({
