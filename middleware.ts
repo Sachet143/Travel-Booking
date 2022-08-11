@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { EXCLUDE_ROUTES } from '@/services/constants';
+import { EXCLUDE_ROUTES, TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
 
 const FORMATTED_PUBLIC_PATHNAME = EXCLUDE_ROUTES.map(route => route + '/');
 
 export async function middleware(request: NextRequest) {
     const { pathname: requestedPathname } = request.nextUrl;
     const url = request.nextUrl.clone();
-    const token = request.cookies.get('token');
-    const userType = request.cookies.get('user_type');
+    // @ts-ignore
+    const token = request.cookies.get(TOKEN_KEY);
+    const userType = request.cookies.get(USER_TYPE_KEY);
     // user types
     const isSuperAdmin = userType === "superadmin";
     const isHotelAdmin = userType === "hoteladmin";

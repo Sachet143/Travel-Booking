@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { deleteCookie, getCookie } from 'cookies-next';
+import { TOKEN_KEY, USER_TYPE_KEY } from '../constants';
 
 const axiosClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_URL
@@ -9,7 +10,7 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(function (config) {
     if (!config.headers) return;
 
-    const token = getCookie("token");
+    const token = getCookie(TOKEN_KEY);
     if (token) {
         config.headers["Authorization"] = "Bearer " + token;
     }
@@ -26,7 +27,8 @@ axiosClient.interceptors.response.use(
     (res) => res.data,
     async (error) => {
         if (error?.response?.status === 401) {
-            deleteCookie('token');
+            deleteCookie(TOKEN_KEY);
+            deleteCookie(USER_TYPE_KEY);
             await fetch("/api/logout", { method: "POST" });
             window.location.href = "/";
         }

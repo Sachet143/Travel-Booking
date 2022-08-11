@@ -1,12 +1,12 @@
-import { superadminLogin } from '@/api/superadmin/auth';
 import { toast } from 'react-toastify';
 import Router from 'next/router';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { appEncrypt, responseErrorHandler } from '@/services/helper';
-import { Button, Form, Input } from 'antd';
+import { Button, Form } from 'antd';
 import { setCookie } from 'cookies-next';
 import { hoteladminLogin } from '@/api/hoteladmin/auth';
+import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
 
 function SuperAdminLogin() {
 
@@ -22,8 +22,10 @@ function SuperAdminLogin() {
     hoteladminLogin(data)
       .then((res: any) => {
         toast.success(res.message);
-        setCookie('token', appEncrypt(res.data.token))
-        setCookie('user_type', appEncrypt("hoteladmin"))
+        // @ts-ignore
+        setCookie(TOKEN_KEY, appEncrypt(res.data.token))
+        // @ts-ignore
+        setCookie(USER_TYPE_KEY, appEncrypt("hoteladmin"))
         Router.push('/superadmin')
       })
       .catch(err => responseErrorHandler(err, setError))

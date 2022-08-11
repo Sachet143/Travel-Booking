@@ -2,7 +2,7 @@ import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
 import useSWR from 'swr'
 import axiosInstance from '@/services/axios/clientfetch';
-import { EXCLUDE_ROUTES } from '@/services/constants';
+import { EXCLUDE_ROUTES, TOKEN_KEY } from '@/services/constants';
 
 interface IReturnType {
     user: any;
@@ -16,7 +16,7 @@ const fetcher = (url: any) => axiosInstance(url).then(res => res);
 function useUser(fallbackData = null, options = {}): IReturnType {
     const router = useRouter();
     const isPrivateRoute = !EXCLUDE_ROUTES.includes(router.pathname);
-    const token = getCookie('token');
+    const token = getCookie(TOKEN_KEY);
 
     const { data: user, mutate: mutateUser, error: errorUser, isValidating: validatingUser } =
         useSWR(
