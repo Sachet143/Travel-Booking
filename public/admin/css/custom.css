@@ -62,3 +62,25 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+input[aria-invalid="true"] {
+    border-color: #dc3545;
+}
+
+.btn-admin-primary {
+    color: #fff !important;
+    background-color: #884ffb !important;
+    border-color: #884ffb !important;
+    font-weight: 600;
+    height: 45px;
+    border-radius: 26px;
+    text-transform: uppercase;
+    padding-right: 3rem !important;
+    padding-left: 3rem !important;
+}
+
+.btn-admin-primary:hover {
+    color: #fff;
+    background-color: #884ffbe6 !important;
+    border-color: #884ffbe6 !important;
+}

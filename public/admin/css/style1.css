@@ -1765,18 +1765,6 @@ p a:hover {
     border-color: #884ffbe6
 }
 
-.btn-primary {
-    color: #fff;
-    background-color: #884ffb;
-    border-color: #884ffb
-}
-
-.btn-primary:hover {
-    color: #fff;
-    background-color: #884ffbe6;
-    border-color: #884ffbe6
-}
-
 @media(max-width:991px) {
     .sm_padding_15px {
         padding: 15px !important

@@ -62,6 +62,7 @@ function SuperadminSidebar() {
                         )
                     }
                 })}
+                {/* EXTRA */}
                 <li>
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
@@ -406,6 +407,7 @@ function SuperadminSidebar() {
                         <li><a href="vector_map.html">Vector Maps</a></li>
                     </ul>
                 </li>
+                {/* --EXTRA */}
             </ul>
         </nav>
     )
