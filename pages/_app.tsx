@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { TOKEN_KEY } from '@/services/constants';
 
+import "@/public/admin/css/custom.css"
+
 function App({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig
@@ -27,30 +29,30 @@ App.getInitialProps = async (appContext: AppContext) => {
   const { ctx: { req, res } } = appContext;
   const { token } = getCookies({ req });
 
-  if (token && !process.browser) {
+  // if (token && !process.browser) {
 
-    // @ts-ignore
-    const { data: serverUser } = await axiosServer(appDecrypt(token)).get('/user')
-      .catch((err: any) => {
+  //   // @ts-ignore
+  //   const { data: serverUser } = await axiosServer(appDecrypt(token)).get('/user')
+  //     .catch((err: any) => {
 
-        // log
-        console.log('get user error', err);
+  //       // log
+  //       console.log('get user error', err);
 
-        // delete cookies 
-        // @ts-ignore
-        deleteCookie(TOKEN_KEY, { req, res });
+  //       // delete cookies 
+  //       // @ts-ignore
+  //       deleteCookie(TOKEN_KEY, { req, res });
 
-        // redirect
-        res?.writeHead(301, {
-          Location: '/login'
-        });
-        res?.end();
+  //       // redirect
+  //       res?.writeHead(301, {
+  //         Location: '/login'
+  //       });
+  //       res?.end();
 
-        return { serverUser: null }
-      })
+  //       return { serverUser: null }
+  //     })
 
-    return { serverUser }
-  }
+  //   return { serverUser }
+  // }
 
   return { serverUser: null }
 }

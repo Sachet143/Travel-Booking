@@ -1,42 +1,51 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { EXCLUDE_ROUTES, TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
+import { appDecrypt } from './services/helper';
 
 const FORMATTED_PUBLIC_PATHNAME = EXCLUDE_ROUTES.map(route => route + '/');
 
 export async function middleware(request: NextRequest) {
-    const { pathname: requestedPathname } = request.nextUrl;
     const url = request.nextUrl.clone();
     // @ts-ignore
     const token = request.cookies.get(TOKEN_KEY);
     const userType = request.cookies.get(USER_TYPE_KEY);
     // user types
-    const isSuperAdmin = userType === "superadmin";
-    const isHotelAdmin = userType === "hoteladmin";
-    const isUser = userType === "user";
+    const isSuperAdmin = userType && appDecrypt(userType) === "superadmin";
+    const isHotelAdmin = userType && appDecrypt(userType) === "hoteladmin";
+    const isUser = userType && appDecrypt(userType) === "user";
     // route types
     const isSuperAdminRoutes = url.pathname.includes("/superadmin") || url.pathname.includes("/superadmin/");
     const isHotelAdminRoutes = url.pathname.includes("/admin") || url.pathname.includes("/hoteladmin/");
 
-    if (token) {
-        // protect superadmin and hoteladmin routes
-        if (
-            (!isSuperAdmin && isSuperAdminRoutes) ||
-            (!isHotelAdmin && isHotelAdminRoutes)) {
+    // protect superadmin routes
+    if (isSuperAdminRoutes) {
+        // if (token && isSuperAdmin) {
+        if (1) {
+            const responseMain = NextResponse.next();
+            return responseMain;
 
-            url.pathname = "/";
-            return NextResponse.redirect(url);
+        } else {
+            url.pathname = "/client";
+            return NextResponse.rewrite(url);
+
         }
+    }
+    // protect hoteladmin routes
+    if (isHotelAdminRoutes) {
+        if (token && isHotelAdmin) {
+            const responseMain = NextResponse.next();
+            return responseMain;
 
-    } else {
-        if (isSuperAdminRoutes || isHotelAdminRoutes) {
-            url.pathname = "/";
-            return NextResponse.redirect(url);
+        } else {
+            url.pathname = "/client";
+            return NextResponse.rewrite(url);
+
         }
     }
 
-    const responseMain = NextResponse.next()
-    return responseMain;
+    url.pathname = "/client";
+    return NextResponse.rewrite(url);
 }
 
 /*
@@ -48,12 +57,16 @@ export const config = {
         // public routes
         '/',
         '/login',
-        '/superadmin/login',
-        '/hoteladmin/login',
-        // '/register',
-        // '/forgot-password',
-        // '/reset-password',
+        '/register',
+        '/forgot-password',
+        '/reset-password',
 
-        // admin routes
+        // superadmin routes
+        '/superadmin',
+        '/superadmin/login',
+
+        // hoteladmin routes
+        '/hoteladmin/login',
+
     ]
 }

@@ -11,8 +11,8 @@ interface IBreadcrumb {
 
 interface IProps {
     title: string
-    breadcrumbs: Array<IBreadcrumb>
-    children: ReactElement
+    breadcrumbs?: Array<IBreadcrumb>
+    children: ReactElement | Array<ReactElement>
 }
 
 function SuperadminLayout(props: IProps) {

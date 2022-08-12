@@ -1,4 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
+import Link from 'next/link';
 import React from 'react'
+import { SuperadminSidebarMenus } from './menu';
 
 function SuperadminSidebar() {
     return (
@@ -11,7 +14,43 @@ function SuperadminSidebar() {
                 </div>
             </div>
             <ul id="sidebar_menu">
-                <li >
+                {SuperadminSidebarMenus.map(menu => {
+                    if (menu.parent) {
+                        return (
+                            <li key={menu.title}>
+                                <a className="has-arrow" href="#" aria-expanded="false">
+                                    <div className="nav_icon_small">
+                                        <img src={menu.icon} alt={menu.title} />
+                                    </div>
+                                    <div className="nav_title">
+                                        <span>{menu.title}</span>
+                                    </div>
+                                </a>
+                                <ul>
+                                    {
+                                        menu.children.map(cmenu => <Link key={cmenu.title} href={cmenu.link}>{cmenu.title}</Link>)
+                                    }
+                                </ul>
+                            </li>
+                        )
+                    } else {
+                        return (
+                            <Link href={menu.link + ""}>
+                                <li key={menu.title} className="sidebar_parent_link cursor-pointer">
+                                    <>
+                                        <div className="nav_icon_small">
+                                            <img src={menu.icon} alt={menu.title} />
+                                        </div>
+                                        <div className="nav_title">
+                                            <span>{menu.title}</span>
+                                        </div>
+                                    </>
+                                </li>
+                            </Link>
+                        )
+                    }
+                })}
+                <li>
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
                             <img src="admin/img/menu-icon/dashboard.svg" alt="" />
