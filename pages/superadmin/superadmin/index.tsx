@@ -1,13 +1,11 @@
-import { createHotel } from '@/api/superadmin/hotel';
 import SuperadminLayout from '@/components/layout/superadmin'
-import { responseErrorHandler } from '@/services/helper';
 import { Button } from 'antd';
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form';
 
-function CreateHotels() {
+function SuperadminListing() {
   const [loading, setLoading] = useState(false);
-  const { register, formState: { errors }, handleSubmit, setError } = useForm()
+  const { register, formState: { errors }, handleSubmit, setError } = useForm();
 
   function createHotelHandler(data: any) {
     console.log(data)
@@ -21,7 +19,7 @@ function CreateHotels() {
   }
 
   return (
-    <SuperadminLayout title="Create Hotel">
+    <SuperadminLayout title="Superadmin Management">
       <div className="col-lg-6">
         <div className="white_card card_height_100 mb_30">
           <div className="white_card_header">
@@ -101,4 +99,4 @@ function CreateHotels() {
   )
 }
 
-export default CreateHotels
+export default SuperadminListing
