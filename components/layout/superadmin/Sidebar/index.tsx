@@ -1,14 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react'
 import { SuperadminSidebarMenus } from './menu';
 
 function SuperadminSidebar() {
+    const router = useRouter();
+
+    const isActive = (link: string | undefined) => router.pathname === link;
+
     return (
         <nav className="sidebar">
             <div className="logo d-flex justify-content-between">
-                <a className="large_logo" href="index-2.html"><img src="admin/img/logo.png" alt="" /></a>
-                <a className="small_logo" href="index-2.html"><img src="admin/img/mini_logo.png" alt="" /></a>
+                <a className="large_logo" href="index-2.html"><img src="/admin/img/logo.png" alt="" /></a>
+                <a className="small_logo" href="index-2.html"><img src="/admin/img/mini_logo.png" alt="" /></a>
                 <div className="sidebar_close_icon d-lg-none">
                     <i className="ti-close" />
                 </div>
@@ -28,7 +33,14 @@ function SuperadminSidebar() {
                                 </a>
                                 <ul>
                                     {
-                                        menu.children.map(cmenu => <Link key={cmenu.title} href={cmenu.link}>{cmenu.title}</Link>)
+                                        menu.children.map(cmenu => {
+                                            return (
+                                                <Link key={cmenu.title} href={cmenu.link}>
+                                                    <a className={isActive(cmenu.link) ? "active" : ""}>{cmenu.title}</a>
+                                                </Link>
+                                            )
+                                        }
+                                        )
                                     }
                                 </ul>
                             </li>
@@ -36,7 +48,7 @@ function SuperadminSidebar() {
                     } else {
                         return (
                             <Link href={menu.link + ""}>
-                                <li key={menu.title} className="sidebar_parent_link cursor-pointer">
+                                <li key={menu.title} className={`${isActive(menu.link) ? "active" : ""} sidebar_parent_link cursor-pointer`}>
                                     <>
                                         <div className="nav_icon_small">
                                             <img src={menu.icon} alt={menu.title} />
@@ -50,10 +62,11 @@ function SuperadminSidebar() {
                         )
                     }
                 })}
+                {/* EXTRA */}
                 <li>
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/dashboard.svg" alt="" />
+                            <img src="/admin/img/menu-icon/dashboard.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>User Management </span>
@@ -68,7 +81,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/2.svg" alt="" />
+                            <img src="/admin/img/menu-icon/2.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Application </span>
@@ -84,7 +97,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/3.svg" alt="" />
+                            <img src="/admin/img/menu-icon/3.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Pages</span>
@@ -102,7 +115,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/4.svg" alt="" />
+                            <img src="/admin/img/menu-icon/4.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Admins</span>
@@ -116,7 +129,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/11.svg" alt="" />
+                            <img src="/admin/img/menu-icon/11.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Role &amp; Permissions</span>
@@ -130,7 +143,7 @@ function SuperadminSidebar() {
                 <li >
                     <a href="navs.html" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/12.svg" alt="" />
+                            <img src="/admin/img/menu-icon/12.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Navs</span>
@@ -140,7 +153,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/5.svg" alt="" />
+                            <img src="/admin/img/menu-icon/5.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Users</span>
@@ -154,7 +167,7 @@ function SuperadminSidebar() {
                 <li>
                     <a href="Builder.html" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/6.svg" alt="" />
+                            <img src="/admin/img/menu-icon/6.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Builder </span>
@@ -164,7 +177,7 @@ function SuperadminSidebar() {
                 <li >
                     <a href="invoice.html" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/7.svg" alt="" />
+                            <img src="/admin/img/menu-icon/7.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Invoice</span>
@@ -174,7 +187,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/8.svg" alt="" />
+                            <img src="/admin/img/menu-icon/8.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>forms</span>
@@ -190,7 +203,7 @@ function SuperadminSidebar() {
                 <li >
                     <a href="Board.html" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/9.svg" alt="" />
+                            <img src="/admin/img/menu-icon/9.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Board</span>
@@ -200,7 +213,7 @@ function SuperadminSidebar() {
                 <li >
                     <a href="calender.html" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/10.svg" alt="" />
+                            <img src="/admin/img/menu-icon/10.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Calander</span>
@@ -210,7 +223,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/11.svg" alt="" />
+                            <img src="/admin/img/menu-icon/11.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Themes</span>
@@ -224,7 +237,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/12.svg" alt="" />
+                            <img src="/admin/img/menu-icon/12.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>General</span>
@@ -239,7 +252,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/13.svg" alt="" />
+                            <img src="/admin/img/menu-icon/13.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Products</span>
@@ -255,7 +268,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/14.svg" alt="" />
+                            <img src="/admin/img/menu-icon/14.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Icons</span>
@@ -269,7 +282,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/15.svg" alt="" />
+                            <img src="/admin/img/menu-icon/15.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Animations</span>
@@ -284,7 +297,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/16.svg" alt="" />
+                            <img src="/admin/img/menu-icon/16.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Components</span>
@@ -301,7 +314,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/17.svg" alt="" />
+                            <img src="/admin/img/menu-icon/17.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Table</span>
@@ -315,7 +328,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/18.svg" alt="" />
+                            <img src="/admin/img/menu-icon/18.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Cards</span>
@@ -330,7 +343,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/19.svg" alt="" />
+                            <img src="/admin/img/menu-icon/19.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Charts</span>
@@ -347,7 +360,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/20.svg" alt="" />
+                            <img src="/admin/img/menu-icon/20.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>UI Kits </span>
@@ -369,7 +382,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/21.svg" alt="" />
+                            <img src="/admin/img/menu-icon/21.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Widgets</span>
@@ -383,7 +396,7 @@ function SuperadminSidebar() {
                 <li >
                     <a className="has-arrow" href="#" aria-expanded="false">
                         <div className="nav_icon_small">
-                            <img src="admin/img/menu-icon/12.svg" alt="" />
+                            <img src="/admin/img/menu-icon/12.svg" alt="" />
                         </div>
                         <div className="nav_title">
                             <span>Maps</span>
@@ -394,6 +407,7 @@ function SuperadminSidebar() {
                         <li><a href="vector_map.html">Vector Maps</a></li>
                     </ul>
                 </li>
+                {/* --EXTRA */}
             </ul>
         </nav>
     )

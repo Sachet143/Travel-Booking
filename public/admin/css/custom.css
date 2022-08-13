@@ -62,3 +62,54 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+input[aria-invalid="true"] {
+    border-color: #dc3545;
+}
+
+.btn-admin-primary {
+    color: #fff !important;
+    background-color: #884ffb !important;
+    border-color: #884ffb !important;
+    font-weight: 600;
+    height: 45px;
+    border-radius: 26px;
+    text-transform: uppercase;
+    padding-right: 3rem !important;
+    padding-left: 3rem !important;
+}
+
+.btn-admin-primary:hover {
+    color: #fff;
+    background-color: #884ffbe6 !important;
+    border-color: #884ffbe6 !important;
+}
+
+/* password field */
+.pass_show {
+    position: relative
+}
+
+.pass_show .ptxt {
+
+    position: absolute;
+
+    top: 50%;
+
+    right: 10px;
+
+    z-index: 1;
+
+    color: #f36c01;
+
+    margin-top: -10px;
+
+    cursor: pointer;
+
+    transition: .3s ease all;
+
+}
+
+.pass_show .ptxt:hover {
+    color: #333333;
+}
