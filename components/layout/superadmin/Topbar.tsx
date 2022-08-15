@@ -1,14 +1,6 @@
 import React, { useEffect } from "react";
 
-function SuperadminTopbar() {
-  useEffect(() => {
-    $(".open_miniSide").on("click", function () {
-      $(".sidebar").toggleClass("mini_sidebar");
-      $(".main_content ").toggleClass("full_main_content");
-      $(".footer_part ").toggleClass("full_footer");
-    });
-  });
-
+function SuperadminTopbar({ setSidebarBoolean, sidebarBoolean }: any) {
   return (
     <div className="container-fluid g-0">
       <div className="row">
@@ -17,7 +9,10 @@ function SuperadminTopbar() {
             <div className="sidebar_icon d-lg-none">
               <i className="ti-menu" />
             </div>
-            <div className="line_icon open_miniSide d-none d-lg-block cursor-pointer">
+            <div
+              className="line_icon open_miniSide d-none d-lg-block cursor-pointer"
+              onClick={() => setSidebarBoolean(!sidebarBoolean)}
+            >
               <img src="/admin/img/line_img.png" alt="" />
             </div>
             <div className="serach_field-area d-flex align-items-center">

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { SuperadminSidebarMenus } from "./menu";
 
-function SuperadminSidebar() {
+function SuperadminSidebar({ sidebarBoolean }: any) {
   const router = useRouter();
 
   const isActive = (link: string | undefined) => router.pathname === link;
@@ -37,7 +37,7 @@ function SuperadminSidebar() {
   }, []);
 
   return (
-    <nav className="sidebar">
+    <nav className={`sidebar ${sidebarBoolean && "mini_sidebar"}`}>
       <div className="logo d-flex justify-content-between">
         <a className="large_logo" href="index-2.html">
           <img src="/admin/img/logo.png" alt="" />
