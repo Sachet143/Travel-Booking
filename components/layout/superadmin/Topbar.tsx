@@ -1,9 +1,17 @@
 import useUser from '@/services/hooks/useUser'
 import React from 'react'
+import { deleteCookie } from 'cookies-next';
+import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
 
 function SuperadminTopbar() {
 
     useUser();
+
+    function logoutHandler() {
+        deleteCookie(USER_TYPE_KEY);
+        deleteCookie(TOKEN_KEY);
+        window.location.href = "/superadmin/login"
+    }
 
     return (
         <div className="container-fluid g-0">
@@ -126,7 +134,9 @@ function SuperadminTopbar() {
                                     <div className="profile_info_details">
                                         <a href="#">My Profile </a>
                                         <a href="#">Settings</a>
-                                        <a href="#">Log Out </a>
+                                        <div onClick={logoutHandler}>
+                                            <a href="#">Log Out </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
