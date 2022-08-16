@@ -25,7 +25,7 @@ export const SuperadminSidebarMenus = [
         icon: "/admin/img/menu-icon/7.svg",
         children: [
             {
-                title: "Create",
+                title: "Create Admin",
                 link: "/superadmin/hotels/create"
             },
             {
