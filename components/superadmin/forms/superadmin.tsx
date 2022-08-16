@@ -47,7 +47,6 @@ function SuperadminForm({ formMethods, submitHandler, loading }: any) {
         <label className="form-label">Password</label>
         <Password
           {...register("password", { required: "Password is required!" })}
-          onChange={() => { }}
           placeholder="Enter Password"
           aria-invalid={!!errors?.password?.message}
         />

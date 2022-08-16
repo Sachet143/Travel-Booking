@@ -3,6 +3,8 @@ import Cryptr from 'cryptr'
 
 const cryptr = new Cryptr(process.env.NEXT_PUBLIC_ENCRYPT_HASH + "");
 
+import Crypto from 'crypto-js';
+
 export function responseErrorHandler(res: any, setError?: any) {
 
     if (res && res?.data && res?.data?.errors) {
@@ -32,12 +34,22 @@ export function responseErrorHandler(res: any, setError?: any) {
 }
 
 export function appEncrypt(data: string) {
-    return cryptr.encrypt(data);
+    return Crypto.enc.Base64.stringify(Crypto.enc.Utf8.parse(data));
+}
 
-}
 export function appDecrypt(data: string) {
-    return cryptr.decrypt(data);
+    return Crypto.enc.Base64.parse(data)?.toString(Crypto.enc.Utf8);
 }
+// export function appEncrypt(data: string) {
+//     return window.btoa(unescape(encodeURIComponent(data)));
+//     // return cryptr.encrypt(data);
+// }
+
+// export function appDecrypt(data: string) {
+//     return decodeURIComponent(escape(window.atob(data)));
+//     // return cryptr.decrypt(data);
+// }
+
 
 export function objectToFormData(
     obj: any,

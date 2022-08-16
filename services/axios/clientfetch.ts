@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { deleteCookie, getCookie } from 'cookies-next';
 import { TOKEN_KEY, USER_TYPE_KEY } from '../constants';
+import { appDecrypt } from '../helper';
 
 const axiosClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_URL
@@ -12,7 +13,7 @@ axiosClient.interceptors.request.use(function (config) {
 
     const token = getCookie(TOKEN_KEY);
     if (token) {
-        config.headers["Authorization"] = "Bearer " + token;
+        config.headers["Authorization"] = "Bearer " + appDecrypt(token + "");
     }
 
     return config;

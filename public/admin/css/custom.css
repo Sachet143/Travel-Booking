@@ -64,7 +64,11 @@
 }
 
 input[aria-invalid="true"] {
-    border-color: #dc3545;
+    border-color: #ff4d4f !important;
+}
+
+.text-danger {
+    color: #ff4d4f !important;
 }
 
 .btn-admin-primary {
