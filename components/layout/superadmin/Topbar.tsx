@@ -1,6 +1,10 @@
+import useUser from '@/services/hooks/useUser'
 import React from 'react'
 
 function SuperadminTopbar() {
+
+    useUser();
+
     return (
         <div className="container-fluid g-0">
             <div className="row">

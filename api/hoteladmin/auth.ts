@@ -1,7 +1,7 @@
 import axiosInstance from '@/services/axios/clientfetch';
 
 export const hoteladminLogin = async (data: object) =>
-    await axiosInstance.post(`/admin/login`, data)
+    await axiosInstance.post(`/hotel/login`, data)
 
 export const logout = async () =>
     await axiosInstance.post(`/logout`)

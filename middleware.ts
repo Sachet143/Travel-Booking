@@ -15,13 +15,31 @@ export async function middleware(request: NextRequest) {
     const isHotelAdmin = userType && appDecrypt(userType) === "hoteladmin";
     const isUser = userType && appDecrypt(userType) === "user";
     // route types
-    const isSuperAdminRoutes = url.pathname.includes("/superadmin") || url.pathname.includes("/superadmin/");
-    const isHotelAdminRoutes = url.pathname.includes("/admin") || url.pathname.includes("/hoteladmin/");
+    const isSuperAdminRoutes = url.pathname.includes("/superadmin");
+    const isHotelAdminRoutes = url.pathname.includes("/admin");
+
+    // login pages
+    if (url.pathname.includes("/superadmin/login") || url.pathname.includes("/hoteladmin/login")) {
+        if (!token) {
+            const responseMain = NextResponse.next();
+            return responseMain;
+        } else {
+            if (isSuperAdmin) {
+                url.pathname = "/superadmin";
+                return NextResponse.redirect(url);
+            } else if (isHotelAdmin) {
+                url.pathname = "/hoteladmin";
+                return NextResponse.redirect(url);
+            } else {
+                url.pathname = "/";
+                return NextResponse.redirect(url);
+            }
+        }
+    }
 
     // protect superadmin routes
     if (isSuperAdminRoutes) {
-        // if (token && isSuperAdmin) {
-        if (1) {
+        if (token && isSuperAdmin) {
             const responseMain = NextResponse.next();
             return responseMain;
 
@@ -66,6 +84,7 @@ export const config = {
         '/superadmin/login',
 
         // hoteladmin routes
+        '/hoteladmin',
         '/hoteladmin/login',
 
     ]
