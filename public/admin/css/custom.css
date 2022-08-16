@@ -71,6 +71,8 @@ input[aria-invalid="true"] {
     color: #ff4d4f !important;
 }
 
+/* btn  */
+
 .btn-admin-primary {
     color: #fff !important;
     background-color: #884ffb !important;
@@ -116,4 +118,23 @@ input[aria-invalid="true"] {
 
 .pass_show .ptxt:hover {
     color: #333333;
+}
+
+/* antd upload */
+.circular .ant-upload {
+    border-radius: 50%;
+}
+
+/* wysiwyg */
+.wysiwyg-wrapper {
+    min-height: 250px;
+    border: 1px solid lightgrey;
+}
+
+.wysiwyg-wrapper .rdw-editor-main {
+    padding: 10px;
+}
+
+.wysiwyg-wrapper .public-DraftStyleDefault-block {
+    margin: 0;
 }
