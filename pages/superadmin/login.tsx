@@ -15,10 +15,6 @@ function SuperAdminLogin() {
   const { control, register, handleSubmit, setError, formState: { errors } } = useForm();
 
   function submitLogin(data: any) {
-    // {
-    //   email: "admin@mail.com",
-    //   password: "Password123@"
-    // }
     setLoading(true);
     superadminLogin(data)
       .then((res: any) => {

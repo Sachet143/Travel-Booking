@@ -1,25 +1,20 @@
-import { superadminLogin } from '@/api/superadmin/auth';
+import { hoteladminLogin } from '@/api/hoteladmin/auth';
 import { toast } from 'react-toastify';
 import Router from 'next/router';
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { appEncrypt, isValidEmail, isValidPassword, responseErrorHandler } from '@/services/helper';
-import { Button, Form } from 'antd';
+import { Button } from 'antd';
 import { setCookie } from 'cookies-next';
 import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
 import Password from '@/components/common/Password';
-import { hoteladminLogin } from '@/api/hoteladmin/auth';
 
-function SuperAdminLogin() {
+function HotelAdminLogin() {
 
   const [loading, setLoading] = useState(false);
   const { control, register, handleSubmit, setError, formState: { errors } } = useForm();
 
   function submitLogin(data: any) {
-    // {
-    //   email: "admin@mail.com",
-    //   password: "Password123@"
-    // }
     setLoading(true);
     hoteladminLogin(data)
       .then((res: any) => {
@@ -27,8 +22,8 @@ function SuperAdminLogin() {
         // @ts-ignore
         setCookie(TOKEN_KEY, appEncrypt(res.data.token))
         // @ts-ignore
-        setCookie(USER_TYPE_KEY, appEncrypt("superadmin"))
-        Router.push('/superadmin')
+        setCookie(USER_TYPE_KEY, appEncrypt("hoteladmin"))
+        Router.push('/hoteladmin')
       })
       .catch(err => responseErrorHandler(err, setError))
       .finally(() => setLoading(false))
@@ -99,4 +94,4 @@ function SuperAdminLogin() {
   )
 }
 
-export default SuperAdminLogin
+export default HotelAdminLogin

@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { EXCLUDE_ROUTES, TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
+import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
 import { appDecrypt } from './services/helper';
-
-const FORMATTED_PUBLIC_PATHNAME = EXCLUDE_ROUTES.map(route => route + '/');
 
 export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
@@ -16,7 +14,7 @@ export async function middleware(request: NextRequest) {
     const isUser = userType && appDecrypt(userType) === "user";
     // route types
     const isSuperAdminRoutes = url.pathname.includes("/superadmin");
-    const isHotelAdminRoutes = url.pathname.includes("/admin");
+    const isHotelAdminRoutes = url.pathname.includes("/hoteladmin");
 
     // login pages
     if (url.pathname.includes("/superadmin/login") || url.pathname.includes("/hoteladmin/login")) {
@@ -49,6 +47,7 @@ export async function middleware(request: NextRequest) {
 
         }
     }
+
     // protect hoteladmin routes
     if (isHotelAdminRoutes) {
         if (token && isHotelAdmin) {
