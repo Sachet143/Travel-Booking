@@ -6,6 +6,7 @@ import axiosClient from '@/services/axios/clientfetch';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import "@/public/admin/css/custom.css"
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 function App({ Component, pageProps }: AppProps) {
   return (
