@@ -1,6 +1,17 @@
+import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
+import useUser from '@/services/hooks/useUser';
+import { deleteCookie } from 'cookies-next';
 import React from 'react'
 
 function HoteladminTopbar() {
+    useUser();
+
+    function logoutHandler() {
+        deleteCookie(USER_TYPE_KEY);
+        deleteCookie(TOKEN_KEY);
+        window.location.href = "/hoteladmin/login"
+    }
+
     return (
         <div className="container-fluid g-0">
             <div className="row">
@@ -122,7 +133,9 @@ function HoteladminTopbar() {
                                     <div className="profile_info_details">
                                         <a href="#">My Profile </a>
                                         <a href="#">Settings</a>
-                                        <a href="#">Log Out </a>
+                                        <div onClick={logoutHandler}>
+                                            <a href="#">Log Out </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
