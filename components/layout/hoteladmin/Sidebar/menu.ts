@@ -1,21 +1,21 @@
-export const SuperadminSidebarMenus = [
+export const HoteladminSidebarMenus = [
     {
         title: "Dashboard",
-        link: "/superadmin",
+        link: "/hoteladmin",
         icon: "/admin/img/menu-icon/7.svg"
     },
     {
-        title: "Superadmins",
+        title: "Hotel",
         parent: true,
         icon: "/admin/img/menu-icon/7.svg",
         children: [
             {
                 title: "Create",
-                link: "/superadmin/superadmin/create"
+                link: "/hoteladmin/hoteladmin/create"
             },
             {
                 title: "Listing",
-                link: "/superadmin/superadmin"
+                link: "/hoteladmin/hoteladmin"
             },
         ]
     },
@@ -26,11 +26,11 @@ export const SuperadminSidebarMenus = [
         children: [
             {
                 title: "Create Admin",
-                link: "/superadmin/hotels/create"
+                link: "/hoteladmin/hotels/create"
             },
             {
                 title: "Listing",
-                link: "/superadmin/hotels"
+                link: "/hoteladmin/hotels"
             },
         ]
     },

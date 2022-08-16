@@ -11,12 +11,10 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@types/axios": "^0.14.0",
-    "@types/cryptr": "^4.0.1",
     "antd": "^4.22.4",
     "axios": "^0.27.2",
     "cookies-next": "^2.1.1",
     "crypto-js": "^4.1.1",
-    "cryptr": "^6.0.3",
     "install": "^0.13.0",
     "jquery": "^3.6.0",
     "metismenu": "^3.0.7",
