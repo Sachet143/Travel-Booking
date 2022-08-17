@@ -2,7 +2,7 @@
 import { createHotel } from '@/api/hoteladmin/hotel';
 import SuperadminLayout from '@/components/layout/superadmin'
 import { appDecrypt, isValidPassword, objectToFormData, responseErrorHandler } from '@/services/helper';
-import { Button, message, Select, Upload } from 'antd';
+import { Button, message, Select, Skeleton, Upload } from 'antd';
 import { RcFile } from 'antd/lib/upload';
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -17,6 +17,7 @@ import { deleteCookie, getCookie } from 'cookies-next';
 import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
 import axiosServer from '@/services/axios/serverfetch';
 import Router from 'next/router';
+import axiosClient from '@/services/axios/clientfetch';
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod: any) => mod.Editor),
   { ssr: false }
@@ -37,14 +38,14 @@ const block = {
   entityMap: {},
 };
 
-
+const catFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
 export default function InitialCreateHotel() {
 
   const [loading, setLoading] = useState(false);
-  const { reset, control, register, formState: { errors }, handleSubmit, setError, clearErrors } = useForm();
+  const { reset, control, register, formState: { errors }, handleSubmit, setError } = useForm();
   const { mutateUser } = useUser();
-  const { data: categories } = useSWR(`/hotel/get-categories`);
+  const { data: categories, error: catError } = useSWR(`/hotel/get-categories`, catFetcher);
 
   function createHotelHandler(data: any) {
     setLoading(true);
@@ -74,7 +75,7 @@ export default function InitialCreateHotel() {
             </div>
             <div className="white_card_body">
               <h6 className="card-subtitle mb-4">
-                Enter your hotel details and get a dashboard to manage it
+                Enter your hotel details to get a dashboard
               </h6>
               <form onSubmit={handleSubmit(createHotelHandler)}>
                 <Button loading={loading} htmlType="submit" className="mb-4 btn btn-admin-primary">submit form</Button>
@@ -159,33 +160,37 @@ export default function InitialCreateHotel() {
                   <div className="col-md-6 col-sm-12 form-group">
                     <label className="form-label">Category<span className='text-danger'> *</span></label>
                     <div className='custom-select'>
-                      <Controller
-                        control={control}
-                        name="category_id"
-                        rules={{ required: "Category is required!" }}
-                        render={({ field: { onChange, value } }) =>
-                          <>
-                            <Select
-                              value={value}
-                              onChange={onChange}
-                              allowClear
-                              status={errors?.category_id?.message && "error"}
-                              size='large'
-                              className="form-control"
-                              placeholder="Select Category"
-                            >
-                              <Option value="1">HomeStay</Option>
-                              <Option value="2">Loudge</Option>
-                              <Option value="3">Hotel</Option>
-                            </Select>
-                            {errors?.category_id?.message &&
-                              <div className="text-danger">
-                                {errors?.category_id?.message + ""}
-                              </div>
+                      {
+                        !categories && !catError ? <Skeleton className='mt-3' active paragraph={false} />
+                          :
+                          <Controller
+                            control={control}
+                            name="category_id"
+                            rules={{ required: "Category is required!" }}
+                            render={({ field: { onChange, value } }) =>
+                              <>
+                                <Select
+                                  value={value}
+                                  onChange={onChange}
+                                  allowClear
+                                  status={errors?.category_id?.message && "error"}
+                                  size='large'
+                                  className="form-control"
+                                  placeholder="Select Category"
+                                >
+                                  {
+                                    categories.map((cat: any) => <Option key={cat.id} value={cat.id}>{cat.name}</Option>)
+                                  }
+                                </Select>
+                                {errors?.category_id?.message &&
+                                  <div className="text-danger">
+                                    {errors?.category_id?.message + ""}
+                                  </div>
+                                }
+                              </>
                             }
-                          </>
-                        }
-                      />
+                          />
+                      }
                     </div>
                   </div>
                 </div>
