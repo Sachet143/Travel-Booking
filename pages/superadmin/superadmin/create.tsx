@@ -8,7 +8,7 @@ function SuperadminCreate() {
   const [loading, setLoading] = useState(false);
   const formMethods = useForm();
 
-  function createHotelHandler(data: any) {
+  function createSuperadminHandler(data: any) {
     console.log(data)
     // setLoading(true);
     // createHotel(data)
@@ -36,7 +36,7 @@ function SuperadminCreate() {
             </h6>
             <SuperadminForm
               loading={loading}
-              submitHandler={createHotelHandler}
+              submitHandler={createSuperadminHandler}
               formMethods={formMethods}
             />
           </div>

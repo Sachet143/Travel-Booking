@@ -2,7 +2,8 @@ import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
 import useSWR from 'swr'
 import axiosInstance from '@/services/axios/clientfetch';
-import { EXCLUDE_ROUTES, TOKEN_KEY } from '@/services/constants';
+import { EXCLUDE_ROUTES, USER_TYPE_KEY } from '@/services/constants';
+import { appDecrypt } from '../helper';
 
 interface IReturnType {
     user: any;
@@ -13,21 +14,32 @@ interface IReturnType {
 
 const fetcher = (url: any) => axiosInstance(url).then(res => res);
 
-function useUser(fallbackData = null, options = {}): IReturnType {
+function useUser(): IReturnType {
     const router = useRouter();
     const isPrivateRoute = !EXCLUDE_ROUTES.includes(router.pathname);
-    const token = getCookie(TOKEN_KEY);
+    const userType = getCookie(USER_TYPE_KEY) && appDecrypt(getCookie(USER_TYPE_KEY) + "");
 
     const { data: user, mutate: mutateUser, error: errorUser, isValidating: validatingUser } =
         useSWR(
-            isPrivateRoute && !fallbackData && token
-                ? `/users/${token}`
+            isPrivateRoute && userType
+                ? getFetchUserUrl(userType)
                 : null,
-            fetcher,
-            { ...options, fallbackData }
+            fetcher
         )
 
     return { user, mutateUser, errorUser, validatingUser }
+}
+
+function getFetchUserUrl(userType: "superadmin" | "hoteladmin" | "customer" | any) {
+    switch (userType) {
+        case "superadmin":
+            return '/admin/user'
+        case "hoteladmin":
+            return '/hotel/user'
+        case "customer":
+            return '/customer/user'
+
+    }
 }
 
 export default useUser;

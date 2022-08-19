@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function axiosServer(token: any) {
+function axiosServer(token: any): any {
     return axios.create({
         baseURL: process.env.NEXT_PUBLIC_BASE_URL,
         headers: {

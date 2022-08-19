@@ -1,7 +1,5 @@
 import { toast } from 'react-toastify';
-import Cryptr from 'cryptr'
-
-const cryptr = new Cryptr(process.env.NEXT_PUBLIC_ENCRYPT_HASH + "");
+import Crypto from 'crypto-js';
 
 export function responseErrorHandler(res: any, setError?: any) {
 
@@ -32,11 +30,11 @@ export function responseErrorHandler(res: any, setError?: any) {
 }
 
 export function appEncrypt(data: string) {
-    return cryptr.encrypt(data);
-
+    return Crypto.enc.Base64.stringify(Crypto.enc.Utf8.parse(data));
 }
+
 export function appDecrypt(data: string) {
-    return cryptr.decrypt(data);
+    return Crypto.enc.Base64.parse(data)?.toString(Crypto.enc.Utf8);
 }
 
 export function objectToFormData(

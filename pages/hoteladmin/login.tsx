@@ -1,23 +1,20 @@
+import { hoteladminLogin } from '@/api/hoteladmin/auth';
 import { toast } from 'react-toastify';
 import Router from 'next/router';
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { appEncrypt, responseErrorHandler } from '@/services/helper';
-import { Button, Form } from 'antd';
+import { Controller, useForm } from 'react-hook-form'
+import { appEncrypt, isValidEmail, isValidPassword, responseErrorHandler } from '@/services/helper';
+import { Button } from 'antd';
 import { setCookie } from 'cookies-next';
-import { hoteladminLogin } from '@/api/hoteladmin/auth';
 import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
+import Password from '@/components/common/Password';
 
-function SuperAdminLogin() {
+function HotelAdminLogin() {
 
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, setError, formState: { errors } } = useForm();
+  const { control, register, handleSubmit, setError, formState: { errors } } = useForm();
 
   function submitLogin(data: any) {
-    // {
-    //   email: "admin@mail.com",
-    //   password: "Password123@"
-    // }
     setLoading(true);
     hoteladminLogin(data)
       .then((res: any) => {
@@ -26,7 +23,7 @@ function SuperAdminLogin() {
         setCookie(TOKEN_KEY, appEncrypt(res.data.token))
         // @ts-ignore
         setCookie(USER_TYPE_KEY, appEncrypt("hoteladmin"))
-        Router.push('/superadmin')
+        Router.push('/hoteladmin')
       })
       .catch(err => responseErrorHandler(err, setError))
       .finally(() => setLoading(false))
@@ -39,31 +36,54 @@ function SuperAdminLogin() {
           <div className="col-lg-6">
             <div className="modal-content cs_modal">
               <div className="modal-header justify-content-center theme_bg_1">
-                <h5 className="modal-title text_white">Log in</h5>
+                <h5 className="modal-title text_white">Hoteladmin Login</h5>
               </div>
               <div className="modal-body">
                 <form onSubmit={handleSubmit(submitLogin)}>
-                  <Form.Item
-                    className='mb-5'
-                    validateStatus={errors?.email?.message && "error"}
-                    help={errors?.email?.message ? errors?.email?.message + "" : ""}
-                  >
-                    <input placeholder='Enter Email' className='mb-0'
-                      {...register("email", { required: "Email is Required" })}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    className='mb-5'
-                    validateStatus={errors?.password?.message && "error"}
-                    help={errors?.password?.message ? errors?.password?.message + "" : ""}
-                  >
+                  <div className="form-group mb-3">
+                    <label className="form-label">Email</label>
                     <input
-                      placeholder='Enter Password'
+                      placeholder='Enter Email'
                       className='mb-0'
-                      {...register("password", { required: "Password is Required" })}
+                      aria-invalid={!!errors?.email?.message}
+                      {...register("email", {
+                        required: "Email is Required",
+                        validate: email => isValidEmail(email) || "Email format is invalid!"
+                      })}
                     />
-                  </Form.Item>
-                  <Button loading={loading} htmlType="submit">Login</Button>
+                    {errors?.email?.message &&
+                      <div className="text-danger">
+                        {errors?.email?.message + ""}
+                      </div>
+                    }
+                  </div>
+                  <div className="form-group mb-3">
+                    <label className="form-label">Password</label>
+                    <Controller
+                      control={control}
+                      name="password"
+                      rules={{
+                        required: "Password is required!",
+                        validate: pw => isValidPassword(pw) || "Password must contain - 6 characters, a symbol, an uppercase and a lowercase"
+                      }}
+                      render={({ field: { onChange, value } }) =>
+                        <>
+                          <Password
+                            value={value}
+                            onChange={onChange}
+                            aria-invalid={!!errors?.password?.message}
+                            placeholder='Enter Password'
+                          />
+                          {errors?.password?.message &&
+                            <div className="text-danger">
+                              {errors?.password?.message + ""}
+                            </div>
+                          }
+                        </>
+                      }
+                    />
+                  </div>
+                  <Button loading={loading} htmlType="submit" className='btn btn-admin-primary'>Login</Button>
                 </form>
               </div>
             </div>
@@ -74,4 +94,4 @@ function SuperAdminLogin() {
   )
 }
 
-export default SuperAdminLogin
+export default HotelAdminLogin
