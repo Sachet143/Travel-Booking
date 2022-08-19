@@ -5,32 +5,37 @@ export const HoteladminSidebarMenus = [
         icon: "/admin/img/menu-icon/7.svg"
     },
     {
-        title: "Hotel",
+        title: "My Hotel",
+        link: "/hoteladmin/my-hotel",
+        icon: "/admin/img/menu-icon/7.svg"
+    },
+    {
+        title: "Hotel Room",
         parent: true,
         icon: "/admin/img/menu-icon/7.svg",
         children: [
             {
                 title: "Create",
-                link: "/hoteladmin/hoteladmin/create"
+                link: "/hoteladmin/room/create"
             },
             {
                 title: "Listing",
-                link: "/hoteladmin/hoteladmin"
+                link: "/hoteladmin/room"
             },
         ]
     },
     {
-        title: "Hotel Management",
+        title: "Bookings",
         parent: true,
         icon: "/admin/img/menu-icon/7.svg",
         children: [
             {
-                title: "Create Admin",
-                link: "/hoteladmin/hotels/create"
+                title: "Current Rooms",
+                link: "/hoteladmin/current"
             },
             {
-                title: "Listing",
-                link: "/hoteladmin/hotels"
+                title: "History",
+                link: "/hoteladmin/bookings"
             },
         ]
     },

@@ -12,7 +12,7 @@ interface IBreadcrumb {
 interface IProps {
     title: string
     breadcrumbs?: Array<IBreadcrumb>
-    children: ReactElement
+    children: ReactElement | Array<ReactElement>
 }
 
 function HoteladminLayout(props: IProps) {

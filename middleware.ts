@@ -85,6 +85,7 @@ export const config = {
         // hoteladmin routes
         '/hoteladmin',
         '/hoteladmin/login',
+        '/hoteladmin/initial-create-hotel',
 
     ]
 }
