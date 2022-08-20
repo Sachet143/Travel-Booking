@@ -61,9 +61,7 @@ export async function middleware(request: NextRequest) {
         }
     }
 
-    console.log(url)
-
-    url.pathname = "/client"+ url.pathname;
+    url.pathname = "/client" + url.pathname;
     return NextResponse.rewrite(url);
 }
 
