@@ -16,8 +16,6 @@ export async function middleware(request: NextRequest) {
   const isSuperAdminRoutes = url.pathname.includes("/superadmin");
   const isHotelAdminRoutes = url.pathname.includes("/hoteladmin");
 
-  console.log(url, "afsdfasd");
-
   // login pages
   if (
     url.pathname.includes("/superadmin/login") ||
@@ -62,7 +60,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  url.pathname = "/client";
+  url.pathname = "/client" + url.pathname;
   return NextResponse.rewrite(url);
 }
 
@@ -78,6 +76,7 @@ export const config = {
     "/register",
     "/forgot-password",
     "/reset-password",
+    "/tour",
 
     // superadmin routes
     "/superadmin",
@@ -86,5 +85,6 @@ export const config = {
     // hoteladmin routes
     "/hoteladmin",
     "/hoteladmin/login",
+    "/hoteladmin/hotel/create",
   ],
 };

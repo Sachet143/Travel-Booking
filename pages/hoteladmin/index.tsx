@@ -36,7 +36,7 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
     if (!hotelUser.hotel_id) {
         return {
             redirect: {
-                destination: '/hoteladmin/initial-create-hotel'
+                destination: '/hoteladmin/hotel/create'
             }
         }
     }
