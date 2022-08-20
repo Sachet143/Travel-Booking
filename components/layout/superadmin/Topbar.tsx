@@ -148,4 +148,4 @@ function SuperadminTopbar() {
     )
 }
 
-export default SuperadminTopbar
+export default SuperadminTopbar;
