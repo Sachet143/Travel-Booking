@@ -50,6 +50,16 @@ class CustomDocument extends Document {
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css"
           />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="/client/assets/css/slick.min.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="/client/assets/css/slick-theme.css"
+          />
           <script src="/client/assets/js/jquery-3.6.0.min.js" />
           <script src="/client/assets/js/bootstrap.bundle.js" />
           <script src="/client/assets/js/jquery.meanmenu.js" />
@@ -58,6 +68,8 @@ class CustomDocument extends Document {
           <script src="/client/assets/js/custom.js" />
           <script src="/client/assets/js/add-form.js" />
           <script src="/client/assets/js/form-dropdown.js" />
+          <script src="/client/assets/js/slick.min.js" defer />
+          {/* <script src="/client/assets/js/slick-slider.js"></script> */}
           {/* admin dashboard */}
           <link rel="icon" href="/admin/img/mini_logo.png" type="image/png" />
           <link rel="stylesheet" href="/admin/css/bootstrap1.min.css" />
@@ -159,6 +171,7 @@ class CustomDocument extends Document {
           <script src="/admin/vendors/chart_am/kelly.js"></script>
           <script src="/admin/vendors/chart_am/chart-custom.js"></script>
           <script src="/admin/js/dashboard_init.js"></script>
+
           {/* <script src="/admin/js/custom.js"></script> */}
         </Head>
         <body>
