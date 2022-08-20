@@ -77,6 +77,10 @@ export const config = {
     "/forgot-password",
     "/reset-password",
     "/tour",
+    "/hotel/detail",
+    "/login",
+    "/register",
+    "/search",
 
     // superadmin routes
     "/superadmin",

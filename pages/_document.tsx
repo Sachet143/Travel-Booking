@@ -43,7 +43,6 @@ class CustomDocument extends Document {
           />
           <link rel="stylesheet" href="/client/assets/css/navber.css" />
           <link rel="stylesheet" href="/client/assets/css/meanmenu.css" />
-          <link rel="stylesheet" href="/client/assets/css/style.css" />
           <link rel="stylesheet" href="/client/assets/css/responsive.css" />
           <link rel="icon" type="image/png" href="assets/img/favicon.png" />
           <link
@@ -60,6 +59,11 @@ class CustomDocument extends Document {
             type="text/css"
             href="/client/assets/css/slick-theme.css"
           />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="/client/assets/css/custom.css"
+          />
           <script src="/client/assets/js/jquery-3.6.0.min.js" />
           <script src="/client/assets/js/bootstrap.bundle.js" />
           <script src="/client/assets/js/jquery.meanmenu.js" />
@@ -73,6 +77,8 @@ class CustomDocument extends Document {
           {/* admin dashboard */}
           <link rel="icon" href="/admin/img/mini_logo.png" type="image/png" />
           <link rel="stylesheet" href="/admin/css/bootstrap1.min.css" />
+          <link rel="stylesheet" href="/client/assets/css/style.css" />
+
           <link
             rel="stylesheet"
             href="/admin/vendors/themefy_icon/themify-icons.css"
@@ -131,6 +137,7 @@ class CustomDocument extends Document {
             href="/admin/css/colors/default.css"
             id="colorSkinCSS"
           />
+
           <script src="/admin/js/jquery1-3.4.1.min.js"></script>
           <script src="/admin/js/popper1.min.js"></script>
           <script src="/admin/js/bootstrap1.min.js"></script>

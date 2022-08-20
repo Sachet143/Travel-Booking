@@ -1,7 +1,9 @@
 import React from "react";
 import LogoImage from "@/public/client/assets/img/logo.png";
+import { useRouter } from "next/router";
 
 const TopBar = () => {
+  const router = useRouter();
   return (
     <>
       <header className="main_header_arae">
@@ -40,10 +42,26 @@ const TopBar = () => {
               <div className="col-lg-6 col-md-6">
                 <ul className="topbar-others-options">
                   <li>
-                    <a href="login.html">Login</a>
+                    <a
+                      href="_target"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        router.push("/login");
+                      }}
+                    >
+                      Login
+                    </a>
                   </li>
                   <li>
-                    <a href="register.html">Sign up</a>
+                    <a
+                      href="_target"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        router.push("/register");
+                      }}
+                    >
+                      Sign up
+                    </a>
                   </li>
                   <li>
                     <div className="dropdown language-option">
@@ -123,7 +141,14 @@ const TopBar = () => {
                 >
                   <ul className="navbar-nav">
                     <li className="nav-item">
-                      <a href="index.html" className="nav-link active">
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          router.push("/");
+                        }}
+                        href="_target"
+                        className="nav-link active"
+                      >
                         Home
                       </a>
                     </li>
