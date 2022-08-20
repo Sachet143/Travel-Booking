@@ -61,7 +61,9 @@ export async function middleware(request: NextRequest) {
         }
     }
 
-    url.pathname = "/client";
+    console.log(url)
+
+    url.pathname = "/client"+ url.pathname;
     return NextResponse.rewrite(url);
 }
 
@@ -77,6 +79,7 @@ export const config = {
         '/register',
         '/forgot-password',
         '/reset-password',
+        '/tour',
 
         // superadmin routes
         '/superadmin',
@@ -85,7 +88,7 @@ export const config = {
         // hoteladmin routes
         '/hoteladmin',
         '/hoteladmin/login',
-        '/hoteladmin/initial-create-hotel',
+        '/hoteladmin/hotel/create',
 
     ]
 }

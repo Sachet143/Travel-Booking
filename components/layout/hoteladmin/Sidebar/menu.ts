@@ -6,7 +6,7 @@ export const HoteladminSidebarMenus = [
     },
     {
         title: "My Hotel",
-        link: "/hoteladmin/my-hotel",
+        link: "/hoteladmin/hotel/update",
         icon: "/admin/img/menu-icon/7.svg"
     },
     {

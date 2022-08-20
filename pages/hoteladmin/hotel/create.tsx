@@ -13,7 +13,7 @@ import axiosServer from '@/services/axios/serverfetch';
 import Router from 'next/router';
 import HotelForm from '@/components/hoteladmin/forms/hotel';
 
-export default function InitialCreateHotel() {
+export default function CreateHotel() {
 
   const [loading, setLoading] = useState(false);
   const formMethods = useForm();
@@ -85,7 +85,7 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
   if (hotelUser.hotel_id) {
     return {
       redirect: {
-        destination: '/hoteladmin'
+        destination: '/hoteladmin/hotel/update'
       }
     }
   }
