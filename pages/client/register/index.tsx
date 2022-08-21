@@ -1,7 +1,31 @@
+import Password from "@/components/common/Password";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import React from "react";
+import { isValidEmail, isValidPassword } from "@/services/helper";
+import { Button } from "antd";
+import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 const Register = () => {
+  const [loading, setLoading] = useState(false);
+  const {
+    control,
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      fullName: "",
+      email: "",
+      mobile: "",
+      password: "",
+    },
+  });
+
+  const submitRegister = (data: any) => {
+    console.log(data);
+  };
+
   return (
     <ClientLayout>
       <>
@@ -38,47 +62,98 @@ const Register = () => {
                     <h2>Register your account</h2>
                   </div>
                   <div className="common_author_form">
-                    <form action="#" id="main_author_form">
+                    <form
+                      onSubmit={handleSubmit(submitRegister)}
+                      id="main_author_form"
+                    >
                       <div className="form-group">
                         <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Full Name"
+                          placeholder="Full Name *"
+                          className="mb-0 form-control"
+                          aria-invalid={!!errors?.email?.message}
+                          {...register("fullName", {
+                            required: "Full Name is Required",
+                          })}
                         />
+                        {errors?.fullName?.message && (
+                          <div className="text-danger">
+                            {errors?.fullName?.message + ""}
+                          </div>
+                        )}
                       </div>
 
                       <div className="form-group">
                         <input
-                          type="text"
-                          className="form-control"
-                          placeholder="your email address (Optional)"
+                          placeholder="Enter Email *"
+                          className="mb-0 form-control"
+                          aria-invalid={!!errors?.email?.message}
+                          {...register("email", {
+                            required: "Email is Required",
+                            validate: (email) =>
+                              isValidEmail(email) || "Email format is invalid!",
+                          })}
                         />
+                        {errors?.email?.message && (
+                          <div className="text-danger">
+                            {errors?.email?.message + ""}
+                          </div>
+                        )}
                       </div>
                       <div className="form-group">
                         <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Mobile number*"
+                          type="number"
+                          placeholder="Mobile Number *"
+                          className="mb-0 form-control"
+                          aria-invalid={!!errors?.email?.message}
+                          {...register("mobile", {
+                            required: "Mobile is Required",
+                            // validate: (number) =>
+                            //   isValidMobile(number) ||
+                            //   "Mobile format is invalid",
+                          })}
                         />
+                        {errors?.mobile?.message && (
+                          <div className="text-danger">
+                            {errors?.mobile?.message + ""}
+                          </div>
+                        )}
                       </div>
+
                       <div className="form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="User name*"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="password"
-                          className="form-control"
-                          placeholder="Password"
+                        <Controller
+                          control={control}
+                          name="password"
+                          rules={{
+                            required: "Password is required!",
+                            validate: (pw) =>
+                              isValidPassword(pw) ||
+                              "Password must contain - 6 characters, a symbol, an uppercase and a lowercase",
+                          }}
+                          render={({ field: { onChange, value } }) => (
+                            <>
+                              <Password
+                                value={value}
+                                onChange={onChange}
+                                aria-invalid={!!errors?.password?.message}
+                                placeholder="Enter Password"
+                              />
+                              {errors?.password?.message && (
+                                <div className="text-danger">
+                                  {errors?.password?.message + ""}
+                                </div>
+                              )}
+                            </>
+                          )}
                         />
                       </div>
                       <div className="common_form_submit">
-                        <button className="btn btn_theme btn_md">
+                        <Button
+                          loading={loading}
+                          htmlType="submit"
+                          className="btn btn-admin-primary btn_theme btn_md"
+                        >
                           Register
-                        </button>
+                        </Button>
                       </div>
                       <div className="have_acount_area other_author_option">
                         <div className="line_or">
@@ -112,7 +187,7 @@ const Register = () => {
                         </ul>
                         <p>
                           Already have an account?
-                          <a href="login.html">Log in now</a>
+                          <a href="/login">Log in now</a>
                         </p>
                       </div>
                     </form>
