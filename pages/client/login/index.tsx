@@ -1,7 +1,29 @@
+import Password from "@/components/common/Password";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import React from "react";
+import { isValidEmail, isValidPassword } from "@/services/helper";
+import { Button } from "antd";
+import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 const ClientLogin = () => {
+  const [loading, setLoading] = useState(false);
+  const {
+    control,
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  function submitLogin(data: any) {
+    setLoading(true);
+  }
+
   return (
     <ClientLayout>
       <>
@@ -38,29 +60,75 @@ const ClientLogin = () => {
                     <h2>Logged in to stay in touch</h2>
                   </div>
                   <div className="common_author_form">
-                    <form action="#" id="main_author_form">
+                    <form
+                      onSubmit={handleSubmit(submitLogin)}
+                      id="main_author_form"
+                    >
                       <div className="form-group">
+                        {/* <label style={{ float: "left" }} className="form-label">
+                          Email
+                        </label> */}
                         <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter user name"
+                          placeholder="Enter Email"
+                          className="mb-0 form-control"
+                          aria-invalid={!!errors?.email?.message}
+                          {...register("email", {
+                            required: "Email is Required",
+                            validate: (email) =>
+                              isValidEmail(email) || "Email format is invalid!",
+                          })}
                         />
+                        {errors?.email?.message && (
+                          <div className="text-danger">
+                            {errors?.email?.message + ""}
+                          </div>
+                        )}
                       </div>
+
                       <div className="form-group">
-                        <input
-                          type="password"
-                          className="form-control"
-                          placeholder="Enter password"
+                        <Controller
+                          control={control}
+                          name="password"
+                          rules={{
+                            required: "Password is required!",
+                            validate: (pw) =>
+                              isValidPassword(pw) ||
+                              "Password must contain - 6 characters, a symbol, an uppercase and a lowercase",
+                          }}
+                          render={({ field: { onChange, value } }) => (
+                            <>
+                              <Password
+                                value={value}
+                                onChange={onChange}
+                                aria-invalid={!!errors?.password?.message}
+                                placeholder="Enter Password"
+                              />
+                              {errors?.password?.message && (
+                                <div className="text-danger">
+                                  {errors?.password?.message + ""}
+                                </div>
+                              )}
+                            </>
+                          )}
                         />
-                        <a href="forgot-password.html">Forgot password?</a>
+                        <a href="#" style={{ float: "right" }}>
+                          Forgot password?
+                        </a>
                       </div>
                       <div className="common_form_submit">
-                        <button className="btn btn_theme btn_md">Log in</button>
+                        <Button
+                          loading={loading}
+                          htmlType="submit"
+                          className="btn btn-admin-primary"
+                        >
+                          Login
+                        </Button>
+                        {/* <button className="btn btn_theme btn_md">Log in</button> */}
                       </div>
                       <div className="have_acount_area">
                         <p>
                           Dont have an account?{" "}
-                          <a href="register.html">Register now</a>
+                          <a href="/register">Register now</a>
                         </p>
                       </div>
                     </form>
