@@ -39,4 +39,9 @@ export const HoteladminSidebarMenus = [
             },
         ]
     },
+    {
+        title: "Gallery",
+        link: "/hoteladmin/gallery",
+        icon: "/admin/img/menu-icon/7.svg"
+    },
 ]

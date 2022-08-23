@@ -1,13 +1,41 @@
 /* eslint-disable @next/next/no-img-element */
+// @ts-nocheck
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { HoteladminSidebarMenus } from './menu';
 
 function SuperadminSidebar() {
     const router = useRouter();
 
     const isActive = (link: string | undefined) => router.pathname === link;
+
+    useEffect(() => {
+        $("#sidebar_menu").metisMenu();
+        $("#admin_profile_active").metisMenu();
+
+        $("#sidebar_menu").find("a").removeClass("active");
+        $("#sidebar_menu").find("li").removeClass("mm-active");
+        $("#sidebar_menu").find("li ul").removeClass("mm-show");
+        var current = window.location.pathname;
+
+        $("#sidebar_menu >li a").filter(function () {
+            var link = $(this).attr("href");
+            if (link) {
+                if (current.indexOf(link) != -1) {
+                    $(this)
+                        .parents()
+                        .parents()
+                        .children("ul.mm-collapse")
+                        .addClass("mm-show")
+                        .closest("li")
+                        .addClass("mm-active");
+                    // $(this).addClass("active");
+                    return false;
+                }
+            }
+        });
+    }, []);
 
     return (
         <nav className="sidebar">
@@ -36,7 +64,7 @@ function SuperadminSidebar() {
                                         menu.children.map(cmenu => {
                                             return (
                                                 <Link key={cmenu.title} href={cmenu.link}>
-                                                    <a className={isActive(cmenu.link) ? "active" : ""}>{cmenu.title}</a>
+                                                    <a className={isActive(cmenu.link) ? "cactive" : ""}>{cmenu.title}</a>
                                                 </Link>
                                             )
                                         }
@@ -48,7 +76,7 @@ function SuperadminSidebar() {
                     } else {
                         return (
                             <Link href={menu.link + ""}>
-                                <li key={menu.title} className={`${isActive(menu.link) ? "active" : ""} sidebar_parent_link cursor-pointer`}>
+                                <li key={menu.title} className={`${isActive(menu.link) ? "cactive" : ""} sidebar_parent_link cursor-pointer`}>
                                     <>
                                         <div className="nav_icon_small">
                                             <img src={menu.icon} alt={menu.title} />

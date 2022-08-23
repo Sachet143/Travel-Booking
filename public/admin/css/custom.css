@@ -1,3 +1,14 @@
+:root {
+    --danger: #f65365;
+    --main-color: #8b3eea;
+    --white-color: #ffffff;
+    --black-color: #2b2540;
+    --black-color-opacity: #2b2540c4;
+    --paragraph-color: #818090;
+    --bg-color: #f3f6fd;
+    --transition: 0.4s all ease-in-out;
+}
+
 .sidebar_parent_link {
     font-size: 15px;
     font-weight: 400;
@@ -22,12 +33,12 @@
 }
 
 .sidebar_parent_link:hover {
-    color: #f65365 !important;
+    color: var(--danger) !important;
     background: #f6f7fb
 }
 
 .sidebar_parent_link.active {
-    color: #f65365;
+    color: var(--danger);
     background: #f8fafc;
     border-radius: 15px
 }
@@ -69,11 +80,11 @@
 
 input[aria-invalid="true"],
 textarea[aria-invalid="true"] {
-    border-color: #ff4d4f !important;
+    border: 1px solid #ff4d4f !important;
 }
 
 div[aria-invalid="true"] {
-    border: 2px dashed #ff4d4f !important;
+    border: 1px solid #ff4d4f !important;
 }
 
 label {
@@ -193,4 +204,11 @@ label {
 .custom-select .ant-select-selection-item,
 .custom-select .ant-select-single.ant-select-lg:not(.ant-select-customize-input):not(.ant-select-customize-input) .ant-select-selection-search-input {
     line-height: 55px !important;
+}
+
+/* sidebar */
+.cactive {
+    color: var(--danger) !important;
+    background: #f8fafc !important;
+    border-radius: 15px !important;
 }

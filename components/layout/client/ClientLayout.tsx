@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import Footer from "./Footer/Footer";
+import Footer from "./Footer/footer";
 import TopBar from "./Topbar/topbar";
 
 interface IProps {

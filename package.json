@@ -16,6 +16,7 @@
     "cookies-next": "^2.1.1",
     "crypto-js": "^4.1.1",
     "draft-js": "^0.11.7",
+    "immutable": "^4.1.0",
     "install": "^0.13.0",
     "jquery": "^3.6.0",
     "metismenu": "^3.0.7",
