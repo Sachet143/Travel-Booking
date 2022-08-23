@@ -163,23 +163,7 @@ const Register = () => {
                           <li>
                             <a href="#!">
                               <img
-                                src="assets/img/icon/google.png"
-                                alt="icon"
-                              />
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#!">
-                              <img
-                                src="assets/img/icon/facebook.png"
-                                alt="icon"
-                              />
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#!">
-                              <img
-                                src="assets/img/icon/twitter.png"
+                                src="/client/assets/img/icon/google.png"
                                 alt="icon"
                               />
                             </a>

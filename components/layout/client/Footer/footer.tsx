@@ -6,7 +6,7 @@ const Footer = () => {
       <footer id="footer_area">
         <div className="container">
           <div className="row">
-            <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div className="col-lg-4 col-md-6 col-sm-6 col-12">
               <div className="footer_heading_area">
                 <h5>Need any help?</h5>
               </div>
@@ -15,14 +15,14 @@ const Footer = () => {
                   <h5>Call 24/7 for any help</h5>
                   <h3>
                     {" "}
-                    <a href="tel:+00-123-456-789">+00 123 456 789</a>
+                    <a href="tel:+00-123-456-789">+977-9868109912</a>
                   </h3>
                 </div>
                 <div className="footer_inquery_area">
                   <h5>Mail to our support team</h5>
                   <h3>
                     {" "}
-                    <a href="mailto:support@domain.com">support@domain.com</a>
+                    <a href="mailto:support@xyz.com">support@xyz.com</a>
                   </h3>
                 </div>
                 <div className="footer_inquery_area">
@@ -52,7 +52,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 offset-lg-1 col-md-6 col-sm-6 col-12">
+            <div className="col-lg-4 col-md-6 col-sm-6 col-12">
               <div className="footer_heading_area">
                 <h5>Company</h5>
               </div>
@@ -79,7 +79,7 @@ const Footer = () => {
                 </ul>
               </div>
             </div>
-            <div className="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div className="col-lg-4 col-md-4 col-sm-6 col-12">
               <div className="footer_heading_area">
                 <h5>Support</h5>
               </div>
@@ -106,64 +106,6 @@ const Footer = () => {
                 </ul>
               </div>
             </div>
-            <div className="col-lg-2 col-md-4 col-sm-6 col-12">
-              <div className="footer_heading_area">
-                <h5>Other Services</h5>
-              </div>
-              <div className="footer_link_area">
-                <ul>
-                  <li>
-                    <a href="top-destinations-details.html">
-                      Community program
-                    </a>
-                  </li>
-                  <li>
-                    <a href="top-destinations-details.html">
-                      Investor Relations
-                    </a>
-                  </li>
-                  <li>
-                    <a href="flight-search-result.html">Rewards Program</a>
-                  </li>
-                  <li>
-                    <a href="room-booking.html">PointsPLUS</a>
-                  </li>
-                  <li>
-                    <a href="testimonials.html">Partners</a>
-                  </li>
-                  <li>
-                    <a href="hotel-search.html">List My Hotel</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-2 col-md-4 col-sm-6 col-12">
-              <div className="footer_heading_area">
-                <h5>Top cities</h5>
-              </div>
-              <div className="footer_link_area">
-                <ul>
-                  <li>
-                    <a href="room-details.html">Chicago</a>
-                  </li>
-                  <li>
-                    <a href="hotel-details.html">New York</a>
-                  </li>
-                  <li>
-                    <a href="hotel-booking.html">San Francisco</a>
-                  </li>
-                  <li>
-                    <a href="tour-search.html">California</a>
-                  </li>
-                  <li>
-                    <a href="tour-booking.html">Ohio </a>
-                  </li>
-                  <li>
-                    <a href="tour-guides.html">Alaska</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
           </div>
         </div>
       </footer>
@@ -175,11 +117,11 @@ const Footer = () => {
                 <p>Copyright © 2022 All Rights Reserved</p>
               </div>
             </div>
-            <div className="co-lg-6 col-md-6 col-sm-12 col-12">
+            {/* <div className="co-lg-6 col-md-6 col-sm-12 col-12">
               <div className="copyright_right">
                 <img src="client/assets/img/common/cards.png" alt="img" />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

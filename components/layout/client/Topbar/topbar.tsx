@@ -1,5 +1,5 @@
 import React from "react";
-import LogoImage from "@/public/client/assets/img/logo.png";
+import LogoImage from "@/public/client/assets/img/logoSVG.svg";
 import { useRouter } from "next/router";
 
 const TopBar = () => {
@@ -29,12 +29,12 @@ const TopBar = () => {
                   </li>
                   <li>
                     <a href="#!">
-                      <span>+011 234 567 89</span>
+                      <span>+977-9868108816</span>
                     </a>
                   </li>
                   <li>
                     <a href="#!">
-                      <span>contact@domain.com</span>
+                      <span>contact@xyz.com</span>
                     </a>
                   </li>
                 </ul>
@@ -261,7 +261,7 @@ const TopBar = () => {
                         </li>
                       </ul>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                       <a href="#" className="nav-link">
                         Pages
                         <i className="fas fa-angle-down" />
@@ -397,7 +397,7 @@ const TopBar = () => {
                           </a>
                         </li>
                       </ul>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                       <a href="contact.html" className="nav-link">
                         Contact

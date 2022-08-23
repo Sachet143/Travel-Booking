@@ -99,7 +99,7 @@ const HotelDetail = () => {
                   <div className="tour_details_top_bottom">
                     <div className="toru_details_top_bottom_item">
                       <div className="tour_details_top_bottom_icon">
-                        <img src="assets/img/icon/ac.png" alt="icon" />
+                        <img src="/client/assets/img/icon/ac.png" alt="icon" />
                       </div>
                       <div className="tour_details_top_bottom_text">
                         <p>Air condition</p>
@@ -107,7 +107,7 @@ const HotelDetail = () => {
                     </div>
                     <div className="toru_details_top_bottom_item">
                       <div className="tour_details_top_bottom_icon">
-                        <img src="assets/img/icon/tv.png" alt="icon" />
+                        <img src="/client/assets/img/icon/tv.png" alt="icon" />
                       </div>
                       <div className="tour_details_top_bottom_text">
                         <p>Flat television</p>
@@ -115,7 +115,7 @@ const HotelDetail = () => {
                     </div>
                     <div className="toru_details_top_bottom_item">
                       <div className="tour_details_top_bottom_icon">
-                        <img src="assets/img/icon/gym.png" alt="icon" />
+                        <img src="/client/assets/img/icon/gym.png" alt="icon" />
                       </div>
                       <div className="tour_details_top_bottom_text">
                         <p>Fitness center</p>
@@ -123,7 +123,10 @@ const HotelDetail = () => {
                     </div>
                     <div className="toru_details_top_bottom_item">
                       <div className="tour_details_top_bottom_icon">
-                        <img src="assets/img/icon/wifi.png" alt="icon" />
+                        <img
+                          src="/client/assets/img/icon/wifi.png"
+                          alt="icon"
+                        />
                       </div>
                       <div className="tour_details_top_bottom_text">
                         <p>Free Wi-fi</p>
@@ -133,39 +136,72 @@ const HotelDetail = () => {
                   <div className="tour_details_img_wrapper">
                     <div className="slider slider-for">
                       <div>
-                        <img src="assets/img/hotel/hotel-big-1.png" alt="img" />
+                        <img
+                          src="/client/assets/img/hotel/hotel-big-1.png"
+                          alt="img"
+                        />
                       </div>
                       <div>
-                        <img src="assets/img/hotel/hotel-big-1.png" alt="img" />
+                        <img
+                          src="/client/assets/img/hotel/hotel-big-1.png"
+                          alt="img"
+                        />
                       </div>
                       <div>
-                        <img src="assets/img/hotel/hotel-big-1.png" alt="img" />
+                        <img
+                          src="/client/assets/img/hotel/hotel-big-1.png"
+                          alt="img"
+                        />
                       </div>
                       <div>
-                        <img src="assets/img/hotel/hotel-big-1.png" alt="img" />
+                        <img
+                          src="/client/assets/img/hotel/hotel-big-1.png"
+                          alt="img"
+                        />
                       </div>
                       <div>
-                        <img src="assets/img/hotel/hotel-big-1.png" alt="img" />
+                        <img
+                          src="/client/assets/img/hotel/hotel-big-1.png"
+                          alt="img"
+                        />
                       </div>
                     </div>
                     <div className="slider slider-nav">
                       <div>
-                        <img src="assets/img/hotel/small-1.png" alt="img" />
+                        <img
+                          src="/client/assets/img/hotel/small-1.png"
+                          alt="img"
+                        />
                       </div>
                       <div>
-                        <img src="assets/img/hotel/small-2.png" alt="img" />
+                        <img
+                          src="/client/assets/img/hotel/small-2.png"
+                          alt="img"
+                        />
                       </div>
                       <div>
-                        <img src="assets/img/hotel/small-3.png" alt="img" />
+                        <img
+                          src="/client/assets/img/hotel/small-3.png"
+                          alt="img"
+                        />
                       </div>
                       <div>
-                        <img src="assets/img/hotel/small-4.png" alt="img" />
+                        <img
+                          src="/client/assets/img/hotel/small-4.png"
+                          alt="img"
+                        />
                       </div>
                       <div>
-                        <img src="assets/img/hotel/small-5.png" alt="img" />
+                        <img
+                          src="/client/assets/img/hotel/small-5.png"
+                          alt="img"
+                        />
                       </div>
                       <div>
-                        <img src="assets/img/hotel/small-6.png" alt="img" />
+                        <img
+                          src="/client/assets/img/hotel/small-6.png"
+                          alt="img"
+                        />
                       </div>
                     </div>
                   </div>
@@ -384,7 +420,7 @@ const HotelDetail = () => {
                             <div className="room_book_item">
                               <div className="room_book_img">
                                 <img
-                                  src="assets/img/hotel/room-1.png"
+                                  src="/client/assets/img/hotel/room-1.png"
                                   alt="img"
                                 />
                               </div>
@@ -399,14 +435,14 @@ const HotelDetail = () => {
                                     <ul>
                                       <li>
                                         <img
-                                          src="assets/img/icon/ac.png"
+                                          src="/client/assets/img/icon/ac.png"
                                           alt="icon"
                                         />
                                         Air condition
                                       </li>
                                       <li>
                                         <img
-                                          src="assets/img/icon/gym.png"
+                                          src="/client/assets/img/icon/gym.png"
                                           alt="icon"
                                         />
                                         Fitness center
@@ -415,14 +451,14 @@ const HotelDetail = () => {
                                     <ul>
                                       <li>
                                         <img
-                                          src="assets/img/icon/tv.png"
+                                          src="/client/assets/img/icon/tv.png"
                                           alt="icon"
                                         />
                                         Flat television
                                       </li>
                                       <li>
                                         <img
-                                          src="assets/img/icon/wifi.png"
+                                          src="/client/assets/img/icon/wifi.png"
                                           alt="icon"
                                         />
                                         Free Wi-fi
@@ -449,7 +485,7 @@ const HotelDetail = () => {
                             <div className="room_book_item">
                               <div className="room_book_img">
                                 <img
-                                  src="assets/img/hotel/room-2.png"
+                                  src="/client/assets/img/hotel/room-2.png"
                                   alt="img"
                                 />
                               </div>
@@ -464,14 +500,14 @@ const HotelDetail = () => {
                                     <ul>
                                       <li>
                                         <img
-                                          src="assets/img/icon/ac.png"
+                                          src="/client/assets/img/icon/ac.png"
                                           alt="icon"
                                         />
                                         Air condition
                                       </li>
                                       <li>
                                         <img
-                                          src="assets/img/icon/gym.png"
+                                          src="/client/assets/img/icon/gym.png"
                                           alt="icon"
                                         />
                                         Fitness center
@@ -480,14 +516,14 @@ const HotelDetail = () => {
                                     <ul>
                                       <li>
                                         <img
-                                          src="assets/img/icon/tv.png"
+                                          src="/client/assets/img/icon/tv.png"
                                           alt="icon"
                                         />
                                         Flat television
                                       </li>
                                       <li>
                                         <img
-                                          src="assets/img/icon/wifi.png"
+                                          src="/client/assets/img/icon/wifi.png"
                                           alt="icon"
                                         />
                                         Free Wi-fi
@@ -514,7 +550,7 @@ const HotelDetail = () => {
                             <div className="room_book_item">
                               <div className="room_book_img">
                                 <img
-                                  src="assets/img/hotel/room-3.png"
+                                  src="/client/assets/img/hotel/room-3.png"
                                   alt="img"
                                 />
                               </div>
@@ -529,14 +565,14 @@ const HotelDetail = () => {
                                     <ul>
                                       <li>
                                         <img
-                                          src="assets/img/icon/ac.png"
+                                          src="/client/assets/img/icon/ac.png"
                                           alt="icon"
                                         />
                                         Air condition
                                       </li>
                                       <li>
                                         <img
-                                          src="assets/img/icon/gym.png"
+                                          src="/client/assets/img/icon/gym.png"
                                           alt="icon"
                                         />
                                         Fitness center
@@ -545,14 +581,14 @@ const HotelDetail = () => {
                                     <ul>
                                       <li>
                                         <img
-                                          src="assets/img/icon/tv.png"
+                                          src="/client/assets/img/icon/tv.png"
                                           alt="icon"
                                         />
                                         Flat television
                                       </li>
                                       <li>
                                         <img
-                                          src="assets/img/icon/wifi.png"
+                                          src="/client/assets/img/icon/wifi.png"
                                           alt="icon"
                                         />
                                         Free Wi-fi
@@ -821,7 +857,10 @@ const HotelDetail = () => {
                     </div>
                   </div>
                   <div className="all_review_text">
-                    <img src="assets/img/review/review1.png" alt="img" />
+                    <img
+                      src="/client/assets/img/review/review1.png"
+                      alt="img"
+                    />
                     <h4>Manresh Chandra</h4>
                     <p>
                       Loved the overall tour for all 6 days covering jaipur
@@ -833,31 +872,31 @@ const HotelDetail = () => {
                   <div className="all_review_small_img">
                     <div className="all_review_small_img_item">
                       <img
-                        src="assets/img/review/review-small1.png"
+                        src="/client/assets/img/review/review-small1.png"
                         alt="img"
                       />
                     </div>
                     <div className="all_review_small_img_item">
                       <img
-                        src="assets/img/review/review-small2.png"
+                        src="/client/assets/img/review/review-small2.png"
                         alt="img"
                       />
                     </div>
                     <div className="all_review_small_img_item">
                       <img
-                        src="assets/img/review/review-small3.png"
+                        src="/client/assets/img/review/review-small3.png"
                         alt="img"
                       />
                     </div>
                     <div className="all_review_small_img_item">
                       <img
-                        src="assets/img/review/review-small4.png"
+                        src="/client/assets/img/review/review-small4.png"
                         alt="img"
                       />
                     </div>
                     <div className="all_review_small_img_item">
                       <img
-                        src="assets/img/review/review-small5.png"
+                        src="/client/assets/img/review/review-small5.png"
                         alt="img"
                       />
                     </div>
@@ -885,7 +924,10 @@ const HotelDetail = () => {
                     </div>
                   </div>
                   <div className="all_review_text">
-                    <img src="assets/img/review/review2.png" alt="img" />
+                    <img
+                      src="/client/assets/img/review/review2.png"
+                      alt="img"
+                    />
                     <h4>Michel falak</h4>
                     <p>
                       Loved the overall tour for all 6 days covering jaipur
@@ -914,7 +956,10 @@ const HotelDetail = () => {
                     </div>
                   </div>
                   <div className="all_review_text">
-                    <img src="assets/img/review/review3.png" alt="img" />
+                    <img
+                      src="/client/assets/img/review/review3.png"
+                      alt="img"
+                    />
                     <h4>Chester dals</h4>
                     <p>
                       Loved the overall tour for all 6 days covering jaipur
@@ -926,19 +971,19 @@ const HotelDetail = () => {
                   <div className="all_review_small_img">
                     <div className="all_review_small_img_item">
                       <img
-                        src="assets/img/review/review-small1.png"
+                        src="/client/assets/img/review/review-small1.png"
                         alt="img"
                       />
                     </div>
                     <div className="all_review_small_img_item">
                       <img
-                        src="assets/img/review/review-small2.png"
+                        src="/client/assets/img/review/review-small2.png"
                         alt="img"
                       />
                     </div>
                     <div className="all_review_small_img_item">
                       <img
-                        src="assets/img/review/review-small5.png"
+                        src="/client/assets/img/review/review-small5.png"
                         alt="img"
                       />
                     </div>
@@ -966,7 +1011,10 @@ const HotelDetail = () => {
                     </div>
                   </div>
                   <div className="all_review_text">
-                    <img src="assets/img/review/review4.png" alt="img" />
+                    <img
+                      src="/client/assets/img/review/review4.png"
+                      alt="img"
+                    />
                     <h4>Casper mike</h4>
                     <p>
                       Loved the overall tour for all 6 days covering jaipur
@@ -978,13 +1026,13 @@ const HotelDetail = () => {
                   <div className="all_review_small_img">
                     <div className="all_review_small_img_item">
                       <img
-                        src="assets/img/review/review-small4.png"
+                        src="/client/assets/img/review/review-small4.png"
                         alt="img"
                       />
                     </div>
                     <div className="all_review_small_img_item">
                       <img
-                        src="assets/img/review/review-small5.png"
+                        src="/client/assets/img/review/review-small5.png"
                         alt="img"
                       />
                     </div>
@@ -1012,7 +1060,10 @@ const HotelDetail = () => {
                     </div>
                   </div>
                   <div className="all_review_text">
-                    <img src="assets/img/review/review5.png" alt="img" />
+                    <img
+                      src="/client/assets/img/review/review5.png"
+                      alt="img"
+                    />
                     <h4>Jason bruno</h4>
                     <p>
                       Loved the overall tour for all 6 days covering jaipur
@@ -1042,7 +1093,10 @@ const HotelDetail = () => {
                   <div className="theme_common_box_two img_hover">
                     <div className="theme_two_box_img">
                       <a href="hotel-details.html">
-                        <img src="assets/img/tab-img/hotel1.png" alt="img" />
+                        <img
+                          src="/client/assets/img/tab-img/hotel1.png"
+                          alt="img"
+                        />
                       </a>
                       <p>
                         <i className="fas fa-map-marker-alt"></i>New beach,
@@ -1065,7 +1119,10 @@ const HotelDetail = () => {
                   <div className="theme_common_box_two img_hover">
                     <div className="theme_two_box_img">
                       <a href="hotel-details.html">
-                        <img src="assets/img/tab-img/hotel2.png" alt="img" />
+                        <img
+                          src="/client/assets/img/tab-img/hotel2.png"
+                          alt="img"
+                        />
                       </a>
                       <p>
                         <i className="fas fa-map-marker-alt"></i>Indonesia
@@ -1092,7 +1149,10 @@ const HotelDetail = () => {
                   <div className="theme_common_box_two img_hover">
                     <div className="theme_two_box_img">
                       <a href="hotel-details.html">
-                        <img src="assets/img/tab-img/hotel3.png" alt="img" />
+                        <img
+                          src="/client/assets/img/tab-img/hotel3.png"
+                          alt="img"
+                        />
                       </a>
                       <p>
                         <i className="fas fa-map-marker-alt"></i>Kualalampur
@@ -1114,7 +1174,10 @@ const HotelDetail = () => {
                   <div className="theme_common_box_two img_hover">
                     <div className="theme_two_box_img">
                       <a href="hotel-details.html">
-                        <img src="assets/img/tab-img/hotel4.png" alt="img" />
+                        <img
+                          src="/client/assets/img/tab-img/hotel4.png"
+                          alt="img"
+                        />
                       </a>
                       <p>
                         <i className="fas fa-map-marker-alt"></i>Mariana island
@@ -1139,7 +1202,10 @@ const HotelDetail = () => {
                   <div className="theme_common_box_two img_hover">
                     <div className="theme_two_box_img">
                       <a href="hotel-details.html">
-                        <img src="assets/img/tab-img/hotel6.png" alt="img" />
+                        <img
+                          src="/client/assets/img/tab-img/hotel6.png"
+                          alt="img"
+                        />
                       </a>
                       <p>
                         <i className="fas fa-map-marker-alt"></i>Beach view
@@ -1161,7 +1227,10 @@ const HotelDetail = () => {
                   <div className="theme_common_box_two img_hover">
                     <div className="theme_two_box_img">
                       <a href="hotel-details.html">
-                        <img src="assets/img/tab-img/hotel7.png" alt="img" />
+                        <img
+                          src="/client/assets/img/tab-img/hotel7.png"
+                          alt="img"
+                        />
                       </a>
                       <p>
                         <i className="fas fa-map-marker-alt"></i>Long island
@@ -1180,40 +1249,6 @@ const HotelDetail = () => {
                       </h3>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="cta_area">
-          <div className="container">
-            <div className="row align-items-center">
-              <div className="col-lg-7">
-                <div className="cta_left">
-                  <div className="cta_icon">
-                    <img src="assets/img/common/email.png" alt="icon" />
-                  </div>
-                  <div className="cta_content">
-                    <h4>Get the latest news and offers</h4>
-                    <h2>Subscribe to our newsletter</h2>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-5">
-                <div className="cat_form">
-                  <form id="cta_form_wrappper">
-                    <div className="input-group">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter your mail address"
-                      />
-                      <button className="btn btn_theme btn_md" type="button">
-                        Subscribe
-                      </button>
-                    </div>
-                  </form>
                 </div>
               </div>
             </div>
