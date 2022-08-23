@@ -97,6 +97,12 @@ label {
 
 /* btn  */
 
+.btn-success {
+    color: #fff !important;
+    background-color: #2fcb6b !important;
+    border-color: #2fcb6b !important;
+}
+
 .btn-admin-primary {
     color: #fff !important;
     background-color: #884ffb !important;
