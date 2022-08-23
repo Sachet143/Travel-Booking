@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+// @ts-nocheck
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
@@ -29,7 +30,7 @@ function SuperadminSidebar({ sidebarBoolean }: any) {
             .addClass("mm-show")
             .closest("li")
             .addClass("mm-active");
-          $(this).addClass("active");
+          // $(this).addClass("active");
           return false;
         }
       }
@@ -66,7 +67,7 @@ function SuperadminSidebar({ sidebarBoolean }: any) {
                   {menu.children.map((cmenu) => {
                     return (
                       <Link key={cmenu.title} href={cmenu.link}>
-                        <a className={isActive(cmenu.link) ? "active" : ""}>
+                        <a className={isActive(cmenu.link) ? "cactive" : ""}>
                           {cmenu.title}
                         </a>
                       </Link>
@@ -80,9 +81,8 @@ function SuperadminSidebar({ sidebarBoolean }: any) {
               <Link href={menu.link + ""}>
                 <li
                   key={menu.title}
-                  className={`${
-                    isActive(menu.link) ? "active" : ""
-                  } sidebar_parent_link cursor-pointer`}
+                  className={`${isActive(menu.link) ? "cactive" : ""
+                    } sidebar_parent_link cursor-pointer`}
                 >
                   <>
                     <div className="nav_icon_small">
