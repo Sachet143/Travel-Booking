@@ -41,6 +41,7 @@ function SuperAdminLogin() {
 
   return (
     <div className="login-wrapper">
+      <div className="my-wrapper"></div>
       <div className="window">
         <span className="h1 mb-4">Super Admin</span>
         <form onSubmit={handleSubmit(submitLogin)}>
