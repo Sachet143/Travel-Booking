@@ -40,67 +40,6 @@ function SuperAdminLogin() {
   }
 
   return (
-    // <div className="col-lg-12">
-    //   <div className="white_box mb_30">
-    //     <div className="row justify-content-center">
-    //       <div className="col-lg-6">
-    //         <div className="modal-content cs_modal">
-    //           <div className="modal-header justify-content-center theme_bg_1">
-    //             <h5 className="modal-title text_white">Superadmin Login</h5>
-    //           </div>
-    //           <div className="modal-body">
-    //             <form onSubmit={handleSubmit(submitLogin)}>
-    //               <div className="form-group mb-3">
-    //                 <label className="form-label">Email</label>
-    //                 <input
-    //                   placeholder='Enter Email'
-    //                   className='mb-0'
-    //                   aria-invalid={!!errors?.email?.message}
-    //                   {...register("email", {
-    //                     required: "Email is Required",
-    //                     validate: email => isValidEmail(email) || "Email format is invalid!"
-    //                   })}
-    //                 />
-    //                 {errors?.email?.message &&
-    //                   <div className="text-danger">
-    //                     {errors?.email?.message + ""}
-    //                   </div>
-    //                 }
-    //               </div>
-    //               <div className="form-group mb-3">
-    //                 <label className="form-label">Password</label>
-    //                 <Controller
-    //                   control={control}
-    //                   name="password"
-    //                   rules={{
-    //                     required: "Password is required!",
-    //                     validate: pw => isValidPassword(pw) || "Password must contain - 6 characters, a symbol, an uppercase and a lowercase"
-    //                   }}
-    //                   render={({ field: { onChange, value } }) =>
-    //                     <>
-    //                       <Password
-    //                         value={value}
-    //                         onChange={onChange}
-    //                         aria-invalid={!!errors?.password?.message}
-    //                         placeholder='Enter Password'
-    //                       />
-    //                       {errors?.password?.message &&
-    //                         <div className="text-danger">
-    //                           {errors?.password?.message + ""}
-    //                         </div>
-    //                       }
-    //                     </>
-    //                   }
-    //                 />
-    //               </div>
-    //               <Button loading={loading} htmlType="submit" className='btn btn-admin-primary'>Login</Button>
-    //             </form>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div className="login-wrapper">
       <div className="window">
         <span className="h1 mb-4">Super Admin</span>
