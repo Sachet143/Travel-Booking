@@ -115,6 +115,12 @@ label {
     padding-left: 3rem !important;
 }
 
+.btn-admin-dark {
+    color: #fff !important;
+    background-color: #383333 !important;
+    border-color: #383333 !important;
+}
+
 .btn-admin-primary:hover {
     color: #fff;
     background-color: #884ffbe6 !important;

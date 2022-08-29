@@ -21,16 +21,15 @@ function SuperadminLayout(props: IProps) {
   //   $(".main_content ").toggleClass("full_main_content");
   //   $(".footer_part ").toggleClass("full_footer");
 
-  useEffect(() => {}, [value]);
+  useEffect(() => { }, [value]);
   return (
     <>
       <SuperadminSidebar sidebarBoolean={value} />
       <section
-        className={`main_content dashboard_part large_header_bg ${
-          value && "full_main_content"
-        }`}
+        className={`main_content dashboard_part large_header_bg ${value && "full_main_content"
+          }`}
       >
-        <SuperadminTopbar setSidebarBoolean={setValue} sidebarBoolean={value} />
+        <SuperadminTopbar />
         <div className="main_content_iner">
           <div className="container-fluid p-0">
             <div className="row justify-content-center">
@@ -43,18 +42,18 @@ function SuperadminLayout(props: IProps) {
                       </div>
                       {props.breadcrumbs?.length
                         ? props.breadcrumbs.map((bd) => {
-                            if (bd.link) {
-                              return (
-                                <Breadcrumb.Item>
-                                  <Link href={bd.link}>{bd.name}</Link>
-                                </Breadcrumb.Item>
-                              );
-                            } else {
-                              return (
-                                <Breadcrumb.Item>{bd.name}</Breadcrumb.Item>
-                              );
-                            }
-                          })
+                          if (bd.link) {
+                            return (
+                              <Breadcrumb.Item>
+                                <Link href={bd.link}>{bd.name}</Link>
+                              </Breadcrumb.Item>
+                            );
+                          } else {
+                            return (
+                              <Breadcrumb.Item>{bd.name}</Breadcrumb.Item>
+                            );
+                          }
+                        })
                         : null}
                     </div>
                   </div>

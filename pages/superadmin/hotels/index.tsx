@@ -4,7 +4,7 @@ import type { InputRef } from 'antd';
 import { Button, Input, Space, Table } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
-import React, { useRef, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 
 interface DataType {
@@ -13,6 +13,7 @@ interface DataType {
   location: string;
   admin: string;
   status: string;
+  action: ReactElement;
   // key: string;
   // name: string;
   // age: number;
@@ -27,28 +28,32 @@ const data: DataType[] = [
     category: "Hotel",
     location: "Lazimpat, Kathmandu, Nepal",
     admin: "Lokesh Bajracharya",
-    status: "true"
+    status: "true",
+    action: <Button className="btn btn-admin-dark">Login</Button>
   },
   {
     hotel_name: "Shangri-la",
     category: "Hotel",
     location: "Lazimpat, Kathmandu, Nepal",
     admin: "Lokesh Bajracharya",
-    status: "true"
+    status: "true",
+    action: <Button className="btn btn-admin-dark">Login</Button>
   },
   {
     hotel_name: "Shangri-la",
     category: "Hotel",
     location: "Lazimpat, Kathmandu, Nepal",
     admin: "Lokesh Bajracharya",
-    status: "true"
+    status: "true",
+    action: <Button className="btn btn-admin-dark">Login</Button>
   },
   {
     hotel_name: "Shangri-la",
     category: "Hotel",
     location: "Lazimpat, Kathmandu, Nepal",
     admin: "Lokesh Bajracharya",
-    status: "true"
+    status: "true",
+    action: <Button className="btn btn-admin-dark">Login</Button>
   },
 ];
 
@@ -182,6 +187,12 @@ const App: React.FC = () => {
       dataIndex: 'status',
       key: 'status',
       ...getColumnSearchProps('status'),
+    },
+    {
+      title: 'Action',
+      dataIndex: 'action',
+      key: 'action',
+      ...getColumnSearchProps('action'),
     },
   ];
 

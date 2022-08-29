@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import React, { useEffect } from "react";
 
