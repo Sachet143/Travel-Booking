@@ -140,8 +140,9 @@ class CustomDocument extends Document {
 
           <script src="/admin/js/jquery1-3.4.1.min.js"></script>
           <script src="/admin/js/popper1.min.js"></script>
-          <script src="/admin/js/bootstrap1.min.js"></script>
+          {/* <script src="/admin/js/bootstrap1.min.js"></script> */}
           <script src="/admin/js/metisMenu.js" defer></script>
+          <script src="/admin/js/bootstrap.bundle.js"></script>
 
           <script src="/admin/vendors/count_up/jquery.waypoints.min.js"></script>
           <script src="/admin/vendors/chartlist/Chart.min.js"></script>

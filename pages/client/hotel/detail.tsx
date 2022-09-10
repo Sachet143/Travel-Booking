@@ -1,5 +1,7 @@
+import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import React, { useEffect } from "react";
+import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
 
 const HotelDetail = () => {
   useEffect(() => {
@@ -46,6 +48,24 @@ const HotelDetail = () => {
       });
     }
   }, []);
+
+  const [dropDown, setDropDown] = useState(false);
+  const [checkInDate, setCheckInDate] = useState(
+    moment(Date.now()).format("YYYY-MM-DD")
+  );
+
+  const [checkOutDate, setCheckOutDate] = useState(
+    moment(Date.now()).format("YYYY-MM-DD")
+  );
+
+  const [sumGuests, setSumGuests] = useState(1);
+
+  const [finalTotal, setFinalTotal] = useState({
+    adult: 1,
+    children: 0,
+    infant: 0,
+  });
+
   return (
     <ClientLayout>
       <>
@@ -296,17 +316,29 @@ const HotelDetail = () => {
                                           <p>Check In date</p>
                                           <input
                                             type="date"
-                                            value="2022-05-03"
+                                            value={checkInDate}
+                                            onChange={(e) =>
+                                              setCheckInDate(e.target.value)
+                                            }
                                           />
-                                          <span>Thursday</span>
+                                          <span>
+                                            {moment(checkInDate).format("dddd")}
+                                          </span>
                                         </div>
                                         <div className="Journey_date">
                                           <p>Check Out date</p>
                                           <input
                                             type="date"
-                                            value="2022-05-05"
+                                            value={checkOutDate}
+                                            onChange={(e) =>
+                                              setCheckOutDate(e.target.value)
+                                            }
                                           />
-                                          <span>Thursday</span>
+                                          <span>
+                                            {moment(checkOutDate).format(
+                                              "dddd"
+                                            )}
+                                          </span>
                                         </div>
                                       </div>
                                     </div>
@@ -317,93 +349,36 @@ const HotelDetail = () => {
                                       <div className="dropdown">
                                         <button
                                           className="dropdown-toggle"
-                                          data-toggle="dropdown"
                                           type="button"
-                                          id="dropdownMenuButton1"
-                                          data-bs-toggle="dropdown"
-                                          aria-expanded="false"
+                                          onClick={() => setDropDown(!dropDown)}
                                         >
-                                          1 Guests
+                                          {sumGuests} Guests
                                         </button>
-                                        <div
-                                          className="dropdown-menu dropdown_passenger_info"
-                                          aria-labelledby="dropdownMenuButton1"
-                                        >
-                                          <div className="traveller-calulate-persons">
-                                            <div className="passengers">
-                                              <h6>Passengers</h6>
-                                              <div className="passengers-types">
-                                                <div className="passengers-type">
-                                                  <div className="text">
-                                                    <span className="count">
-                                                      2
-                                                    </span>
-                                                    <div className="type-label">
-                                                      <p>Adult</p>
-                                                      <span>12+ yrs</span>
-                                                    </div>
-                                                  </div>
-                                                  <div className="button-set">
-                                                    <button type="button">
-                                                      <i className="fas fa-plus"></i>
-                                                    </button>
-                                                    <button type="button">
-                                                      <i className="fas fa-minus"></i>
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                                <div className="passengers-type">
-                                                  <div className="text">
-                                                    <span className="count">
-                                                      0
-                                                    </span>
-                                                    <div className="type-label">
-                                                      <p className="fz14 mb-xs-0">
-                                                        Children
-                                                      </p>
-                                                      <span>
-                                                        2 - Less than 12 yrs
-                                                      </span>
-                                                    </div>
-                                                  </div>
-                                                  <div className="button-set">
-                                                    <button type="button">
-                                                      <i className="fas fa-plus"></i>
-                                                    </button>
-                                                    <button type="button">
-                                                      <i className="fas fa-minus"></i>
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                                <div className="passengers-type">
-                                                  <div className="text">
-                                                    <span className="count">
-                                                      0
-                                                    </span>
-                                                    <div className="type-label">
-                                                      <p className="fz14 mb-xs-0">
-                                                        Infant
-                                                      </p>
-                                                      <span>
-                                                        Less than 2 yrs
-                                                      </span>
-                                                    </div>
-                                                  </div>
-                                                  <div className="button-set">
-                                                    <button type="button">
-                                                      <i className="fas fa-plus"></i>
-                                                    </button>
-                                                    <button type="button">
-                                                      <i className="fas fa-minus"></i>
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
+                                        {dropDown && (
+                                          <Dropdown
+                                            setSumGuests={setSumGuests}
+                                            setDropDown={setDropDown}
+                                            setFinalTotal={setFinalTotal}
+                                          />
+                                        )}
                                       </div>
-                                      <span>Adult</span>
+                                      <div className="d-flex">
+                                        <span>
+                                          {finalTotal.adult
+                                            ? `Adult ${finalTotal.adult}`
+                                            : null}
+                                        </span>
+                                        <span className="mx-3">
+                                          {finalTotal.children
+                                            ? `Children ${finalTotal.children}`
+                                            : null}
+                                        </span>
+                                        <span>
+                                          {finalTotal.infant
+                                            ? `Infant ${finalTotal.infant}`
+                                            : null}
+                                        </span>
+                                      </div>
                                     </div>
                                   </div>
                                   <div className="top_form_search_button text-right">
@@ -417,201 +392,205 @@ const HotelDetail = () => {
                                 </div>
                               </form>
                             </div>
-                            <div className="room_book_item">
-                              <div className="room_book_img">
-                                <img
-                                  src="/client/assets/img/hotel/room-1.png"
-                                  alt="img"
-                                />
-                              </div>
-                              <div className="room_booking_right_side">
-                                <div className="room_booking_heading">
-                                  <h3>
-                                    <a href="room-booking.html">
-                                      Culpa cupidatat laborum eiusmod amet
-                                    </a>
-                                  </h3>
-                                  <div className="room_fasa_area">
-                                    <ul>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/ac.png"
-                                          alt="icon"
-                                        />
-                                        Air condition
-                                      </li>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/gym.png"
-                                          alt="icon"
-                                        />
-                                        Fitness center
-                                      </li>
-                                    </ul>
-                                    <ul>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/tv.png"
-                                          alt="icon"
-                                        />
-                                        Flat television
-                                      </li>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/wifi.png"
-                                          alt="icon"
-                                        />
-                                        Free Wi-fi
-                                      </li>
-                                    </ul>
+                            {false && (
+                              <>
+                                <div className="room_book_item">
+                                  <div className="room_book_img">
+                                    <img
+                                      src="/client/assets/img/hotel/room-1.png"
+                                      alt="img"
+                                    />
+                                  </div>
+                                  <div className="room_booking_right_side">
+                                    <div className="room_booking_heading">
+                                      <h3>
+                                        <a href="room-booking.html">
+                                          Culpa cupidatat laborum eiusmod amet
+                                        </a>
+                                      </h3>
+                                      <div className="room_fasa_area">
+                                        <ul>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/ac.png"
+                                              alt="icon"
+                                            />
+                                            Air condition
+                                          </li>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/gym.png"
+                                              alt="icon"
+                                            />
+                                            Fitness center
+                                          </li>
+                                        </ul>
+                                        <ul>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/tv.png"
+                                              alt="icon"
+                                            />
+                                            Flat television
+                                          </li>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/wifi.png"
+                                              alt="icon"
+                                            />
+                                            Free Wi-fi
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                    <div className="room_person_select">
+                                      <h3>
+                                        $1200.00/ <sub>Per night</sub>
+                                      </h3>
+                                      <select
+                                        className="form-select"
+                                        aria-label="Default select example"
+                                      >
+                                        <option selected>1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                      </select>
+                                    </div>
                                   </div>
                                 </div>
-                                <div className="room_person_select">
-                                  <h3>
-                                    $1200.00/ <sub>Per night</sub>
-                                  </h3>
-                                  <select
-                                    className="form-select"
-                                    aria-label="Default select example"
-                                  >
-                                    <option selected>1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="room_book_item">
-                              <div className="room_book_img">
-                                <img
-                                  src="/client/assets/img/hotel/room-2.png"
-                                  alt="img"
-                                />
-                              </div>
-                              <div className="room_booking_right_side">
-                                <div className="room_booking_heading">
-                                  <h3>
-                                    <a href="room-booking.html">
-                                      Aliquip sit nisi est laboris eiusmod
-                                    </a>
-                                  </h3>
-                                  <div className="room_fasa_area">
-                                    <ul>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/ac.png"
-                                          alt="icon"
-                                        />
-                                        Air condition
-                                      </li>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/gym.png"
-                                          alt="icon"
-                                        />
-                                        Fitness center
-                                      </li>
-                                    </ul>
-                                    <ul>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/tv.png"
-                                          alt="icon"
-                                        />
-                                        Flat television
-                                      </li>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/wifi.png"
-                                          alt="icon"
-                                        />
-                                        Free Wi-fi
-                                      </li>
-                                    </ul>
+                                <div className="room_book_item">
+                                  <div className="room_book_img">
+                                    <img
+                                      src="/client/assets/img/hotel/room-2.png"
+                                      alt="img"
+                                    />
+                                  </div>
+                                  <div className="room_booking_right_side">
+                                    <div className="room_booking_heading">
+                                      <h3>
+                                        <a href="room-booking.html">
+                                          Aliquip sit nisi est laboris eiusmod
+                                        </a>
+                                      </h3>
+                                      <div className="room_fasa_area">
+                                        <ul>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/ac.png"
+                                              alt="icon"
+                                            />
+                                            Air condition
+                                          </li>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/gym.png"
+                                              alt="icon"
+                                            />
+                                            Fitness center
+                                          </li>
+                                        </ul>
+                                        <ul>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/tv.png"
+                                              alt="icon"
+                                            />
+                                            Flat television
+                                          </li>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/wifi.png"
+                                              alt="icon"
+                                            />
+                                            Free Wi-fi
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                    <div className="room_person_select">
+                                      <h3>
+                                        $1200.00/ <sub>Per night</sub>
+                                      </h3>
+                                      <select
+                                        className="form-select"
+                                        aria-label="Default select example"
+                                      >
+                                        <option selected>1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                      </select>
+                                    </div>
                                   </div>
                                 </div>
-                                <div className="room_person_select">
-                                  <h3>
-                                    $1200.00/ <sub>Per night</sub>
-                                  </h3>
-                                  <select
-                                    className="form-select"
-                                    aria-label="Default select example"
-                                  >
-                                    <option selected>1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="room_book_item">
-                              <div className="room_book_img">
-                                <img
-                                  src="/client/assets/img/hotel/room-3.png"
-                                  alt="img"
-                                />
-                              </div>
-                              <div className="room_booking_right_side">
-                                <div className="room_booking_heading">
-                                  <h3>
-                                    <a href="room-booking.html">
-                                      Ea sint elit duis nostrud consequat
-                                    </a>
-                                  </h3>
-                                  <div className="room_fasa_area">
-                                    <ul>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/ac.png"
-                                          alt="icon"
-                                        />
-                                        Air condition
-                                      </li>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/gym.png"
-                                          alt="icon"
-                                        />
-                                        Fitness center
-                                      </li>
-                                    </ul>
-                                    <ul>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/tv.png"
-                                          alt="icon"
-                                        />
-                                        Flat television
-                                      </li>
-                                      <li>
-                                        <img
-                                          src="/client/assets/img/icon/wifi.png"
-                                          alt="icon"
-                                        />
-                                        Free Wi-fi
-                                      </li>
-                                    </ul>
+                                <div className="room_book_item">
+                                  <div className="room_book_img">
+                                    <img
+                                      src="/client/assets/img/hotel/room-3.png"
+                                      alt="img"
+                                    />
+                                  </div>
+                                  <div className="room_booking_right_side">
+                                    <div className="room_booking_heading">
+                                      <h3>
+                                        <a href="room-booking.html">
+                                          Ea sint elit duis nostrud consequat
+                                        </a>
+                                      </h3>
+                                      <div className="room_fasa_area">
+                                        <ul>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/ac.png"
+                                              alt="icon"
+                                            />
+                                            Air condition
+                                          </li>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/gym.png"
+                                              alt="icon"
+                                            />
+                                            Fitness center
+                                          </li>
+                                        </ul>
+                                        <ul>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/tv.png"
+                                              alt="icon"
+                                            />
+                                            Flat television
+                                          </li>
+                                          <li>
+                                            <img
+                                              src="/client/assets/img/icon/wifi.png"
+                                              alt="icon"
+                                            />
+                                            Free Wi-fi
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                    <div className="room_person_select">
+                                      <h3>
+                                        $1200.00/ <sub>Per night</sub>
+                                      </h3>
+                                      <select
+                                        className="form-select"
+                                        aria-label="Default select example"
+                                      >
+                                        <option selected>1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                      </select>
+                                    </div>
                                   </div>
                                 </div>
-                                <div className="room_person_select">
-                                  <h3>
-                                    $1200.00/ <sub>Per night</sub>
-                                  </h3>
-                                  <select
-                                    className="form-select"
-                                    aria-label="Default select example"
-                                  >
-                                    <option selected>1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
+                              </>
+                            )}
                           </div>
                         </div>
                         <div
