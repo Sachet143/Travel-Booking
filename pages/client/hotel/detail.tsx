@@ -65,7 +65,7 @@ const HotelDetail = () => {
     adult: 1,
     children: 0,
     infant: 0,
-  });
+  });it -
 
   return (
     <ClientLayout>
