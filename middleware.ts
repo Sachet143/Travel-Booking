@@ -78,6 +78,7 @@ export const config = {
     "/reset-password",
     "/tour",
     "/hotel/detail",
+    "/hotel",
     "/login",
     "/register",
     "/search",
