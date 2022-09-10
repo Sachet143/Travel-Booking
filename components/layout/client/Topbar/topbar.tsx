@@ -222,12 +222,12 @@ const TopBar = () => {
                       </a>
                       <ul className="dropdown-menu">
                         <li className="nav-item">
-                          <a href="hotel-search.html" className="nav-link">
-                            Hotel
+                          <a href="/hotel" className="nav-link">
+                            Hotel Listing
                           </a>
                         </li>
                         <li className="nav-item">
-                          <a href="hotel-details.html" className="nav-link">
+                          <a href="/hotel/detail" className="nav-link">
                             Hotel Booking
                           </a>
                         </li>
