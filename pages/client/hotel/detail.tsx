@@ -1,4 +1,5 @@
 import Dropdown from "@/components/common/Dropdown";
+// @ts-nocheck
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";

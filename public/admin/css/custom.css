@@ -97,6 +97,12 @@ label {
 
 /* btn  */
 
+.btn-success {
+    color: #fff !important;
+    background-color: #2fcb6b !important;
+    border-color: #2fcb6b !important;
+}
+
 .btn-admin-primary {
   color: #fff !important;
   background-color: #884ffb !important;
@@ -107,6 +113,12 @@ label {
   text-transform: uppercase;
   padding-right: 3rem !important;
   padding-left: 3rem !important;
+}
+
+.btn-admin-dark {
+    color: #fff !important;
+    background-color: #383333 !important;
+    border-color: #383333 !important;
 }
 
 .btn-admin-primary:hover {
