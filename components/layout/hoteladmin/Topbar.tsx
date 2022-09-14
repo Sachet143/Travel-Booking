@@ -20,18 +20,26 @@ function HoteladminTopbar() {
                         <div className="sidebar_icon d-lg-none">
                             <i className="ti-menu" />
                         </div>
-                        <div className="line_icon open_miniSide d-none d-lg-block">
+                        <div className="line_icon open_miniSide d-none d-lg-block cursor-pointer"
+                            onClick={() => {
+                                const sidebar = document.getElementsByClassName('sidebar');
+                                const main = document.getElementsByClassName('main_content');
+                                // sidebar
+                                if (sidebar[0].classList.contains("mini_sidebar")) {
+                                    sidebar[0].classList.remove("mini_sidebar")
+                                } else {
+                                    sidebar[0].classList.add("mini_sidebar")
+                                }
+                                // content
+                                if (main[0].classList.contains("full_main_content")) {
+                                    main[0].classList.remove("full_main_content")
+                                } else {
+                                    main[0].classList.add("full_main_content")
+                                }
+
+                            }}
+                        >
                             <img src="/admin/img/line_img.png" alt="" />
-                        </div>
-                        <div className="serach_field-area d-flex align-items-center">
-                            <div className="search_inner">
-                                <form action="#">
-                                    <div className="search_field">
-                                        <input type="text" placeholder="Search" />
-                                    </div>
-                                    <button type="submit"> <img src="/admin/img/icon/icon_search.svg" alt="" /> </button>
-                                </form>
-                            </div>
                         </div>
                         <div className="header_right d-flex justify-content-between align-items-center">
                             <div className="header_notification_warp d-flex align-items-center">
