@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
 import Crypto from "crypto-js";
+import { useSWRConfig } from "swr";
+import _ from 'lodash'
 
 export function responseErrorHandler(res: any, setError?: any) {
   if (res && res?.data && res?.data?.errors) {
@@ -96,11 +98,11 @@ export function isValidEmail(email: string) {
 export function isValidUrl(url: string) {
   const pattern = new RegExp(
     "^(https?:\\/\\/)" + // protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-      "(\\#[-a-z\\d_]*)?$",
+    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+    "(\\#[-a-z\\d_]*)?$",
     "i"
   );
 
@@ -111,4 +113,28 @@ export function isValidPassword(password: string) {
   const re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
 
   return re.test(password);
+}
+
+
+export function useMatchMutate() {
+  const { cache, mutate } = useSWRConfig();
+  // @ts-ignore
+  return (matcher, ...args) => {
+    if (!(cache instanceof Map)) {
+      throw new Error(
+        "matchMutate requires the cache provider to be a Map instance"
+      );
+    }
+
+    const keys = [];
+    // @ts-ignore
+    for (const key of cache.keys()) {
+      if (_.includes(key, matcher)) {
+        keys.push(key);
+      }
+    }
+
+    const mutations = keys.map((key) => mutate(key, ...args));
+    return Promise.all(mutations);
+  };
 }

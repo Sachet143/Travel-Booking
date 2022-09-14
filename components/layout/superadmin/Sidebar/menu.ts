@@ -38,4 +38,15 @@ export const SuperadminSidebarMenus = [
             },
         ]
     },
+    {
+        title: "Miscs",
+        parent: true,
+        icon: "/admin/img/menu-icon/7.svg",
+        children: [
+            {
+                title: "Facilities",
+                link: "/superadmin/miscs/facilities"
+            }
+        ]
+    },
 ]
