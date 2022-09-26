@@ -1,16 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { Button, message, Modal, Switch } from 'antd';
+import { Button, message, Modal, Select, Skeleton, Switch } from 'antd';
 import Upload, { RcFile, UploadFile, UploadProps } from 'antd/lib/upload';
 import React, { useState } from 'react'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import dynamic from "next/dynamic";
 import Dragger from 'antd/lib/upload/Dragger';
 import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
+import { deleteServerFile } from '@/api/hoteladmin/files';
+import axiosClient from '@/services/axios/clientfetch';
+import useSWR from 'swr';
+
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod: any) => mod.Editor),
   { ssr: false }
 );
+const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
+const { Option } = Select;
 
 interface IProps {
   submitHandler: (data: any) => void;
@@ -32,6 +38,7 @@ function HotelRoomForm({
   formMethods,
 }: IProps) {
   const { control, register, formState: { errors }, handleSubmit } = formMethods;
+  const { data: features, error: featureError } = useSWR(`hotel/features`, customFetcher);
 
   // wysiwyg
   const [rtfChanged, setRtfChanged] = useState(false);
@@ -90,8 +97,45 @@ function HotelRoomForm({
           </div>
         </div>
       </div>
+      <div className="col-12 form-group">
+        <label className="form-label">Features<span className='text-danger'> *</span></label>
+        <div className='custom-select'>
+          {
+            !features && !featureError ? <Skeleton className='mt-3' active paragraph={false} />
+              :
+              <Controller
+                control={control}
+                name="features"
+                rules={{ required: "Feature is required!" }}
+                render={({ field: { onChange, value } }) =>
+                  <>
+                    <Select
+                      mode='multiple'
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                      status={errors?.features?.message && "error"}
+                      size='large'
+                      className="form-control"
+                      placeholder="Select features"
+                    >
+                      {
+                        features?.map((cat: any) => <Option key={cat.id} value={cat.id}>{cat.title}</Option>)
+                      }
+                    </Select>
+                    {errors?.features?.message &&
+                      <div className="text-danger">
+                        {errors?.features?.message + ""}
+                      </div>
+                    }
+                  </>
+                }
+              />
+          }
+        </div>
+      </div>
       {/* row 2 */}
-      <div className="row mb-3">
+      <div className="row my-3">
         <div className="col-md-6 col-sm-12 form-group">
           <label className="form-label">Price<span className='text-danger'> *</span></label>
           <input
@@ -173,6 +217,7 @@ function HotelRoomForm({
           render={({ field: { onChange, value } }) =>
             <>
               <Upload
+                onRemove={val => { typeof val.uid === 'number' && deleteServerFile(val.uid) }}
                 beforeUpload={beforeUpload}
                 maxCount={5}
                 listType="picture-card"
