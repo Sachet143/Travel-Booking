@@ -15,8 +15,17 @@ function UpdateHotel() {
   const { reset, setError } = formMethods;
 
   function updateHotelHandler(data: any) {
+
+    const dto = {
+      ...data,
+      logo: typeof data.logo === "string" ? null : data.logo,
+      cover_image: typeof data.cover_image === "string" ? null : data.cover_image,
+      why_choose_us: data.why_choose_us ? JSON.stringify(data.why_choose_us) : null,
+      our_facilities: data.our_facilities ? JSON.stringify(data.our_facilities) : null,
+    }
+
     setLoading(true);
-    updateHotel(objectToFormData(data))
+    updateHotel(objectToFormData(dto))
       .then((res: any) => {
         reset();
         mutateUser();
@@ -28,40 +37,19 @@ function UpdateHotel() {
 
   useEffect(() => {
     user && reset({
-      logo: "https://thumbs.dreamstime.com/b/stunning-landscape-iamge-river-flowing-lush-green-forest-summer-61650087.jpg",
-      cover_image: "https://thumbs.dreamstime.com/b/stunning-landscape-iamge-river-flowing-lush-green-forest-summer-61650087.jpg",
+      logo: user?.hotel?.logo_full_path,
+      cover_image: user?.hotel?.cover_full_path,
       name: user.hotel.name,
       category_id: user.hotel.category_id,
+      features: user.hotel.features.map((f: any) => f.feature_id),
+      long: user?.hotel?.location?.long,
+      lat: user?.hotel?.location?.lat,
+      country: user?.hotel?.location?.country,
+      state: user?.hotel?.location?.state,
+      city: user?.hotel?.location?.city,
       description: user.hotel.description,
-      why_choose_us: {
-        blocks: [
-          {
-            key: "1",
-            text: `why`,
-            type: "unstyled",
-            depth: 0,
-            inlineStyleRanges: [],
-            entityRanges: [],
-            data: {},
-          },
-        ],
-        entityMap: {},
-      },
-      our_facilities: {
-        blocks: [
-          {
-            key: "1",
-            text: `our`,
-            type: "unstyled",
-            depth: 0,
-            inlineStyleRanges: [],
-            entityRanges: [],
-            data: {},
-          },
-        ],
-        entityMap: {},
-      }
-
+      why_choose_us: user.hotel.why_choose_us ? JSON.parse(user.hotel.why_choose_us) : null,
+      our_facilities: user.hotel.our_facilities ? JSON.parse(user.hotel.our_facilities) : null
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

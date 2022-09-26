@@ -13,7 +13,7 @@ const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod: any) => mod.Editor),
   { ssr: false }
 );
-const catFetcher = (url: string) => axiosClient(url).then((res: any) => res);
+const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
 const { Option } = Select;
 const block = {
@@ -42,8 +42,9 @@ function HotelForm({
   loading,
   formMethods,
 }: IProps) {
-  const { control, watch, getValues, register, formState: { errors }, handleSubmit } = formMethods;
-  const { data: categories, error: catError } = useSWR(`/hotel/get-categories`, catFetcher);
+  const { control, register, formState: { errors }, handleSubmit } = formMethods;
+  const { data: categories, error: catError } = useSWR(`/hotel/get-categories`, customFetcher);
+  const { data: features, error: featureError } = useSWR(`hotel/features`, customFetcher);
 
   const [rtfChanged, setRtfChanged] = useState({
     whyChooseUs: false,
@@ -159,8 +160,45 @@ function HotelForm({
           </div>
         </div>
       </div>
+      <div className="col-12 form-group">
+        <label className="form-label">Features<span className='text-danger'> *</span></label>
+        <div className='custom-select'>
+          {
+            !features && !featureError ? <Skeleton className='mt-3' active paragraph={false} />
+              :
+              <Controller
+                control={control}
+                name="features"
+                rules={{ required: "Feature is required!" }}
+                render={({ field: { onChange, value } }) =>
+                  <>
+                    <Select
+                      mode='multiple'
+                      value={value}
+                      onChange={onChange}
+                      allowClear
+                      status={errors?.features?.message && "error"}
+                      size='large'
+                      className="form-control"
+                      placeholder="Select features"
+                    >
+                      {
+                        features?.map((cat: any) => <Option key={cat.id} value={cat.id}>{cat.title}</Option>)
+                      }
+                    </Select>
+                    {errors?.features?.message &&
+                      <div className="text-danger">
+                        {errors?.features?.message + ""}
+                      </div>
+                    }
+                  </>
+                }
+              />
+          }
+        </div>
+      </div>
       {/* row 3 */}
-      <div className="form-group mb-3">
+      <div className="form-group my-3">
         <label className="form-label">Description<span className='text-danger'> *</span></label>
         <textarea
           rows={4}
@@ -318,7 +356,7 @@ function HotelForm({
       </div>
       {/* row 7 */}
       <div className="form-group mb-3">
-        <label className="form-label">Our Facilities</label>
+        <label className="form-label">Our features</label>
         <Controller
           control={control}
           name="our_facilities"
@@ -341,9 +379,9 @@ function HotelForm({
                   }}
                 />
               }
-              {errors?.our_facilities?.message &&
+              {errors?.our_features?.message &&
                 <div className="text-danger">
-                  {errors?.our_facilities?.message + ""}
+                  {errors?.our_features?.message + ""}
                 </div>
               }
             </div>
