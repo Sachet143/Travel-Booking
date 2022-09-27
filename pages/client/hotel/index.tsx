@@ -1,10 +1,15 @@
+/* eslint-disable @next/next/no-img-element */
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { Slider } from "antd";
+import { Skeleton, Slider } from "antd";
 import moment from "moment";
 import React, { useState } from "react";
+import useSWR from "swr";
 
 const HotelListing = () => {
+  const { data: hotels, error, mutate } = useSWR(`/hotels`);
+  const hotelLoading = !hotels && !error;
+
   const [dropDown, setDropDown] = useState(false);
   const [checkInDate, setCheckInDate] = useState(
     moment(Date.now()).format("YYYY-MM-DD")
@@ -47,7 +52,8 @@ const HotelListing = () => {
             </div>
           </div>
         </section>
-        <section id="theme_search_form_tour">
+        {/* book */}
+        {/* <section id="theme_search_form_tour">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -154,18 +160,24 @@ const HotelListing = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section id="explore_area" className="section_padding">
           <div className="container">
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                 <div className="section_heading_center">
-                  <h2>38 hotel found</h2>
+                  {
+                    hotelLoading ?
+                      <div className="w-25 mx-auto"><Skeleton active paragraph={false} /></div>
+                      :
+                      <h2>{hotels.data.length} hotel found</h2>
+                  }
                 </div>
               </div>
             </div>
             <div className="row">
+              {/* filters */}
               <div className="col-lg-3">
                 <div className="left_side_search_area">
                   <div className="left_side_search_boxed">
@@ -503,358 +515,46 @@ const HotelListing = () => {
                   </div>
                 </div>
               </div>
+              {/* hotels */}
               <div className="col-lg-9">
                 <div className="row">
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel1.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>New beach,
-                          Thailand
-                        </p>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">
-                            Kantua hotel, Thailand
-                          </a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel2.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>Indonesia
-                        </p>
-                        <div className="discount_tab">
-                          <span>50%</span>
+                  {
+                    hotelLoading ? <Skeleton active /> :
+
+                      hotels?.data?.map((hotel: any) =>
+                        <div className="col-lg-4 col-md-6 col-sm-6 col-12" key={hotel.id}>
+                          <div className="theme_common_box_two">
+                            <div className="theme_two_box_img">
+                              <a href="hotel-details.html">
+                                <img
+                                  style={{ height: "200px", objectFit: "cover" }}
+                                  src={hotel.cover_full_path}
+                                  alt="img"
+                                />
+                              </a>
+                              <p>
+                                <i className="fas fa-map-marker-alt"></i>New beach,
+                                Thailand
+                              </p>
+                            </div>
+                            <div className="theme_two_box_content">
+                              <h4>
+                                <a href="hotel-details.html">
+                                  Kantua hotel, Thailand
+                                </a>
+                              </h4>
+                              <p>
+                                <span className="review_rating">4.8/5 Excellent</span>{" "}
+                                <span className="review_count">(1214 reviewes)</span>
+                              </p>
+                              <h3>
+                                $99.00 <span>Price starts from</span>
+                              </h3>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">
-                            Hotel paradise international
-                          </a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel3.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>Kualalampur
-                        </p>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">Hotel kualalampur</a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel4.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>Mariana
-                          island
-                        </p>
-                        <div className="discount_tab">
-                          <span>50%</span>
-                        </div>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">Hotel deluxe</a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel5.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>Kathmundu,
-                          Nepal
-                        </p>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">Hotel rajavumi</a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel6.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>Beach view
-                        </p>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">Thailand grand suit</a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel7.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>Long island
-                        </p>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">Zefi resort and spa</a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel8.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>Philippine
-                        </p>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">
-                            Manila international resort
-                          </a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel1.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>New beach,
-                          Thailand
-                        </p>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">
-                            Kantua hotel, Thailand
-                          </a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel1.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>New beach,
-                          Thailand
-                        </p>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">
-                            Kantua hotel, Thailand
-                          </a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel2.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>Indonesia
-                        </p>
-                        <div className="discount_tab">
-                          <span>50%</span>
-                        </div>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">
-                            Hotel paradise international
-                          </a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="theme_common_box_two">
-                      <div className="theme_two_box_img">
-                        <a href="hotel-details.html">
-                          <img
-                            src="/client/assets/img/tab-img/hotel3.png"
-                            alt="img"
-                          />
-                        </a>
-                        <p>
-                          <i className="fas fa-map-marker-alt"></i>Kualalampur
-                        </p>
-                      </div>
-                      <div className="theme_two_box_content">
-                        <h4>
-                          <a href="hotel-details.html">Hotel kualalampur</a>
-                        </h4>
-                        <p>
-                          <span className="review_rating">4.8/5 Excellent</span>{" "}
-                          <span className="review_count">(1214 reviewes)</span>
-                        </p>
-                        <h3>
-                          $99.00 <span>Price starts from</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
+                      )}
+
                   <div className="col-lg-12">
                     <div className="pagination_area">
                       <ul className="pagination">

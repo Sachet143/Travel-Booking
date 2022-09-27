@@ -115,7 +115,6 @@ export function isValidPassword(password: string) {
   return re.test(password);
 }
 
-
 export function useMatchMutate() {
   const { cache, mutate } = useSWRConfig();
   // @ts-ignore
@@ -137,4 +136,37 @@ export function useMatchMutate() {
     const mutations = keys.map((key) => mutate(key, ...args));
     return Promise.all(mutations);
   };
+}
+
+export function renderLocation(city: string, state: string, country: string) {
+  if (city) {
+    if (state) {
+      if (country) {
+        return city + ', ' + state + ', ' + country; // city & state & country
+      } else {
+        return city + ', ' + state; // city & state
+      }
+    } else {
+      if (country) {
+        return city + ', ' + country; // city & country
+      } else {
+        return city; // city
+      }
+    }
+  }
+  else {
+    if (state) {
+      if (country) {
+        return state + ', ' + country; // state & country
+      } else {
+        return state // state
+      }
+    } else {
+      if (country) {
+        return country; // country
+      } else {
+        return ""
+      }
+    }
+  }
 }
