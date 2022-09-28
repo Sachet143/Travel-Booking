@@ -618,7 +618,7 @@ function HotelPage() {
                             <Editor
 
                               // @ts-ignore
-                              initialcontentState={value}
+                              initialcontentState={hotel.why_choose_us}
                               onContentStateChange={() => { }}
                             />
                           </div>
