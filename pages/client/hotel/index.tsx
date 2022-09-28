@@ -1,8 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
+import { renderLocation } from "@/services/helper";
 import { Skeleton, Slider } from "antd";
 import moment from "moment";
+import Link from "next/link";
+import Router from "next/router";
 import React, { useState } from "react";
 import useSWR from "swr";
 
@@ -523,39 +526,28 @@ const HotelListing = () => {
 
                       hotels?.data?.map((hotel: any) =>
                         <div className="col-lg-4 col-md-6 col-sm-6 col-12" key={hotel.id}>
-                          <div className="theme_common_box_two">
+                          <div className="theme_common_box_two cursor-pointer" onClick={() => Router.push(`/hotel/${hotel.uuid}`)}>
                             <div className="theme_two_box_img">
-                              <a href="hotel-details.html">
-                                <img
-                                  style={{ height: "200px", objectFit: "cover" }}
-                                  src={hotel.cover_full_path}
-                                  alt="img"
-                                />
-                              </a>
+                              <img
+                                style={{ height: "200px", objectFit: "cover" }}
+                                // src={hotel.cover_full_path ?? '/imageplaceholder.jpg'}
+                                src={'/imageplaceholder.jpg'}
+                                alt="img"
+                              />
                               <p>
-                                <i className="fas fa-map-marker-alt"></i>New beach,
-                                Thailand
+                                <i className="fas fa-map-marker-alt"></i>{renderLocation(hotel.location)}
                               </p>
                             </div>
                             <div className="theme_two_box_content">
                               <h4>
-                                <a href="hotel-details.html">
-                                  Kantua hotel, Thailand
-                                </a>
+                                {hotel.name}
                               </h4>
-                              <p>
-                                <span className="review_rating">4.8/5 Excellent</span>{" "}
-                                <span className="review_count">(1214 reviewes)</span>
-                              </p>
-                              <h3>
-                                $99.00 <span>Price starts from</span>
-                              </h3>
                             </div>
                           </div>
                         </div>
                       )}
 
-                  <div className="col-lg-12">
+                  {/* <div className="col-lg-12">
                     <div className="pagination_area">
                       <ul className="pagination">
                         <li className="page-item">
@@ -591,7 +583,7 @@ const HotelListing = () => {
                         </li>
                       </ul>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
