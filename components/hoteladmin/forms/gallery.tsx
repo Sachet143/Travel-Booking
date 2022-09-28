@@ -1,9 +1,12 @@
-import { responseErrorHandler } from '@/services/helper';
+import { objectToFormData, responseErrorHandler } from '@/services/helper';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Modal, Upload, UploadFile } from 'antd';
 import { RcFile } from 'antd/lib/upload';
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
+import { uploadImage } from '@/api/hoteladmin/gallery';
+import useSWR from 'swr';
+import { toast } from 'react-toastify';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -16,7 +19,8 @@ const getBase64 = (file: RcFile): Promise<string> =>
 
 function HotelGalleryComponent() {
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, formState: { errors }, control } = useForm();
+  const { reset, handleSubmit, formState: { errors }, control } = useForm();
+  const { mutate } = useSWR('/hotel/hotel-image', { revalidateOnMount: false });
 
   // antd room images
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -43,12 +47,21 @@ function HotelGalleryComponent() {
 
 
   function submitImageHandler(data: any) {
+
+    const dto = {
+      files: data.files.map((file: UploadFile) => file.originFileObj)
+    }
+
     setLoading(true);
-    /**
-     * submitImages(objectToFormData(data))
-     .catch(responseErrorHandler)
-     .finally(()=> setLoading(false))
-    */
+    uploadImage(objectToFormData(dto))
+      .then((res: any) => {
+        toast.success(res.message)
+        reset();
+        mutate();
+      })
+      .catch(responseErrorHandler)
+      .finally(() => setLoading(false))
+
   }
 
 
@@ -62,7 +75,9 @@ function HotelGalleryComponent() {
         render={({ field: { onChange, value } }) =>
           <>
             <Upload
-              className='my-3'
+              accept='.png,.jpg,.jpeg'
+              multiple
+              className='mt-3'
               beforeUpload={beforeUpload}
               maxCount={10}
               listType="picture-card"
@@ -84,7 +99,11 @@ function HotelGalleryComponent() {
           </>
         }
       />
-      <Button className="btn btn-admin-primary">Submit</Button>
+      <Button
+        className="btn btn-admin-primary mt-3"
+        loading={loading}
+        onClick={handleSubmit(submitImageHandler)}
+      >Submit</Button>
     </div>
   )
 }

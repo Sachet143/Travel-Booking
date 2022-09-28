@@ -115,16 +115,34 @@ label {
   padding-left: 3rem !important;
 }
 
+.btn-admin-primary:hover {
+  color: #fff;
+  background-color: #884ffbe6 !important;
+  border-color: #884ffbe6 !important;
+}
+
 .btn-admin-dark {
   color: #fff !important;
   background-color: #383333 !important;
   border-color: #383333 !important;
 }
 
-.btn-admin-primary:hover {
-  color: #fff;
-  background-color: #884ffbe6 !important;
-  border-color: #884ffbe6 !important;
+.btn-admin-danger-outlined {
+  color: #fb3e3e !important;
+  background-color: #fff !important;
+  border-color: #fb3e3e !important;
+}
+
+.btn-admin-danger-outlined:hover {
+  color: white !important;
+  background-color: #fb3e3e !important;
+  border-color: #fb3e3e !important;
+}
+
+.btn-admin-dark {
+  color: #fff !important;
+  background-color: #383333 !important;
+  border-color: #383333 !important;
 }
 
 /* password field */
