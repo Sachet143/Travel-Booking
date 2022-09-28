@@ -138,7 +138,7 @@ export function useMatchMutate() {
   };
 }
 
-export function renderLocation(city: string, state: string, country: string) {
+export function renderLocation({ city, state, country }: any) {
   if (city) {
     if (state) {
       if (country) {
