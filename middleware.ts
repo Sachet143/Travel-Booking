@@ -79,6 +79,7 @@ export const config = {
     "/tour",
     "/hotel",
     "/hotel/:path",
+    "/room/:path",
     "/login",
     "/register",
     "/search",
