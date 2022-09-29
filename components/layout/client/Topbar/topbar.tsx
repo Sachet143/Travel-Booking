@@ -222,15 +222,18 @@ const TopBar = () => {
                       </a>
                       <ul className="dropdown-menu">
                         <li className="nav-item">
-                          <a href="/hotel" className="nav-link">
+                          <a
+                            href="_target"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              router.push("/hotel");
+                            }}
+                            className="nav-link"
+                          >
                             Hotel Listing
                           </a>
                         </li>
-                        <li className="nav-item">
-                          <a href="/hotel/detail" className="nav-link">
-                            Hotel Booking
-                          </a>
-                        </li>
+
                         <li className="nav-item">
                           <a href="room-details.html" className="nav-link">
                             Room Details
