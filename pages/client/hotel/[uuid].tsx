@@ -2,12 +2,13 @@
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import { renderLocation } from "@/services/helper";
-import { Skeleton } from "antd";
+import { Empty, Skeleton } from "antd";
 import moment from "moment";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import dynamic from "next/dynamic";
+import Slider from "react-slick";
 
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod: any) => mod.Editor),
@@ -21,50 +22,50 @@ function HotelPage() {
   const { data: hotel, error } = useSWR(uuid ? `/hotels/${uuid}` : null);
   const hotelLoading = !hotel && !error;
 
-  useEffect(() => {
-    if ($(".slider-for") && $(".slider-nav")) {
-      $(".slider-for").not(".slick-initialized").slick({
-        infinite: true,
-        slidesToShow: 1,
-        slidesToScroll: 3,
-        arrows: false,
-        fade: true,
-        asNavFor: ".slider-nav",
-      });
-      $(".slider-nav").not(".slick-initialized").slick({
-        infinite: true,
-        slidesToShow: 5,
-        slidesToScroll: 5,
-        asNavFor: ".slider-for",
-        dots: false,
-        focusOnSelect: true,
-      });
+  //   useEffect(() => {
+  //     if ($(".slider-for") && $(".slider-nav")) {
+  //       $(".slider-for").not(".slick-initialized").slick({
+  //         infinite: true,
+  //         slidesToShow: 1,
+  //         slidesToScroll: 3,
+  //         arrows: false,
+  //         fade: true,
+  //         asNavFor: ".slider-nav",
+  //       });
+  //       $(".slider-nav").not(".slick-initialized").slick({
+  //         infinite: true,
+  //         slidesToShow: 5,
+  //         slidesToScroll: 5,
+  //         asNavFor: ".slider-for",
+  //         dots: false,
+  //         focusOnSelect: true,
+  //       });
 
-      $(".promotional_tour_slider").owlCarousel({
-        loop: true,
-        dots: true,
-        autoplayHoverPause: true,
-        autoplay: true,
-        smartSpeed: 1000,
-        margin: 10,
-        nav: false,
-        responsive: {
-          0: {
-            items: 1,
-          },
-          768: {
-            items: 2,
-          },
-          992: {
-            items: 3,
-          },
-          1200: {
-            items: 4,
-          },
-        },
-      });
-    }
-  }, [hotel]);
+  //       $(".promotional_tour_slider").owlCarousel({
+  //         loop: true,
+  //         dots: true,
+  //         autoplayHoverPause: true,
+  //         autoplay: true,
+  //         smartSpeed: 1000,
+  //         margin: 10,
+  //         nav: false,
+  //         responsive: {
+  //           0: {
+  //             items: 1,
+  //           },
+  //           768: {
+  //             items: 2,
+  //           },
+  //           992: {
+  //             items: 3,
+  //           },
+  //           1200: {
+  //             items: 4,
+  //           },
+  //         },
+  //       });
+  //     }
+  //   }, [hotel]);
 
   const [dropDown, setDropDown] = useState(false);
   const [checkInDate, setCheckInDate] = useState(
@@ -82,6 +83,9 @@ function HotelPage() {
     children: 0,
     infant: 0,
   });
+
+  const [nav1, setNav1] = useState();
+  const [nav2, setNav2] = useState();
 
   return (
     <ClientLayout>
@@ -138,7 +142,7 @@ function HotelPage() {
                       <div className="tour_details_heading_wrapper">
                         <div className="tour_details_top_heading">
                           <h2 className="text-capitalize">{hotel.name}</h2>
-                          <h5>
+                          <h5 className="text-capitalize">
                             <i className="fas fa-map-marker-alt"></i>{" "}
                             {renderLocation(hotel.location)}
                           </h5>
@@ -156,83 +160,61 @@ function HotelPage() {
                               {/* <img src="/client/assets/img/icon/ac.png" alt="icon" /> */}
                             </div>
                             <div className="tour_details_top_bottom_text">
-                              <p>{f.feature.title}</p>
+                              <p className="text-capitalize mx-1">
+                                {f.feature.title}
+                              </p>
                             </div>
                           </div>
                         ))}
                       </div>
                       {/* images */}
                       <div className="tour_details_img_wrapper">
-                        <div className="slider slider-for">
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/hotel-big-1.png"
-                              alt="img"
+                        {hotel.files.length > 0 ? (
+                          <>
+                            <div className="slider slider-for">
+                              <Slider
+                                asNavFor={nav2}
+                                ref={(slider1) => setNav1(slider1)}
+                                adaptiveHeight={true}
+                              >
+                                {hotel.files.map((item) => {
+                                  return (
+                                    <div key={item.id}>
+                                      <img src={item.full_path} alt="img" />
+                                    </div>
+                                  );
+                                })}
+                              </Slider>
+                            </div>
+
+                            <div className="slider slider-nav">
+                              <Slider
+                                asNavFor={nav1}
+                                ref={(slider2) => setNav2(slider2)}
+                                slidesToShow={4}
+                                swipeToSlide={true}
+                                focusOnSelect={true}
+                                unslick={hotel.files.length < 4}
+                                adaptiveHeight={true}
+                              >
+                                {hotel.files.map((item) => {
+                                  return (
+                                    <div key={item.id}>
+                                      <img src={item.full_path} alt="img" />
+                                    </div>
+                                  );
+                                })}
+                              </Slider>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="py-5">
+                            <Empty
+                              className="my-5"
+                              description="No images available."
                             />
                           </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/hotel-big-1.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/hotel-big-1.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/hotel-big-1.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/hotel-big-1.png"
-                              alt="img"
-                            />
-                          </div>
-                        </div>
-                        <div className="slider slider-nav">
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-1.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-2.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-3.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-4.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-5.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-6.png"
-                              alt="img"
-                            />
-                          </div>
-                        </div>
+                        )}
                       </div>
                       <div className="tour_details_boxed">
                         <h3 className="heading_theme">Overview</h3>
@@ -628,14 +610,12 @@ function HotelPage() {
                       {hotel.why_choose_us && (
                         <div className="tour_details_boxed">
                           <h3 className="heading_theme">Why Choose Us</h3>
-                          <div className="tour_details_boxed_inner">
-                            <Editor
-                              //@ts-ignore
-                              toolbarHidden
-                              contentState={JSON.parse(hotel.why_choose_us)}
-                              readOnly
-                            />
-                          </div>
+                          <Editor
+                            //@ts-ignore
+                            toolbarHidden
+                            contentState={JSON.parse(hotel.why_choose_us)}
+                            readOnly
+                          />
                         </div>
                       )}
 
@@ -674,34 +654,24 @@ function HotelPage() {
                             </h3>
                           </div>
 
-                          <div className="tour_package_details_bar_list">
-                            <h5>Hotel facilities</h5>
-                            <ul>
-                              <li>
-                                <i className="fas fa-circle"></i>Buffet
-                                breakfast as per the Itinerary
-                              </li>
-                              <li>
-                                <i className="fas fa-circle"></i>Visit eight
-                                villages showcasing Polynesian culture
-                              </li>
-                              <li>
-                                <i className="fas fa-circle"></i>Complimentary
-                                Camel safari, Bonfire,
-                              </li>
-                              <li>
-                                <i className="fas fa-circle"></i>All toll tax,
-                                parking, fuel, and driver allowances
-                              </li>
-                              <li>
-                                <i className="fas fa-circle"></i>Comfortable and
-                                hygienic vehicle
-                              </li>
-                            </ul>
-                          </div>
+                          {hotel.our_facilities && (
+                            <>
+                              <h5>Hotel facilities</h5>
+                              <div className="first_child_padding_none">
+                                <Editor
+                                  //@ts-ignore
+                                  toolbarHidden
+                                  contentState={JSON.parse(
+                                    hotel.our_facilities
+                                  )}
+                                  readOnly
+                                />
+                              </div>
+                            </>
+                          )}
                         </div>
                       </div>
-                      <div className="tour_detail_right_sidebar">
+                      {/* <div className="tour_detail_right_sidebar">
                         <div className="tour_details_right_boxed">
                           <div className="tour_details_right_box_heading">
                             <h3>Why choose us</h3>
@@ -732,7 +702,7 @@ function HotelPage() {
                             </ul>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
