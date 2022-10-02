@@ -20,7 +20,15 @@ function HotelPage() {
   const { uuid } = router.query;
 
   const { data: hotel, error } = useSWR(uuid ? `/hotels/${uuid}` : null);
+  const { data: rooms, error: roomError } = useSWR(
+    hotel ? `rooms?hotel_id=${hotel.id}` : null
+  );
   const hotelLoading = !hotel && !error;
+  const roomLoading = !rooms && !error;
+
+  //   const { data: roomId, error: singleRoomError } = useSWR(
+  //     rooms ? `rooms/${rooms.data[0].uuid}` : null
+  //   );
 
   //   useEffect(() => {
   //     if ($(".slider-for") && $(".slider-nav")) {
@@ -199,7 +207,10 @@ function HotelPage() {
                               >
                                 {hotel.files.map((item) => {
                                   return (
-                                    <div key={item.id}>
+                                    <div
+                                      className="cursor-pointer"
+                                      key={item.id}
+                                    >
                                       <img src={item.full_path} alt="img" />
                                     </div>
                                   );
@@ -222,6 +233,7 @@ function HotelPage() {
                           <p>{hotel.description}</p>
                         </div>
                       </div>
+
                       <div className="tour_details_boxed">
                         <h3 className="heading_theme">Select your room</h3>
                         <div className="room_select_area">
@@ -359,202 +371,126 @@ function HotelPage() {
                                     </div>
                                   </form>
                                 </div>
-
-                                <div className="room_book_item">
-                                  <div className="room_book_img">
-                                    <img
-                                      src="/client/assets/img/hotel/room-1.png"
-                                      alt="img"
-                                    />
-                                  </div>
-                                  <div className="room_booking_right_side">
-                                    <div className="room_booking_heading">
-                                      <h3>
-                                        <a href="room-booking.html">
-                                          Culpa cupidatat laborum eiusmod amet
-                                        </a>
-                                      </h3>
-                                      <div className="room_fasa_area">
-                                        <ul>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/ac.png"
-                                              alt="icon"
-                                            />
-                                            Air condition
-                                          </li>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/gym.png"
-                                              alt="icon"
-                                            />
-                                            Fitness center
-                                          </li>
-                                        </ul>
-                                        <ul>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/tv.png"
-                                              alt="icon"
-                                            />
-                                            Flat television
-                                          </li>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/wifi.png"
-                                              alt="icon"
-                                            />
-                                            Free Wi-fi
-                                          </li>
-                                        </ul>
-                                      </div>
+                                {roomLoading ? (
+                                  <section
+                                    id="tour_details_main"
+                                    className="section_padding"
+                                  >
+                                    <div className="container">
+                                      <Skeleton active />
                                     </div>
-                                    <div className="room_person_select">
-                                      <h3>
-                                        $1200.00/ <sub>Per night</sub>
-                                      </h3>
-                                      <select
-                                        className="form-select"
-                                        aria-label="Default select example"
-                                      >
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="room_book_item">
-                                  <div className="room_book_img">
-                                    <img
-                                      src="/client/assets/img/hotel/room-2.png"
-                                      alt="img"
-                                    />
-                                  </div>
-                                  <div className="room_booking_right_side">
-                                    <div className="room_booking_heading">
-                                      <h3>
-                                        <a href="room-booking.html">
-                                          Aliquip sit nisi est laboris eiusmod
-                                        </a>
-                                      </h3>
-                                      <div className="room_fasa_area">
-                                        <ul>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/ac.png"
-                                              alt="icon"
-                                            />
-                                            Air condition
-                                          </li>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/gym.png"
-                                              alt="icon"
-                                            />
-                                            Fitness center
-                                          </li>
-                                        </ul>
-                                        <ul>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/tv.png"
-                                              alt="icon"
-                                            />
-                                            Flat television
-                                          </li>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/wifi.png"
-                                              alt="icon"
-                                            />
-                                            Free Wi-fi
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </div>
-                                    <div className="room_person_select">
-                                      <h3>
-                                        $1200.00/ <sub>Per night</sub>
-                                      </h3>
-                                      <select
-                                        className="form-select"
-                                        aria-label="Default select example"
-                                      >
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="room_book_item">
-                                  <div className="room_book_img">
-                                    <img
-                                      src="/client/assets/img/hotel/room-3.png"
-                                      alt="img"
-                                    />
-                                  </div>
-                                  <div className="room_booking_right_side">
-                                    <div className="room_booking_heading">
-                                      <h3>
-                                        <a href="room-booking.html">
-                                          Ea sint elit duis nostrud consequat
-                                        </a>
-                                      </h3>
-                                      <div className="room_fasa_area">
-                                        <ul>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/ac.png"
-                                              alt="icon"
-                                            />
-                                            Air condition
-                                          </li>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/gym.png"
-                                              alt="icon"
-                                            />
-                                            Fitness center
-                                          </li>
-                                        </ul>
-                                        <ul>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/tv.png"
-                                              alt="icon"
-                                            />
-                                            Flat television
-                                          </li>
-                                          <li>
-                                            <img
-                                              src="/client/assets/img/icon/wifi.png"
-                                              alt="icon"
-                                            />
-                                            Free Wi-fi
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </div>
-                                    <div className="room_person_select">
-                                      <h3>
-                                        $1200.00/ <sub>Per night</sub>
-                                      </h3>
-                                      <select
-                                        className="form-select"
-                                        aria-label="Default select example"
-                                      >
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </div>
+                                  </section>
+                                ) : (
+                                  <>
+                                    {rooms.data.length > 0 && (
+                                      <>
+                                        {rooms.data.map((room: any) => {
+                                          return (
+                                            <>
+                                              <div className="room_book_item">
+                                                <div className="room_book_img">
+                                                  <img
+                                                    src={
+                                                      room.files[0].full_path
+                                                    }
+                                                    alt="img"
+                                                  />
+                                                </div>
+                                                <div className="room_booking_right_side">
+                                                  <div className="room_booking_heading">
+                                                    <h3>
+                                                      <a
+                                                        className="text-capitalize"
+                                                        onClick={() => {
+                                                          router.push(
+                                                            `/room/${room.uuid}`
+                                                          );
+                                                        }}
+                                                      >
+                                                        {room.title}
+                                                      </a>
+                                                    </h3>
+                                                    <div className="room_fasa_area">
+                                                      <ul
+                                                        style={{
+                                                          justifyContent:
+                                                            "space-between",
+                                                        }}
+                                                      >
+                                                        {room.features.map(
+                                                          (f) => {
+                                                            return (
+                                                              <>
+                                                                <li
+                                                                  className="toru_details_top_bottom_item"
+                                                                  key={f.id}
+                                                                >
+                                                                  <div
+                                                                    className="tour_details_top_bottom_icon"
+                                                                    style={{
+                                                                      fontSize:
+                                                                        "23px",
+                                                                    }}
+                                                                  >
+                                                                    <i
+                                                                      className={
+                                                                        f
+                                                                          .feature
+                                                                          .icon_link
+                                                                      }
+                                                                    />
+                                                                    {/* <img src="/client/assets/img/icon/ac.png" alt="icon" /> */}
+                                                                  </div>
+                                                                  <div className="tour_details_top_bottom_text">
+                                                                    <p className="text-capitalize mx-1">
+                                                                      {
+                                                                        f
+                                                                          .feature
+                                                                          .title
+                                                                      }
+                                                                    </p>
+                                                                  </div>
+                                                                </li>
+                                                              </>
+                                                            );
+                                                          }
+                                                        )}
+                                                      </ul>
+                                                    </div>
+                                                  </div>
+                                                  <div className="room_person_select">
+                                                    <h3>
+                                                      {"Rs." + room.price}
+                                                      {"/"}
+                                                      <sub>Per night</sub>
+                                                    </h3>
+                                                    <select
+                                                      className="form-select"
+                                                      aria-label="Default select example"
+                                                    >
+                                                      <option selected>
+                                                        1
+                                                      </option>
+                                                      <option value="2">
+                                                        2
+                                                      </option>
+                                                      <option value="3">
+                                                        3
+                                                      </option>
+                                                      <option value="4">
+                                                        4
+                                                      </option>
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </>
+                                          );
+                                        })}
+                                      </>
+                                    )}
+                                  </>
+                                )}
                               </div>
                             </div>
                             <div
@@ -607,6 +543,7 @@ function HotelPage() {
                           </div>
                         </div>
                       </div>
+
                       {hotel.why_choose_us && (
                         <div className="tour_details_boxed">
                           <h3 className="heading_theme">Why Choose Us</h3>

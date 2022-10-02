@@ -1,11 +1,12 @@
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { Skeleton } from "antd";
+import { Empty, Skeleton } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
+import Slider from "react-slick";
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod: any) => mod.Editor),
   { ssr: false }
@@ -15,53 +16,11 @@ const RoomDetail = () => {
   const router = useRouter();
   const { uuid } = router.query;
 
-  const { data: hotel, error } = useSWR(uuid ? `/hotels/${uuid}` : null);
-  const hotelLoading = !hotel && !error;
+  const { data: roomData, error: roomError } = useSWR(
+    uuid ? `rooms/${uuid}` : null
+  );
+  const roomLoading = !roomData && !roomError;
 
-  useEffect(() => {
-    if ($(".slider-for") && $(".slider-nav")) {
-      $(".slider-for").not(".slick-initialized").slick({
-        infinite: true,
-        slidesToShow: 1,
-        slidesToScroll: 3,
-        arrows: false,
-        fade: true,
-        asNavFor: ".slider-nav",
-      });
-      $(".slider-nav").not(".slick-initialized").slick({
-        infinite: true,
-        slidesToShow: 5,
-        slidesToScroll: 5,
-        asNavFor: ".slider-for",
-        dots: false,
-        focusOnSelect: true,
-      });
-
-      $(".promotional_tour_slider").owlCarousel({
-        loop: true,
-        dots: true,
-        autoplayHoverPause: true,
-        autoplay: true,
-        smartSpeed: 1000,
-        margin: 10,
-        nav: false,
-        responsive: {
-          0: {
-            items: 1,
-          },
-          768: {
-            items: 2,
-          },
-          992: {
-            items: 3,
-          },
-          1200: {
-            items: 4,
-          },
-        },
-      });
-    }
-  }, [hotel]);
   const [dropDown, setDropDown] = useState(false);
   const [checkInDate, setCheckInDate] = useState(
     moment(Date.now()).format("YYYY-MM-DD")
@@ -78,6 +37,8 @@ const RoomDetail = () => {
     children: 0,
     infant: 0,
   });
+  const [nav1, setNav1] = useState();
+  const [nav2, setNav2] = useState();
   return (
     <ClientLayout>
       <>
@@ -108,7 +69,13 @@ const RoomDetail = () => {
                       <span>
                         <i className="fas fa-circle"></i>
                       </span>{" "}
-                      Hotel Name
+                      Room
+                    </li>
+                    <li className="text-capitalize">
+                      <span>
+                        <i className="fas fa-circle"></i>
+                      </span>{" "}
+                      {roomData?.title}
                     </li>
                   </ul>
                 </div>
@@ -117,7 +84,7 @@ const RoomDetail = () => {
           </div>
         </section>
 
-        {false ? (
+        {roomLoading ? (
           <section id="tour_details_main" className="section_padding">
             <div className="container">
               <Skeleton active />
@@ -132,7 +99,7 @@ const RoomDetail = () => {
                     <div className="tour_details_leftside_wrapper">
                       <div className="tour_details_heading_wrapper">
                         <div className="tour_details_top_heading">
-                          <h2 className="text-capitalize">{"Room Name"}</h2>
+                          <h2 className="text-capitalize">{roomData.title}</h2>
                           <h5>
                             <i className="fas fa-map-marker-alt"></i> Los
                             angeles
@@ -141,93 +108,74 @@ const RoomDetail = () => {
                       </div>
                       {/* hotel features */}
                       <div className="tour_details_top_bottom">
-                        {/* {hotel.features.map((f) => (
+                        {roomData.features.map((f: any) => (
                           <div
-                            className="toru_details_top_bottom_item"
+                            className="toru_details_top_bottom_item "
                             key={f.id}
                           >
                             <div className="tour_details_top_bottom_icon">
                               <i className={f.feature.icon_link} />
-                              <img src="/client/assets/img/icon/ac.png" alt="icon" />
+                              {/* <img src="/client/assets/img/icon/ac.png" alt="icon" /> */}
                             </div>
                             <div className="tour_details_top_bottom_text">
-                              <p>{f.feature.title}</p>
+                              <p className="text-capitalize mx-1">
+                                {f.feature.title}
+                              </p>
                             </div>
                           </div>
-                        ))} */}
+                        ))}
                       </div>
                       {/* images */}
                       <div className="tour_details_img_wrapper">
-                        <div className="slider slider-for">
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/hotel-big-1.png"
-                              alt="img"
+                        {roomData.files.length > 0 ? (
+                          <>
+                            <div className="slider slider-for">
+                              <Slider
+                                asNavFor={nav2}
+                                ref={(slider1: any) => setNav1(slider1)}
+                                adaptiveHeight={true}
+                              >
+                                {roomData.files.map((item: any) => {
+                                  return (
+                                    <div key={item.id}>
+                                      <img src={item.full_path} alt="img" />
+                                    </div>
+                                  );
+                                })}
+                              </Slider>
+                            </div>
+
+                            <div className="slider slider-nav">
+                              <Slider
+                                asNavFor={nav1}
+                                ref={(slider2: any) => setNav2(slider2)}
+                                slidesToShow={4}
+                                swipeToSlide={true}
+                                focusOnSelect={true}
+                                unslick={roomData.files.length < 4}
+                                adaptiveHeight={true}
+                              >
+                                {roomData.files.map((item: any) => {
+                                  return (
+                                    <div
+                                      className="cursor-pointer"
+                                      key={item.id}
+                                    >
+                                      <img src={item.full_path} alt="img" />
+                                    </div>
+                                  );
+                                })}
+                              </Slider>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="py-5">
+                            <Empty
+                              className="my-5"
+                              description="No images available."
                             />
                           </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/hotel-big-1.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/hotel-big-1.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/hotel-big-1.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/hotel-big-1.png"
-                              alt="img"
-                            />
-                          </div>
-                        </div>
-                        <div className="slider slider-nav">
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-1.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-2.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-3.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-4.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-5.png"
-                              alt="img"
-                            />
-                          </div>
-                          <div>
-                            <img
-                              src="/client/assets/img/hotel/small-6.png"
-                              alt="img"
-                            />
-                          </div>
-                        </div>
+                        )}
                       </div>
                       <div className="tour_details_boxed">
                         <h3 className="heading_theme">Overview</h3>
@@ -252,25 +200,21 @@ const RoomDetail = () => {
                         </div>
                       </div>
 
-                      <div className="tour_details_boxed">
-                        <h3 className="heading_theme">Included/Excluded</h3>
-                        <div className="tour_details_boxed_inner">
-                          <p>
-                            Stet clitaStet clita kasd gubergren, no sea takimata
-                            sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-                            dolor sit amet, consetetur sadipscing elitr, sed
-                            diam nonumy eirmod. Buffet breakfast as per the
-                            Itinerary Visit eight villages showcasing Polynesian
-                            culture Complimentary Camel safari, Bonfire, and
-                            Cultural Dance at Camp All toll tax, parking, fuel,
-                            and driver allowances Comfortable and hygienic
-                            vehicle (SUV/Sedan) for sightseeing on all days as
-                            per the itinerary.
-                          </p>
+                      {roomData["included/excluded"] && (
+                        <div className="tour_details_boxed">
+                          <h3 className="heading_theme">Included/Excluded</h3>
+                          <Editor
+                            //@ts-ignore
+                            toolbarHidden
+                            contentState={JSON.parse(
+                              roomData["included/excluded"]
+                            )}
+                            readOnly
+                          />
                         </div>
-                      </div>
+                      )}
 
-                      <div className="tour_details_boxed">
+                      {/* <div className="tour_details_boxed">
                         <h3 className="heading_theme">Room facilities</h3>
                         <div className="tour_details_boxed_inner">
                           <div className="room_details_facilities">
@@ -320,7 +264,7 @@ const RoomDetail = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
 
                       {/* {hotel.why_choose_us && (
                         <div className="tour_details_boxed">
@@ -345,11 +289,11 @@ const RoomDetail = () => {
                             <h3>Price</h3>
                           </div>
                           <div className="tour_package_bar_price">
-                            <h6>
+                            {/* <h6>
                               <del>$ 35,500</del>
-                            </h6>
+                            </h6> */}
                             <h3>
-                              $ 30,500 <sub>/Per serson</sub>{" "}
+                              {`Rs.${roomData.price}`} <sub>/Per serson</sub>{" "}
                             </h3>
                           </div>
 
