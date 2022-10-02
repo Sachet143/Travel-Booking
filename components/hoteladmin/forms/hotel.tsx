@@ -220,23 +220,6 @@ function HotelForm({
       {/* row 4 */}
       <div className="row mb-3">
         <div className="col-md-6 col-sm-12 form-group">
-          <label className="form-label">Longitude<span className='text-danger'> *</span></label>
-          <input
-            {...register("long", {
-              required: "Longitude is required!",
-              validate: val => !isNaN(Number(val)) || "Longitude must be a number!"
-            })}
-            aria-invalid={!!errors?.long?.message}
-            className="form-control"
-            placeholder="Enter Longitude"
-          />
-          {errors?.long?.message &&
-            <div className="text-danger">
-              {errors?.long?.message + ""}
-            </div>
-          }
-        </div>
-        <div className="col-md-6 col-sm-12 form-group">
           <label className="form-label">Latitude<span className='text-danger'> *</span></label>
           <input
             type="text"
@@ -251,6 +234,23 @@ function HotelForm({
           {errors?.lat?.message &&
             <div className="text-danger">
               {errors?.lat?.message + ""}
+            </div>
+          }
+        </div>
+         <div className="col-md-6 col-sm-12 form-group">
+          <label className="form-label">Longitude<span className='text-danger'> *</span></label>
+          <input
+            {...register("long", {
+              required: "Longitude is required!",
+              validate: val => !isNaN(Number(val)) || "Longitude must be a number!"
+            })}
+            aria-invalid={!!errors?.long?.message}
+            className="form-control"
+            placeholder="Enter Longitude"
+          />
+          {errors?.long?.message &&
+            <div className="text-danger">
+              {errors?.long?.message + ""}
             </div>
           }
         </div>
