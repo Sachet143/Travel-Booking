@@ -1131,6 +1131,7 @@ section {
 .slick-slide img {
   display: block;
   border-radius: 10px;
+  width: 100%;
 }
 
 .home_news_img img {

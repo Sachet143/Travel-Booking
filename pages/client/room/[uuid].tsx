@@ -214,7 +214,7 @@ const RoomDetail = () => {
                         </div>
                       )}
 
-                      <div className="tour_details_boxed">
+                      {/* <div className="tour_details_boxed">
                         <h3 className="heading_theme">Room facilities</h3>
                         <div className="tour_details_boxed_inner">
                           <div className="room_details_facilities">
@@ -264,7 +264,7 @@ const RoomDetail = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
 
                       {/* {hotel.why_choose_us && (
                         <div className="tour_details_boxed">
@@ -289,11 +289,11 @@ const RoomDetail = () => {
                             <h3>Price</h3>
                           </div>
                           <div className="tour_package_bar_price">
-                            <h6>
+                            {/* <h6>
                               <del>$ 35,500</del>
-                            </h6>
+                            </h6> */}
                             <h3>
-                              $ 30,500 <sub>/Per serson</sub>{" "}
+                              {`Rs.${roomData.price}`} <sub>/Per serson</sub>{" "}
                             </h3>
                           </div>
 
