@@ -530,8 +530,8 @@ const HotelListing = () => {
                             <div className="theme_two_box_img">
                               <img
                                 style={{ height: "200px", objectFit: "cover" }}
-                                // src={hotel.cover_full_path ?? '/imageplaceholder.jpg'}
-                                src={'/imageplaceholder.jpg'}
+                                src={hotel.cover_full_path ?? '/imageplaceholder.jpg'}
+                                // src={'/imageplaceholder.jpg'}
                                 alt="img"
                               />
                               <p>
