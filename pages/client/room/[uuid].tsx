@@ -202,7 +202,7 @@ const RoomDetail = () => {
 
                       {roomData["included/excluded"] && (
                         <div className="tour_details_boxed">
-                          <h3 className="heading_theme">Why Choose Us</h3>
+                          <h3 className="heading_theme">Included/Excluded</h3>
                           <Editor
                             //@ts-ignore
                             toolbarHidden
