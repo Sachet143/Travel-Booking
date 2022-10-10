@@ -20,7 +20,7 @@
 }
 
 
-.topbar-list li::before {
+/* .topbar-list li::before {
     content: "";
     position: absolute;
     top: 5px;
@@ -28,7 +28,7 @@
     width: 1px;
     height: 15px;
     background-color: #dbdbdb78;
-}
+} */
 
 .topbar-list li:last-child::before {
     display: none

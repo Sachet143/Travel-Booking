@@ -1,5 +1,6 @@
 import React from "react";
-import LogoImage from "@/public/client/assets/img/logo2.png";
+import LogoWhite from "@/public/client/assets/img/logo_white.svg";
+import LogoPurple from "@/public/client/assets/img/logo_purple.svg";
 import { useRouter } from "next/router";
 
 const TopBar = () => {
@@ -13,7 +14,7 @@ const TopBar = () => {
             <div className="row align-items-center">
               <div className="col-lg-6 col-md-6">
                 <ul className="topbar-list">
-                  <li>
+                  {/* <li>
                     <a href="#!">
                       <i className="fab fa-facebook" />
                     </a>
@@ -26,6 +27,9 @@ const TopBar = () => {
                     <a href="#!">
                       <i className="fab fa-linkedin" />
                     </a>
+                  </li> */}
+                  <li>
+                    <img src={LogoPurple.src} alt="logo" style={{ height: '50px !important' }} />
                   </li>
                   <li>
                     <a href="#!">
@@ -123,7 +127,7 @@ const TopBar = () => {
               <div className="main-responsive-menu">
                 <div className="logo">
                   <a href="index.html">
-                    <img src={LogoImage.src} alt="logo" style={{ height: '80px !important' }} />
+                    <img src={LogoWhite.src} alt="logo" style={{ height: '80px !important' }} />
                   </a>
                 </div>
               </div>
@@ -133,7 +137,7 @@ const TopBar = () => {
             <div className="container">
               <nav className="navbar navbar-expand-md navbar-light">
                 <a className="navbar-brand" href="index.html">
-                  <img src={LogoImage.src} alt="logo" />
+                  <img src={LogoWhite.src} alt="logo" />
                 </a>
                 <div
                   className="collapse navbar-collapse mean-menu"
