@@ -1,5 +1,5 @@
 import React from "react";
-import LogoImage from "@/public/client/assets/img/logoSVG.svg";
+import LogoImage from "@/public/client/assets/img/logo2.png";
 import { useRouter } from "next/router";
 
 const TopBar = () => {
@@ -123,7 +123,7 @@ const TopBar = () => {
               <div className="main-responsive-menu">
                 <div className="logo">
                   <a href="index.html">
-                    <img src={LogoImage.src} alt="logo" />
+                    <img src={LogoImage.src} alt="logo" style={{ height: '80px !important' }} />
                   </a>
                 </div>
               </div>
