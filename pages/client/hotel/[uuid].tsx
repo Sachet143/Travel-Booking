@@ -2,7 +2,7 @@
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import { renderLocation } from "@/services/helper";
-import { Empty, Skeleton } from "antd";
+import { Button, Empty, Skeleton } from "antd";
 import moment from "moment";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
@@ -187,7 +187,10 @@ function HotelPage() {
                               >
                                 {hotel.files.map((item) => {
                                   return (
-                                    <div key={item.id}>
+                                    <div
+                                      key={item.id}
+                                      className="single-slider-wrapper"
+                                    >
                                       <img src={item.full_path} alt="img" />
                                     </div>
                                   );
@@ -459,28 +462,26 @@ function HotelPage() {
                                                     </div>
                                                   </div>
                                                   <div className="room_person_select">
-                                                    <h3>
+                                                    <h3
+                                                      style={{
+                                                        "white-space": "nowrap",
+                                                      }}
+                                                    >
                                                       {"Rs." + room.price}
                                                       {"/"}
                                                       <sub>Per night</sub>
                                                     </h3>
-                                                    <select
-                                                      className="form-select"
-                                                      aria-label="Default select example"
+                                                    <button
+                                                      className="btn btn_theme btn_sm"
+                                                      type="button"
+                                                      onClick={() =>
+                                                        router.push(
+                                                          `/room/${room.uuid}/book`
+                                                        )
+                                                      }
                                                     >
-                                                      <option selected>
-                                                        1
-                                                      </option>
-                                                      <option value="2">
-                                                        2
-                                                      </option>
-                                                      <option value="3">
-                                                        3
-                                                      </option>
-                                                      <option value="4">
-                                                        4
-                                                      </option>
-                                                    </select>
+                                                      Book Now
+                                                    </button>
                                                   </div>
                                                 </div>
                                               </div>

@@ -29,7 +29,7 @@ const TopBar = () => {
                     </a>
                   </li> */}
                   <li>
-                    <img src={LogoPurple.src} alt="logo" style={{ height: '50px !important' }} />
+                    <img src={LogoPurple.src} alt="logo" />
                   </li>
                   <li>
                     <a href="#!">
@@ -127,7 +127,11 @@ const TopBar = () => {
               <div className="main-responsive-menu">
                 <div className="logo">
                   <a href="index.html">
-                    <img src={LogoWhite.src} alt="logo" style={{ height: '80px !important' }} />
+                    <img
+                      src={LogoWhite.src}
+                      alt="logo"
+                      style={{ height: "80px !important" }}
+                    />
                   </a>
                 </div>
               </div>

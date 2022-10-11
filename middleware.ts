@@ -80,6 +80,7 @@ export const config = {
     "/hotel",
     "/hotel/:path",
     "/room/:path",
+    "/room/:path/book",
     "/login",
     "/register",
     "/search",

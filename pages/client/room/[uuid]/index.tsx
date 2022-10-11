@@ -137,7 +137,10 @@ const RoomDetail = () => {
                               >
                                 {roomData.files.map((item: any) => {
                                   return (
-                                    <div key={item.id}>
+                                    <div
+                                      key={item.id}
+                                      className={"single-slider-wrapper"}
+                                    >
                                       <img src={item.full_path} alt="img" />
                                     </div>
                                   );
@@ -152,7 +155,6 @@ const RoomDetail = () => {
                                 slidesToShow={4}
                                 swipeToSlide={true}
                                 focusOnSelect={true}
-                                unslick={roomData.files.length < 4}
                                 adaptiveHeight={true}
                               >
                                 {roomData.files.map((item: any) => {
@@ -322,6 +324,14 @@ const RoomDetail = () => {
                               </li>
                             </ul>
                           </div>
+                        </div>
+                        <div className="tour_select_offer_bar_bottom">
+                          <button
+                            className="btn btn_theme btn_md w-100"
+                            onClick={() => router.push(`/room/${uuid}/book`)}
+                          >
+                            Book Now
+                          </button>
                         </div>
                       </div>
                       <div className="tour_detail_right_sidebar">
