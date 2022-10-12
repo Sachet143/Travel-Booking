@@ -25,6 +25,7 @@
     "metismenu": "^3.0.7",
     "moment": "^2.29.4",
     "next": "12.2.4",
+    "next-auth": "^4.13.0",
     "npm": "^8.17.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -43,6 +44,7 @@
     "@types/react-dom": "18.0.6",
     "@types/react-draft-wysiwyg": "^1.13.4",
     "@types/react-highlight-words": "^0.16.4",
+    "@types/react-slick": "^0.23.10",
     "eslint": "8.21.0",
     "eslint-config-next": "12.2.4",
     "typescript": "4.7.4"

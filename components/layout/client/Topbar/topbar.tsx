@@ -2,9 +2,11 @@ import React from "react";
 import LogoWhite from "@/public/client/assets/img/logo_white.svg";
 import LogoPurple from "@/public/client/assets/img/logo_purple.svg";
 import { useRouter } from "next/router";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const TopBar = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   return (
     <>
       <header className="main_header_arae">
@@ -29,7 +31,7 @@ const TopBar = () => {
                     </a>
                   </li> */}
                   <li>
-                    <img src={LogoPurple.src} alt="logo" style={{ height: '50px !important' }} />
+                    <img src={LogoPurple.src} alt="logo" />
                   </li>
                   <li>
                     <a href="#!">
@@ -45,75 +47,21 @@ const TopBar = () => {
               </div>
               <div className="col-lg-6 col-md-6">
                 <ul className="topbar-others-options">
+                  {session && session.user?.name && (
+                    <li className="text-white">
+                      <p>{session.user?.name}</p>
+                    </li>
+                  )}
                   <li>
-                    <a
-                      href="_target"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        router.push("/login");
-                      }}
-                    >
-                      Login
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="_target"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        router.push("/register");
-                      }}
-                    >
-                      Sign up
-                    </a>
-                  </li>
-                  <li>
-                    <div className="dropdown language-option">
-                      <button
-                        className="dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        <span className="lang-name" />
-                      </button>
-                      <div className="dropdown-menu language-dropdown-menu">
-                        <a className="dropdown-item" href="#">
-                          English
-                        </a>
-                        <a className="dropdown-item" href="#">
-                          Arabic
-                        </a>
-                        <a className="dropdown-item" href="#">
-                          French
-                        </a>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="dropdown language-option">
-                      <button
-                        className="dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        <span className="lang-name" />
-                      </button>
-                      <div className="dropdown-menu language-dropdown-menu">
-                        <a className="dropdown-item" href="#">
-                          USD
-                        </a>
-                        <a className="dropdown-item" href="#">
-                          BD
-                        </a>
-                        <a className="dropdown-item" href="#">
-                          URO
-                        </a>
-                      </div>
-                    </div>
+                    {!session ? (
+                      <>
+                        <a onClick={() => signIn()}>Sign In</a>
+                      </>
+                    ) : (
+                      <>
+                        <a onClick={() => signOut()}>Sign Out</a>
+                      </>
+                    )}
                   </li>
                 </ul>
               </div>
@@ -127,7 +75,11 @@ const TopBar = () => {
               <div className="main-responsive-menu">
                 <div className="logo">
                   <a href="index.html">
-                    <img src={LogoWhite.src} alt="logo" style={{ height: '80px !important' }} />
+                    <img
+                      src={LogoWhite.src}
+                      alt="logo"
+                      style={{ height: "80px !important" }}
+                    />
                   </a>
                 </div>
               </div>

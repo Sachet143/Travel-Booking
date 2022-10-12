@@ -5,10 +5,12 @@ import TopBar from "./Topbar/topbar";
 interface IProps {
   children: ReactElement;
 }
+
 const ClientLayout = (props: IProps) => {
   return (
     <>
       <TopBar />
+
       {props.children}
       <Footer />
     </>
