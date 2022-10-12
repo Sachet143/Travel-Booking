@@ -4239,3 +4239,8 @@ textarea {
 .single-slider-wrapper img {
   height: 100%;
 }
+
+.topbar-others-options p,
+.topbar-others-options a {
+  color: white !important;
+}

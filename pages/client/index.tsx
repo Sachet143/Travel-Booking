@@ -1,9 +1,9 @@
-// @ts-nocheck
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import React, { useEffect } from "react";
 
 function Index() {
   useEffect(() => {
+    // @ts-ignore
     $(".promotional_tour_slider").owlCarousel({
       loop: true,
       dots: true,
@@ -27,6 +27,7 @@ function Index() {
         },
       },
     });
+    // @ts-ignore
     $(".partner_slider_area").owlCarousel({
       loop: true,
       dots: false,
