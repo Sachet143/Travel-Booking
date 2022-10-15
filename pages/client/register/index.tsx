@@ -1,9 +1,19 @@
+import { clientRegister } from "@/api/client/auth";
 import Password from "@/components/common/Password";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { isValidEmail, isValidPassword } from "@/services/helper";
+import {
+  appEncrypt,
+  isValidEmail,
+  isValidPassword,
+  responseErrorHandler,
+} from "@/services/helper";
 import { Button } from "antd";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { setCookie } from "cookies-next";
+import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
+import Router from "next/router";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -12,18 +22,30 @@ const Register = () => {
     register,
     handleSubmit,
     setError,
+    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      fullName: "",
+      name: "",
       email: "",
-      mobile: "",
       password: "",
+      password_confirmation: "",
     },
   });
 
   const submitRegister = (data: any) => {
-    console.log(data);
+    setLoading(true);
+    clientRegister(data)
+      .then((res: any) => {
+        toast.success(res.message);
+        // @ts-ignore
+        setCookie(TOKEN_KEY, appEncrypt(res.data.token));
+        // @ts-ignore
+        setCookie(USER_TYPE_KEY, appEncrypt("client"));
+        Router.push("/");
+      })
+      .catch((err) => responseErrorHandler(err, setError))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -71,13 +93,13 @@ const Register = () => {
                           placeholder="Full Name *"
                           className="mb-0 form-control"
                           aria-invalid={!!errors?.email?.message}
-                          {...register("fullName", {
+                          {...register("name", {
                             required: "Full Name is Required",
                           })}
                         />
-                        {errors?.fullName?.message && (
+                        {errors?.name?.message && (
                           <div className="text-danger">
-                            {errors?.fullName?.message + ""}
+                            {errors?.name?.message + ""}
                           </div>
                         )}
                       </div>
@@ -96,25 +118,6 @@ const Register = () => {
                         {errors?.email?.message && (
                           <div className="text-danger">
                             {errors?.email?.message + ""}
-                          </div>
-                        )}
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="number"
-                          placeholder="Mobile Number *"
-                          className="mb-0 form-control"
-                          aria-invalid={!!errors?.email?.message}
-                          {...register("mobile", {
-                            required: "Mobile is Required",
-                            // validate: (number) =>
-                            //   isValidMobile(number) ||
-                            //   "Mobile format is invalid",
-                          })}
-                        />
-                        {errors?.mobile?.message && (
-                          <div className="text-danger">
-                            {errors?.mobile?.message + ""}
                           </div>
                         )}
                       </div>
@@ -140,6 +143,35 @@ const Register = () => {
                               {errors?.password?.message && (
                                 <div className="text-danger">
                                   {errors?.password?.message + ""}
+                                </div>
+                              )}
+                            </>
+                          )}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <Controller
+                          control={control}
+                          name="password_confirmation"
+                          rules={{
+                            required: "Passowrd did not match!",
+                            validate: (pw) =>
+                              pw === getValues("password") ||
+                              "The password do not match.",
+                          }}
+                          render={({ field: { onChange, value } }) => (
+                            <>
+                              <Password
+                                value={value}
+                                onChange={onChange}
+                                aria-invalid={
+                                  !!errors?.password_confirmation?.message
+                                }
+                                placeholder="Confirm Password"
+                              />
+                              {errors?.password_confirmation?.message && (
+                                <div className="text-danger">
+                                  {errors?.password_confirmation?.message + ""}
                                 </div>
                               )}
                             </>

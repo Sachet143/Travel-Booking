@@ -1,9 +1,19 @@
+import { clientLogin } from "@/api/client/auth";
 import Password from "@/components/common/Password";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { isValidEmail, isValidPassword } from "@/services/helper";
+import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
+import {
+  appEncrypt,
+  isValidEmail,
+  isValidPassword,
+  responseErrorHandler,
+} from "@/services/helper";
 import { Button } from "antd";
+import { setCookie } from "cookies-next";
+import Router from "next/router";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const ClientLogin = () => {
   const [loading, setLoading] = useState(false);
@@ -22,6 +32,17 @@ const ClientLogin = () => {
 
   function submitLogin(data: any) {
     setLoading(true);
+    clientLogin(data)
+      .then((res: any) => {
+        toast.success(res.message);
+        // @ts-ignore
+        setCookie(TOKEN_KEY, appEncrypt(res.data.token));
+        // @ts-ignore
+        setCookie(USER_TYPE_KEY, appEncrypt("client"));
+        Router.push("/");
+      })
+      .catch((err) => responseErrorHandler(err, setError))
+      .finally(() => setLoading(false));
   }
 
   return (
