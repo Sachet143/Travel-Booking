@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LogoWhite from "@/public/client/assets/img/logo_white.svg";
 import LogoPurple from "@/public/client/assets/img/logo_purple.svg";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
+import SearchBar from "./SearchBar";
 
 const TopBar = () => {
   const router = useRouter();
   const { data: session } = useSession();
+  const [path, setPath] = useState<any>();
+  useEffect(() => {
+    setPath(router.asPath);
+  }, [router]);
   return (
     <>
+      <SearchBar path={path} />
+
       <header className="main_header_arae">
         {/* Top Bar */}
         <div className="topbar-area">
@@ -68,6 +75,7 @@ const TopBar = () => {
             </div>
           </div>
         </div>
+
         {/* Navbar Bar */}
         <div className="navbar-area">
           <div className="main-responsive-nav">

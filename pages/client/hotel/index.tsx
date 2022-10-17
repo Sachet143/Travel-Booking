@@ -33,7 +33,7 @@ const HotelListing = () => {
   return (
     <ClientLayout>
       <>
-        <section id="common_banner">
+        <section id="common_banner" className="search-bar-items">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -170,12 +170,13 @@ const HotelListing = () => {
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                 <div className="section_heading_center">
-                  {
-                    hotelLoading ?
-                      <div className="w-25 mx-auto"><Skeleton active paragraph={false} /></div>
-                      :
-                      <h2>{hotels.data.length} hotel found</h2>
-                  }
+                  {hotelLoading ? (
+                    <div className="w-25 mx-auto">
+                      <Skeleton active paragraph={false} />
+                    </div>
+                  ) : (
+                    <h2>{hotels.data.length} hotel found</h2>
+                  )}
                 </div>
               </div>
             </div>
@@ -521,31 +522,39 @@ const HotelListing = () => {
               {/* hotels */}
               <div className="col-lg-9">
                 <div className="row">
-                  {
-                    hotelLoading ? <Skeleton active /> :
-
-                      hotels?.data?.map((hotel: any) =>
-                        <div className="col-lg-4 col-md-6 col-sm-6 col-12" key={hotel.id}>
-                          <div className="theme_common_box_two cursor-pointer" onClick={() => Router.push(`/hotel/${hotel.uuid}`)}>
-                            <div className="theme_two_box_img">
-                              <img
-                                style={{ height: "200px", objectFit: "cover" }}
-                                src={hotel.cover_full_path ?? '/imageplaceholder.jpg'}
-                                // src={'/imageplaceholder.jpg'}
-                                alt="img"
-                              />
-                              <p>
-                                <i className="fas fa-map-marker-alt"></i>{renderLocation(hotel.location)}
-                              </p>
-                            </div>
-                            <div className="theme_two_box_content">
-                              <h4>
-                                {hotel.name}
-                              </h4>
-                            </div>
+                  {hotelLoading ? (
+                    <Skeleton active />
+                  ) : (
+                    hotels?.data?.map((hotel: any) => (
+                      <div
+                        className="col-lg-4 col-md-6 col-sm-6 col-12"
+                        key={hotel.id}
+                      >
+                        <div
+                          className="theme_common_box_two cursor-pointer"
+                          onClick={() => Router.push(`/hotel/${hotel.uuid}`)}
+                        >
+                          <div className="theme_two_box_img">
+                            <img
+                              style={{ height: "200px", objectFit: "cover" }}
+                              src={
+                                hotel.cover_full_path ?? "/imageplaceholder.jpg"
+                              }
+                              // src={'/imageplaceholder.jpg'}
+                              alt="img"
+                            />
+                            <p>
+                              <i className="fas fa-map-marker-alt"></i>
+                              {renderLocation(hotel.location)}
+                            </p>
+                          </div>
+                          <div className="theme_two_box_content">
+                            <h4>{hotel.name}</h4>
                           </div>
                         </div>
-                      )}
+                      </div>
+                    ))
+                  )}
 
                   {/* <div className="col-lg-12">
                     <div className="pagination_area">

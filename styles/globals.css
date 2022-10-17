@@ -199,3 +199,58 @@ textarea[aria-invalid="true"] {
   height: 100%;
   object-fit: cover;
 }
+
+.custom-filter-nav-wrapper {
+  background-color: #0a223d;
+  position: sticky;
+  top: 68px;
+  z-index: 99999;
+  color: white;
+  padding: 13px 0px;
+}
+.search-bar-items {
+  margin-top: -66px;
+}
+.all-input-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.input-wrap {
+  margin-right: 24px;
+}
+
+.custom-filter-nav-wrapper input:focus {
+  color: black;
+}
+
+.custom-filter-nav-wrapper input {
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.custom-filter-nav-wrapper .input-wrap input:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.custom-filter-nav-wrapper .input-wrap .btn-admin-primary {
+  height: 40px;
+}
+
+.custom-filter-nav-wrapper .input-wrap input::placeholder {
+  color: azure !important;
+  opacity: 1; /* Firefox */
+}
+
+.custom-filter-nav-wrapper .input-wrap input:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: azure;
+}
+
+.custom-filter-nav-wrapper .input-wrap input::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: azure;
+}
+.custom-filter-nav-wrapper .input-wrap input {
+  color: azure;
+}
