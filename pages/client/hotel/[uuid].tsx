@@ -9,6 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import dynamic from "next/dynamic";
 import Slider from "react-slick";
+import YoutubeComponent from "@/components/common/YoutubeComponent";
 
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod: any) => mod.Editor),
@@ -579,22 +580,30 @@ function HotelPage() {
                   <div className="col-lg-4">
                     <div className="tour_details_right_sidebar_wrapper">
                       <div className="tour_detail_right_sidebar">
+                        <div
+                          className="tour_details_right_boxed"
+                          style={{ "margin-bottom": "30px" }}
+                        >
+                          <div className="tour_details_right_box_heading">
+                            <h3>Video</h3>
+                          </div>
+                          <YoutubeComponent id={"0NMIZ-PTt8k"} />
+                        </div>
                         <div className="tour_details_right_boxed">
                           <div className="tour_details_right_box_heading">
-                            <h3>Price</h3>
+                            <h3> Our Facilities</h3>
                           </div>
-                          <div className="tour_package_bar_price">
+                          {/* <div className="tour_package_bar_price">
                             <h6>
                               <del>$ 35,500</del>
                             </h6>
                             <h3>
                               $ 30,500 <sub>/Per serson</sub>{" "}
                             </h3>
-                          </div>
+                          </div> */}
 
                           {hotel.our_facilities && (
                             <>
-                              <h5>Hotel facilities</h5>
                               <div className="first_child_padding_none">
                                 <Editor
                                   //@ts-ignore
@@ -693,7 +702,7 @@ function HotelPage() {
                     </div>
                   </div>
                 </div>
-                <div className="row">
+                {/* <div className="row">
                   <div className="col-lg-12">
                     <div className="all_review_wrapper">
                       <h3 className="heading_theme">All review</h3>
@@ -939,11 +948,11 @@ function HotelPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </section>
 
-            <section
+            {/* <section
               id="related_tour_packages"
               className="section_padding_bottom"
             >
@@ -1141,7 +1150,7 @@ function HotelPage() {
                   </div>
                 </div>
               </div>
-            </section>
+            </section> */}
           </>
         )}
       </>
