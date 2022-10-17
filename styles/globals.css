@@ -254,3 +254,17 @@ textarea[aria-invalid="true"] {
 .custom-filter-nav-wrapper .input-wrap input {
   color: azure;
 }
+
+.info-wrapper {
+  display: flex !important;
+  align-items: center;
+  position: relative;
+}
+
+.info-wrapper img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  position: absolute;
+  left: -50px;
+}

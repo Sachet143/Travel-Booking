@@ -56,7 +56,14 @@ const TopBar = () => {
                 <ul className="topbar-others-options">
                   {session && session.user?.name && (
                     <li className="text-white">
-                      <p>{session.user?.name}</p>
+                      <div className="info-wrapper">
+                        <img
+                          src={session.user?.image || ""}
+                          alt="logo"
+                          style={{ height: "30px !important" }}
+                        />
+                        <p>{session.user?.name}</p>
+                      </div>
                     </li>
                   )}
                   <li>
