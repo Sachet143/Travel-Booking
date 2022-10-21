@@ -1,10 +1,13 @@
 (function ($) {
   "use strict";
 
-  // $(window).on('scroll', function () {
-  //     if ($(this).scrollTop() > 10) { $('.navbar-area').addClass("is-sticky"); }
-  //     else { $('.navbar-area').removeClass("is-sticky"); }
-  // });
+  $(window).on("scroll", function () {
+    if ($(this).scrollTop() > 10) {
+      $(".navbar-area").addClass("is-sticky");
+    } else {
+      $(".navbar-area").removeClass("is-sticky");
+    }
+  });
 
   $(function () {
     $(window).on("scroll", function () {

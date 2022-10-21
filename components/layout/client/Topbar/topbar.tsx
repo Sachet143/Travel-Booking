@@ -340,7 +340,7 @@ const TopBar = () => {
         </div> */}
 
         {/* {navbar type3} */}
-        <div className="navbar-type2">
+        <div className="navbar-type2 navbar-area">
           <div className="container">
             <div className="row">
               <div className="col-md-12">
@@ -354,7 +354,7 @@ const TopBar = () => {
                         }}
                         href="_target"
                       >
-                        <img src={LogoWhite.src} alt="logo" />
+                        <img src={LogoPurple.src} alt="logo" />
                       </a>
                     </div>
                   </div>
