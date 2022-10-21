@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import LogoWhite from "@/public/client/assets/img/logo_white.svg";
-import LogoPurple from "@/public/client/assets/img/logo_purple.svg";
+import LogoWhite from "@/public/client/assets/img/YS-White.svg";
+import LogoPurple from "@/public/client/assets/img/YS-purple.svg";
+import Plane from "@/public/client/assets/img/airplane.png";
+import Tour from "@/public/client/assets/img/travel-and-tourism.png";
+import Hotel from "@/public/client/assets/img/resort.png";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
 import SearchBar from "./SearchBar";
@@ -18,25 +21,11 @@ const TopBar = () => {
 
       <header className="main_header_arae">
         {/* Top Bar */}
-        <div className="topbar-area">
+        {/* <div className="topbar-area">
           <div className="container">
             <div className="row align-items-center">
               <div className="col-lg-6 col-md-6">
                 <ul className="topbar-list">
-                  {/* <li>
-                    <a href="#!">
-                      <i className="fab fa-facebook" />
-                    </a>
-                    <a href="#!">
-                      <i className="fab fa-twitter-square" />
-                    </a>
-                    <a href="#!">
-                      <i className="fab fa-instagram" />
-                    </a>
-                    <a href="#!">
-                      <i className="fab fa-linkedin" />
-                    </a>
-                  </li> */}
                   <li>
                     <img src={LogoPurple.src} alt="logo" />
                   </li>
@@ -81,10 +70,11 @@ const TopBar = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Navbar Bar */}
-        <div className="navbar-area">
+        {/* navbar type1 */}
+        {/* <div className="navbar-area is-sticky">
           <div className="main-responsive-nav">
             <div className="container">
               <div className="main-responsive-menu">
@@ -235,143 +225,7 @@ const TopBar = () => {
                         </li>
                       </ul>
                     </li>
-                    {/* <li className="nav-item">
-                      <a href="#" className="nav-link">
-                        Pages
-                        <i className="fas fa-angle-down" />
-                      </a>
-                      <ul className="dropdown-menu">
-                        <li className="nav-item">
-                          <a href="about.html" className="nav-link">
-                            About
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a href="tour-guides.html" className="nav-link">
-                            Team
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a href="testimonials.html" className="nav-link">
-                            Testimonials
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a href="faqs.html" className="nav-link">
-                            FAQ
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a
-                            href="booking-confirmation.html"
-                            className="nav-link"
-                          >
-                            Booking Confirmation
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a href="#" className="nav-link">
-                            User Pages
-                          </a>
-                          <ul className="dropdown-menu">
-                            <li className="nav-item">
-                              <a href="login.html" className="nav-link">
-                                Login
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="register.html" className="nav-link">
-                                Register
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a
-                                href="forgot-password.html"
-                                className="nav-link"
-                              >
-                                Forget Password
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="verify-otp.html" className="nav-link">
-                                Verify OTP
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a
-                                href="reset-password.html"
-                                className="nav-link"
-                              >
-                                Reset Password
-                              </a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li className="nav-item">
-                          <a href="#" className="nav-link">
-                            Customer Dashboard
-                          </a>
-                          <ul className="dropdown-menu">
-                            <li className="nav-item">
-                              <a href="dashboard.html" className="nav-link">
-                                Dashboard
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="hotel-booking.html" className="nav-link">
-                                Hotel booking
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a
-                                href="flight-booking.html"
-                                className="nav-link"
-                              >
-                                Flight booking
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="tour-booking.html" className="nav-link">
-                                Tour booking
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a
-                                href="booking-history.html"
-                                className="nav-link"
-                              >
-                                Booking history
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="my-profile.html" className="nav-link">
-                                My profile
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="wallet.html" className="nav-link">
-                                Wallet
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="notification.html" className="nav-link">
-                                Notifications
-                              </a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li className="nav-item">
-                          <a href="privacy-policy.html" className="nav-link">
-                            Privacy Policy
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a href="error.html" className="nav-link">
-                            404 Error
-                          </a>
-                        </li>
-                      </ul>
-                    </li> */}
+
                     <li className="nav-item">
                       <a href="contact.html" className="nav-link">
                         Contact
@@ -421,10 +275,132 @@ const TopBar = () => {
               </div>
             </div>
           </div>
+        </div> */}
+
+        {/* navbar type2 */}
+        {/* <div className="navbar-type2">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="nav-wrapper">
+                  <div className="logo-wrapper">
+                    <div className="logo">
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          router.push("/");
+                        }}
+                        href="_target"
+                      >
+                        <img src={LogoWhite.src} alt="logo" />
+                      </a>
+                    </div>
+                  </div>
+                  <div className="text-nav-wrapper">
+                    <div
+                      className=" navbar-collapse mean-menu"
+                      id="navbarSupportedContent"
+                    >
+                      <ul className="navigation">
+                        <li className="nav-item">
+                          <a href="#" className="nav-link">
+                            <img src={Plane.src} alt="logo" />
+                            Flights
+                          </a>
+                        </li>
+                        <li className="nav-item">
+                          <a href="#" className="nav-link">
+                            <img src={Tour.src} alt="logo" />
+                            Tours
+                          </a>
+                        </li>
+
+                        <li className="nav-item">
+                          <a href="#" className="nav-link">
+                            <img src={Hotel.src} alt="logo" />
+                            Hotel
+                          </a>
+                        </li>
+                       
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="others-options d-flex align-items-center">
+                
+                    <div className="option-item">
+                      <a href="become-vendor.html" className="btn">
+                        Become a partner
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> */}
+
+        {/* {navbar type3} */}
+        <div className="navbar-type2">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="nav-wrapper">
+                  <div className="logo-wrapper">
+                    <div className="logo">
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          router.push("/");
+                        }}
+                        href="_target"
+                      >
+                        <img src={LogoWhite.src} alt="logo" />
+                      </a>
+                    </div>
+                  </div>
+                  <div className="text-nav-wrapper">
+                    <div
+                      className=" navbar-collapse mean-menu"
+                      id="navbarSupportedContent"
+                    >
+                      <ul className="navigation">
+                        <li className="nav-item">
+                          <a href="#" className="nav-link">
+                            <img src={Plane.src} alt="logo" />
+                            Flights
+                          </a>
+                        </li>
+                        <li className="nav-item">
+                          <a href="#" className="nav-link">
+                            <img src={Tour.src} alt="logo" />
+                            Tours
+                          </a>
+                        </li>
+
+                        <li className="nav-item">
+                          <a href="#" className="nav-link">
+                            <img src={Hotel.src} alt="logo" />
+                            Hotel
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="others-options d-flex align-items-center">
+                    <div className="option-item">
+                      <a href="become-vendor.html" className="btn ">
+                        Become a partner
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </header>
       {/* search */}
-      <div className="search-overlay">
+      {/* <div className="search-overlay">
         <div className="d-table">
           <div className="d-table-cell">
             <div className="search-overlay-layer" />
@@ -448,7 +424,7 @@ const TopBar = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
