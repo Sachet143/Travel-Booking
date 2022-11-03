@@ -61,7 +61,7 @@ function HotelForm({
           <Controller
             control={control}
             name="logo"
-            rules={{ required: "Logo is required!" }}
+            // rules={{ required: "Logo is required!" }}
             render={({ field: { onChange, value } }) =>
               <>
                 <Upload
@@ -237,7 +237,7 @@ function HotelForm({
             </div>
           }
         </div>
-         <div className="col-md-6 col-sm-12 form-group">
+        <div className="col-md-6 col-sm-12 form-group">
           <label className="form-label">Longitude<span className='text-danger'> *</span></label>
           <input
             {...register("long", {
@@ -260,7 +260,7 @@ function HotelForm({
         <div className="col-md-4 col-sm-12 form-group">
           <label className="form-label">Country</label>
           <input
-            disabled
+            // disabled
             {...register("country", { value: "Nepal", required: "Country is required!" })}
             aria-invalid={!!errors?.country?.message}
             className="form-control"

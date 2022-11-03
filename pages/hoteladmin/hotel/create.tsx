@@ -22,7 +22,15 @@ export default function CreateHotel() {
 
   function createHotelHandler(data: any) {
     setLoading(true);
-    createHotel(objectToFormData(data))
+    const dto = {
+      ...data,
+      logo: typeof data.logo === "string" ? null : data.logo,
+      cover_image: typeof data.cover_image === "string" ? null : data.cover_image,
+      why_choose_us: data.why_choose_us ? JSON.stringify(data.why_choose_us) : null,
+      our_facilities: data.our_facilities ? JSON.stringify(data.our_facilities) : null,
+    }
+
+    createHotel(objectToFormData(dto))
       .then((res: any) => {
         reset();
         mutateUser();
