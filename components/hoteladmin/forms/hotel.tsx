@@ -260,7 +260,7 @@ function HotelForm({
         <div className="col-md-4 col-sm-12 form-group">
           <label className="form-label">Country</label>
           <input
-            // disabled
+            disabled
             {...register("country", { value: "Nepal", required: "Country is required!" })}
             aria-invalid={!!errors?.country?.message}
             className="form-control"
