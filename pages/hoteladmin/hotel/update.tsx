@@ -1,7 +1,7 @@
 import { updateHotel } from '@/api/hoteladmin/hotel';
 import HotelForm from '@/components/hoteladmin/forms/hotel';
 import HoteladminLayout from '@/components/layout/hoteladmin';
-import { objectToFormData, responseErrorHandler } from '@/services/helper';
+import { imageFullPath, objectToFormData, responseErrorHandler } from '@/services/helper';
 import useUser from '@/services/hooks/useUser';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
@@ -37,8 +37,8 @@ function UpdateHotel() {
 
   useEffect(() => {
     user && reset({
-      logo: user?.hotel?.logo_full_path,
-      cover_image: user?.hotel?.cover_full_path,
+      logo: imageFullPath(user?.hotel?.logo),
+      cover_image: user?.hotel?.cover_full_path ?? imageFullPath(user?.hotel?.cover_image),
       name: user.hotel.name,
       category_id: user.hotel.category_id,
       features: user.hotel.features.map((f: any) => f.feature_id),
