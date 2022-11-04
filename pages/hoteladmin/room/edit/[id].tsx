@@ -3,7 +3,7 @@ import { createHotelRoom, updateHotelRoom } from '@/api/hoteladmin/hotelRoom';
 import { resetPassword } from '@/api/superadmin/auth';
 import HotelRoomForm from '@/components/hoteladmin/forms/HotelRoom';
 import HoteladminLayout from '@/components/layout/hoteladmin';
-import { objectToFormData, responseErrorHandler } from '@/services/helper';
+import { imageFullPath, objectToFormData, responseErrorHandler } from '@/services/helper';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
@@ -49,7 +49,7 @@ function HotelRoomEdit() {
         files: data.files.map((file: any) => ({
           uid: file.id,
           name: `image.${file.type}`,
-          url: file.full_path,
+          url: imageFullPath(file.path),
         }
         ))
       })

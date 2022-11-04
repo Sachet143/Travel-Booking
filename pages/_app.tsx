@@ -17,14 +17,12 @@ function App({ Component, pageProps, session }: any) {
     <SWRConfig
       value={{
         revalidateOnFocus: false,
-        revalidateIfStale: false,
         fetcher: (resource, init) =>
           axiosClient(resource, init).then((res) => res),
       }}
     >
       <SessionProvider session={session}>
         <ToastContainer />
-
         <Component {...pageProps} />
       </SessionProvider>
     </SWRConfig>
