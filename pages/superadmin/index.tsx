@@ -22,7 +22,6 @@ function SuperadminIndex() {
                   </select>
                 </div>
               </div>{" "}
-              n
             </div>
             <div className="white_card_body">
               <div id="management_bar" />
