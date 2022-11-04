@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const Dropdown = ({ setDropDown, setSumGuests, setFinalTotal }: any) => {
+const Dropdown = ({
+  setDropDown,
+  setSumGuests,
+  setFinalTotal,
+  childrenCount,
+  adultCount,
+  infantCount,
+}: any) => {
   const wrapperRef = useRef(null);
   function useOutsideAlerter(ref: any) {
     useEffect(() => {
@@ -23,9 +30,9 @@ const Dropdown = ({ setDropDown, setSumGuests, setFinalTotal }: any) => {
   useOutsideAlerter(wrapperRef);
 
   const [totalGuests, setTotalGuests] = useState({
-    adult: 1,
-    children: 0,
-    infant: 0,
+    adult: adultCount,
+    children: childrenCount,
+    infant: infantCount,
   });
 
   useEffect(() => {
