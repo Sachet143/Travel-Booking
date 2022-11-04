@@ -27,7 +27,10 @@ function useUser(): IReturnType {
     isValidating: validatingUser,
   } = useSWR(
     isPrivateRoute && userType ? getFetchUserUrl(userType) : null,
-    fetcher
+    fetcher,
+    {
+      revalidateIfStale: false
+    }
   );
 
   return { user, mutateUser, errorUser, validatingUser };

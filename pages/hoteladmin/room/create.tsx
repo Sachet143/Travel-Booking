@@ -1,11 +1,9 @@
-import { updateHotel } from '@/api/hoteladmin/hotel';
 import { createHotelRoom } from '@/api/hoteladmin/hotelRoom';
 import HotelRoomForm from '@/components/hoteladmin/forms/HotelRoom';
 import HoteladminLayout from '@/components/layout/hoteladmin';
 import { objectToFormData, responseErrorHandler, useMatchMutate } from '@/services/helper';
-import useUser from '@/services/hooks/useUser';
 import Router from 'next/router';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -13,11 +11,17 @@ function HotelRoomCreate() {
 
   const [loading, setLoading] = useState(false);
   const matchMutate = useMatchMutate();
-  const formMethods = useForm();
+  const formMethods = useForm<any>({
+    defaultValues: {
+      status: true
+    }
+  });
+
   const { setError } = formMethods;
 
   function createHotelRoomHandler(data: any) {
     setLoading(true);
+
     createHotelRoom(objectToFormData({
       ...data,
       status: Number(data.status),

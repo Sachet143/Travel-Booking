@@ -1,12 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { Button, message, Modal, Select, Skeleton, Switch } from 'antd';
-import Upload, { RcFile, UploadFile, UploadProps } from 'antd/lib/upload';
+import Upload, { RcFile, UploadFile } from 'antd/lib/upload';
 import React, { useState } from 'react'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import dynamic from "next/dynamic";
-import Dragger from 'antd/lib/upload/Dragger';
-import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { deleteServerFile } from '@/api/hoteladmin/files';
 import axiosClient from '@/services/axios/clientfetch';
 import useSWR from 'swr';
@@ -90,7 +89,7 @@ function HotelRoomForm({
             <Controller
               control={control}
               name="status"
-              render={({ field: { onChange, value = true } }) =>
+              render={({ field: { onChange, value } }) =>
                 <Switch checked={value} onChange={onChange} />
               }
             />
