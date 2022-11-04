@@ -1,7 +1,7 @@
 import { deleteServerFile } from '@/api/hoteladmin/files';
 import HotelGalleryComponent from '@/components/hoteladmin/forms/gallery'
 import HoteladminLayout from '@/components/layout/hoteladmin'
-import { responseErrorHandler } from '@/services/helper';
+import { imageFullPath, responseErrorHandler } from '@/services/helper';
 import { Button, Empty, Image, Popconfirm, Skeleton } from 'antd'
 import React from 'react'
 import { toast } from 'react-toastify';
@@ -55,7 +55,7 @@ function HotelGallery() {
                         <div key={img.id}>
                           <Image
                             alt="img"
-                            src={img.full_path}
+                            src={imageFullPath(img.path)}
                             style={{ objectFit: "cover", height: 200, width: 200 }}
                           />
                           <br />

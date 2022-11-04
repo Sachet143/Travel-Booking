@@ -170,3 +170,5 @@ export function renderLocation({ city, state, country }: any) {
     }
   }
 }
+
+export const imageFullPath = (url: string) => process.env.NEXT_PUBLIC_BASE_URL + url;

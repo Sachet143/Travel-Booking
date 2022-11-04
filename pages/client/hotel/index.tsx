@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { renderLocation } from "@/services/helper";
+import { imageFullPath, renderLocation } from "@/services/helper";
 import { Skeleton, Slider } from "antd";
 import moment from "moment";
 import Link from "next/link";
@@ -538,7 +538,7 @@ const HotelListing = () => {
                             <img
                               style={{ height: "200px", objectFit: "cover" }}
                               src={
-                                hotel.cover_full_path ?? "/imageplaceholder.jpg"
+                                hotel.cover_image ? imageFullPath(hotel.cover_image) : "/imageplaceholder.jpg"
                               }
                               // src={'/imageplaceholder.jpg'}
                               alt="img"
