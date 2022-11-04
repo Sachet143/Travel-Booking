@@ -1,7 +1,7 @@
 // @ts-nocheck
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { renderLocation } from "@/services/helper";
+import { imageFullPath, renderLocation } from "@/services/helper";
 import { Button, Empty, Skeleton } from "antd";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -101,11 +101,11 @@ function HotelPage() {
       <>
         {/* <section
           id="common_banner"
-          //   style={{
-          //     backgroundImage: `url(${
-          //       hotel?.cover_full_path ?? "/img/banner/common-banner.png"
-          //     })`,
-          //   }}
+        //   style={{
+        //     backgroundImage: `url(${
+        //       hotel?.cover_full_path ?? "/img/banner/common-banner.png"
+        //     })`,
+        //   }}
         >
           <div className="container">
             <div className="row">
@@ -192,7 +192,7 @@ function HotelPage() {
                                       key={item.id}
                                       className="single-slider-wrapper"
                                     >
-                                      <img src={item.full_path} alt="img" />
+                                      <img src={imageFullPath(item.path)} alt="img" />
                                     </div>
                                   );
                                 })}
@@ -215,7 +215,7 @@ function HotelPage() {
                                       className="cursor-pointer"
                                       key={item.id}
                                     >
-                                      <img src={item.full_path} alt="img" />
+                                      <img src={imageFullPath(item.path)} alt="img" />
                                     </div>
                                   );
                                 })}
@@ -294,7 +294,7 @@ function HotelPage() {
                                   </section>
                                 ) : (
                                   <>
-                                    {rooms.data.length > 0 && (
+                                    {rooms.data.length ? (
                                       <>
                                         {rooms.data.map((room: any) => {
                                           return (
@@ -398,7 +398,7 @@ function HotelPage() {
                                           );
                                         })}
                                       </>
-                                    )}
+                                    ) : <Empty className="my-4" description="No Rooms Found for this Hotel" />}
                                   </>
                                 )}
                               </div>
@@ -466,7 +466,7 @@ function HotelPage() {
                         </div>
                       )}
 
-                      {hotel?.location?.lat && hotel.location.long ? (
+                      {/* {hotel?.location?.lat && hotel.location.long ? (
                         <div className="tour_details_boxed">
                           <h3 className="heading_theme">Hotel location</h3>
                           <div className="google-map-code">
@@ -482,7 +482,7 @@ function HotelPage() {
                             ></iframe>
                           </div>
                         </div>
-                      ) : null}
+                      ) : null} */}
                     </div>
                   </div>
                   <div className="col-lg-4">
@@ -497,34 +497,23 @@ function HotelPage() {
                           </div>
                           <YoutubeComponent id={"0NMIZ-PTt8k"} />
                         </div>
-                        <div className="tour_details_right_boxed">
-                          <div className="tour_details_right_box_heading">
-                            <h3> Our Facilities</h3>
+                        {hotel.our_facilities && (
+                          <div className="tour_details_right_boxed">
+                            <div className="tour_details_right_box_heading">
+                              <h3> Our Facilities</h3>
+                            </div>
+                            <div className="first_child_padding_none">
+                              <Editor
+                                //@ts-ignore
+                                toolbarHidden
+                                contentState={JSON.parse(
+                                  hotel.our_facilities
+                                )}
+                                readOnly
+                              />
+                            </div>
                           </div>
-                          {/* <div className="tour_package_bar_price">
-                            <h6>
-                              <del>$ 35,500</del>
-                            </h6>
-                            <h3>
-                              $ 30,500 <sub>/Per serson</sub>{" "}
-                            </h3>
-                          </div> */}
-
-                          {hotel.our_facilities && (
-                            <>
-                              <div className="first_child_padding_none">
-                                <Editor
-                                  //@ts-ignore
-                                  toolbarHidden
-                                  contentState={JSON.parse(
-                                    hotel.our_facilities
-                                  )}
-                                  readOnly
-                                />
-                              </div>
-                            </>
-                          )}
-                        </div>
+                        )}
                       </div>
                       {/* <div className="tour_detail_right_sidebar">
                         <div className="tour_details_right_boxed">
@@ -559,6 +548,23 @@ function HotelPage() {
                         </div>
                       </div> */}
                     </div>
+                    {hotel?.location?.lat && hotel.location.long ? (
+                      <div className="tour_details_boxed">
+                        <h3 className="heading_theme">Hotel location</h3>
+                        <div className="google-map-code">
+                          <iframe
+                            src={`https://maps.google.com/maps?q=${hotel.location.lat},${hotel.location.long}&hl=es;z=14&output=embed`}
+                            width="100%"
+                            height="450"
+                            frameBorder="0"
+                            style={{ border: 0 }}
+                            allowFullScreen={true}
+                            aria-hidden="false"
+                            tabIndex={0}
+                          ></iframe>
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </div>
