@@ -48,7 +48,7 @@ const ClientLogin = () => {
   return (
     <ClientLayout>
       <>
-        <section id="common_banner">
+        {/* <section id="common_banner">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -69,12 +69,12 @@ const ClientLogin = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section id="common_author_area" className="section_padding">
           <div className="container">
             <div className="row">
-              <div className="col-lg-8 offset-lg-2">
+              <div className="col-lg-6 offset-lg-3">
                 <div className="common_author_boxed">
                   <div className="common_author_heading">
                     <h3>Login your account</h3>

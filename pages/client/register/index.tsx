@@ -51,7 +51,7 @@ const Register = () => {
   return (
     <ClientLayout>
       <>
-        <section id="common_banner">
+        {/* <section id="common_banner">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -72,7 +72,7 @@ const Register = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section id="common_author_area" className="section_padding">
           <div className="container">

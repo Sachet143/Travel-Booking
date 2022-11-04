@@ -15,6 +15,19 @@ const TopBar = () => {
   useEffect(() => {
     setPath(router.asPath);
   }, [router]);
+
+  useEffect(() => {
+    if (router.asPath == "/") {
+      //   $(window).on("scroll", function () {
+      //     if ($(this).scrollTop() > 10) {
+      //       $(".navbar-area").addClass("is-sticky");
+      //     } else {
+      //       $(".navbar-area").removeClass("is-sticky");
+      //     }
+      //   });
+    }
+  }, []);
+
   return (
     <>
       <SearchBar path={path} />
@@ -278,7 +291,7 @@ const TopBar = () => {
         </div> */}
 
         {/* navbar type2 */}
-        <div className="navbar-type2">
+        {/* <div className="navbar-type2">
           <div className="container">
             <div className="row">
               <div className="col-md-12">
@@ -316,7 +329,14 @@ const TopBar = () => {
                         </li>
 
                         <li className="nav-item">
-                          <a href="#" className="nav-link">
+                          <a
+                            className="nav-link"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              router.push("/hotel");
+                            }}
+                            href="_target"
+                          >
                             <img src={Hotel.src} alt="logo" />
                             Hotel
                           </a>
@@ -335,10 +355,14 @@ const TopBar = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* {navbar type3} */}
-        <div className="navbar-type2 navbar-area ">
+        <div
+          className={`navbar-type2 navbar-area is-sticky ${
+            router.asPath != "/" ? "is-sticky" : ""
+          }`}
+        >
           <div className="container">
             <div className="row">
               <div className="col-md-12">
@@ -376,7 +400,14 @@ const TopBar = () => {
                         </li>
 
                         <li className="nav-item">
-                          <a href="#" className="nav-link">
+                          <a
+                            className="nav-link"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              router.push("/hotel");
+                            }}
+                            href="_target"
+                          >
                             <img src={Hotel.src} alt="logo" />
                             Hotel
                           </a>
@@ -388,6 +419,18 @@ const TopBar = () => {
                     <div className="option-item">
                       <a href="become-vendor.html" className="btn ">
                         Become a partner
+                      </a>
+                    </div>
+                    <div className="option-item">
+                      <a
+                        href="_target"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          router.push("/login");
+                        }}
+                        className="btn "
+                      >
+                        Login
                       </a>
                     </div>
                   </div>
