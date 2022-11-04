@@ -203,7 +203,7 @@ textarea[aria-invalid="true"] {
 .custom-filter-nav-wrapper {
   background-color: #0a223d;
   position: sticky;
-  top: 68px;
+  top: 79px;
   z-index: 99999;
   color: white;
   padding: 13px 0px;
