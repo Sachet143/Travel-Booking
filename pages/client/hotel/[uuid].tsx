@@ -99,7 +99,7 @@ function HotelPage() {
   return (
     <ClientLayout>
       <>
-        <section
+        {/* <section
           id="common_banner"
           //   style={{
           //     backgroundImage: `url(${
@@ -133,7 +133,7 @@ function HotelPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {hotelLoading ? (
           <section id="tour_details_main" className="section_padding">
@@ -283,98 +283,6 @@ function HotelPage() {
                               aria-labelledby="home-tab"
                             >
                               <div className="room_booking_area">
-                                <div className="tour_search_form">
-                                  <form action="https://andit.co/projects/html/and-tour/!#">
-                                    <div className="row">
-                                      <div className="col-lg-8 col-md-6 col-sm-12 col-12">
-                                        <div className="form_search_date">
-                                          <div className="flight_Search_boxed date_flex_area">
-                                            <div className="Journey_date">
-                                              <p>Check In date</p>
-                                              <input
-                                                type="date"
-                                                value={checkInDate}
-                                                onChange={(e) =>
-                                                  setCheckInDate(e.target.value)
-                                                }
-                                              />
-                                              <span>
-                                                {moment(checkInDate).format(
-                                                  "dddd"
-                                                )}
-                                              </span>
-                                            </div>
-                                            <div className="Journey_date">
-                                              <p>Check Out date</p>
-                                              <input
-                                                type="date"
-                                                value={checkOutDate}
-                                                onChange={(e) =>
-                                                  setCheckOutDate(
-                                                    e.target.value
-                                                  )
-                                                }
-                                              />
-                                              <span>
-                                                {moment(checkOutDate).format(
-                                                  "dddd"
-                                                )}
-                                              </span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-lg-4 col-md-6 col-sm-12 col-12">
-                                        <div className="flight_Search_boxed dropdown_passenger_area">
-                                          <p>Guests</p>
-                                          <div className="dropdown">
-                                            <button
-                                              className="dropdown-toggle"
-                                              type="button"
-                                              onClick={() =>
-                                                setDropDown(!dropDown)
-                                              }
-                                            >
-                                              {sumGuests} Guests
-                                            </button>
-                                            {dropDown && (
-                                              <Dropdown
-                                                setSumGuests={setSumGuests}
-                                                setDropDown={setDropDown}
-                                                setFinalTotal={setFinalTotal}
-                                              />
-                                            )}
-                                          </div>
-                                          <div className="d-flex">
-                                            <span>
-                                              {finalTotal.adult
-                                                ? `Adult ${finalTotal.adult}`
-                                                : null}
-                                            </span>
-                                            <span className="mx-3">
-                                              {finalTotal.children
-                                                ? `Children ${finalTotal.children}`
-                                                : null}
-                                            </span>
-                                            <span>
-                                              {finalTotal.infant
-                                                ? `Infant ${finalTotal.infant}`
-                                                : null}
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="top_form_search_button text-right">
-                                        <button
-                                          className="btn btn_theme btn_md"
-                                          type="button"
-                                        >
-                                          Check availability
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </form>
-                                </div>
                                 {roomLoading ? (
                                   <section
                                     id="tour_details_main"
