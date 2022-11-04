@@ -15,6 +15,20 @@ const TopBar = () => {
   useEffect(() => {
     setPath(router.asPath);
   }, [router]);
+
+  useEffect(() => {
+    if (router.asPath == "/") {
+      $(window).on("scroll", function () {
+        if ($(this).scrollTop() > 10) {
+          $(".navbar-area").addClass("is-sticky");
+        } else {
+          $(".navbar-area").removeClass("is-sticky");
+        }
+      });
+    }
+  }, []);
+  console.log(router.asPath);
+
   return (
     <>
       <SearchBar path={path} />
@@ -338,7 +352,11 @@ const TopBar = () => {
         </div>
 
         {/* {navbar type3} */}
-        <div className="navbar-type2 navbar-area ">
+        <div
+          className={`navbar-type2 navbar-area ${
+            router.asPath == "/" && "isSticky"
+          }`}
+        >
           <div className="container">
             <div className="row">
               <div className="col-md-12">
