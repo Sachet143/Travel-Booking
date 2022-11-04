@@ -47,6 +47,7 @@ function HotelAdminLogin() {
         <form onSubmit={handleSubmit(submitLogin)}>
           <div className="form-group mb-3">
             <input
+              autoFocus
               placeholder="Enter Email"
               className="mb-0 form-control"
               aria-invalid={!!errors?.email?.message}

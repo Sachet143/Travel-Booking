@@ -61,7 +61,7 @@ function HotelForm({
           <Controller
             control={control}
             name="logo"
-            // rules={{ required: "Logo is required!" }}
+            rules={{ required: "Logo is required!" }}
             render={({ field: { onChange, value } }) =>
               <>
                 <Upload
@@ -87,22 +87,31 @@ function HotelForm({
           />
         </div>
         <div className='col-md-6 col-sm-12'>
-          <label className="form-label">Cover Image</label>
+          <label className="form-label">Cover Image<span className='text-danger'> *</span></label>
           <Controller
             control={control}
             name="cover_image"
+            rules={{ required: "Cover Image is required!" }}
             render={({ field: { onChange, value } }) =>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader mb-3"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={val => onChange(val.file.originFileObj)}
-              >
-                {renderImagePlaceholder(value)}
-              </Upload>
+              <>
+                <Upload
+                  name="avatar"
+                  listType="picture-card"
+                  className="avatar-uploader mb-3"
+                  showUploadList={false}
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  beforeUpload={beforeUpload}
+                  onChange={val => onChange(val.file.originFileObj)}
+                >
+                  {renderImagePlaceholder(value)}
+                </Upload>
+                {
+                  errors?.cover_image?.message &&
+                  <div className='text-danger'>
+                    Cover Image is Required
+                  </div>
+                }
+              </>
             }
           />
         </div>

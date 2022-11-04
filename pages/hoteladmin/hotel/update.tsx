@@ -20,8 +20,8 @@ function UpdateHotel() {
       ...data,
       logo: typeof data.logo === "string" ? null : data.logo,
       cover_image: typeof data.cover_image === "string" ? null : data.cover_image,
-      why_choose_us: data.why_choose_us ? JSON.stringify(data.why_choose_us) : null,
-      our_facilities: data.our_facilities ? JSON.stringify(data.our_facilities) : null,
+      why_choose_us: data.why_choose_us && data.why_choose_us?.blocks[0]?.text?.length ? JSON.stringify(data.why_choose_us) : null,
+      our_facilities: data.our_facilities && data.our_facilities?.blocks[0]?.text?.length ? JSON.stringify(data.our_facilities) : null,
     }
 
     setLoading(true);
