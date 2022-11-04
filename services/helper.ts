@@ -1,7 +1,8 @@
 import { toast } from "react-toastify";
 import Crypto from "crypto-js";
 import { useSWRConfig } from "swr";
-import _ from 'lodash'
+import _, { isArray, isObject } from 'lodash'
+import queryString from "query-string";
 
 export function responseErrorHandler(res: any, setError?: any) {
   if (res && res?.data && res?.data?.errors) {
@@ -172,3 +173,20 @@ export function renderLocation({ city, state, country }: any) {
 }
 
 export const imageFullPath = (url: string) => process.env.NEXT_PUBLIC_BASE_URL + url;
+
+export function cleanUrlParams(url: string, parameter: object): string {
+  let params = {};
+  for (let [key, value] of Object.entries(parameter)) {
+    if (Array.isArray(value) && value.length) {
+      Object.assign(params, { [key]: value.join(",") });
+    }
+    if (value && !isArray(value) && !isObject(value)) {
+      Object.assign(params, { [key]: value });
+    }
+  }
+  if (!Object.keys(params).length) {
+    return url;
+  }
+  const parmsString = queryString.stringify(params);
+  return `${url}?${parmsString}`;
+}

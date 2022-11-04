@@ -1,17 +1,86 @@
 /* eslint-disable @next/next/no-img-element */
-import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { imageFullPath, renderLocation } from "@/services/helper";
-import { Skeleton, Slider } from "antd";
-import moment from "moment";
-import Link from "next/link";
-import Router from "next/router";
-import React, { useState } from "react";
+import { cleanUrlParams, imageFullPath, renderLocation } from "@/services/helper";
+import { Col, InputNumber, Row, Select, Skeleton, Slider } from "antd";
+import Router, { useRouter } from "next/router";
+import React, { useCallback, useEffect } from "react";
 import useSWR from "swr";
+import _debounce from "lodash/debounce";
+import { Controller, useForm } from "react-hook-form";
+import states from '@/states.json'
+import axiosClient from "@/services/axios/clientfetch";
+const { Option } = Select;
+
+
+const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
 const HotelListing = () => {
-  const { data: hotels, error, mutate } = useSWR(`/hotels`);
+
+  const router = useRouter();
+
+  const { data: hotels, error, mutate } = useSWR(cleanUrlParams(`/hotels`, router.query));
+
   const hotelLoading = !hotels && !error;
+
+  const { register, control, formState: { errors }, getValues, reset } = useForm({
+    defaultValues: {
+      lowest_price: null,
+      highest_price: null,
+      country: null,
+      state: null,
+      city: null,
+      features: [],
+    }
+  });
+
+  const { data: featureList, error: featureError } = useSWR(`hotel/features`, customFetcher);
+
+  const applyPriceFilter = (e: any) => {
+    e.preventDefault();
+
+    router.push(cleanUrlParams("/hotel", {
+      ...router.query,
+      lowest_price: getValues("lowest_price"),
+      highest_price: getValues("highest_price"),
+    }))
+  }
+
+  const applyLocationFilter = (e: any) => {
+    e.preventDefault();
+
+    router.push(cleanUrlParams("/hotel", {
+      ...router.query,
+      country: getValues("country"),
+      state: getValues("state"),
+      city: getValues("city"),
+    }))
+  }
+
+  const clearPriceFilter = (e: any) => {
+    e.preventDefault();
+
+    router.push(cleanUrlParams("/hotel", {
+      ...router.query,
+      lowest_price: null,
+      highest_price: null,
+    }))
+  }
+
+  const clearLocationFilter = (e: any) => {
+    e.preventDefault();
+
+    router.push(cleanUrlParams("/hotel", {
+      ...router.query,
+      country: null,
+      state: null,
+      city: null,
+    }))
+  }
+
+  useEffect(() => {
+    reset(router.query);
+
+  }, [router.query])
 
   return (
     <ClientLayout>
@@ -35,336 +104,182 @@ const HotelListing = () => {
               {/* filters */}
               <div className="col-lg-3">
                 <div className="left_side_search_area">
+                  {/* filter by price */}
                   <div className="left_side_search_boxed">
                     <div className="left_side_search_heading">
-                      <h5>Filter by price</h5>
+                      <h5>Filter by Price</h5>
                     </div>
                     <div className="filter-price">
-                      <Slider range defaultValue={[20, 50]} disabled={false} />
+                      {/* minimum price */}
+                      <label>Minimum price</label>
+                      <Controller
+                        name="lowest_price"
+                        control={control}
+                        render={({ field: { onChange, value } }) => {
+                          return (
+                            <>
+                              <Row>
+                                <Col span={12}>
+                                  <Slider
+                                    min={500}
+                                    max={1500}
+                                    onChange={onChange}
+                                    value={Number(value)}
+                                  />
+                                </Col>
+                                <Col span={4}>
+                                  <InputNumber
+                                    min={500}
+                                    max={1500}
+                                    style={{ margin: '0 16px' }}
+                                    value={Number(value)}
+                                    onChange={onChange}
+                                  />
+                                </Col>
+                              </Row>
+                              {errors?.lowest_price && <p>{errors.lowest_price.message + ""}</p>}
+                            </>
+                          )
+                        }}
+                      />
+                      {/* minimum price */}
+                      <label>MaxPrice price</label>
+                      <Controller
+                        name="highest_price"
+                        control={control}
+                        rules={{ validate: val => (val >= 100 && val <= 50000) || "Lowest Price should be in range" }}
+                        render={({ field: { onChange, value } }) => {
+                          return (
+                            <>
+                              <Row>
+                                <Col span={12}>
+                                  <Slider
+                                    min={1500}
+                                    max={50000}
+                                    onChange={onChange}
+                                    value={Number(value)}
+                                  />
+                                </Col>
+                                <Col span={4}>
+                                  <InputNumber
+                                    min={1500}
+                                    max={50000}
+                                    style={{ margin: '0 16px' }}
+                                    value={Number(value)}
+                                    onChange={onChange}
+                                  />
+                                </Col>
+                              </Row>
+                              {errors?.highest_price && <p>{errors.highest_price.message + ""}</p>}
+                            </>
+                          )
+                        }}
+                      />
                     </div>
-                    <button className="apply" type="button">
+                    <button className="btn btn-admin-dark" type="button" onClick={applyPriceFilter}>
                       Apply
                     </button>
+                    <button className="btn btn-admin-dark-outlined mx-3" type="button" onClick={clearPriceFilter}>
+                      Clear
+                    </button>
                   </div>
+                  {/* filter by location */}
                   <div className="left_side_search_boxed">
                     <div className="left_side_search_heading">
-                      <h5>Filter by Review</h5>
+                      <h5>Filter by Location</h5>
                     </div>
                     <div className="filter_review">
                       <form className="review_star">
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
+                        <input
+                          className="mt-2 form-control"
+                          type="text"
+                          value="Nepal"
+                          disabled
+                        />
+                        <div className='custom-select'>
+                          <Controller
+                            control={control}
+                            name="state"
+                            rules={{ required: "State is required!" }}
+                            render={({ field: { onChange, value } }) =>
+                              <>
+                                <Select
+                                  status={errors?.state?.message && "error"}
+                                  value={value}
+                                  onChange={onChange}
+                                  showSearch
+                                  allowClear
+                                  size='large'
+                                  className="form-control my-4"
+                                  placeholder="Select State"
+                                >
+                                  {
+                                    states.map(state => <Option key={state} value={state}>{state}</Option>)
+                                  }
+                                </Select>
+                                {errors?.state?.message &&
+                                  <div className="text-danger">
+                                    {errors?.state?.message + ""}
+                                  </div>
+                                }
+                              </>
+                            }
                           />
-                          <label className="form-check-label">
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                          </label>
                         </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault1"
-                          />
-                          <label className="form-check-label">
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_asse"></i>
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault2"
-                          />
-                          <label className="form-check-label">
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault3"
-                          />
-                          <label className="form-check-label">
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault5"
-                          />
-                          <label className="form-check-label">
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                          </label>
-                        </div>
+                        <input
+                          {...register("city", { required: "City is required!" })}
+                          aria-invalid={!!errors?.city?.message}
+                          className="form-control border"
+                          placeholder="Enter City"
+                        />
+                        <button className="mt-4 btn btn-admin-dark" type="button" onClick={applyLocationFilter}>
+                          Apply
+                        </button>
+                        <button className="mt-4 btn btn-admin-dark-outlined mx-3" type="button" onClick={clearLocationFilter}>
+                          Clear
+                        </button>
                       </form>
                     </div>
                   </div>
+                  {/* Features */}
                   <div className="left_side_search_boxed">
                     <div className="left_side_search_heading">
-                      <h5>Filter by hotel star</h5>
-                    </div>
-                    <div className="filter_review">
-                      <form className="review_star">
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefaulta"
-                          />
-                          <label className="form-check-label">
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefaulf21"
-                          />
-                          <label className="form-check-label">
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_asse"></i>
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefaultf3"
-                          />
-                          <label className="form-check-label">
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefaultf4"
-                          />
-                          <label className="form-check-label">
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefaultf5"
-                          />
-                          <label className="form-check-label">
-                            <i className="fas fa-star color_theme"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                            <i className="fas fa-star color_asse"></i>
-                          </label>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                  <div className="left_side_search_boxed">
-                    <div className="left_side_search_heading">
-                      <h5>Facilities</h5>
+                      <h5>Features</h5>
                     </div>
                     <div className="tour_search_type">
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefaultf1"
-                        />
-                        <label className="form-check-label">
-                          <span className="area_flex_one">
-                            <span>Wake-up call</span>
-                            <span>20</span>
-                          </span>
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefaultf2"
-                        />
-                        <label className="form-check-label">
-                          <span className="area_flex_one">
-                            <span>Flat TV</span>
-                            <span>14</span>
-                          </span>
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefaultaf3"
-                        />
-                        <label className="form-check-label">
-                          <span className="area_flex_one">
-                            <span>Vehicle service</span>
-                            <span>30</span>
-                          </span>
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefaultaf4"
-                        />
-                        <label className="form-check-label">
-                          <span className="area_flex_one">
-                            <span>Guide service</span>
-                            <span>22</span>
-                          </span>
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefaultaf5"
-                        />
-                        <label className="form-check-label">
-                          <span className="area_flex_one">
-                            <span>Internet, Wi-fi</span>
-                            <span>41</span>
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="left_side_search_boxed">
-                    <div className="left_side_search_heading">
-                      <h5>Hotel service</h5>
-                    </div>
-                    <div className="tour_search_type">
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefaultt1"
-                        />
-                        <label className="form-check-label">
-                          <span className="area_flex_one">
-                            <span>Gymnasium</span>
-                            <span>20</span>
-                          </span>
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefaultt2"
-                        />
-                        <label className="form-check-label">
-                          <span className="area_flex_one">
-                            <span>Mountain Bike</span>
-                            <span>14</span>
-                          </span>
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefaultt3"
-                        />
-                        <label className="form-check-label">
-                          <span className="area_flex_one">
-                            <span>Wifi</span>
-                            <span>62</span>
-                          </span>
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefaultt4"
-                        />
-                        <label className="form-check-label">
-                          <span className="area_flex_one">
-                            <span>Aerobics Room</span>
-                            <span>08</span>
-                          </span>
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefaultt5"
-                        />
-                        <label className="form-check-label">
-                          <span className="area_flex_one">
-                            <span>Golf Cages</span>
-                            <span>12</span>
-                          </span>
-                        </label>
+                      <div className='custom-select'>
+                        {
+                          !featureList && !featureError ? <Skeleton className='mt-3' active paragraph={false} />
+                            :
+                            <Controller
+                              control={control}
+                              name="features"
+                              rules={{ required: "Feature is required!" }}
+                              render={({ field: { onChange, value } }) =>
+                                <>
+                                  <Select
+                                    mode='multiple'
+                                    value={value}
+                                    onChange={onChange}
+                                    allowClear
+                                    status={errors?.features?.message && "error"}
+                                    size='large'
+                                    className="form-control"
+                                    placeholder="Select features"
+                                  >
+                                    {
+                                      featureList?.map((feat: any) => <Option key={feat.id} value={feat.id}>{feat.title}</Option>)
+                                    }
+                                  </Select>
+                                  {errors?.features?.message &&
+                                    <div className="text-danger">
+                                      {errors?.features?.message + ""}
+                                    </div>
+                                  }
+                                </>
+                              }
+                            />
+                        }
                       </div>
                     </div>
                   </div>

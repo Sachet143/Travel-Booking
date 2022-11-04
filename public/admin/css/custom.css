@@ -145,6 +145,12 @@ label {
   border-color: #383333 !important;
 }
 
+.btn-admin-dark-outlined {
+  color: #383333 !important;
+  background-color: #fff !important;
+  border-color: #383333 !important;
+}
+
 /* password field */
 .pass_show {
   position: relative;
