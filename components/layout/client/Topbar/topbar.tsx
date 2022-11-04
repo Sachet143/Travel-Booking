@@ -278,7 +278,7 @@ const TopBar = () => {
         </div> */}
 
         {/* navbar type2 */}
-        {/* <div className="navbar-type2">
+        <div className="navbar-type2">
           <div className="container">
             <div className="row">
               <div className="col-md-12">
@@ -321,12 +321,10 @@ const TopBar = () => {
                             Hotel
                           </a>
                         </li>
-                       
                       </ul>
                     </div>
                   </div>
                   <div className="others-options d-flex align-items-center">
-                
                     <div className="option-item">
                       <a href="become-vendor.html" className="btn">
                         Become a partner
@@ -337,10 +335,10 @@ const TopBar = () => {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
 
         {/* {navbar type3} */}
-        <div className="navbar-type2 navbar-area">
+        <div className="navbar-type2 navbar-area ">
           <div className="container">
             <div className="row">
               <div className="col-md-12">

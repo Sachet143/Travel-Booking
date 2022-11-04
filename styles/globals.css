@@ -330,6 +330,42 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   height: 30px;
 }
 
+.navbar-type2.is-sticky
+  .text-nav-wrapper
+  .navbar-collapse
+  .navigation
+  .nav-item
+  a
+  img {
+  /* filter: invert(1); */
+  filter: brightness(0) !important;
+  height: 30px;
+}
+.navbar-type2.is-sticky
+  .text-nav-wrapper
+  .navbar-collapse
+  .navigation
+  .nav-item
+  a.nav-link,
+.navbar-type2.is-sticky .others-options .option-item a {
+  color: black;
+}
+
+.navbar-type2
+  .text-nav-wrapper
+  .navbar-collapse
+  .navigation
+  .nav-item
+  a.nav-link,
+.navbar-type2 .others-options .option-item a {
+  color: white;
+}
+
+.navbar-type2 .text-nav-wrapper .navbar-collapse .navigation .nav-item a img {
+  filter: invert(1);
+  height: 30px;
+}
+
 .navbar-type2 .btn {
   /* background-color: transparent !important; */
   /* color: rgb(255, 255, 255); */
