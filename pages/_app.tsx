@@ -8,24 +8,28 @@ import { ToastContainer } from "react-toastify";
 import "@/public/admin/css/custom.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { SessionProvider } from "next-auth/react";
+import NextNProgress from 'nextjs-progressbar';
 
 function App({ Component, pageProps, session }: any) {
   const clientId =
     "287378879320-amdhflqu0oq19p655458sokpt1i8cjsd.apps.googleusercontent.com";
 
   return (
-    <SWRConfig
-      value={{
-        revalidateOnFocus: false,
-        fetcher: (resource, init) =>
-          axiosClient(resource, init).then((res) => res),
-      }}
-    >
-      <SessionProvider session={session}>
-        <ToastContainer />
-        <Component {...pageProps} />
-      </SessionProvider>
-    </SWRConfig>
+    <>
+      <NextNProgress />
+      <SWRConfig
+        value={{
+          revalidateOnFocus: false,
+          fetcher: (resource, init) =>
+            axiosClient(resource, init).then((res) => res),
+        }}
+      >
+        <SessionProvider session={session}>
+          <ToastContainer />
+          <Component {...pageProps} />
+        </SessionProvider>
+      </SWRConfig>
+    </>
   );
 }
 
