@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import { cleanUrlParams, imageFullPath, renderLocation } from "@/services/helper";
-import { Col, InputNumber, Row, Select, Skeleton, Slider } from "antd";
+import { Col, InputNumber, Pagination, Row, Select, Skeleton, Slider } from "antd";
 import Router, { useRouter } from "next/router";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import _debounce from "lodash/debounce";
 import { Controller, useForm } from "react-hook-form";
@@ -19,7 +19,6 @@ const HotelListing = () => {
   const router = useRouter();
 
   const { data: hotels, error, mutate } = useSWR(cleanUrlParams(`/hotels`, router.query));
-
   const hotelLoading = !hotels && !error;
 
   const { register, control, formState: { errors }, getValues, reset } = useForm({
@@ -321,6 +320,17 @@ const HotelListing = () => {
                       </div>
                     ))
                   )}
+
+                  <div className="pagination_area">
+                    <Pagination
+                      style={{ visibility: hotels?.last_page > 1 ? "visible" : "hidden" }}
+                      onChange={page => router.push(cleanUrlParams('/hotel', { ...router.query, page }))}
+                      className='pagination'
+                      current={hotels?.current_page}
+                      pageSize={hotels?.per_page || 1}
+                      total={hotels?.total}
+                    />
+                  </div>
 
                   {/* <div className="col-lg-12">
                     <div className="pagination_area">
