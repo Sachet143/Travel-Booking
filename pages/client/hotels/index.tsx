@@ -36,8 +36,8 @@ const HotelListing = () => {
     reset,
   } = useForm({
     defaultValues: {
-      lowest_price: null,
-      highest_price: null,
+      min_price: 0,
+      max_price: 0,
       country: null,
       state: null,
       city: null,
@@ -54,10 +54,10 @@ const HotelListing = () => {
     e.preventDefault();
 
     router.push(
-      cleanUrlParams("/hotel", {
+      cleanUrlParams("/hotels", {
         ...router.query,
-        lowest_price: getValues("lowest_price"),
-        highest_price: getValues("highest_price"),
+        min_price: getValues("min_price"),
+        max_price: getValues("max_price"),
       })
     );
   };
@@ -66,7 +66,7 @@ const HotelListing = () => {
     e.preventDefault();
 
     router.push(
-      cleanUrlParams("/hotel", {
+      cleanUrlParams("/hotels", {
         ...router.query,
         country: getValues("country"),
         state: getValues("state"),
@@ -79,10 +79,10 @@ const HotelListing = () => {
     e.preventDefault();
 
     router.push(
-      cleanUrlParams("/hotel", {
+      cleanUrlParams("/hotels", {
         ...router.query,
-        lowest_price: null,
-        highest_price: null,
+        min_price: null,
+        max_price: null,
       })
     );
   };
@@ -91,7 +91,7 @@ const HotelListing = () => {
     e.preventDefault();
 
     router.push(
-      cleanUrlParams("/hotel", {
+      cleanUrlParams("/hotels", {
         ...router.query,
         country: null,
         state: null,
@@ -100,9 +100,9 @@ const HotelListing = () => {
     );
   };
 
-  //   useEffect(() => {
-  //     reset(router.query);
-  //   }, [router.query]);
+  useEffect(() => {
+    reset(router.query);
+  }, [router.query]);
 
   return (
     <ClientLayout>
@@ -135,7 +135,7 @@ const HotelListing = () => {
                       {/* minimum price */}
                       <label>Minimum price</label>
                       <Controller
-                        name="lowest_price"
+                        name="min_price"
                         control={control}
                         render={({ field: { onChange, value } }) => {
                           return (
@@ -143,6 +143,7 @@ const HotelListing = () => {
                               <Row>
                                 <Col span={12}>
                                   <Slider
+                                    step={5}
                                     min={500}
                                     max={1500}
                                     onChange={onChange}
@@ -159,8 +160,8 @@ const HotelListing = () => {
                                   />
                                 </Col>
                               </Row>
-                              {errors?.lowest_price && (
-                                <p>{errors.lowest_price.message + ""}</p>
+                              {errors?.min_price && (
+                                <p>{errors.min_price.message + ""}</p>
                               )}
                             </>
                           );
@@ -169,7 +170,7 @@ const HotelListing = () => {
                       {/* minimum price */}
                       <label>MaxPrice price</label>
                       <Controller
-                        name="highest_price"
+                        name="max_price"
                         control={control}
                         rules={{
                           validate: (val) =>
@@ -182,6 +183,7 @@ const HotelListing = () => {
                               <Row>
                                 <Col span={12}>
                                   <Slider
+                                    step={5}
                                     min={1500}
                                     max={50000}
                                     onChange={onChange}
@@ -198,8 +200,8 @@ const HotelListing = () => {
                                   />
                                 </Col>
                               </Row>
-                              {errors?.highest_price && (
-                                <p>{errors.highest_price.message + ""}</p>
+                              {errors?.max_price && (
+                                <p>{errors.max_price.message + ""}</p>
                               )}
                             </>
                           );
@@ -350,7 +352,7 @@ const HotelListing = () => {
                       >
                         <div
                           className="theme_common_box_two cursor-pointer"
-                          onClick={() => Router.push(`/hotel/${hotel.uuid}`)}
+                          onClick={() => Router.push(`/hotels/${hotel.uuid}`)}
                         >
                           <div className="theme_two_box_img">
                             <img

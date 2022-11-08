@@ -5,7 +5,7 @@ import React from "react";
 const SearchBar = ({ path }: any) => {
   return (
     <>
-      {path == "/hotel" && (
+      {path == "/hotels" && (
         <div className="custom-filter-nav-wrapper">
           <div className="container">
             <div className="row">
