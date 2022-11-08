@@ -451,7 +451,12 @@ const HotelListing = () => {
                       >
                         <div
                           className="theme_common_box_two cursor-pointer"
-                          onClick={() => Router.push(`/hotels/${hotel.uuid}`)}
+                          // onClick={() => Router.push(`/hotels/${hotel.uuid}`, {router.query})}
+                          onClick={() => Router.push(cleanUrlParams(`/hotels/${hotel.uuid}`, {
+                            min_price: router.query.min_price,
+                            max_price: router.query.max_price,
+                            features: router.query.features,
+                          }))}
                         >
                           <div className="theme_two_box_img">
                             <img
