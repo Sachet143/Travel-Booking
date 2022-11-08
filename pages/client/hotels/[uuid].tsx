@@ -42,55 +42,6 @@ function HotelPage() {
     customFetcher
   );
 
-  //   const { data: roomId, error: singleRoomError } = useSWR(
-  //     rooms ? `rooms/${rooms.data[0].uuid}` : null
-  //   );
-
-  //   useEffect(() => {
-  //     if ($(".slider-for") && $(".slider-nav")) {
-  //       $(".slider-for").not(".slick-initialized").slick({
-  //         infinite: true,
-  //         slidesToShow: 1,
-  //         slidesToScroll: 3,
-  //         arrows: false,
-  //         fade: true,
-  //         asNavFor: ".slider-nav",
-  //       });
-  //       $(".slider-nav").not(".slick-initialized").slick({
-  //         infinite: true,
-  //         slidesToShow: 5,
-  //         slidesToScroll: 5,
-  //         asNavFor: ".slider-for",
-  //         dots: false,
-  //         focusOnSelect: true,
-  //       });
-
-  //       $(".promotional_tour_slider").owlCarousel({
-  //         loop: true,
-  //         dots: true,
-  //         autoplayHoverPause: true,
-  //         autoplay: true,
-  //         smartSpeed: 1000,
-  //         margin: 10,
-  //         nav: false,
-  //         responsive: {
-  //           0: {
-  //             items: 1,
-  //           },
-  //           768: {
-  //             items: 2,
-  //           },
-  //           992: {
-  //             items: 3,
-  //           },
-  //           1200: {
-  //             items: 4,
-  //           },
-  //         },
-  //       });
-  //     }
-  //   }, [hotel]);
-
   const [nav1, setNav1] = useState();
   const [nav2, setNav2] = useState();
 
@@ -153,42 +104,6 @@ function HotelPage() {
   return (
     <ClientLayout>
       <>
-        {/* <section
-          id="common_banner"
-        //   style={{
-        //     backgroundImage: `url(${
-        //       hotel?.cover_full_path ?? "/img/banner/common-banner.png"
-        //     })`,
-        //   }}
-        >
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="common_bannner_text">
-                  <h2>Hotel details</h2>
-                  <ul>
-                    <li>
-                      <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                      <span>
-                        <i className="fas fa-circle"></i>
-                      </span>
-                      <a href="hotel-search.html">Hotel</a>
-                    </li>
-                    <li>
-                      <span>
-                        <i className="fas fa-circle"></i>
-                      </span>{" "}
-                      {hotel?.name}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> */}
-
         {hotelLoading ? (
           <section id="tour_details_main" className="section_padding">
             <div className="container">
