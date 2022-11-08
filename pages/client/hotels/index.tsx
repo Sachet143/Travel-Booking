@@ -41,7 +41,7 @@ const HotelListing = () => {
     formState: { errors },
     getValues,
     reset,
-  } = useForm({
+  } = useForm<any>({
     defaultValues: {
       min_price: 0,
       max_price: 0,
@@ -118,7 +118,13 @@ const HotelListing = () => {
   };
 
   useEffect(() => {
-    reset(router.query);
+    reset({
+      ...router.query,
+      features: router.query.features
+        ? router.query.features.toString().split(",").map(i => Number(i))
+        : []
+    });
+
   }, [router.query]);
 
   return (
