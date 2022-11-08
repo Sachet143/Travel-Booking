@@ -46,7 +46,7 @@ const HotelListing = () => {
   });
 
   const { data: featureList, error: featureError } = useSWR(
-    `hotel/features`,
+    `/features`,
     customFetcher
   );
 
@@ -172,8 +172,8 @@ const HotelListing = () => {
                         name="highest_price"
                         control={control}
                         rules={{
-                          validate: (val: any) =>
-                            (val >= 100 && val <= 50000) ||
+                          validate: (val) =>
+                            (val && val >= 100 && val <= 50000) ||
                             "Lowest Price should be in range",
                         }}
                         render={({ field: { onChange, value } }) => {
