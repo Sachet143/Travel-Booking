@@ -24,16 +24,19 @@ import states from "@/states.json";
 import axiosClient from "@/services/axios/clientfetch";
 import { debounce } from "lodash";
 const { Option } = Select;
-
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
 const HotelListing = () => {
   const router = useRouter();
 
+  const { data: featureList, error: featureError } = useSWR(
+    `/features`,
+    customFetcher
+  );
+
   const {
     data: hotels,
-    error,
-    mutate,
+    error
   } = useSWR(cleanUrlParams(`/hotels`, router.query));
   const hotelLoading = !hotels && !error;
 
@@ -43,7 +46,7 @@ const HotelListing = () => {
     formState: { errors },
     getValues,
     reset,
-  } = useForm({
+  } = useForm<any>({
     defaultValues: {
       search: null,
       min_price: 0,
@@ -55,10 +58,6 @@ const HotelListing = () => {
     },
   });
 
-  const { data: featureList, error: featureError } = useSWR(
-    `/features`,
-    customFetcher
-  );
 
   const applyPriceFilter = (e: any) => {
     e.preventDefault();
@@ -133,7 +132,13 @@ const HotelListing = () => {
   }, []);
 
   useEffect(() => {
-    reset(router.query);
+    reset({
+      ...router.query,
+      features: router.query.features
+        ? router.query.features.toString().split(",").map(i => Number(i))
+        : []
+    });
+
   }, [router.query]);
 
   console.log(router.query);

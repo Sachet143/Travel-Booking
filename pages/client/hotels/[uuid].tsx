@@ -165,12 +165,12 @@ function HotelPage() {
                             key={f.id}
                           >
                             <div className="tour_details_top_bottom_icon">
-                              <i className={f.feature.icon_link} />
+                              <i className={f.icon_link} />
                               {/* <img src="/client/assets/img/icon/ac.png" alt="icon" /> */}
                             </div>
                             <div className="tour_details_top_bottom_text">
                               <p className="text-capitalize mx-1">
-                                {f.feature.title}
+                                {f.title}
                               </p>
                             </div>
                           </div>
@@ -301,12 +301,7 @@ function HotelPage() {
                                             <>
                                               <div className="room_book_item">
                                                 <div className="room_book_img">
-                                                  <img
-                                                    src={
-                                                      room.files[0].full_path
-                                                    }
-                                                    alt="img"
-                                                  />
+                                                  <img src={imageFullPath(room.files[0].path)} alt="img" />
                                                 </div>
                                                 <div className="room_booking_right_side">
                                                   <div className="room_booking_heading">
@@ -345,21 +340,13 @@ function HotelPage() {
                                                                     }}
                                                                   >
                                                                     <i
-                                                                      className={
-                                                                        f
-                                                                          .feature
-                                                                          .icon_link
-                                                                      }
+                                                                      className={f.icon_link}
                                                                     />
                                                                     {/* <img src="/client/assets/img/icon/ac.png" alt="icon" /> */}
                                                                   </div>
                                                                   <div className="tour_details_top_bottom_text">
                                                                     <p className="text-capitalize mx-1">
-                                                                      {
-                                                                        f
-                                                                          .feature
-                                                                          .title
-                                                                      }
+                                                                      {f.title}
                                                                     </p>
                                                                   </div>
                                                                 </li>
