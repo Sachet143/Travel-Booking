@@ -1,85 +1,115 @@
 /* eslint-disable @next/next/no-img-element */
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { cleanUrlParams, imageFullPath, renderLocation } from "@/services/helper";
-import { Col, InputNumber, Pagination, Row, Select, Skeleton, Slider } from "antd";
+import {
+  cleanUrlParams,
+  imageFullPath,
+  renderLocation,
+} from "@/services/helper";
+import {
+  Col,
+  InputNumber,
+  Pagination,
+  Row,
+  Select,
+  Skeleton,
+  Slider,
+} from "antd";
 import Router, { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import _debounce from "lodash/debounce";
 import { Controller, useForm } from "react-hook-form";
-import states from '@/states.json'
+import states from "@/states.json";
 import axiosClient from "@/services/axios/clientfetch";
 const { Option } = Select;
-
 
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
 const HotelListing = () => {
-
   const router = useRouter();
 
-  const { data: hotels, error, mutate } = useSWR(cleanUrlParams(`/hotels`, router.query));
+  const {
+    data: hotels,
+    error,
+    mutate,
+  } = useSWR(cleanUrlParams(`/hotels`, router.query));
   const hotelLoading = !hotels && !error;
 
-  const { register, control, formState: { errors }, getValues, reset } = useForm({
+  const {
+    register,
+    control,
+    formState: { errors },
+    getValues,
+    reset,
+  } = useForm({
     defaultValues: {
-      lowest_price: null,
-      highest_price: null,
+      min_price: 0,
+      max_price: 0,
       country: null,
       state: null,
       city: null,
       features: [],
-    }
+    },
   });
 
-  const { data: featureList, error: featureError } = useSWR(`/features`, customFetcher);
+  const { data: featureList, error: featureError } = useSWR(
+    `/features`,
+    customFetcher
+  );
 
   const applyPriceFilter = (e: any) => {
     e.preventDefault();
 
-    router.push(cleanUrlParams("/hotel", {
-      ...router.query,
-      lowest_price: getValues("lowest_price"),
-      highest_price: getValues("highest_price"),
-    }))
-  }
+    router.push(
+      cleanUrlParams("/hotels", {
+        ...router.query,
+        min_price: getValues("min_price"),
+        max_price: getValues("max_price"),
+      })
+    );
+  };
 
   const applyLocationFilter = (e: any) => {
     e.preventDefault();
 
-    router.push(cleanUrlParams("/hotel", {
-      ...router.query,
-      country: getValues("country"),
-      state: getValues("state"),
-      city: getValues("city"),
-    }))
-  }
+    router.push(
+      cleanUrlParams("/hotels", {
+        ...router.query,
+        country: getValues("country"),
+        state: getValues("state"),
+        city: getValues("city"),
+      })
+    );
+  };
 
   const clearPriceFilter = (e: any) => {
     e.preventDefault();
 
-    router.push(cleanUrlParams("/hotel", {
-      ...router.query,
-      lowest_price: null,
-      highest_price: null,
-    }))
-  }
+    router.push(
+      cleanUrlParams("/hotels", {
+        ...router.query,
+        min_price: null,
+        max_price: null,
+      })
+    );
+  };
 
   const clearLocationFilter = (e: any) => {
     e.preventDefault();
 
-    router.push(cleanUrlParams("/hotel", {
-      ...router.query,
-      country: null,
-      state: null,
-      city: null,
-    }))
-  }
+    router.push(
+      cleanUrlParams("/hotels", {
+        ...router.query,
+        country: null,
+        state: null,
+        city: null,
+      })
+    );
+  };
 
   useEffect(() => {
     reset(router.query);
-
-  }, [router.query])
+  }, [router.query]);
 
   return (
     <ClientLayout>
@@ -112,7 +142,7 @@ const HotelListing = () => {
                       {/* minimum price */}
                       <label>Minimum price</label>
                       <Controller
-                        name="lowest_price"
+                        name="min_price"
                         control={control}
                         render={({ field: { onChange, value } }) => {
                           return (
@@ -120,6 +150,7 @@ const HotelListing = () => {
                               <Row>
                                 <Col span={12}>
                                   <Slider
+                                    step={5}
                                     min={500}
                                     max={1500}
                                     onChange={onChange}
@@ -130,29 +161,36 @@ const HotelListing = () => {
                                   <InputNumber
                                     min={500}
                                     max={1500}
-                                    style={{ margin: '0 16px' }}
+                                    style={{ margin: "0 16px" }}
                                     value={Number(value)}
                                     onChange={onChange}
                                   />
                                 </Col>
                               </Row>
-                              {errors?.lowest_price && <p>{errors.lowest_price.message + ""}</p>}
+                              {errors?.min_price && (
+                                <p>{errors.min_price.message + ""}</p>
+                              )}
                             </>
-                          )
+                          );
                         }}
                       />
                       {/* minimum price */}
                       <label>MaxPrice price</label>
                       <Controller
-                        name="highest_price"
+                        name="max_price"
                         control={control}
-                        rules={{ validate: val => (val && val >= 100 && val <= 50000) || "Lowest Price should be in range" }}
+                        rules={{
+                          validate: (val) =>
+                            (val && val >= 100 && val <= 50000) ||
+                            "Lowest Price should be in range",
+                        }}
                         render={({ field: { onChange, value } }) => {
                           return (
                             <>
                               <Row>
                                 <Col span={12}>
                                   <Slider
+                                    step={5}
                                     min={1500}
                                     max={50000}
                                     onChange={onChange}
@@ -163,22 +201,32 @@ const HotelListing = () => {
                                   <InputNumber
                                     min={1500}
                                     max={50000}
-                                    style={{ margin: '0 16px' }}
+                                    style={{ margin: "0 16px" }}
                                     value={Number(value)}
                                     onChange={onChange}
                                   />
                                 </Col>
                               </Row>
-                              {errors?.highest_price && <p>{errors.highest_price.message + ""}</p>}
+                              {errors?.max_price && (
+                                <p>{errors.max_price.message + ""}</p>
+                              )}
                             </>
-                          )
+                          );
                         }}
                       />
                     </div>
-                    <button className="btn btn-admin-dark" type="button" onClick={applyPriceFilter}>
+                    <button
+                      className="btn btn-admin-dark"
+                      type="button"
+                      onClick={applyPriceFilter}
+                    >
                       Apply
                     </button>
-                    <button className="btn btn-admin-dark-outlined mx-3" type="button" onClick={clearPriceFilter}>
+                    <button
+                      className="btn btn-admin-dark-outlined mx-3"
+                      type="button"
+                      onClick={clearPriceFilter}
+                    >
                       Clear
                     </button>
                   </div>
@@ -195,12 +243,12 @@ const HotelListing = () => {
                           value="Nepal"
                           disabled
                         />
-                        <div className='custom-select'>
+                        <div className="custom-select">
                           <Controller
                             control={control}
                             name="state"
                             rules={{ required: "State is required!" }}
-                            render={({ field: { onChange, value } }) =>
+                            render={({ field: { onChange, value } }) => (
                               <>
                                 <Select
                                   status={errors?.state?.message && "error"}
@@ -208,33 +256,45 @@ const HotelListing = () => {
                                   onChange={onChange}
                                   showSearch
                                   allowClear
-                                  size='large'
+                                  size="large"
                                   className="form-control my-4"
                                   placeholder="Select State"
                                 >
-                                  {
-                                    states.map(state => <Option key={state} value={state}>{state}</Option>)
-                                  }
+                                  {states.map((state) => (
+                                    <Option key={state} value={state}>
+                                      {state}
+                                    </Option>
+                                  ))}
                                 </Select>
-                                {errors?.state?.message &&
+                                {errors?.state?.message && (
                                   <div className="text-danger">
                                     {errors?.state?.message + ""}
                                   </div>
-                                }
+                                )}
                               </>
-                            }
+                            )}
                           />
                         </div>
                         <input
-                          {...register("city", { required: "City is required!" })}
+                          {...register("city", {
+                            required: "City is required!",
+                          })}
                           aria-invalid={!!errors?.city?.message}
                           className="form-control border"
                           placeholder="Enter City"
                         />
-                        <button className="mt-4 btn btn-admin-dark" type="button" onClick={applyLocationFilter}>
+                        <button
+                          className="mt-4 btn btn-admin-dark"
+                          type="button"
+                          onClick={applyLocationFilter}
+                        >
                           Apply
                         </button>
-                        <button className="mt-4 btn btn-admin-dark-outlined mx-3" type="button" onClick={clearLocationFilter}>
+                        <button
+                          className="mt-4 btn btn-admin-dark-outlined mx-3"
+                          type="button"
+                          onClick={clearLocationFilter}
+                        >
                           Clear
                         </button>
                       </form>
@@ -246,39 +306,41 @@ const HotelListing = () => {
                       <h5>Features</h5>
                     </div>
                     <div className="tour_search_type">
-                      <div className='custom-select'>
-                        {
-                          !featureList && !featureError ? <Skeleton className='mt-3' active paragraph={false} />
-                            :
-                            <Controller
-                              control={control}
-                              name="features"
-                              rules={{ required: "Feature is required!" }}
-                              render={({ field: { onChange, value } }) =>
-                                <>
-                                  <Select
-                                    mode='multiple'
-                                    value={value}
-                                    onChange={onChange}
-                                    allowClear
-                                    status={errors?.features?.message && "error"}
-                                    size='large'
-                                    className="form-control"
-                                    placeholder="Select features"
-                                  >
-                                    {
-                                      featureList?.map((feat: any) => <Option key={feat.id} value={feat.id}>{feat.title}</Option>)
-                                    }
-                                  </Select>
-                                  {errors?.features?.message &&
-                                    <div className="text-danger">
-                                      {errors?.features?.message + ""}
-                                    </div>
-                                  }
-                                </>
-                              }
-                            />
-                        }
+                      <div className="custom-select">
+                        {!featureList && !featureError ? (
+                          <Skeleton className="mt-3" active paragraph={false} />
+                        ) : (
+                          <Controller
+                            control={control}
+                            name="features"
+                            rules={{ required: "Feature is required!" }}
+                            render={({ field: { onChange, value } }) => (
+                              <>
+                                <Select
+                                  mode="multiple"
+                                  value={value}
+                                  onChange={onChange}
+                                  allowClear
+                                  status={errors?.features?.message && "error"}
+                                  size="large"
+                                  className="form-control"
+                                  placeholder="Select features"
+                                >
+                                  {featureList?.map((feat: any) => (
+                                    <Option key={feat.id} value={feat.id}>
+                                      {feat.title}
+                                    </Option>
+                                  ))}
+                                </Select>
+                                {errors?.features?.message && (
+                                  <div className="text-danger">
+                                    {errors?.features?.message + ""}
+                                  </div>
+                                )}
+                              </>
+                            )}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>
@@ -297,13 +359,15 @@ const HotelListing = () => {
                       >
                         <div
                           className="theme_common_box_two cursor-pointer"
-                          onClick={() => Router.push(`/hotel/${hotel.uuid}`)}
+                          onClick={() => Router.push(`/hotels/${hotel.uuid}`)}
                         >
                           <div className="theme_two_box_img">
                             <img
                               style={{ height: "200px", objectFit: "cover" }}
                               src={
-                                hotel.cover_image ? imageFullPath(hotel.cover_image) : "/imageplaceholder.jpg"
+                                hotel.cover_image
+                                  ? imageFullPath(hotel.cover_image)
+                                  : "/imageplaceholder.jpg"
                               }
                               // src={'/imageplaceholder.jpg'}
                               alt="img"
@@ -323,9 +387,16 @@ const HotelListing = () => {
 
                   <div className="pagination_area">
                     <Pagination
-                      style={{ visibility: hotels?.last_page > 1 ? "visible" : "hidden" }}
-                      onChange={page => router.push(cleanUrlParams('/hotel', { ...router.query, page }))}
-                      className='pagination'
+                      style={{
+                        visibility:
+                          hotels?.last_page > 1 ? "visible" : "hidden",
+                      }}
+                      onChange={(page) =>
+                        router.push(
+                          cleanUrlParams("/hotel", { ...router.query, page })
+                        )
+                      }
+                      className="pagination"
                       current={hotels?.current_page}
                       pageSize={hotels?.per_page || 1}
                       total={hotels?.total}

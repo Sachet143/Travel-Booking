@@ -404,7 +404,7 @@ const TopBar = () => {
                             className="nav-link"
                             onClick={(e) => {
                               e.preventDefault();
-                              router.push("/hotel");
+                              router.push("/hotels");
                             }}
                             href="_target"
                           >

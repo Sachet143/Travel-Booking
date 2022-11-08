@@ -61,7 +61,7 @@ export async function middleware(request: NextRequest) {
   }
 
   url.pathname = "/client" + url.pathname;
-  console.log(url)
+  console.log(url);
   return NextResponse.rewrite(url);
 }
 
@@ -78,8 +78,8 @@ export const config = {
     "/forgot-password",
     "/reset-password",
     "/tour",
-    "/hotel",
-    "/hotel/:path",
+    "/hotels",
+    "/hotels/:path",
     "/room/:path",
     "/room/:path/book",
     "/login",
