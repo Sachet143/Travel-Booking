@@ -22,16 +22,19 @@ import { Controller, useForm } from "react-hook-form";
 import states from "@/states.json";
 import axiosClient from "@/services/axios/clientfetch";
 const { Option } = Select;
-
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
 const HotelListing = () => {
   const router = useRouter();
 
+  const { data: featureList, error: featureError } = useSWR(
+    `/features`,
+    customFetcher
+  );
+
   const {
     data: hotels,
-    error,
-    mutate,
+    error
   } = useSWR(cleanUrlParams(`/hotels`, router.query));
   const hotelLoading = !hotels && !error;
 
@@ -52,10 +55,6 @@ const HotelListing = () => {
     },
   });
 
-  const { data: featureList, error: featureError } = useSWR(
-    `/features`,
-    customFetcher
-  );
 
   const applyPriceFilter = (e: any) => {
     e.preventDefault();
