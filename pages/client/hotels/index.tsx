@@ -107,6 +107,16 @@ const HotelListing = () => {
     );
   };
 
+  const applyFeaturesFilter = (e: any) => {
+    e.preventDefault();
+    router.push(
+      cleanUrlParams("/hotels", {
+        ...router.query,
+        features: getValues("features").join(","),
+      })
+    );
+  };
+
   useEffect(() => {
     reset(router.query);
   }, [router.query]);
@@ -124,7 +134,7 @@ const HotelListing = () => {
                       <Skeleton active paragraph={false} />
                     </div>
                   ) : (
-                    <h2>{hotels.data.length} hotel found</h2>
+                    <h2>{hotels.total} hotel found</h2>
                   )}
                 </div>
               </div>
@@ -132,6 +142,9 @@ const HotelListing = () => {
             <div className="row">
               {/* filters */}
               <div className="col-lg-3">
+                <div className="left_side_search_area">
+                  <div className="left_side_search_boxed"></div>
+                </div>
                 <div className="left_side_search_area">
                   {/* filter by price */}
                   <div className="left_side_search_boxed">
@@ -310,36 +323,55 @@ const HotelListing = () => {
                         {!featureList && !featureError ? (
                           <Skeleton className="mt-3" active paragraph={false} />
                         ) : (
-                          <Controller
-                            control={control}
-                            name="features"
-                            rules={{ required: "Feature is required!" }}
-                            render={({ field: { onChange, value } }) => (
-                              <>
-                                <Select
-                                  mode="multiple"
-                                  value={value}
-                                  onChange={onChange}
-                                  allowClear
-                                  status={errors?.features?.message && "error"}
-                                  size="large"
-                                  className="form-control"
-                                  placeholder="Select features"
-                                >
-                                  {featureList?.map((feat: any) => (
-                                    <Option key={feat.id} value={feat.id}>
-                                      {feat.title}
-                                    </Option>
-                                  ))}
-                                </Select>
-                                {errors?.features?.message && (
-                                  <div className="text-danger">
-                                    {errors?.features?.message + ""}
-                                  </div>
-                                )}
-                              </>
-                            )}
-                          />
+                          <>
+                            {" "}
+                            <Controller
+                              control={control}
+                              name="features"
+                              rules={{ required: "Feature is required!" }}
+                              render={({ field: { onChange, value } }) => (
+                                <>
+                                  <Select
+                                    mode="multiple"
+                                    value={value}
+                                    onChange={onChange}
+                                    allowClear
+                                    status={
+                                      errors?.features?.message && "error"
+                                    }
+                                    size="large"
+                                    className="form-control mb-3"
+                                    placeholder="Select features"
+                                  >
+                                    {featureList?.map((feat: any) => (
+                                      <Option key={feat.id} value={feat.id}>
+                                        {feat.title}
+                                      </Option>
+                                    ))}
+                                  </Select>
+                                  {errors?.features?.message && (
+                                    <div className="text-danger">
+                                      {errors?.features?.message + ""}
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                            />
+                            <button
+                              className="btn btn-admin-dark"
+                              type="button"
+                              onClick={applyFeaturesFilter}
+                            >
+                              Apply
+                            </button>
+                            <button
+                              className="btn btn-admin-dark-outlined mx-3"
+                              type="button"
+                              onClick={clearPriceFilter}
+                            >
+                              Clear
+                            </button>
+                          </>
                         )}
                       </div>
                     </div>
@@ -393,7 +425,7 @@ const HotelListing = () => {
                       }}
                       onChange={(page) =>
                         router.push(
-                          cleanUrlParams("/hotel", { ...router.query, page })
+                          cleanUrlParams("/hotels", { ...router.query, page })
                         )
                       }
                       className="pagination"
