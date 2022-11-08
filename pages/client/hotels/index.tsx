@@ -141,8 +141,6 @@ const HotelListing = () => {
 
   }, [router.query]);
 
-  console.log(router.query);
-
   const clearFilter = (value: any) => {
     router.push(
       cleanUrlParams("/hotels", {

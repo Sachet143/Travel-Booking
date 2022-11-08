@@ -1,8 +1,8 @@
 // @ts-nocheck
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { imageFullPath, renderLocation } from "@/services/helper";
-import { Button, Empty, Skeleton } from "antd";
+import { cleanUrlParams, imageFullPath, renderLocation } from "@/services/helper";
+import { Button, Col, Empty, InputNumber, Row, Select, Skeleton } from "antd";
 import moment from "moment";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
@@ -10,6 +10,10 @@ import useSWR from "swr";
 import dynamic from "next/dynamic";
 import Slider from "react-slick";
 import YoutubeComponent from "@/components/common/YoutubeComponent";
+import { Controller, useForm } from "react-hook-form";
+import axiosClient from "@/services/axios/clientfetch";
+const { Option } = Select;
+const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod: any) => mod.Editor),
@@ -18,7 +22,9 @@ const Editor = dynamic(
 
 function HotelPage() {
   const router = useRouter();
-  const { uuid } = router.query;
+  const { uuid, ...restQuery } = router.query;
+
+  console.log({ restQuery })
 
   const { data: hotel, error } = useSWR(uuid ? `/hotels/${uuid}` : null);
   const { data: rooms, error: roomError } = useSWR(
@@ -26,6 +32,12 @@ function HotelPage() {
   );
   const hotelLoading = !hotel && !error;
   const roomLoading = !rooms && !error;
+
+
+  const { data: featureList, error: featureError } = useSWR(
+    `/features`,
+    customFetcher
+  );
 
   //   const { data: roomId, error: singleRoomError } = useSWR(
   //     rooms ? `rooms/${rooms.data[0].uuid}` : null
@@ -76,25 +88,59 @@ function HotelPage() {
   //     }
   //   }, [hotel]);
 
-  const [dropDown, setDropDown] = useState(false);
-  const [checkInDate, setCheckInDate] = useState(
-    moment(Date.now()).format("YYYY-MM-DD")
-  );
-
-  const [checkOutDate, setCheckOutDate] = useState(
-    moment(Date.now()).format("YYYY-MM-DD")
-  );
-
-  const [sumGuests, setSumGuests] = useState(1);
-
-  const [finalTotal, setFinalTotal] = useState({
-    adult: 1,
-    children: 0,
-    infant: 0,
-  });
-
   const [nav1, setNav1] = useState();
   const [nav2, setNav2] = useState();
+
+  const { getValues, control, formState: { errors }, reset } = useForm({
+    defaultValues: {
+      min_price: 0,
+      max_price: 0,
+      features: [],
+    }
+  })
+
+  const applyPriceFilter = (e: any) => {
+    e.preventDefault();
+
+    router.push(
+      cleanUrlParams(`/hotels/${uuid}`, {
+        ...restQuery,
+        min_price: getValues("min_price"),
+        max_price: getValues("max_price"),
+      })
+    );
+  };
+
+  const clearPriceFilter = (e: any) => {
+    e.preventDefault();
+
+    router.push(
+      cleanUrlParams(`/hotels/${uuid}`, {
+        ...restQuery,
+        min_price: null,
+        max_price: null,
+      })
+    );
+  };
+  const applyFeaturesFilter = (e: any) => {
+    e.preventDefault();
+    router.push(
+      cleanUrlParams(`/hotels/${uuid}`, {
+        ...restQuery,
+        features: getValues("features").join(","),
+      })
+    );
+  };
+
+  // useEffect(() => {
+  //   reset({
+  //     min_price: restQuery.min_price,
+  //     max_price: restQuery.max_price,
+  //     features: restQuery.features
+  //       ? restQuery.features.toString().split(",").map(i => Number(i))
+  //       : []
+  //   });
+  // }, [restQuery.features, restQuery.min_price, restQuery.max_price]);
 
   return (
     <ClientLayout>
@@ -238,6 +284,8 @@ function HotelPage() {
                         </div>
                       </div>
 
+                      {renderRoomFilter()}
+
                       <div className="tour_details_boxed">
                         <h3 className="heading_theme">Select your room</h3>
                         <div className="room_select_area">
@@ -301,7 +349,7 @@ function HotelPage() {
                                             <>
                                               <div className="room_book_item">
                                                 <div className="room_book_img">
-                                                  <img src={imageFullPath(room.files[0].path)} alt="img" />
+                                                  <img src={imageFullPath(room.files[0]?.path)} alt="img" />
                                                 </div>
                                                 <div className="room_booking_right_side">
                                                   <div className="room_booking_heading">
@@ -1057,6 +1105,174 @@ function HotelPage() {
       </>
     </ClientLayout>
   );
+
+  function renderRoomFilter() {
+    return (
+      <div className="tour_details_boxed">
+        <h3 className="heading_theme">Room Filter</h3>
+        <div className="flex-wrap row">
+          <div className="col left_side_search_boxed">
+            <div className="left_side_search_heading">
+              <h5>Filter by Price</h5>
+            </div>
+            <div className="filter-price">
+              {/* minimum price */}
+              <label>Minimum price</label>
+              <Controller
+                name="min_price"
+                control={control}
+                render={({ field: { onChange, value } }) => {
+                  return (
+                    <>
+                      <Row>
+                        <Col span={12}>
+                          <Slider
+                            step={5}
+                            min={500}
+                            max={1500}
+                            onChange={onChange}
+                            value={Number(value)}
+                          />
+                        </Col>
+                        <Col span={4}>
+                          <InputNumber
+                            min={500}
+                            max={1500}
+                            style={{ margin: "0 16px" }}
+                            value={Number(value)}
+                            onChange={onChange}
+                          />
+                        </Col>
+                      </Row>
+                      {errors?.min_price && (
+                        <p>{errors.min_price.message + ""}</p>
+                      )}
+                    </>
+                  );
+                }}
+              />
+              {/* minimum price */}
+              <label>MaxPrice price</label>
+              <Controller
+                name="max_price"
+                control={control}
+                rules={{
+                  validate: (val) =>
+                    (val && val >= 100 && val <= 50000) ||
+                    "Lowest Price should be in range",
+                }}
+                render={({ field: { onChange, value } }) => {
+                  return (
+                    <>
+                      <Row>
+                        <Col span={12}>
+                          <Slider
+                            step={5}
+                            min={1500}
+                            max={50000}
+                            onChange={onChange}
+                            value={Number(value)}
+                          />
+                        </Col>
+                        <Col span={4}>
+                          <InputNumber
+                            min={1500}
+                            max={50000}
+                            style={{ margin: "0 16px" }}
+                            value={Number(value)}
+                            onChange={onChange}
+                          />
+                        </Col>
+                      </Row>
+                      {errors?.max_price && (
+                        <p>{errors.max_price.message + ""}</p>
+                      )}
+                    </>
+                  );
+                }}
+              />
+            </div>
+            <button
+              className="btn btn-admin-dark"
+              type="button"
+              onClick={applyPriceFilter}
+            >
+              Apply
+            </button>
+            <button
+              className="btn btn-admin-dark-outlined mx-3"
+              type="button"
+              onClick={clearPriceFilter}
+            >
+              Clear
+            </button>
+          </div>
+          {/* Features */}
+          <div className="col left_side_search_boxed">
+            <div className="left_side_search_heading">
+              <h5>Features</h5>
+            </div>
+            <div className="tour_search_type">
+              <div className="custom-select">
+                {!featureList && !featureError ? (
+                  <Skeleton className="mt-3" active paragraph={false} />
+                ) : (
+                  <>
+                    <Controller
+                      control={control}
+                      name="features"
+                      rules={{ required: "Feature is required!" }}
+                      render={({ field: { onChange, value } }) => (
+                        <>
+                          <Select
+                            mode="multiple"
+                            value={value}
+                            onChange={onChange}
+                            allowClear
+                            status={
+                              errors?.features?.message && "error"
+                            }
+                            size="large"
+                            className="form-control mb-3"
+                            placeholder="Select features"
+                          >
+                            {featureList?.map((feat: any) => (
+                              <Option key={feat.id} value={feat.id}>
+                                {feat.title}
+                              </Option>
+                            ))}
+                          </Select>
+                          {errors?.features?.message && (
+                            <div className="text-danger">
+                              {errors?.features?.message + ""}
+                            </div>
+                          )}
+                        </>
+                      )}
+                    />
+                    <button
+                      className="btn btn-admin-dark"
+                      type="button"
+                      onClick={applyFeaturesFilter}
+                    >
+                      Apply
+                    </button>
+                    <button
+                      className="btn btn-admin-dark-outlined mx-3"
+                      type="button"
+                      onClick={clearPriceFilter}
+                    >
+                      Clear
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default HotelPage;
