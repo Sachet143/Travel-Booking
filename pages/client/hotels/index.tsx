@@ -13,14 +13,16 @@ import {
   Select,
   Skeleton,
   Slider,
+  Tag,
 } from "antd";
 import Router, { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import _debounce from "lodash/debounce";
 import { Controller, useForm } from "react-hook-form";
 import states from "@/states.json";
 import axiosClient from "@/services/axios/clientfetch";
+import { debounce } from "lodash";
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
@@ -46,6 +48,7 @@ const HotelListing = () => {
     reset,
   } = useForm<any>({
     defaultValues: {
+      search: null,
       min_price: 0,
       max_price: 0,
       country: null,
@@ -116,6 +119,18 @@ const HotelListing = () => {
     );
   };
 
+  const debounceName = useMemo(() => {
+    const searchHotel = (value: any) => {
+      router.push(
+        cleanUrlParams("/hotels", {
+          ...router.query,
+          search: value,
+        })
+      );
+    };
+    return debounce(searchHotel, 1000);
+  }, []);
+
   useEffect(() => {
     reset({
       ...router.query,
@@ -125,6 +140,17 @@ const HotelListing = () => {
     });
 
   }, [router.query]);
+
+  console.log(router.query);
+
+  const clearFilter = (value: any) => {
+    router.push(
+      cleanUrlParams("/hotels", {
+        ...router.query,
+        [value]: null,
+      })
+    );
+  };
 
   return (
     <ClientLayout>
@@ -147,8 +173,39 @@ const HotelListing = () => {
             <div className="row">
               {/* filters */}
               <div className="col-lg-3">
+                {Object.keys(router.query).length > 0 && (
+                  <>
+                    <div className="h5">
+                      <h5>Applied Filter:</h5>
+                    </div>
+                    <div className="mb-3 left_side_search_heading">
+                      {Object.keys(router.query).map(
+                        (keyName: any, index: any) => {
+                          return (
+                            <Tag
+                              key={index}
+                              closable
+                              onClose={() => clearFilter(keyName)}
+                              className={"text-capitalize"}
+                            >
+                              {keyName}
+                            </Tag>
+                          );
+                        }
+                      )}
+                    </div>
+                  </>
+                )}
+
                 <div className="left_side_search_area">
-                  <div className="left_side_search_boxed"></div>
+                  <input
+                    {...register("search", {
+                      required: "Please enter the hotel name",
+                    })}
+                    className="form-control border mb-4"
+                    placeholder="Search Hotel"
+                    onChange={(e: any) => debounceName(e.target.value)}
+                  />
                 </div>
                 <div className="left_side_search_area">
                   {/* filter by price */}
