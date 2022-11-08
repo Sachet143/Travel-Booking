@@ -1748,8 +1748,8 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .tour_details_top_bottom_icon {
-  font-size: 30px;
-  padding-right: 10px;
+  font-size: 14px;
+  padding-right: 4px;
 }
 
 .tour_details_top_bottom_text h5 {
@@ -3771,7 +3771,7 @@ textarea {
   overflow: hidden;
   white-space: nowrap;
   width: 335px;
-  padding-bottom: 10px;
+  padding-bottom: 0px;
 }
 
 .room_booking_heading h3 a {
@@ -3785,6 +3785,8 @@ textarea {
 .room_fasa_area ul {
   display: flex;
   padding-top: 10px;
+  flex-wrap: wrap;
+  justify-content: left;
 }
 
 .room_fasa_area ul li {
@@ -3797,21 +3799,24 @@ textarea {
 }
 
 .room_person_select {
-  padding-left: 35px;
-  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .room_person_select h3 {
   font-size: 18px;
   color: var(--main-color);
   font-weight: 600;
-  padding-bottom: 15px;
+  margin: 0px !important;
 }
 
 .room_booking_right_side {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 15px 25px 0 25px;
+  flex-wrap: wrap;
 }
 
 .room_select_area .nav-tabs {
