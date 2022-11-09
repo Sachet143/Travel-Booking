@@ -273,86 +273,90 @@ function HotelPage() {
                                       <>
                                         {rooms.data.map((room: any) => {
                                           return (
-                                            <>
-                                              <div className="room_book_item">
-                                                <div className="room_book_img">
-                                                  <img
-                                                    src={imageFullPath(
-                                                      room.files[0]?.path
-                                                    )}
-                                                    alt="img"
-                                                  />
-                                                </div>
-                                                <div className="room_booking_right_side">
-                                                  <div className="room_booking_heading">
-                                                    <h3>
-                                                      <a
-                                                        className="text-capitalize"
-                                                        onClick={() => {
-                                                          router.push(
-                                                            `/room/${room.uuid}`
-                                                          );
-                                                        }}
-                                                      >
-                                                        {room.title}
-                                                      </a>
-                                                    </h3>
-                                                    <div className="room_fasa_area">
-                                                      <ul>
-                                                        {room.features.map(
-                                                          (f) => {
-                                                            return (
-                                                              <>
-                                                                <li
-                                                                  className="toru_details_top_bottom_item"
-                                                                  key={f.id}
-                                                                >
-                                                                  <div className="tour_details_top_bottom_icon">
-                                                                    <i
-                                                                      className={
-                                                                        f.icon_link
-                                                                      }
-                                                                    />
-                                                                    {/* <img src="/client/assets/img/icon/ac.png" alt="icon" /> */}
-                                                                  </div>
-                                                                  <div className="tour_details_top_bottom_text">
-                                                                    <p className="text-capitalize mx-1">
-                                                                      {f.title}
-                                                                    </p>
-                                                                  </div>
-                                                                </li>
-                                                              </>
-                                                            );
-                                                          }
-                                                        )}
-                                                      </ul>
-                                                    </div>
-                                                  </div>
-                                                  <div className="room_person_select">
-                                                    <h3
-                                                      style={{
-                                                        "white-space": "nowrap",
+                                            <div
+                                              className="room_book_item"
+                                              key={room.id}
+                                            >
+                                              <div className="room_book_img">
+                                                <img
+                                                  src={imageFullPath(
+                                                    room.files[0]?.path
+                                                  )}
+                                                  alt="img"
+                                                />
+                                              </div>
+                                              <div className="room_booking_right_side">
+                                                <div className="room_booking_heading">
+                                                  <h3>
+                                                    <a
+                                                      className="text-capitalize"
+                                                      onClick={() => {
+                                                        router.push(
+                                                          `/room/${room.uuid}`
+                                                        );
                                                       }}
                                                     >
-                                                      {"Rs." + room.price}
-                                                      {"/"}
-                                                      <sub>Per night</sub>
-                                                    </h3>
-                                                    <button
-                                                      className="btn btn_theme btn_sm"
-                                                      type="button"
-                                                      onClick={() =>
-                                                        router.push(
-                                                          `/room/${room.uuid}/book`
-                                                        )
-                                                      }
+                                                      {room.title}
+                                                    </a>
+                                                  </h3>
+                                                  <div className="room_fasa_area">
+                                                    <ul
+                                                      style={{
+                                                        justifyContent:
+                                                          "space-between",
+                                                      }}
                                                     >
-                                                      Book Now
-                                                    </button>
+                                                      {room.features.map(
+                                                        (f) => {
+                                                          return (
+                                                            <li
+                                                              className="toru_details_top_bottom_item"
+                                                              key={f.id}
+                                                            >
+                                                              <div className="tour_details_top_bottom_icon">
+                                                                <i
+                                                                  className={
+                                                                    f.icon_link
+                                                                  }
+                                                                />
+                                                                {/* <img src="/client/assets/img/icon/ac.png" alt="icon" /> */}
+                                                              </div>
+                                                              <div className="tour_details_top_bottom_text">
+                                                                <p className="text-capitalize mx-1">
+                                                                  {f.title}
+                                                                </p>
+                                                              </div>
+                                                            </li>
+                                                          );
+                                                        }
+                                                      )}
+                                                    </ul>
                                                   </div>
                                                 </div>
+                                                <div className="room_person_select">
+                                                  <h3
+                                                    style={{
+                                                      "white-space": "nowrap",
+                                                    }}
+                                                  >
+                                                    {"Rs." + room.price}
+                                                    {"/"}
+                                                    <sub>Per night</sub>
+                                                  </h3>
+                                                  <button
+                                                    className="btn btn_theme btn_sm"
+                                                    type="button"
+                                                    onClick={() =>
+                                                      router.push(
+                                                        `/room/${room.uuid}/book`
+                                                      )
+                                                    }
+                                                  >
+                                                    Book Now
+                                                  </button>
+                                                </div>
                                               </div>
-                                            </>
+                                            </div>
                                           );
                                         })}
                                       </>
@@ -1034,7 +1038,7 @@ function HotelPage() {
 
   function renderRoomFilter() {
     return (
-      <div className="tour_details_boxed">
+      <div className="tour_details_boxed" id="#filter">
         <h3 className="heading_theme">Room Filter</h3>
         <div className="flex-wrap row">
           <div className="col left_side_search_boxed">
