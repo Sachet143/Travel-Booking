@@ -5,3 +5,6 @@ export const clientLogin = async (data: object) =>
 
 export const clientRegister = async (data: object) =>
   await axiosInstance.post(`/register`, data);
+
+export const googleLogin = async () =>
+  await axiosInstance.get(`/auth/google`,);

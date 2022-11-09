@@ -67,6 +67,7 @@ const HotelListing = () => {
         ...router.query,
         min_price: getValues("min_price"),
         max_price: getValues("max_price"),
+        page: 1
       })
     );
   };
@@ -80,6 +81,7 @@ const HotelListing = () => {
         country: getValues("country"),
         state: getValues("state"),
         city: getValues("city"),
+        page: 1
       })
     );
   };
@@ -115,6 +117,7 @@ const HotelListing = () => {
       cleanUrlParams("/hotels", {
         ...router.query,
         features: getValues("features").join(","),
+        page: 1
       })
     );
   };
@@ -125,6 +128,7 @@ const HotelListing = () => {
         cleanUrlParams("/hotels", {
           ...router.query,
           search: value,
+          page: 1
         })
       );
     };

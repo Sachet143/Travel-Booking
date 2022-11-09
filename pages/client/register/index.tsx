@@ -1,4 +1,4 @@
-import { clientRegister } from "@/api/client/auth";
+import { clientRegister, googleLogin } from "@/api/client/auth";
 import Password from "@/components/common/Password";
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import {
@@ -48,32 +48,25 @@ const Register = () => {
       .finally(() => setLoading(false));
   };
 
+
+  const googleLoginHandler = () => {
+    setLoading(true);
+    googleLogin()
+      .then((res: any) => {
+        console.log(res)
+        toast.success(res.message);
+        // @ts-ignore
+        setCookie(TOKEN_KEY, appEncrypt(res.data.token));
+        // @ts-ignore
+        setCookie(USER_TYPE_KEY, appEncrypt("client"));
+        Router.push("/");
+      })
+      .catch((err) => responseErrorHandler(err, setError))
+  };
+
   return (
     <ClientLayout>
       <>
-        {/* <section id="common_banner">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="common_bannner_text">
-                  <h2>Register</h2>
-                  <ul>
-                    <li>
-                      <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                      <span>
-                        <i className="fas fa-circle"></i>
-                      </span>{" "}
-                      Register
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> */}
-
         <section id="common_author_area" className="section_padding">
           <div className="container">
             <div className="row">
@@ -192,7 +185,7 @@ const Register = () => {
                           <span>or</span>
                         </div>
                         <ul>
-                          <li>
+                          <li onClick={googleLoginHandler}>
                             <a href="#!">
                               <img
                                 src="/client/assets/img/icon/google.png"
