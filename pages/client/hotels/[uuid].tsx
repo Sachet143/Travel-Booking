@@ -13,6 +13,7 @@ import React, { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import dynamic from "next/dynamic";
 import Slider from "react-slick";
+import { Slider as AntSlider } from "antd";
 import YoutubeComponent from "@/components/common/YoutubeComponent";
 import { Controller, useForm } from "react-hook-form";
 import axiosClient from "@/services/axios/clientfetch";
@@ -27,12 +28,16 @@ const Editor = dynamic(
 function HotelPage() {
   const router = useRouter();
   const { uuid, ...restQuery } = router.query;
-
-  console.log({ restQuery });
+  console.log(restQuery);
 
   const { data: hotel, error } = useSWR(uuid ? `/hotels/${uuid}` : null);
   const { data: rooms, error: roomError } = useSWR(
-    hotel ? `rooms?hotel_id=${hotel.id}` : null
+    hotel
+      ? cleanUrlParams(`rooms`, {
+          hotel_id: hotel.id,
+          ...restQuery,
+        })
+      : null
   );
   const hotelLoading = !hotel && !error;
   const roomLoading = !rooms && !error;
@@ -45,6 +50,8 @@ function HotelPage() {
   const [nav1, setNav1] = useState();
   const [nav2, setNav2] = useState();
 
+  console.log(restQuery.min_price);
+
   const {
     getValues,
     control,
@@ -52,11 +59,19 @@ function HotelPage() {
     reset,
   } = useForm({
     defaultValues: {
-      min_price: 0,
-      max_price: 0,
+      min_price: 500,
+      max_price: 1500,
       features: [],
     },
   });
+
+  useEffect(() => {
+    reset({
+      min_price: restQuery?.min_price,
+      max_price: restQuery?.max_price,
+      features: restQuery.features?.split(","),
+    });
+  }, [router.query]);
 
   const applyPriceFilter = (e: any) => {
     e.preventDefault();
@@ -76,8 +91,8 @@ function HotelPage() {
     router.push(
       cleanUrlParams(`/hotels/${uuid}`, {
         ...restQuery,
-        min_price: null,
-        max_price: null,
+        min_price: 500,
+        max_price: 1500,
       })
     );
   };
@@ -119,10 +134,10 @@ function HotelPage() {
                     <div className="tour_details_leftside_wrapper">
                       <div className="tour_details_heading_wrapper">
                         <div className="tour_details_top_heading">
-                          <h2 className="text-capitalize">{hotel.name}</h2>
+                          <h2 className="text-capitalize">{hotel?.name}</h2>
                           <h5 className="text-capitalize">
                             <i className="fas fa-map-marker-alt"></i>{" "}
-                            {renderLocation(hotel.location)}
+                            {renderLocation(hotel?.location)}
                           </h5>
                         </div>
                       </div>
@@ -1056,7 +1071,7 @@ function HotelPage() {
                     <>
                       <Row>
                         <Col span={12}>
-                          <Slider
+                          <AntSlider
                             step={5}
                             min={500}
                             max={1500}
@@ -1096,7 +1111,7 @@ function HotelPage() {
                     <>
                       <Row>
                         <Col span={12}>
-                          <Slider
+                          <AntSlider
                             step={5}
                             min={1500}
                             max={50000}
