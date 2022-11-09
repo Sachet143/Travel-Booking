@@ -34,10 +34,9 @@ const HotelListing = () => {
     customFetcher
   );
 
-  const {
-    data: hotels,
-    error
-  } = useSWR(cleanUrlParams(`/hotels`, router.query));
+  const { data: hotels, error } = useSWR(
+    cleanUrlParams(`/hotels`, router.query)
+  );
   const hotelLoading = !hotels && !error;
 
   const {
@@ -57,7 +56,6 @@ const HotelListing = () => {
       features: [],
     },
   });
-
 
   const applyPriceFilter = (e: any) => {
     e.preventDefault();
@@ -139,10 +137,12 @@ const HotelListing = () => {
     reset({
       ...router.query,
       features: router.query.features
-        ? router.query.features.toString().split(",").map(i => Number(i))
-        : []
+        ? router.query.features
+            .toString()
+            .split(",")
+            .map((i) => Number(i))
+        : [],
     });
-
   }, [router.query]);
 
   const clearFilter = (value: any) => {
@@ -234,7 +234,7 @@ const HotelListing = () => {
                                     value={Number(value)}
                                   />
                                 </Col>
-                                <Col span={4}>
+                                {/* <Col span={4}>
                                   <InputNumber
                                     min={500}
                                     max={1500}
@@ -242,7 +242,7 @@ const HotelListing = () => {
                                     value={Number(value)}
                                     onChange={onChange}
                                   />
-                                </Col>
+                                </Col> */}
                               </Row>
                               {errors?.min_price && (
                                 <p>{errors.min_price.message + ""}</p>
@@ -456,11 +456,15 @@ const HotelListing = () => {
                         <div
                           className="theme_common_box_two cursor-pointer"
                           // onClick={() => Router.push(`/hotels/${hotel.uuid}`, {router.query})}
-                          onClick={() => Router.push(cleanUrlParams(`/hotels/${hotel.uuid}`, {
-                            min_price: router.query.min_price,
-                            max_price: router.query.max_price,
-                            features: router.query.features,
-                          }))}
+                          onClick={() =>
+                            Router.push(
+                              cleanUrlParams(`/hotels/${hotel.uuid}`, {
+                                min_price: router.query.min_price,
+                                max_price: router.query.max_price,
+                                features: router.query.features,
+                              })
+                            )
+                          }
                         >
                           <div className="theme_two_box_img">
                             <img
