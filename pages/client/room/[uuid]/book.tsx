@@ -385,12 +385,12 @@ const BookRoom = () => {
                           <div className="booking_tour_form_submit">
                             <div className="form-check write_spical_check">
                               <input
-                                className="form-check-input"
+                                className="form-check-input cursor-pointer"
                                 type="checkbox"
                                 value=""
                                 id="flexCheckDefaultf1"
                               />
-                              <label className="form-check-label">
+                              <label className="form-check-label cursor-pointer" htmlFor="flexCheckDefaultf1">
                                 <span className="main_spical_check">
                                   <span>
                                     I read and accept all{" "}

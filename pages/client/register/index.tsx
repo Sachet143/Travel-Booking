@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { setCookie } from "cookies-next";
 import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
 import Router from "next/router";
+import Link from "next/link";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -53,13 +54,12 @@ const Register = () => {
     setLoading(true);
     googleLogin()
       .then((res: any) => {
-        console.log(res)
         toast.success(res.message);
         // @ts-ignore
         setCookie(TOKEN_KEY, appEncrypt(res.data.token));
         // @ts-ignore
         setCookie(USER_TYPE_KEY, appEncrypt("client"));
-        Router.push("/");
+        Router.push("/login");
       })
       .catch((err) => responseErrorHandler(err, setError))
   };
@@ -195,8 +195,8 @@ const Register = () => {
                           </li>
                         </ul>
                         <p>
-                          Already have an account?
-                          <a href="/login">Log in now</a>
+                          Already have an account?{" "}
+                          <Link href={"/login"}>Log in now</Link>
                         </p>
                       </div>
                     </form>
