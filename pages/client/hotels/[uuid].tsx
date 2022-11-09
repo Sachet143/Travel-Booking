@@ -1,7 +1,11 @@
 // @ts-nocheck
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { cleanUrlParams, imageFullPath, renderLocation } from "@/services/helper";
+import {
+  cleanUrlParams,
+  imageFullPath,
+  renderLocation,
+} from "@/services/helper";
 import { Button, Col, Empty, InputNumber, Row, Select, Skeleton } from "antd";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -24,7 +28,7 @@ function HotelPage() {
   const router = useRouter();
   const { uuid, ...restQuery } = router.query;
 
-  console.log({ restQuery })
+  console.log({ restQuery });
 
   const { data: hotel, error } = useSWR(uuid ? `/hotels/${uuid}` : null);
   const { data: rooms, error: roomError } = useSWR(
@@ -33,71 +37,26 @@ function HotelPage() {
   const hotelLoading = !hotel && !error;
   const roomLoading = !rooms && !error;
 
-
   const { data: featureList, error: featureError } = useSWR(
     `/features`,
     customFetcher
   );
 
-  //   const { data: roomId, error: singleRoomError } = useSWR(
-  //     rooms ? `rooms/${rooms.data[0].uuid}` : null
-  //   );
-
-  //   useEffect(() => {
-  //     if ($(".slider-for") && $(".slider-nav")) {
-  //       $(".slider-for").not(".slick-initialized").slick({
-  //         infinite: true,
-  //         slidesToShow: 1,
-  //         slidesToScroll: 3,
-  //         arrows: false,
-  //         fade: true,
-  //         asNavFor: ".slider-nav",
-  //       });
-  //       $(".slider-nav").not(".slick-initialized").slick({
-  //         infinite: true,
-  //         slidesToShow: 5,
-  //         slidesToScroll: 5,
-  //         asNavFor: ".slider-for",
-  //         dots: false,
-  //         focusOnSelect: true,
-  //       });
-
-  //       $(".promotional_tour_slider").owlCarousel({
-  //         loop: true,
-  //         dots: true,
-  //         autoplayHoverPause: true,
-  //         autoplay: true,
-  //         smartSpeed: 1000,
-  //         margin: 10,
-  //         nav: false,
-  //         responsive: {
-  //           0: {
-  //             items: 1,
-  //           },
-  //           768: {
-  //             items: 2,
-  //           },
-  //           992: {
-  //             items: 3,
-  //           },
-  //           1200: {
-  //             items: 4,
-  //           },
-  //         },
-  //       });
-  //     }
-  //   }, [hotel]);
-
   const [nav1, setNav1] = useState();
   const [nav2, setNav2] = useState();
 
-  const { getValues, control, formState: { errors }, reset } = useForm({
+  const {
+    getValues,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm({
     defaultValues: {
       min_price: 0,
       max_price: 0,
       features: [],
-    }
-  })
+    },
+  });
 
   const applyPriceFilter = (e: any) => {
     e.preventDefault();
@@ -145,42 +104,6 @@ function HotelPage() {
   return (
     <ClientLayout>
       <>
-        {/* <section
-          id="common_banner"
-        //   style={{
-        //     backgroundImage: `url(${
-        //       hotel?.cover_full_path ?? "/img/banner/common-banner.png"
-        //     })`,
-        //   }}
-        >
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="common_bannner_text">
-                  <h2>Hotel details</h2>
-                  <ul>
-                    <li>
-                      <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                      <span>
-                        <i className="fas fa-circle"></i>
-                      </span>
-                      <a href="hotel-search.html">Hotel</a>
-                    </li>
-                    <li>
-                      <span>
-                        <i className="fas fa-circle"></i>
-                      </span>{" "}
-                      {hotel?.name}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> */}
-
         {hotelLoading ? (
           <section id="tour_details_main" className="section_padding">
             <div className="container">
@@ -215,9 +138,7 @@ function HotelPage() {
                               {/* <img src="/client/assets/img/icon/ac.png" alt="icon" /> */}
                             </div>
                             <div className="tour_details_top_bottom_text">
-                              <p className="text-capitalize mx-1">
-                                {f.title}
-                              </p>
+                              <p className="text-capitalize mx-1">{f.title}</p>
                             </div>
                           </div>
                         ))}
@@ -238,7 +159,10 @@ function HotelPage() {
                                       key={item.id}
                                       className="single-slider-wrapper"
                                     >
-                                      <img src={imageFullPath(item.path)} alt="img" />
+                                      <img
+                                        src={imageFullPath(item.path)}
+                                        alt="img"
+                                      />
                                     </div>
                                   );
                                 })}
@@ -261,7 +185,10 @@ function HotelPage() {
                                       className="cursor-pointer"
                                       key={item.id}
                                     >
-                                      <img src={imageFullPath(item.path)} alt="img" />
+                                      <img
+                                        src={imageFullPath(item.path)}
+                                        alt="img"
+                                      />
                                     </div>
                                   );
                                 })}
@@ -346,9 +273,17 @@ function HotelPage() {
                                       <>
                                         {rooms.data.map((room: any) => {
                                           return (
-                                            <div className="room_book_item" key={room.id}>
+                                            <div
+                                              className="room_book_item"
+                                              key={room.id}
+                                            >
                                               <div className="room_book_img">
-                                                <img src={imageFullPath(room.files[0]?.path)} alt="img" />
+                                                <img
+                                                  src={imageFullPath(
+                                                    room.files[0]?.path
+                                                  )}
+                                                  alt="img"
+                                                />
                                               </div>
                                               <div className="room_booking_right_side">
                                                 <div className="room_booking_heading">
@@ -378,15 +313,11 @@ function HotelPage() {
                                                               className="toru_details_top_bottom_item"
                                                               key={f.id}
                                                             >
-                                                              <div
-                                                                className="tour_details_top_bottom_icon"
-                                                                style={{
-                                                                  fontSize:
-                                                                    "23px",
-                                                                }}
-                                                              >
+                                                              <div className="tour_details_top_bottom_icon">
                                                                 <i
-                                                                  className={f.icon_link}
+                                                                  className={
+                                                                    f.icon_link
+                                                                  }
                                                                 />
                                                                 {/* <img src="/client/assets/img/icon/ac.png" alt="icon" /> */}
                                                               </div>
@@ -429,7 +360,12 @@ function HotelPage() {
                                           );
                                         })}
                                       </>
-                                    ) : <Empty className="my-4" description="No Rooms Found for this Hotel" />}
+                                    ) : (
+                                      <Empty
+                                        className="my-4"
+                                        description="No Rooms Found for this Hotel"
+                                      />
+                                    )}
                                   </>
                                 )}
                               </div>
@@ -537,9 +473,7 @@ function HotelPage() {
                               <Editor
                                 //@ts-ignore
                                 toolbarHidden
-                                contentState={JSON.parse(
-                                  hotel.our_facilities
-                                )}
+                                contentState={JSON.parse(hotel.our_facilities)}
                                 readOnly
                               />
                             </div>
@@ -1225,9 +1159,7 @@ function HotelPage() {
                             value={value}
                             onChange={onChange}
                             allowClear
-                            status={
-                              errors?.features?.message && "error"
-                            }
+                            status={errors?.features?.message && "error"}
                             size="large"
                             className="form-control mb-3"
                             placeholder="Select features"
@@ -1267,7 +1199,7 @@ function HotelPage() {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
