@@ -44,11 +44,11 @@ const RoomDetail = () => {
       <>
         <section
           id="common_banner"
-          //   style={{
-          //     backgroundImage: `url(${
-          //       hotel?.cover_full_path ?? "/img/banner/common-banner.png"
-          //     })`,
-          //   }}
+        //   style={{
+        //     backgroundImage: `url(${
+        //       hotel?.cover_full_path ?? "/img/banner/common-banner.png"
+        //     })`,
+        //   }}
         >
           <div className="container">
             <div className="row">

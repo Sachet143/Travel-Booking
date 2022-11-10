@@ -1,9 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 import { roomBooking } from "@/api/client/booking";
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { responseErrorHandler } from "@/services/helper";
+import { imageFullPath, responseErrorHandler } from "@/services/helper";
 import useUser from "@/services/hooks/useUser";
-import { Button, Input, Skeleton, Spin } from "antd";
+import { Button, Empty, Input, Skeleton, Spin } from "antd";
+import Slider from "react-slick";
 import moment from "moment";
 // import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -11,6 +13,12 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useSWR from "swr";
+import dynamic from "next/dynamic";
+
+const Editor = dynamic(
+  () => import("react-draft-wysiwyg").then((mod: any) => mod.Editor),
+  { ssr: false }
+);
 
 const BookRoom = () => {
   const router = useRouter();
@@ -72,47 +80,15 @@ const BookRoom = () => {
       .catch((err) => responseErrorHandler(err, setError))
       .finally(() => setButtonLoading(false));
   };
+
+  const [nav1, setNav1] = useState<any>();
+  const [nav2, setNav2] = useState<any>();
+
   return (
     <>
       {
         <ClientLayout>
           <>
-            <Spin spinning={roomLoading}>
-              <section id="common_banner">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-lg-12">
-                      <div className="common_bannner_text">
-                        <h2>Room boking</h2>
-                        <ul>
-                          <li>
-                            <a href="index.html">Home</a>
-                          </li>
-                          <li>
-                            <span>
-                              <i className="fas fa-circle"></i>
-                            </span>
-                            <a href="hotel-search.html">Hotel</a>
-                          </li>
-                          <li>
-                            <span>
-                              <i className="fas fa-circle"></i>
-                            </span>
-                            <a href="hotel-details.html">Hotel details</a>
-                          </li>
-                          <li>
-                            <span>
-                              <i className="fas fa-circle"></i>
-                            </span>{" "}
-                            Booking
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </Spin>
             <section id="tour_booking_submission" className="section_padding">
               <div className="container">
                 <div className="row">
@@ -124,7 +100,66 @@ const BookRoom = () => {
                   ) : (
                     <>
                       <div className="col-lg-8">
-                        <div className="tou_booking_form_Wrapper">
+                        {roomData.files.length ? (
+                          <>
+                            <div className="slider slider-for">
+                              <Slider
+                                asNavFor={nav2}
+                                ref={(slider1) => setNav1(slider1)}
+                                adaptiveHeight={true}
+                              >
+                                {roomData.files.map((item: any) => {
+                                  return (
+                                    <div
+                                      key={item.id}
+                                      className="single-slider-wrapper"
+                                    >
+                                      <img
+                                        src={imageFullPath(item.path)}
+                                        alt="img"
+                                      />
+                                    </div>
+                                  );
+                                })}
+                              </Slider>
+                            </div>
+
+                            <div className="slider slider-nav">
+                              <Slider
+                                asNavFor={nav1}
+                                ref={(slider2) => setNav2(slider2)}
+                                slidesToShow={3}
+                                swipeToSlide={true}
+                                focusOnSelect={true}
+                                // @ts-ignore
+                                unslick={roomData.files.length < 4}
+                                adaptiveHeight={true}
+                              >
+                                {roomData.files.map((item: any) => {
+                                  return (
+                                    <div
+                                      className="cursor-pointer"
+                                      key={item.id}
+                                    >
+                                      <img
+                                        src={imageFullPath(item.path)}
+                                        alt="img"
+                                      />
+                                    </div>
+                                  );
+                                })}
+                              </Slider>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="py-5">
+                            <Empty
+                              className="my-5"
+                              description="No images available."
+                            />
+                          </div>
+                        )}
+                        <div className="tou_booking_form_Wrapper mt-5">
                           <div className="booking_tour_form">
                             <h3 className="heading_theme">
                               Booking submission
@@ -415,93 +450,44 @@ const BookRoom = () => {
                           <div className="tour_detail_right_sidebar">
                             <div className="tour_details_right_boxed">
                               <div className="tour_details_right_box_heading">
-                                <h3>Double deluxe room</h3>
+                                <h3>{roomData.title}</h3>
                               </div>
-                              <div className="valid_date_area">
-                                <div className="valid_date_area_one">
-                                  <h5>Valid from</h5>
-                                  <p>01 Feb 2022</p>
+                              {roomData["included/excluded"] && (
+                                <div className="tour_package_details_bar_list">
+                                  <h5>Included/Excluded</h5>
+                                  <Editor
+                                    //@ts-ignore
+                                    toolbarHidden
+                                    contentState={JSON.parse(`{\"blocks\":[{\"key\":\"d675\",\"text\":\"our facilities are top notch\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}`)}
+                                    // contentState={JSON.parse(roomData["included/excluded"])}
+                                    readOnly
+                                  />
                                 </div>
-                                <div className="valid_date_area_one">
-                                  <h5>Valid till</h5>
-                                  <p>15 Feb 2022</p>
-                                </div>
-                              </div>
-                              <div className="tour_package_details_bar_list">
-                                <h5>Room facilities</h5>
-                                <ul>
-                                  <li>
-                                    <i className="fas fa-circle"></i>Buffet
-                                    breakfast as per the Itinerary
-                                  </li>
-                                  <li>
-                                    <i className="fas fa-circle"></i>Visit eight
-                                    villages showcasing Polynesian culture
-                                  </li>
-                                  <li>
-                                    <i className="fas fa-circle"></i>
-                                    Complimentary Camel safari, Bonfire,
-                                  </li>
-                                  <li>
-                                    <i className="fas fa-circle"></i>All toll
-                                    tax, parking, fuel, and driver allowances
-                                  </li>
-                                  <li>
-                                    <i className="fas fa-circle"></i>Comfortable
-                                    and hygienic vehicle
-                                  </li>
-                                </ul>
-                              </div>
-                              <div className="tour_package_details_bar_price">
-                                <h5>Price</h5>
-                                <div className="tour_package_bar_price">
-                                  <h6>
-                                    <del>$ 35,500</del>
-                                  </h6>
-                                  <h3>
-                                    $ 30,500 <sub>/Per serson</sub>{" "}
-                                  </h3>
-                                </div>
-                              </div>
+                              )}
                             </div>
                           </div>
-
+                        </div>
+                        <div className="tour_details_right_sidebar_wrapper">
                           <div className="tour_detail_right_sidebar">
                             <div className="tour_details_right_boxed">
-                              <div className="tour_details_right_box_heading">
-                                <h3>Booking amount</h3>
-                              </div>
-
-                              <div className="tour_booking_amount_area">
-                                <ul>
-                                  <li>
-                                    Adult Price x 1 <span>$40,000.00</span>
-                                  </li>
-                                  <li>
-                                    Discount <span>-10%</span>
-                                  </li>
-                                  <li>
-                                    Tax<span>5%</span>
-                                  </li>
-                                </ul>
-                                <div className="tour_bokking_subtotal_area">
-                                  <h6>
-                                    Subtotal <span>$38,000.00</span>
-                                  </h6>
-                                </div>
-                                <div className="coupon_add_area">
-                                  <h6>
-                                    <span className="remove_coupon_tour">
-                                      Remove
-                                    </span>{" "}
-                                    Coupon code (OFF 5000)
-                                    <span>$5,000.00</span>
-                                  </h6>
-                                </div>
-                                <div className="total_subtotal_booking">
-                                  <h6>
-                                    Total Amount <span>$33,000.00</span>{" "}
-                                  </h6>
+                              <div className="tour_package_details_bar_price">
+                                <h3>Price</h3>
+                                <div className="tour_package_bar_price">
+                                  {
+                                    roomData.discount_price ?
+                                      <>
+                                        <h6>
+                                          <del>NRs.{roomData.price}</del>
+                                        </h6>
+                                        <h3>
+                                          NRs.{roomData.price - roomData.discount_price}
+                                        </h3>
+                                      </>
+                                      :
+                                      <h6>
+                                        NRs.{roomData.price}
+                                      </h6>
+                                  }
                                 </div>
                               </div>
                             </div>
