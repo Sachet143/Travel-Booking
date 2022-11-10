@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // @ts-nocheck
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
@@ -35,9 +36,9 @@ function HotelPage() {
   const { data: rooms, error: roomError } = useSWR(
     hotel
       ? cleanUrlParams(`rooms`, {
-          hotel_id: hotel.id,
-          ...restQuery,
-        })
+        hotel_id: hotel.id,
+        ...restQuery,
+      })
       : null
   );
   const hotelLoading = !hotel && !error;
@@ -50,8 +51,6 @@ function HotelPage() {
 
   const [nav1, setNav1] = useState();
   const [nav2, setNav2] = useState();
-
-  console.log(restQuery.min_price);
 
   const {
     getValues,
@@ -68,9 +67,14 @@ function HotelPage() {
 
   useEffect(() => {
     reset({
-      min_price: restQuery?.min_price,
-      max_price: restQuery?.max_price,
-      features: restQuery.features?.split(","),
+      min_price: restQuery?.min_price || 500,
+      max_price: restQuery?.max_price || 1500,
+      features: router.query.features
+        ? router.query.features
+          .toString()
+          .split(",")
+          .map(Number)
+        : [],
     });
   }, [router.query]);
 
