@@ -6,7 +6,7 @@ const Dropdown = ({
   setFinalTotal,
   childrenCount,
   adultCount,
-  infantCount,
+  maxPeople = 5
 }: any) => {
   const wrapperRef = useRef(null);
   function useOutsideAlerter(ref: any) {
@@ -32,13 +32,12 @@ const Dropdown = ({
   const [totalGuests, setTotalGuests] = useState({
     adult: adultCount,
     children: childrenCount,
-    infant: infantCount,
   });
 
   useEffect(() => {
-    setSumGuests(totalGuests.adult + totalGuests.children + totalGuests.infant);
+    setSumGuests(totalGuests.adult + totalGuests.children);
     setFinalTotal(totalGuests);
-  }, [totalGuests.adult, totalGuests.children, totalGuests.infant]);
+  }, [totalGuests.adult, totalGuests.children]);
 
   return (
     <div
@@ -61,12 +60,13 @@ const Dropdown = ({
               <div className="button-set">
                 <button
                   type="button"
-                  onClick={() =>
-                    setTotalGuests({
-                      ...totalGuests,
-                      adult: totalGuests.adult + 1,
-                    })
-                  }
+                  onClick={() => {
+                    totalGuests.adult + totalGuests.children !== maxPeople &&
+                      setTotalGuests({
+                        ...totalGuests,
+                        adult: totalGuests.adult + 1,
+                      })
+                  }}
                 >
                   <i className="fas fa-plus"></i>
                 </button>
@@ -96,7 +96,7 @@ const Dropdown = ({
                 <button
                   type="button"
                   onClick={() =>
-                    setTotalGuests({
+                    totalGuests.adult + totalGuests.children !== maxPeople && setTotalGuests({
                       ...totalGuests,
                       children: totalGuests.children + 1,
                     })
@@ -118,7 +118,7 @@ const Dropdown = ({
                 </button>
               </div>
             </div>
-            <div className="passengers-type">
+            {/* <div className="passengers-type">
               <div className="text">
                 <span className="count">{totalGuests.infant}</span>
                 <div className="type-label">
@@ -151,7 +151,7 @@ const Dropdown = ({
                   <i className="fas fa-minus"></i>
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

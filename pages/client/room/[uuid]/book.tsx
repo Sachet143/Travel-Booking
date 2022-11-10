@@ -7,7 +7,6 @@ import useUser from "@/services/hooks/useUser";
 import { Button, Empty, Input, Skeleton, Spin } from "antd";
 import Slider from "react-slick";
 import moment from "moment";
-// import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -22,7 +21,7 @@ const Editor = dynamic(
 
 const BookRoom = () => {
   const router = useRouter();
-  //   const { data: session, status } = useSession({ required: true });
+  const { data: paymentMethods } = useSWR('/paymentMethods');
   const { uuid } = router.query;
   const { data: roomData, error: roomError } = useSWR(
     uuid ? `rooms/${uuid}` : null
@@ -37,7 +36,6 @@ const BookRoom = () => {
   const [finalTotal, setFinalTotal] = useState({
     adult: 1,
     children: 0,
-    infant: 0,
   });
 
   const [selectedDay, setSelectedDay] = useState({
@@ -54,35 +52,43 @@ const BookRoom = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      hotel_room_id: "",
       payment_method_id: 1,
       from: moment(Date.now()).format("YYYY-MM-DD"),
       to: moment(Date.now()).add(1, "days").format("YYYY-MM-DD"),
       no_of_adult: finalTotal.adult,
       no_of_children: finalTotal.children,
-      no_of_infant: finalTotal.infant,
     },
   });
 
   const bookRoom = (data: any) => {
+
+    var duration = moment.duration(moment(data.to).diff(moment(data.from)));
+    var totalDays = duration.asDays();
+
     let finalBookingData = {
       ...data,
       hotel_room_id: roomData.id,
       no_of_adult: finalTotal.adult,
       no_of_children: finalTotal.children,
-      no_of_infant: finalTotal.infant,
-      user_id: user.id,
+      payment_method_id: payment,
+      room_price: roomData.price,
+      discount: roomData.discount_price,
+      total: totalDays * roomData.price
     };
 
     setButtonLoading(true);
     roomBooking(finalBookingData)
-      .then((res: any) => toast.success(res.message))
+      .then((res: any) => {
+        toast.success(res?.message)
+      })
       .catch((err) => responseErrorHandler(err, setError))
       .finally(() => setButtonLoading(false));
   };
 
   const [nav1, setNav1] = useState<any>();
   const [nav2, setNav2] = useState<any>();
+
+  const [payment, setPayment] = useState<any>(null);
 
   return (
     <>
@@ -245,6 +251,7 @@ const BookRoom = () => {
                                           </button>
                                           {dropDown && (
                                             <Dropdown
+                                              maxPeople={roomData.max_people}
                                               setSumGuests={setSumGuests}
                                               setDropDown={setDropDown}
                                               setFinalTotal={setFinalTotal}
@@ -252,7 +259,6 @@ const BookRoom = () => {
                                               childrenCount={
                                                 finalTotal.children
                                               }
-                                              infantCount={finalTotal.infant}
                                             />
                                           )}
                                         </div>
@@ -267,73 +273,38 @@ const BookRoom = () => {
                                               ? `Children ${finalTotal.children}`
                                               : null}
                                           </span>
-                                          <span>
-                                            {finalTotal.infant
-                                              ? `Infant ${finalTotal.infant}`
-                                              : null}
-                                          </span>
                                         </div>
                                       </div>
                                     </div>
-                                    <div className="top_form_search_button text-right">
-                                      <Button
-                                        className="btn btn_theme btn_md"
-                                        htmlType="submit"
-                                        loading={buttonLoading}
-                                      >
-                                        Book Now
-                                      </Button>
-                                    </div>
                                   </div>
                                 </div>
-                              </form>
-                            </div>
-                          </div>
-                          <div className="booking_tour_form">
-                            <h3 className="heading_theme">Payment method</h3>
-                            <div className="tour_booking_form_box">
-                              <div className="booking_payment_boxed">
-                                <form
-                                  action="https://andit.co/projects/html/and-tour/!#"
-                                  id="payment_checked"
-                                >
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="flexRadioDefault"
-                                      id="flexRadioDefault1"
-                                      value="red"
-                                    />
-                                    <label className="form-check-label">
-                                      Payment by card
-                                    </label>
-                                  </div>
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="flexRadioDefault"
-                                      id="flexRadioDefault2"
-                                      value="green"
-                                    />
-                                    <label className="form-check-label">
-                                      Paypal
-                                    </label>
-                                  </div>
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="flexRadioDefault"
-                                      id="flexRadioDefault3"
-                                      value="black"
-                                    />
-                                    <label className="form-check-label">
-                                      Payoneer
-                                    </label>
-                                  </div>
-                                  <div className="form-check">
+                                {/* payment method */}
+                                <div className="booking_tour_form mt-5">
+                                  <h3 className="heading_theme">Payment method</h3>
+                                  <div className="tour_booking_form_box">
+                                    <div className="booking_payment_boxed">
+                                      <div id="payment_checked">
+                                        {
+                                          !paymentMethods
+                                            ? <Skeleton active />
+                                            : paymentMethods.map((pm: any) => (
+                                              <div className="form-check" key={pm.id}>
+                                                <input
+                                                  onChange={e => setPayment(e.target.id)}
+                                                  className="form-check-input cursor-pointer"
+                                                  type="radio"
+                                                  name="flexRadioDefault"
+                                                  id={pm.id}
+                                                  // @ts-ignore
+                                                  value={payment === pm.id}
+                                                />
+                                                <label className="form-check-label cursor-pointer" htmlFor={pm.id}>
+                                                  {pm.title}
+                                                </label>
+                                              </div>
+                                            ))
+                                        }
+                                        {/* <div className="form-check">
                                     <input
                                       className="form-check-input"
                                       type="radio"
@@ -344,80 +315,95 @@ const BookRoom = () => {
                                     <label className="form-check-label">
                                       Cash on delivery
                                     </label>
+                                  </div> */}
+                                        <div className="payment_filed_wrapper">
+                                          <div className="payment_card payment_toggle red">
+                                            <div className="row">
+                                              <div className="col-lg-6">
+                                                <div className="form-group">
+                                                  <input
+                                                    type="text"
+                                                    className="form-control bg_input"
+                                                    placeholder="Card number"
+                                                  />
+                                                </div>
+                                              </div>
+                                              <div className="col-lg-6">
+                                                <div className="form-group">
+                                                  <input
+                                                    type="text"
+                                                    className="form-control bg_input"
+                                                    placeholder="Cardholder name"
+                                                  />
+                                                </div>
+                                              </div>
+                                              <div className="col-lg-6">
+                                                <div className="form-group">
+                                                  <input
+                                                    type="text"
+                                                    className="form-control bg_input"
+                                                    placeholder="Date of expiry"
+                                                  />
+                                                </div>
+                                              </div>
+                                              <div className="col-lg-6">
+                                                <div className="form-group">
+                                                  <input
+                                                    type="text"
+                                                    className="form-control bg_input"
+                                                    placeholder="Security code"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="paypal_payment payment_toggle green">
+                                            <div className="row">
+                                              <div className="col-lg-6">
+                                                <div className="form-group">
+                                                  <input
+                                                    type="text"
+                                                    className="form-control bg_input"
+                                                    placeholder="Email Address"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="payoneer_payment payment_toggle black">
+                                            <div className="row">
+                                              <div className="col-lg-6">
+                                                <div className="form-group">
+                                                  <input
+                                                    type="text"
+                                                    className="form-control bg_input"
+                                                    placeholder="Email Address"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div className="payment_filed_wrapper">
-                                    <div className="payment_card payment_toggle red">
-                                      <div className="row">
-                                        <div className="col-lg-6">
-                                          <div className="form-group">
-                                            <input
-                                              type="text"
-                                              className="form-control bg_input"
-                                              placeholder="Card number"
-                                            />
-                                          </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                          <div className="form-group">
-                                            <input
-                                              type="text"
-                                              className="form-control bg_input"
-                                              placeholder="Cardholder name"
-                                            />
-                                          </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                          <div className="form-group">
-                                            <input
-                                              type="text"
-                                              className="form-control bg_input"
-                                              placeholder="Date of expiry"
-                                            />
-                                          </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                          <div className="form-group">
-                                            <input
-                                              type="text"
-                                              className="form-control bg_input"
-                                              placeholder="Security code"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="paypal_payment payment_toggle green">
-                                      <div className="row">
-                                        <div className="col-lg-6">
-                                          <div className="form-group">
-                                            <input
-                                              type="text"
-                                              className="form-control bg_input"
-                                              placeholder="Email Address"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="payoneer_payment payment_toggle black">
-                                      <div className="row">
-                                        <div className="col-lg-6">
-                                          <div className="form-group">
-                                            <input
-                                              type="text"
-                                              className="form-control bg_input"
-                                              placeholder="Email Address"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </form>
-                              </div>
+                                </div>
+                                <div className="top_form_search_button text-right">
+                                  <Button
+                                    disabled={buttonLoading}
+                                    onClick={bookRoom}
+                                    className="btn btn_theme btn_md px-4"
+                                    htmlType="submit"
+                                    loading={buttonLoading}
+                                  >
+                                    Book Now
+                                  </Button>
+                                </div>
+                              </form>
                             </div>
                           </div>
-                          <div className="booking_tour_form_submit">
+
+                          {/* <div className="booking_tour_form_submit">
                             <div className="form-check write_spical_check">
                               <input
                                 className="form-check-input cursor-pointer"
@@ -442,7 +428,7 @@ const BookRoom = () => {
                             >
                               Submit
                             </a>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                       <div className="col-lg-4">
@@ -471,7 +457,7 @@ const BookRoom = () => {
                           <div className="tour_detail_right_sidebar">
                             <div className="tour_details_right_boxed">
                               <div className="tour_package_details_bar_price">
-                                <h3>Price</h3>
+                                <h3>Price Per Day</h3>
                                 <div className="tour_package_bar_price">
                                   {
                                     roomData.discount_price ?
