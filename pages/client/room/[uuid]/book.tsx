@@ -74,7 +74,7 @@ const BookRoom = () => {
       payment_method_id: payment,
       room_price: roomData.price,
       discount: roomData.discount_price,
-      total: totalDays * roomData.price
+      total: totalDays * (roomData.price - Number(roomData.discount_price))
     };
 
     setButtonLoading(true);
