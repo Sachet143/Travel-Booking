@@ -9,8 +9,8 @@ import SearchBar from "./SearchBar";
 import useUser from "@/services/hooks/useUser";
 import { Dropdown, Menu, Space } from "antd";
 import { appDecrypt, avatarGenerator } from "@/services/helper";
-import { USER_TYPE_KEY } from "@/services/constants";
-import { getCookie } from "cookies-next";
+import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
+import { deleteCookie, getCookie } from "cookies-next";
 
 const TopBar = () => {
   const router = useRouter();
@@ -50,6 +50,27 @@ const TopBar = () => {
           key: "2",
           danger: true,
           label: "Logout",
+          onClick: () => {
+            let wasRole;
+            if (isSuperAdmin) {
+              wasRole = "superadmin";
+            } else if (isHotelAdmin) {
+              wasRole = "hoteladmin";
+            } else {
+              wasRole = "customer";
+            }
+
+            deleteCookie(USER_TYPE_KEY);
+            deleteCookie(TOKEN_KEY);
+
+            if (wasRole === "superadmin") {
+              window.location.href = "/superadmin/login"
+            } else if (wasRole === "hoteladmin") {
+              window.location.href = "/hoteladmin/login"
+            } else {
+              window.location.href = "/login"
+            }
+          }
         },
       ]}
     />
