@@ -444,3 +444,13 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   padding-left: 30px !important;
   padding-right: 30px !important;
 }
+
+.custom-edit-profile {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.custom-edit-profile i {
+  margin-right: 10px;
+}

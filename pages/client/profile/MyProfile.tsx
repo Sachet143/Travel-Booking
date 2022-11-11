@@ -1,10 +1,14 @@
-import { isValidEmail } from "@/services/helper";
+import { editClientData } from "@/api/client/auth";
+import { isValidEmail, responseErrorHandler } from "@/services/helper";
 import useUser from "@/services/hooks/useUser";
-import React from "react";
+import { Button } from "antd";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const MyProfile = () => {
-  const { user } = useUser();
+  const { user, mutateUser } = useUser();
+  const [loading, setLoading] = useState(false);
   const {
     control,
     register,
@@ -15,18 +19,28 @@ const MyProfile = () => {
   } = useForm({
     defaultValues: {
       name: user.name || "",
-      email: user.email || "",
       phone: user.phone || "",
     },
   });
+
+  const editProfile = (value: any) => {
+    setLoading(true);
+    editClientData(value)
+      .then((res: any) => {
+        toast.success(res.message);
+        mutateUser();
+      })
+      .catch(responseErrorHandler)
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   return (
     <div className="dashboard_common_table">
       <h3>My Profile</h3>
       <div className="profile_update_form">
-        <form
-          action="https://andit.co/projects/html/and-tour/!#"
-          id="profile_form_area"
-        >
+        <form onSubmit={handleSubmit(editProfile)} id="profile_form_area">
           <div className="row">
             <div className="col-lg-12">
               <div className="form-group">
@@ -52,18 +66,9 @@ const MyProfile = () => {
                 <input
                   placeholder="Enter Email *"
                   className="mb-0 form-control"
-                  aria-invalid={!!errors?.email?.message}
-                  {...register("email", {
-                    required: "Email is Required",
-                    validate: (email) =>
-                      isValidEmail(email) || "Email format is invalid!",
-                  })}
+                  value={user?.email}
+                  disabled
                 />
-                {errors?.email?.message && (
-                  <div className="text-danger">
-                    {errors?.email?.message + ""}
-                  </div>
-                )}
               </div>
             </div>
             <div className="col-lg-6">
@@ -94,6 +99,16 @@ const MyProfile = () => {
                 />
                 <p>Change password</p>
               </div>
+            </div>
+            <div className="custom-edit-profile">
+              <Button
+                loading={loading}
+                htmlType="submit"
+                className="btn btn-admin-primary btn_theme btn_md"
+              >
+                <i className="fa fa-edit" />
+                Edit
+              </Button>
             </div>
             <div className="change_password_input_boxed">
               <h3>Change password</h3>
