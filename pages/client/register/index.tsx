@@ -49,7 +49,6 @@ const Register = () => {
       .finally(() => setLoading(false));
   };
 
-
   const googleLoginHandler = () => {
     setLoading(true);
     googleLogin()
@@ -61,7 +60,7 @@ const Register = () => {
         setCookie(USER_TYPE_KEY, appEncrypt("client"));
         Router.push("/login");
       })
-      .catch((err) => responseErrorHandler(err, setError))
+      .catch((err) => responseErrorHandler(err, setError));
   };
 
   return (
@@ -85,7 +84,7 @@ const Register = () => {
                         <input
                           placeholder="Full Name *"
                           className="mb-0 form-control"
-                          aria-invalid={!!errors?.email?.message}
+                          aria-invalid={!!errors?.name?.message}
                           {...register("name", {
                             required: "Full Name is Required",
                           })}
