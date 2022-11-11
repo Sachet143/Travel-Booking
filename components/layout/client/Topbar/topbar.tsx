@@ -12,30 +12,6 @@ import UserImage from "@/public/client/assets/img/user.png";
 import { Dropdown, Menu, MenuProps, Space } from "antd";
 import { DownOutlined, SmileOutlined } from "@ant-design/icons";
 
-const menu = (
-  <Menu
-    items={[
-      {
-        key: "1",
-        label: (
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.antgroup.com"
-          >
-            Profile
-          </a>
-        ),
-      },
-      {
-        key: "2",
-        danger: true,
-        label: "Logout",
-      },
-    ]}
-  />
-);
-
 const TopBar = () => {
   const router = useRouter();
   const { data: session } = useSession();
@@ -43,6 +19,30 @@ const TopBar = () => {
   const [sticky, setSticky] = useState<any>(null);
   const [offset, setOffset] = useState<any>();
   const { user } = useUser();
+
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: "1",
+          label: (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => router.push("/profile")}
+            >
+              Profile
+            </a>
+          ),
+        },
+        {
+          key: "2",
+          danger: true,
+          label: "Logout",
+        },
+      ]}
+    />
+  );
 
   useEffect(() => {
     setPath(router.pathname);

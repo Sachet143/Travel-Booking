@@ -62,7 +62,6 @@ export async function middleware(request: NextRequest) {
 
   url.pathname = "/client" + url.pathname;
   return NextResponse.rewrite(url);
-
 }
 
 /*
@@ -85,6 +84,7 @@ export const config = {
     "/login",
     "/register",
     "/search",
+    "/profile",
 
     // superadmin routes
     "/superadmin",
