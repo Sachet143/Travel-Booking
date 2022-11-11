@@ -105,11 +105,11 @@ export function isValidPhone(email: string) {
 export function isValidUrl(url: string) {
   const pattern = new RegExp(
     "^(https?:\\/\\/)" + // protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-      "(\\#[-a-z\\d_]*)?$",
+    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+    "(\\#[-a-z\\d_]*)?$",
     "i"
   );
 
@@ -180,6 +180,8 @@ export function renderLocation({ city, state, country }: any) {
 // export const imageFullPath = (url: string) => process.env.NEXT_PUBLIC_BASE_URL + url;
 // export const imageFullPath = (url: string) => "https://via.placeholder.com/1280x720.png/00dd99?text=ipsa"
 export const imageFullPath = (url: string) => url;
+
+export const avatarGenerator = (email: string) => 'https://robohash.org/' + (email || "random") + '.png';
 
 export function cleanUrlParams(url: string, parameter: object): string {
   let params = {};

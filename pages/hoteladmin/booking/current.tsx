@@ -2,10 +2,10 @@ import { checkoutBooking } from '@/api/hoteladmin/booking';
 import { deleteHotelRoom } from '@/api/hoteladmin/hotelRoom';
 import HoteladminLayout from '@/components/layout/hoteladmin';
 import { responseErrorHandler } from '@/services/helper';
-import { Popconfirm, Skeleton, Space, Switch, Table } from 'antd';
+import { Pagination, Popconfirm, Skeleton, Space, Switch, Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import Router from 'next/router';
-import React from 'react'
+import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
 
@@ -20,7 +20,9 @@ interface DataType {
 
 
 function CurrentBooking() {
-  const { data, error, mutate } = useSWR('/hotel/hotel-bookings');
+  const [page, setPage] = useState(1);
+
+  const { data: data, error, mutate } = useSWR(`/hotel/hotel-bookings?page=${page}`);
 
   const columns: ColumnsType<DataType> = [
     {
@@ -82,16 +84,28 @@ function CurrentBooking() {
         !data && !error ?
           <Skeleton active />
           :
-          <Table columns={columns} dataSource={data?.data?.map((booking: any) => ({
-            key: booking.id,
-            id: booking.id,
-            title: booking.hotel_room.title,
-            price: 'NRs.  ' + booking.hotel_room.price,
-            discount: booking.hotel_room.discount ? ('NRs.  ' + booking.hotel_room.discount) : '-',
-            total: 'NRs.  ' + booking.total,
-            totalpeople: booking.no_of_adult + booking.no_of_children,
-            checkinCheckout: booking.from + ', ' + booking.to,
-          }))} />
+          <>
+            <Table pagination={false} columns={columns} dataSource={data?.data?.data?.map((booking: any) => ({
+              key: booking.id,
+              id: booking.id,
+              title: booking.hotel_room.title,
+              price: 'NRs.  ' + booking.hotel_room.price,
+              discount: booking.hotel_room.discount ? ('NRs.  ' + booking.hotel_room.discount) : '-',
+              total: 'NRs.  ' + booking.total,
+              totalpeople: booking.no_of_adult + booking.no_of_children,
+              checkinCheckout: booking.from + ', ' + booking.to,
+            }))} />
+            <div className="pagination_area">
+              <Pagination
+                style={{ visibility: data?.data?.last_page > 1 ? "visible" : "hidden" }}
+                onChange={setPage}
+                className='pagination'
+                defaultCurrent={data?.data?.current_page}
+                pageSize={data?.data?.per_page}
+                total={data?.data?.total}
+              />
+            </div>
+          </>
       }
     </HoteladminLayout>
   )
