@@ -38,7 +38,7 @@ const TopBar = () => {
                 } else if (isHotelAdmin) {
                   router.push("/hoteladmin");
                 } else {
-                  router.push("/profile")
+                  router.push("/profile");
                 }
               }}
             >
@@ -64,13 +64,13 @@ const TopBar = () => {
             deleteCookie(TOKEN_KEY);
 
             if (wasRole === "superadmin") {
-              window.location.href = "/superadmin/login"
+              window.location.href = "/superadmin/login";
             } else if (wasRole === "hoteladmin") {
-              window.location.href = "/hoteladmin/login"
+              window.location.href = "/hoteladmin/login";
             } else {
-              window.location.href = "/login"
+              window.location.href = "/login";
             }
-          }
+          },
         },
       ]}
     />
@@ -193,12 +193,13 @@ const TopBar = () => {
 
         {/* {navbar type3} */}
         <div
-          className={`navbar-type2 navbar-area ${router.pathname != "/client"
-            ? "is-sticky"
-            : offset > 100
+          className={`navbar-type2 navbar-area ${
+            router.pathname != "/client"
+              ? "is-sticky"
+              : offset > 100
               ? "is-sticky"
               : ""
-            }`}
+          }`}
         >
           <div className="container">
             <div className="row">

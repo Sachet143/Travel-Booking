@@ -8,9 +8,6 @@ import MyProfile from "./MyProfile";
 import Notification from "./Notification";
 
 const Profile = () => {
-  const { getValues, register, control, handleSubmit, formState, reset } =
-    useForm({});
-
   const { user } = useUser();
 
   const [tab, setTab] = useState("1");
@@ -22,7 +19,10 @@ const Profile = () => {
             <div className="col-lg-4">
               <div className="dashboard_sidebar">
                 <div className="dashboard_sidebar_user">
-                  <img src="https://i.pravatar.cc/400" className="user_image" />
+                  <img
+                    src={`https://robohash.org/${user?.email}.png`}
+                    className="user_image"
+                  />
                   <h3 className="text-capitalize">{user?.name}</h3>
                   <p>
                     <a href={`tel:${user?.phone}`}>
@@ -72,7 +72,7 @@ const Profile = () => {
                       </a>
                     </li>
 
-                    <li>
+                    {/* <li>
                       <a
                         href="_target"
                         onClick={(e: any) => {
@@ -83,7 +83,7 @@ const Profile = () => {
                       >
                         <i className="fas fa-bell"></i>Notifications
                       </a>
-                    </li>
+                    </li> */}
                     <li>
                       <a
                         href="#!"
