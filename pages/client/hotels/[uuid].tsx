@@ -6,7 +6,16 @@ import {
   imageFullPath,
   renderLocation,
 } from "@/services/helper";
-import { Button, Col, Empty, InputNumber, Row, Select, Skeleton } from "antd";
+import {
+  Button,
+  Col,
+  Empty,
+  InputNumber,
+  Pagination,
+  Row,
+  Select,
+  Skeleton,
+} from "antd";
 import moment from "moment";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
@@ -49,8 +58,6 @@ function HotelPage() {
   const [nav1, setNav1] = useState();
   const [nav2, setNav2] = useState();
 
-  console.log(restQuery.min_price);
-
   const {
     getValues,
     control,
@@ -74,7 +81,6 @@ function HotelPage() {
 
   const applyPriceFilter = (e: any) => {
     e.preventDefault();
-
     router.push(
       cleanUrlParams(`/hotels/${uuid}`, {
         ...restQuery,
@@ -362,6 +368,31 @@ function HotelPage() {
                                             </div>
                                           );
                                         })}
+                                        <div className="pagination_area">
+                                          <Pagination
+                                            style={{
+                                              visibility:
+                                                rooms?.last_page > 1
+                                                  ? "visible"
+                                                  : "hidden",
+                                            }}
+                                            onChange={(page) =>
+                                              router.push(
+                                                cleanUrlParams(
+                                                  `/hotels/${uuid}`,
+                                                  {
+                                                    ...restQuery,
+                                                    page,
+                                                  }
+                                                )
+                                              )
+                                            }
+                                            className="pagination"
+                                            current={rooms?.current_page}
+                                            pageSize={rooms?.per_page || 1}
+                                            total={rooms?.total}
+                                          />
+                                        </div>
                                       </>
                                     ) : (
                                       <Empty
