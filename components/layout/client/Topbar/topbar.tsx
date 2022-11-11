@@ -149,7 +149,13 @@ const TopBar = () => {
                   </div>
                   <div className="others-options d-flex align-items-center">
                     <div className="option-item">
-                      <a href="become-vendor.html" className="btn">
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          router.push("/become-partner");
+                        }}
+                        className="btn"
+                      >
                         Become a partner
                       </a>
                     </div>
@@ -255,7 +261,13 @@ const TopBar = () => {
                   </div>
                   <div className="others-options d-flex align-items-center">
                     <div className="option-item">
-                      <a href="become-vendor.html" className="btn ">
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          router.push("/become-partner");
+                        }}
+                        className="btn "
+                      >
                         Become a partner
                       </a>
                     </div>
