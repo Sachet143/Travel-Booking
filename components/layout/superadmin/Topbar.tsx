@@ -2,10 +2,11 @@ import useUser from '@/services/hooks/useUser'
 import React from 'react'
 import { deleteCookie } from 'cookies-next';
 import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
+import { avatarGenerator } from '@/services/helper';
 
 function SuperadminTopbar() {
 
-    useUser();
+    const { user } = useUser();
 
     function logoutHandler() {
         deleteCookie(USER_TYPE_KEY);
@@ -133,7 +134,7 @@ function SuperadminTopbar() {
                                 </li>
                             </div>
                             <div className="profile_info">
-                                <img src="/admin/img/client_img.png" alt="#" />
+                                <img src={avatarGenerator(user?.email)} alt="#" />
                                 <div className="profile_info_iner">
                                     <div className="profile_author_name">
                                         <p>Neurologist </p>

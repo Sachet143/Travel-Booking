@@ -1,10 +1,11 @@
 import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
+import { avatarGenerator } from '@/services/helper';
 import useUser from '@/services/hooks/useUser';
 import { deleteCookie } from 'cookies-next';
 import React from 'react'
 
 function HoteladminTopbar() {
-    useUser();
+    const { user } = useUser();
 
     function logoutHandler() {
         deleteCookie(USER_TYPE_KEY);
@@ -132,7 +133,7 @@ function HoteladminTopbar() {
                                 </li>
                             </div>
                             <div className="profile_info">
-                                <img src="/admin/img/client_img.png" alt="#" />
+                                <img src={avatarGenerator(user?.email)} alt="#" />
                                 <div className="profile_info_iner">
                                     <div className="profile_author_name">
                                         <p>Neurologist </p>

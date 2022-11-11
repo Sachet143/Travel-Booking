@@ -5,7 +5,7 @@ import Router, { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 import { HoteladminSidebarMenus } from './menu';
 
-function SuperadminSidebar() {
+function HoteladminSidebar() {
     const router = useRouter();
 
     const isActive = (link: string | undefined) => router.pathname === link;
@@ -75,7 +75,7 @@ function SuperadminSidebar() {
                         )
                     } else {
                         return (
-                            <li className>
+                            <li key={menu.title}>
                                 <a onClick={() => Router.push(menu.link)} aria-expanded="false">
                                     <div className="nav_icon_small">
                                         <i className={menu.icon} alt={menu.title}></i>
@@ -439,4 +439,4 @@ function SuperadminSidebar() {
     )
 }
 
-export default SuperadminSidebar
+export default HoteladminSidebar

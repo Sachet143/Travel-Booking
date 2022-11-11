@@ -5,20 +5,23 @@ import Plane from "@/public/client/assets/img/airplane.png";
 import Tour from "@/public/client/assets/img/travel-and-tourism.png";
 import Hotel from "@/public/client/assets/img/resort.png";
 import { useRouter } from "next/router";
-import { signIn, signOut, useSession } from "next-auth/react";
 import SearchBar from "./SearchBar";
 import useUser from "@/services/hooks/useUser";
-import UserImage from "@/public/client/assets/img/user.png";
-import { Dropdown, Menu, MenuProps, Space } from "antd";
-import { DownOutlined, SmileOutlined } from "@ant-design/icons";
+import { Dropdown, Menu, Space } from "antd";
+import { appDecrypt, avatarGenerator } from "@/services/helper";
+import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
+import { deleteCookie, getCookie } from "cookies-next";
 
 const TopBar = () => {
   const router = useRouter();
-  const { data: session } = useSession();
   const [path, setPath] = useState<any>();
-  const [sticky, setSticky] = useState<any>(null);
   const [offset, setOffset] = useState<any>();
   const { user } = useUser();
+
+  const userType = getCookie(USER_TYPE_KEY);
+  // user types
+  const isSuperAdmin = userType && appDecrypt(userType + "") === "superadmin";
+  const isHotelAdmin = userType && appDecrypt(userType + "") === "hoteladmin";
 
   const menu = (
     <Menu
@@ -29,7 +32,15 @@ const TopBar = () => {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => router.push("/profile")}
+              onClick={() => {
+                if (isSuperAdmin) {
+                  router.push("/superadmin");
+                } else if (isHotelAdmin) {
+                  router.push("/hoteladmin");
+                } else {
+                  router.push("/profile");
+                }
+              }}
             >
               Profile
             </a>
@@ -39,6 +50,27 @@ const TopBar = () => {
           key: "2",
           danger: true,
           label: "Logout",
+          onClick: () => {
+            let wasRole;
+            if (isSuperAdmin) {
+              wasRole = "superadmin";
+            } else if (isHotelAdmin) {
+              wasRole = "hoteladmin";
+            } else {
+              wasRole = "customer";
+            }
+
+            deleteCookie(USER_TYPE_KEY);
+            deleteCookie(TOKEN_KEY);
+
+            if (wasRole === "superadmin") {
+              window.location.href = "/superadmin/login";
+            } else if (wasRole === "hoteladmin") {
+              window.location.href = "/hoteladmin/login";
+            } else {
+              window.location.href = "/login";
+            }
+          },
         },
       ]}
     />
@@ -131,8 +163,8 @@ const TopBar = () => {
                           <a onClick={(e) => e.preventDefault()}>
                             <Space>
                               <img
-                                src={`https://robohash.org/${user.email}.png`}
-                                className="user_image"
+                                src={avatarGenerator(user.email)}
+                                className="user_image bg-white border"
                               />
                             </Space>
                           </a>
@@ -237,8 +269,8 @@ const TopBar = () => {
                           <a onClick={(e) => e.preventDefault()}>
                             <Space>
                               <img
-                                src={`https://robohash.org/${user.email}.png`}
-                                className="user_image"
+                                src={avatarGenerator(user.email)}
+                                className="user_image bg-white border"
                               />
                             </Space>
                           </a>

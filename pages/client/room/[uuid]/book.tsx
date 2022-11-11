@@ -13,6 +13,7 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import dynamic from "next/dynamic";
+import { clientLogin } from "@/api/client/auth";
 
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod: any) => mod.Editor),
@@ -60,10 +61,10 @@ const BookRoom = () => {
     },
   });
 
-  const bookRoom = (data: any) => {
+  function bookRoomHandler(data: any) {
 
-    var duration = moment.duration(moment(data.to).diff(moment(data.from)));
-    var totalDays = duration.asDays();
+    const duration = moment.duration(moment(data.to).diff(moment(data.from)));
+    const totalDays = duration.asDays();
 
     let finalBookingData = {
       ...data,
@@ -73,15 +74,15 @@ const BookRoom = () => {
       payment_method_id: payment,
       room_price: roomData.price,
       discount: roomData.discount_price,
-      total: totalDays * roomData.price
+      total: totalDays * (roomData.price - Number(roomData.discount_price))
     };
 
     setButtonLoading(true);
     roomBooking(finalBookingData)
       .then((res: any) => {
-        toast.success(res?.message)
+        toast.success(res.message)
       })
-      .catch((err) => responseErrorHandler(err, setError))
+      .catch(responseErrorHandler)
       .finally(() => setButtonLoading(false));
   };
 
@@ -173,7 +174,7 @@ const BookRoom = () => {
                             <div className="tour_booking_form_box">
                               <form
                                 id="tour_bookking_form_item"
-                                onSubmit={handleSubmit(bookRoom)}
+                                onSubmit={handleSubmit(bookRoomHandler)}
                               >
                                 <div className="tour_search_form">
                                   <div className="row">
@@ -391,7 +392,6 @@ const BookRoom = () => {
                                 <div className="top_form_search_button text-right">
                                   <Button
                                     disabled={buttonLoading}
-                                    onClick={bookRoom}
                                     className="btn btn_theme btn_md px-4"
                                     htmlType="submit"
                                     loading={buttonLoading}
