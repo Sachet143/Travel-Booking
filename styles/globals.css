@@ -424,6 +424,23 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   background-color: white !important;
 }
 
-.ant-select-selector{
+.ant-select-selector {
   overflow-y: auto;
+}
+
+.user_image {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.ant-dropdown-menu.ant-dropdown-menu-root.ant-dropdown-menu-vertical.ant-dropdown-menu-light {
+  top: 15px;
+  left: -30px;
+}
+
+.ant-dropdown-menu.ant-dropdown-menu-root.ant-dropdown-menu-vertical.ant-dropdown-menu-light
+  li {
+  padding-left: 30px !important;
+  padding-right: 30px !important;
 }

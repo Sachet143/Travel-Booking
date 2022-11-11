@@ -7,6 +7,34 @@ import Hotel from "@/public/client/assets/img/resort.png";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
 import SearchBar from "./SearchBar";
+import useUser from "@/services/hooks/useUser";
+import UserImage from "@/public/client/assets/img/user.png";
+import { Dropdown, Menu, MenuProps, Space } from "antd";
+import { DownOutlined, SmileOutlined } from "@ant-design/icons";
+
+const menu = (
+  <Menu
+    items={[
+      {
+        key: "1",
+        label: (
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.antgroup.com"
+          >
+            Profile
+          </a>
+        ),
+      },
+      {
+        key: "2",
+        danger: true,
+        label: "Logout",
+      },
+    ]}
+  />
+);
 
 const TopBar = () => {
   const router = useRouter();
@@ -14,6 +42,7 @@ const TopBar = () => {
   const [path, setPath] = useState<any>();
   const [sticky, setSticky] = useState<any>(null);
   const [offset, setOffset] = useState<any>();
+  const { user } = useUser();
 
   useEffect(() => {
     setPath(router.pathname);
@@ -92,18 +121,37 @@ const TopBar = () => {
                         Become a partner
                       </a>
                     </div>
-                    <div className="option-item">
-                      <a
-                        href="_target"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          router.push("/login");
-                        }}
-                        className="btn "
-                      >
-                        Login
-                      </a>
-                    </div>
+                    {user?.id ? (
+                      <div>
+                        <Dropdown
+                          className="custom_drop"
+                          overlay={menu}
+                          trigger={["click"]}
+                        >
+                          <a onClick={(e) => e.preventDefault()}>
+                            <Space>
+                              <img
+                                src="https://i.pravatar.cc/400"
+                                className="user_image"
+                              />
+                            </Space>
+                          </a>
+                        </Dropdown>
+                      </div>
+                    ) : (
+                      <div className="option-item">
+                        <a
+                          href="_target"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            router.push("/login");
+                          }}
+                          className="btn "
+                        >
+                          Login
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -179,18 +227,37 @@ const TopBar = () => {
                         Become a partner
                       </a>
                     </div>
-                    <div className="option-item">
-                      <a
-                        href="_target"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          router.push("/login");
-                        }}
-                        className="btn "
-                      >
-                        Login
-                      </a>
-                    </div>
+                    {user?.id ? (
+                      <div>
+                        <Dropdown
+                          className="custom_drop"
+                          overlay={menu}
+                          trigger={["click"]}
+                        >
+                          <a onClick={(e) => e.preventDefault()}>
+                            <Space>
+                              <img
+                                src="https://i.pravatar.cc/400"
+                                className="user_image"
+                              />
+                            </Space>
+                          </a>
+                        </Dropdown>
+                      </div>
+                    ) : (
+                      <div className="option-item">
+                        <a
+                          href="_target"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            router.push("/login");
+                          }}
+                          className="btn "
+                        >
+                          Login
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
