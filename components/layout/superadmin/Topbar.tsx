@@ -44,7 +44,7 @@ function SuperadminTopbar() {
                         <div className="serach_field-area d-flex align-items-center">
                         </div>
                         <div className="header_right d-flex justify-content-between align-items-center">
-                            <div className="header_notification_warp d-flex align-items-center">
+                            {/* <div className="header_notification_warp d-flex align-items-center">
                                 <li>
                                     <a className="bell_notification_clicker" href="#"> <img src="/admin/img/icon/bell.svg" alt="" />
                                         <span>2</span>
@@ -132,17 +132,15 @@ function SuperadminTopbar() {
                                     <a className="CHATBOX_open" href="#"> <img src="/admin/img/icon/msg.svg" alt="" /> <span>2</span>
                                     </a>
                                 </li>
-                            </div>
+                            </div> */}
                             <div className="profile_info">
                                 <img src={avatarGenerator(user?.email)} alt="#" />
                                 <div className="profile_info_iner">
                                     <div className="profile_author_name">
-                                        <p>Neurologist </p>
-                                        <h5>Dr. Robar Smith</h5>
+                                        <p>Super Admin </p>
+                                        <h5>{user?.name}</h5>
                                     </div>
                                     <div className="profile_info_details">
-                                        <a href="#">My Profile </a>
-                                        <a href="#">Settings</a>
                                         <div onClick={logoutHandler}>
                                             <a href="#">Log Out </a>
                                         </div>
