@@ -30,12 +30,12 @@ export const HoteladminSidebarMenus = [
         icon: "/admin/img/menu-icon/7.svg",
         children: [
             {
-                title: "Current Rooms",
-                link: "/hoteladmin/current"
+                title: "Current Bookings",
+                link: "/hoteladmin/booking/current"
             },
             {
                 title: "History",
-                link: "/hoteladmin/bookings"
+                link: "/hoteladmin/booking/history"
             },
         ]
     },
