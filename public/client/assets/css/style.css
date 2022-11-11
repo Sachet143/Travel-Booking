@@ -3000,6 +3000,7 @@ textarea {
   padding-bottom: 8px;
   font-weight: 500;
   color: var(--paragraph-color);
+  white-space: nowrap;
 }
 
 .dashboard_top_text h1 {
@@ -3103,7 +3104,7 @@ textarea {
   color: var(--main-color);
   padding-left: 20px;
   position: absolute;
-  left: 147px;
+  right: 0;
   top: 0;
   font-weight: 600;
   font-size: 12px;

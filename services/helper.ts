@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import Crypto from "crypto-js";
 import { useSWRConfig } from "swr";
-import _, { isArray, isObject } from 'lodash'
+import _, { isArray, isObject } from "lodash";
 import queryString from "query-string";
 
 export function responseErrorHandler(res: any, setError?: any) {
@@ -91,6 +91,12 @@ export function isValidEmail(email: string) {
   return expression.test(email);
 }
 
+export function isValidPhone(email: string) {
+  const expression = new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
+
+  return expression.test(email);
+}
+
 // export function isValidMobile(number: string) {
 //   const expression = new RegExp(/^(?:(?+977)?)?[9][6-9]d{8}|01[-]?[0-9]{7}/);
 //   return expression.test(number);
@@ -99,11 +105,11 @@ export function isValidEmail(email: string) {
 export function isValidUrl(url: string) {
   const pattern = new RegExp(
     "^(https?:\\/\\/)" + // protocol
-    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-    "(\\#[-a-z\\d_]*)?$",
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+      "(\\#[-a-z\\d_]*)?$",
     "i"
   );
 
@@ -143,30 +149,29 @@ export function renderLocation({ city, state, country }: any) {
   if (city) {
     if (state) {
       if (country) {
-        return city + ', ' + state + ', ' + country; // city & state & country
+        return city + ", " + state + ", " + country; // city & state & country
       } else {
-        return city + ', ' + state; // city & state
+        return city + ", " + state; // city & state
       }
     } else {
       if (country) {
-        return city + ', ' + country; // city & country
+        return city + ", " + country; // city & country
       } else {
         return city; // city
       }
     }
-  }
-  else {
+  } else {
     if (state) {
       if (country) {
-        return state + ', ' + country; // state & country
+        return state + ", " + country; // state & country
       } else {
-        return state // state
+        return state; // state
       }
     } else {
       if (country) {
         return country; // country
       } else {
-        return ""
+        return "";
       }
     }
   }
