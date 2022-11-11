@@ -1,6 +1,9 @@
+import moment from "moment";
 import React from "react";
+import useSWR from "swr";
 
 const Dashboard = () => {
+  const { data } = useSWR("/user/booking");
   return (
     <>
       <div className="dashboard_main_top">
@@ -35,109 +38,33 @@ const Dashboard = () => {
           <table className="table">
             <thead>
               <tr>
-                <th>Sl no.</th>
-                <th>Booking ID</th>
-                <th>Booking type</th>
-                <th>Booking amount</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th>SL no.</th>
+                <th>Receipt No.</th>
+                <th>Number of People</th>
+                <th>Total Amount</th>
+                <th>Booking Date</th>
+                <th>Stay Date</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>01.</td>
-                <td>#JK589V80</td>
-                <td>Hotel</td>
-                <td>$754.00</td>
-                <td className="complete">Completed</td>
-                <td>
-                  <i className="fas fa-eye"></i>
-                </td>
-              </tr>
-              <tr>
-                <td>02.</td>
-                <td>#JK589V80</td>
-                <td>Hotel</td>
-                <td>$754.00</td>
-                <td className="complete">Completed</td>
-                <td>
-                  <i className="fas fa-eye"></i>
-                </td>
-              </tr>
-              <tr>
-                <td>03.</td>
-                <td>#JK589V80</td>
-                <td>Hotel</td>
-                <td>$754.00</td>
-                <td className="complete">Completed</td>
-                <td>
-                  <i className="fas fa-eye"></i>
-                </td>
-              </tr>
-              <tr>
-                <td>04.</td>
-                <td>#JK589V80</td>
-                <td>Hotel</td>
-                <td>$754.00</td>
-                <td className="complete">Completed</td>
-                <td>
-                  <i className="fas fa-eye"></i>
-                </td>
-              </tr>
-              <tr>
-                <td>05.</td>
-                <td>#JK589V80</td>
-                <td>Hotel</td>
-                <td>$754.00</td>
-                <td className="cancele">Canceled</td>
-                <td>
-                  <i className="fas fa-eye"></i>
-                </td>
-              </tr>
-              <tr>
-                <td>06.</td>
-                <td>#JK589V80</td>
-                <td>Hotel</td>
-                <td>$754.00</td>
-                <td className="complete">Completed</td>
-                <td>
-                  <i className="fas fa-eye"></i>
-                </td>
-              </tr>
+              {data?.data?.map((item: any, index: any) => {
+                return (
+                  <tr key={item.id}>
+                    <td>{index + 1}</td>
+                    <td>{item?.receipt_no}</td>
+                    <td>{item?.hotel?.name}</td>
+                    <td>Rs.{item.total}.00</td>
+                    <td>{moment(item.date).format("MMM Do YYYY")}</td>
+                    <td>
+                      {moment(item.from).format("L")} -&nbsp;
+                      {moment(item.to).format("L")}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
-      </div>
-      <div className="pagination_area">
-        <ul className="pagination">
-          <li className="page-item">
-            <a className="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">«</span>
-              <span className="sr-only">Previous</span>
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              1
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              2
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              3
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">»</span>
-              <span className="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
       </div>
     </>
   );

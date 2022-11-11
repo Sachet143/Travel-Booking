@@ -131,7 +131,7 @@ const TopBar = () => {
                           <a onClick={(e) => e.preventDefault()}>
                             <Space>
                               <img
-                                src="https://i.pravatar.cc/400"
+                                src={`https://robohash.org/${user.email}.png`}
                                 className="user_image"
                               />
                             </Space>
@@ -237,7 +237,7 @@ const TopBar = () => {
                           <a onClick={(e) => e.preventDefault()}>
                             <Space>
                               <img
-                                src="https://i.pravatar.cc/400"
+                                src={`https://robohash.org/${user.email}.png`}
                                 className="user_image"
                               />
                             </Space>
