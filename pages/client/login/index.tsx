@@ -8,14 +8,20 @@ import {
   isValidPassword,
   responseErrorHandler,
 } from "@/services/helper";
+import useUser from "@/services/hooks/useUser";
 import { Button } from "antd";
 import { setCookie } from "cookies-next";
-import Router from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const ClientLogin = () => {
+  const router = useRouter();
+  const { user, mutateUser } = useUser();
+
+  const { redirectUrl } = router.query;
   const [loading, setLoading] = useState(false);
   const {
     control,
@@ -34,12 +40,13 @@ const ClientLogin = () => {
     setLoading(true);
     clientLogin(data)
       .then((res: any) => {
+        mutateUser();
         toast.success(res.message);
         // @ts-ignore
         setCookie(TOKEN_KEY, appEncrypt(res.data.token));
         // @ts-ignore
         setCookie(USER_TYPE_KEY, appEncrypt("client"));
-        Router.push("/");
+        router.push(redirectUrl?.toString() || "/");
       })
       .catch((err) => responseErrorHandler(err, setError))
       .finally(() => setLoading(false));
@@ -161,8 +168,8 @@ const ClientLogin = () => {
                           </li>
                         </ul>
                         <p>
-                          Already have an account?
-                          <a href="/register">Register now</a>
+                          Dont have an account?{" "}
+                          <Link href={"/register"}>Register now</Link>
                         </p>
                       </div>
                     </form>

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // @ts-nocheck
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
@@ -26,6 +27,7 @@ import { Slider as AntSlider } from "antd";
 import YoutubeComponent from "@/components/common/YoutubeComponent";
 import { Controller, useForm } from "react-hook-form";
 import axiosClient from "@/services/axios/clientfetch";
+import useUser from "@/services/hooks/useUser";
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
@@ -36,15 +38,16 @@ const Editor = dynamic(
 
 function HotelPage() {
   const router = useRouter();
+  const { user } = useUser();
   const { uuid, ...restQuery } = router.query;
 
   const { data: hotel, error } = useSWR(uuid ? `/hotels/${uuid}` : null);
   const { data: rooms, error: roomError } = useSWR(
     hotel
       ? cleanUrlParams(`rooms`, {
-          hotel_id: hotel.id,
-          ...restQuery,
-        })
+        hotel_id: hotel.id,
+        ...restQuery,
+      })
       : null
   );
   const hotelLoading = !hotel && !error;
@@ -73,9 +76,14 @@ function HotelPage() {
 
   useEffect(() => {
     reset({
-      min_price: restQuery?.min_price,
-      max_price: restQuery?.max_price,
-      features: restQuery.features?.split(","),
+      min_price: restQuery?.min_price || 500,
+      max_price: restQuery?.max_price || 1500,
+      features: router.query.features
+        ? router.query.features
+          .toString()
+          .split(",")
+          .map(Number)
+        : [],
     });
   }, [router.query]);
 
@@ -110,6 +118,16 @@ function HotelPage() {
       })
     );
   };
+
+  function bookRoomHandler(roomId) {
+    if (user) {
+      router.push(
+        `/room/${roomId}/book`
+      )
+    } else {
+      router.push({ pathname: '/login', query: { redirectUrl: `/room/${roomId}/book` } })
+    }
+  }
 
   return (
     <ClientLayout>
@@ -355,11 +373,7 @@ function HotelPage() {
                                                   <button
                                                     className="btn btn_theme btn_sm"
                                                     type="button"
-                                                    onClick={() =>
-                                                      router.push(
-                                                        `/room/${room.uuid}/book`
-                                                      )
-                                                    }
+                                                    onClick={() => bookRoomHandler(room.uuid)}
                                                   >
                                                     Book Now
                                                   </button>

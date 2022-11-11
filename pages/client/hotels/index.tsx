@@ -34,6 +34,11 @@ const HotelListing = () => {
     customFetcher
   );
 
+  const { data: catList, error: catError } = useSWR(
+    `/categories`,
+    customFetcher
+  );
+
   const { data: hotels, error } = useSWR(
     cleanUrlParams(`/hotels`, router.query)
   );
@@ -54,6 +59,7 @@ const HotelListing = () => {
       state: null,
       city: null,
       features: [],
+      categories: []
     },
   });
 
@@ -119,6 +125,38 @@ const HotelListing = () => {
       })
     );
   };
+  const clearFeaturesFilter = (e: any) => {
+    e.preventDefault();
+
+    router.push(
+      cleanUrlParams("/hotels", {
+        ...router.query,
+        features: [],
+      })
+    );
+  };
+
+  const applyCategoriesFilter = (e: any) => {
+    e.preventDefault();
+    router.push(
+      cleanUrlParams("/hotels", {
+        ...router.query,
+        categories: getValues("categories").join(","),
+        page: 1
+      })
+    );
+  };
+  const clearCategoriesFilter = (e: any) => {
+    e.preventDefault();
+
+    router.push(
+      cleanUrlParams("/hotels", {
+        ...router.query,
+        categories: [],
+      })
+    );
+  };
+
 
   const debounceName = useMemo(() => {
     const searchHotel = (value: any) => {
@@ -133,17 +171,6 @@ const HotelListing = () => {
     return debounce(searchHotel, 1000);
   }, []);
 
-  useEffect(() => {
-    reset({
-      ...router.query,
-      features: router.query.features
-        ? router.query.features
-            .toString()
-            .split(",")
-            .map((i) => Number(i))
-        : [],
-    });
-  }, [router.query]);
 
   const clearFilter = (value: any) => {
     router.push(
@@ -153,6 +180,24 @@ const HotelListing = () => {
       })
     );
   };
+
+  useEffect(() => {
+    reset({
+      ...router.query,
+      categories: router.query.categories
+        ? router.query.categories
+          .toString()
+          .split(",")
+          .map(Number)
+        : [],
+      features: router.query.features
+        ? router.query.features
+          .toString()
+          .split(",")
+          .map(Number)
+        : [],
+    });
+  }, [router.query]);
 
   return (
     <ClientLayout>
@@ -307,6 +352,132 @@ const HotelListing = () => {
                       Clear
                     </button>
                   </div>
+                  {/* Features */}
+                  <div className="left_side_search_boxed">
+                    <div className="left_side_search_heading">
+                      <h5>Features</h5>
+                    </div>
+                    <div className="tour_search_type">
+                      <div className="custom-select">
+                        {!featureList && !featureError ? (
+                          <Skeleton className="mt-3" active paragraph={false} />
+                        ) : (
+                          <>
+                            {" "}
+                            <Controller
+                              control={control}
+                              name="features"
+                              rules={{ required: "Feature is required!" }}
+                              render={({ field: { onChange, value } }) => (
+                                <>
+                                  <Select
+                                    mode="multiple"
+                                    value={value}
+                                    onChange={onChange}
+                                    allowClear
+                                    status={
+                                      errors?.features?.message && "error"
+                                    }
+                                    size="large"
+                                    className="form-control mb-3"
+                                    placeholder="Select features"
+                                  >
+                                    {featureList?.map((feat: any) => (
+                                      <Option key={feat.id} value={feat.id}>
+                                        {feat.title}
+                                      </Option>
+                                    ))}
+                                  </Select>
+                                  {errors?.features?.message && (
+                                    <div className="text-danger">
+                                      {errors?.features?.message + ""}
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                            />
+                            <button
+                              className="btn btn-admin-dark"
+                              type="button"
+                              onClick={applyFeaturesFilter}
+                            >
+                              Apply
+                            </button>
+                            <button
+                              className="btn btn-admin-dark-outlined mx-3"
+                              type="button"
+                              onClick={clearFeaturesFilter}
+                            >
+                              Clear
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  {/* Categories */}
+                  <div className="left_side_search_boxed">
+                    <div className="left_side_search_heading">
+                      <h5>Categories</h5>
+                    </div>
+                    <div className="tour_search_type">
+                      <div className="custom-select">
+                        {!catList && !catError ? (
+                          <Skeleton className="mt-3" active paragraph={false} />
+                        ) : (
+                          <>
+                            {" "}
+                            <Controller
+                              control={control}
+                              name="categories"
+                              rules={{ required: "Category is required!" }}
+                              render={({ field: { onChange, value } }) => (
+                                <>
+                                  <Select
+                                    mode="multiple"
+                                    value={value}
+                                    onChange={onChange}
+                                    allowClear
+                                    status={
+                                      errors?.categories?.message && "error"
+                                    }
+                                    size="large"
+                                    className="form-control mb-3"
+                                    placeholder="Select Categories"
+                                  >
+                                    {catList?.map((cat: any) => (
+                                      <Option key={cat.id} value={cat.id}>
+                                        {cat.title}
+                                      </Option>
+                                    ))}
+                                  </Select>
+                                  {errors?.categories?.message && (
+                                    <div className="text-danger">
+                                      {errors?.categories?.message + ""}
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                            />
+                            <button
+                              className="btn btn-admin-dark"
+                              type="button"
+                              onClick={applyCategoriesFilter}
+                            >
+                              Apply
+                            </button>
+                            <button
+                              className="btn btn-admin-dark-outlined mx-3"
+                              type="button"
+                              onClick={clearCategoriesFilter}
+                            >
+                              Clear
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                   {/* filter by location */}
                   <div className="left_side_search_boxed">
                     <div className="left_side_search_heading">
@@ -375,69 +546,6 @@ const HotelListing = () => {
                           Clear
                         </button>
                       </form>
-                    </div>
-                  </div>
-                  {/* Features */}
-                  <div className="left_side_search_boxed">
-                    <div className="left_side_search_heading">
-                      <h5>Features</h5>
-                    </div>
-                    <div className="tour_search_type">
-                      <div className="custom-select">
-                        {!featureList && !featureError ? (
-                          <Skeleton className="mt-3" active paragraph={false} />
-                        ) : (
-                          <>
-                            {" "}
-                            <Controller
-                              control={control}
-                              name="features"
-                              rules={{ required: "Feature is required!" }}
-                              render={({ field: { onChange, value } }) => (
-                                <>
-                                  <Select
-                                    mode="multiple"
-                                    value={value}
-                                    onChange={onChange}
-                                    allowClear
-                                    status={
-                                      errors?.features?.message && "error"
-                                    }
-                                    size="large"
-                                    className="form-control mb-3"
-                                    placeholder="Select features"
-                                  >
-                                    {featureList?.map((feat: any) => (
-                                      <Option key={feat.id} value={feat.id}>
-                                        {feat.title}
-                                      </Option>
-                                    ))}
-                                  </Select>
-                                  {errors?.features?.message && (
-                                    <div className="text-danger">
-                                      {errors?.features?.message + ""}
-                                    </div>
-                                  )}
-                                </>
-                              )}
-                            />
-                            <button
-                              className="btn btn-admin-dark"
-                              type="button"
-                              onClick={applyFeaturesFilter}
-                            >
-                              Apply
-                            </button>
-                            <button
-                              className="btn btn-admin-dark-outlined mx-3"
-                              type="button"
-                              onClick={clearPriceFilter}
-                            >
-                              Clear
-                            </button>
-                          </>
-                        )}
-                      </div>
                     </div>
                   </div>
                 </div>

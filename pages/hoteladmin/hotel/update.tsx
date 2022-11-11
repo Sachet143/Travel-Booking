@@ -41,7 +41,7 @@ function UpdateHotel() {
       cover_image: user?.hotel?.cover_full_path ?? imageFullPath(user?.hotel?.cover_image),
       name: user.hotel.name,
       category_id: user.hotel.category_id,
-      features: user.hotel.features.map((f: any) => f.feature_id),
+      features: user.hotel.features.map((f: any) => f.id),
       long: user?.hotel?.location?.long,
       lat: user?.hotel?.location?.lat,
       country: user?.hotel?.location?.country,
