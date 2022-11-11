@@ -153,7 +153,20 @@ const ClientLogin = () => {
                         </Button>
                         {/* <button className="btn btn_theme btn_md">Log in</button> */}
                       </div>
-                      <div className="have_acount_area">
+                      <div className="have_acount_area other_author_option">
+                        <div className="line_or">
+                          <span>or</span>
+                        </div>
+                        <ul>
+                          <li>
+                            <a href="#!">
+                              <img
+                                src="/client/assets/img/icon/google.png"
+                                alt="icon"
+                              />
+                            </a>
+                          </li>
+                        </ul>
                         <p>
                           Dont have an account?{" "}
                           <Link href={"/register"}>Register now</Link>
