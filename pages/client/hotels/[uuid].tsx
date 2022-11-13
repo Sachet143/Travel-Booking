@@ -531,7 +531,7 @@ function HotelPage() {
                   </div>
                 </div>
               </div>
-              <div className="container">
+              {/* <div className="container">
                 <div className="row">
                   <div className="col-lg-8">
                     <div className="write_your_review_wrapper">
@@ -579,7 +579,7 @@ function HotelPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </section>
           </>
         )}
