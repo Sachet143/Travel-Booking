@@ -1,12 +1,16 @@
+import { completeHotelApplication } from '@/api/superadmin/hotel';
 import SuperadminLayout from '@/components/layout/superadmin';
-import { Button, Skeleton, Space, Table, Tag, Tooltip } from 'antd';
+import { responseErrorHandler } from '@/services/helper';
+import { Button, Popconfirm, Skeleton, Space, Table, Tag, Tooltip } from 'antd';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import useSWR from 'swr';
 
 const { Column } = Table;
 
 interface DataType {
+  id: number
   hotel_name: string
   name: string
   email: string
@@ -20,8 +24,17 @@ const Approval: React.FC = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
 
-  const { data, error } = useSWR(`/admin/hotel/hotel-application?page=${page}`);
+  const { data, error, mutate } = useSWR(`/admin/hotel/hotel-application?page=${page}`);
   const loading = !data && !error;
+
+  function completeApplicationHandler(applicationId: number) {
+    completeHotelApplication(applicationId)
+      .then((res: any) => {
+        toast.success(res.message);
+      })
+      .catch(responseErrorHandler)
+      .finally(mutate)
+  }
 
   return (
     <SuperadminLayout title="Pending Approval">
@@ -38,6 +51,7 @@ const Approval: React.FC = () => {
               onChange: setPage
             }}
             dataSource={data?.data?.map((app: any) => ({
+              id: app.id,
               hotel_name: app.name,
               name: app.name,
               email: app.email,
@@ -80,6 +94,9 @@ const Approval: React.FC = () => {
                       password_confirmation: record.phone,
                     }
                   })}>Create</Button>
+                  <Popconfirm title="Are you sure to complete this application?" onConfirm={() => completeApplicationHandler(record.id)}>
+                    <Button className="btn btn-admin-dark">Complete</Button>
+                  </Popconfirm>
                 </Space>
               )}
             />

@@ -69,7 +69,6 @@ function CurrentBooking() {
   ];
 
   function checkoutHandler(id: number) {
-    mutate({ ...data, data: data.data.filter((booking: any) => booking.id !== id) }, false);
     checkoutBooking(id)
       .then((res: any) => {
         toast.success(res.message);
