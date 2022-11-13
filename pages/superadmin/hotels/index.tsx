@@ -183,6 +183,7 @@ const App: React.FC = () => {
               category: hotel.category.title
             }))}
               pagination={{
+                hideOnSinglePage: true,
                 current: data?.current_page,
                 pageSize: data?.per_page,
                 total: data?.total,

@@ -97,11 +97,6 @@ export function isValidPhone(email: string) {
   return expression.test(email);
 }
 
-// export function isValidMobile(number: string) {
-//   const expression = new RegExp(/^(?:(?+977)?)?[9][6-9]d{8}|01[-]?[0-9]{7}/);
-//   return expression.test(number);
-// }
-
 export function isValidUrl(url: string) {
   const pattern = new RegExp(
     "^(https?:\\/\\/)" + // protocol
