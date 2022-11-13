@@ -37,7 +37,7 @@ const Approval: React.FC = () => {
   }
 
   return (
-    <SuperadminLayout title="Pending Approval">
+    <SuperadminLayout title="Hotel Applications">
       {
         loading ?
           <Skeleton active />
@@ -86,17 +86,24 @@ const Approval: React.FC = () => {
               key="action"
               render={(_: any, record: DataType) => (
                 <Space size="middle">
-                  <Button className="btn btn-success" onClick={() => router.push({
-                    pathname: "/superadmin/hotels/create", query: {
-                      name: record.name,
-                      email: record.email,
-                      password: record.phone,
-                      password_confirmation: record.phone,
-                    }
-                  })}>Create</Button>
-                  <Popconfirm title="Are you sure to complete this application?" onConfirm={() => completeApplicationHandler(record.id)}>
-                    <Button className="btn btn-admin-dark">Complete</Button>
-                  </Popconfirm>
+                  {
+                    record.status === 0 ?
+                      <>
+                        <Button className="btn btn-success" onClick={() => router.push({
+                          pathname: "/superadmin/hotels/create", query: {
+                            name: record.name,
+                            email: record.email,
+                            password: record.phone,
+                            password_confirmation: record.phone,
+                          }
+                        })}>Create</Button>
+                        <Popconfirm title="Are you sure to complete this application?" onConfirm={() => completeApplicationHandler(record.id)}>
+                          <Button className="btn btn-admin-dark">
+                            Complete
+                          </Button>
+                        </Popconfirm>
+                      </>
+                      : <p>Application is Completed</p>}
                 </Space>
               )}
             />
