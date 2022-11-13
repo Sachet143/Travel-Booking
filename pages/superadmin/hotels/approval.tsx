@@ -76,7 +76,7 @@ const Approval: React.FC = () => {
               render={(_: any, record: DataType) => (
                 <Space size="middle">
                   {
-                    record.status === 0 ? <Tag className='bg-warning'>Pending</Tag> : <Tag className='bg-success text-white'>Completed</Tag>
+                    record.status === 0 ? <Tag className='bg-warning rounded px-3'>Pending</Tag> : <Tag className='bg-success text-white rounded px-3'>Completed</Tag>
                   }
                 </Space>
               )}
