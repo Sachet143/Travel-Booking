@@ -2,11 +2,13 @@ import { createHotelAdmin } from '@/api/superadmin/hotel';
 import SuperadminLayout from '@/components/layout/superadmin'
 import { isValidPassword, responseErrorHandler } from '@/services/helper';
 import { Button } from 'antd';
-import React, { useState } from 'react'
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify';
 
 function CreateHotels() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { reset, getValues, register, formState: { errors }, handleSubmit, setError } = useForm()
 
@@ -20,6 +22,15 @@ function CreateHotels() {
       .catch((err: any) => responseErrorHandler(err, setError))
       .finally(() => setLoading(false))
   }
+
+  useEffect(() => {
+    reset({
+      name: router.query.name,
+      email: router.query.email,
+      password: router.query.password,
+      password_confirmation: router.query.password_confirmation,
+    })
+  }, [router.query])
 
   return (
     <SuperadminLayout title="Hotel Management">
