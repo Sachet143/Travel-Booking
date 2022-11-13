@@ -40,12 +40,12 @@ function HoteladminSidebar() {
     return (
         <nav className="sidebar">
             <div className="logo d-flex justify-content-between">
-                <Link href="/superadmin" className="cursor-pointer">
+                <Link href="/hoteladmin" className="cursor-pointer">
                     <img className="cursor-pointer" src="/client/assets/img/YS-purple.svg" alt="" />
                 </Link>
-                <Link href="/superadmin" className="cursor-pointer">
+                {/* <Link href="/hoteladmin" className="cursor-pointer">
                     <img className="cursor-pointer" src="/client/assets/img/YS-purple.svg" alt="" />
-                </Link>
+                </Link> */}
                 <div className="sidebar_close_icon d-lg-none">
                     <i className="ti-close" />
                 </div>
