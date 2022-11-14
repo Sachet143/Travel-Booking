@@ -16,6 +16,7 @@ import {
   Row,
   Select,
   Skeleton,
+  Tag,
 } from "antd";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -45,9 +46,9 @@ function HotelPage() {
   const { data: rooms, error: roomError } = useSWR(
     hotel
       ? cleanUrlParams(`rooms`, {
-        hotel_id: hotel.id,
-        ...restQuery,
-      })
+          hotel_id: hotel.id,
+          ...restQuery,
+        })
       : null
   );
   const hotelLoading = !hotel && !error;
@@ -66,10 +67,11 @@ function HotelPage() {
     control,
     formState: { errors },
     reset,
+    handleSubmit,
   } = useForm({
     defaultValues: {
       min_price: 500,
-      max_price: 1500,
+      max_price: 50000,
       features: [],
     },
   });
@@ -77,12 +79,9 @@ function HotelPage() {
   useEffect(() => {
     reset({
       min_price: restQuery?.min_price || 500,
-      max_price: restQuery?.max_price || 1500,
+      max_price: restQuery?.max_price || 50000,
       features: router.query.features
-        ? router.query.features
-          .toString()
-          .split(",")
-          .map(Number)
+        ? router.query.features.toString().split(",").map(Number)
         : [],
     });
   }, [router.query]);
@@ -105,7 +104,7 @@ function HotelPage() {
       cleanUrlParams(`/hotels/${uuid}`, {
         ...restQuery,
         min_price: 500,
-        max_price: 1500,
+        max_price: 50000,
       })
     );
   };
@@ -121,13 +120,32 @@ function HotelPage() {
 
   function bookRoomHandler(roomId) {
     if (user) {
-      router.push(
-        `/room/${roomId}/book`
-      )
+      router.push(`/room/${roomId}/book`);
     } else {
-      router.push({ pathname: '/login', query: { redirectUrl: `/room/${roomId}/book` } })
+      router.push({
+        pathname: "/login",
+        query: { redirectUrl: `/room/${roomId}/book` },
+      });
     }
   }
+
+  const clearFilter = (value: any) => {
+    router.push(
+      cleanUrlParams(`/hotels/${uuid}`, {
+        ...restQuery,
+        [value]: null,
+      })
+    );
+  };
+
+  const submitFilter = (value: any) => {
+    router.push(
+      cleanUrlParams(`/hotels/${uuid}`, {
+        restQuery,
+        ...value,
+      })
+    );
+  };
 
   return (
     <ClientLayout>
@@ -373,7 +391,9 @@ function HotelPage() {
                                                   <button
                                                     className="btn btn_theme btn_sm"
                                                     type="button"
-                                                    onClick={() => bookRoomHandler(room.uuid)}
+                                                    onClick={() =>
+                                                      bookRoomHandler(room.uuid)
+                                                    }
                                                   >
                                                     Book Now
                                                   </button>
@@ -531,55 +551,6 @@ function HotelPage() {
                   </div>
                 </div>
               </div>
-              {/* <div className="container">
-                <div className="row">
-                  <div className="col-lg-8">
-                    <div className="write_your_review_wrapper">
-                      <h3 className="heading_theme">Write your review</h3>
-                      <div className="write_review_inner_boxed">
-                        <form
-                          action="https://andit.co/projects/html/and-tour/!#"
-                          id="news_comment_form"
-                        >
-                          <div className="row">
-                            <div className="col-lg-6">
-                              <div className="form-froup">
-                                <input
-                                  type="text"
-                                  className="form-control bg_input"
-                                  placeholder="Enter full name"
-                                />
-                              </div>
-                            </div>
-                            <div className="col-lg-6">
-                              <div className="form-froup">
-                                <input
-                                  type="text"
-                                  className="form-control bg_input"
-                                  placeholder="Enter email address"
-                                />
-                              </div>
-                            </div>
-                            <div className="col-lg-12">
-                              <div className="form-froup">
-                                <textarea
-                                  placeholder="Write your comments"
-                                  className="form-control bg_input"
-                                ></textarea>
-                              </div>
-                              <div className="comment_form_submit">
-                                <button className="btn btn_theme btn_md">
-                                  Post comment
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
             </section>
           </>
         )}
@@ -591,163 +562,157 @@ function HotelPage() {
     return (
       <div className="tour_details_boxed" id="#filter">
         <h3 className="heading_theme">Room Filter</h3>
+        {Object.keys(router.query).length > 1 && (
+          <>
+            <div className="h5">
+              <h5>Applied Filter:</h5>
+            </div>
+            <div className="mb-3 left_side_search_heading">
+              {Object.keys(router.query)
+                .filter((item) => item != "uuid")
+                .map((keyName: any, index: any) => {
+                  return (
+                    <Tag
+                      key={index}
+                      closable
+                      onClose={() => clearFilter(keyName)}
+                      className={"text-capitalize"}
+                    >
+                      {keyName}
+                    </Tag>
+                  );
+                })}
+            </div>
+          </>
+        )}
         <div className="flex-wrap row">
-          <div className="col left_side_search_boxed">
-            <div className="left_side_search_heading">
-              <h5>Filter by Price</h5>
-            </div>
-            <div className="filter-price">
-              {/* minimum price */}
-              <label>Minimum price</label>
-              <Controller
-                name="min_price"
-                control={control}
-                render={({ field: { onChange, value } }) => {
-                  return (
-                    <>
-                      <Row>
-                        <Col span={12}>
-                          <AntSlider
-                            step={5}
-                            min={500}
-                            max={1500}
-                            onChange={onChange}
-                            value={Number(value)}
-                          />
-                        </Col>
-                        <Col span={4}>
-                          <InputNumber
-                            min={500}
-                            max={1500}
-                            style={{ margin: "0 16px" }}
-                            value={Number(value)}
-                            onChange={onChange}
-                          />
-                        </Col>
-                      </Row>
-                      {errors?.min_price && (
-                        <p>{errors.min_price.message + ""}</p>
-                      )}
-                    </>
-                  );
-                }}
-              />
-              {/* minimum price */}
-              <label>MaxPrice price</label>
-              <Controller
-                name="max_price"
-                control={control}
-                rules={{
-                  validate: (val) =>
-                    (val && val >= 100 && val <= 50000) ||
-                    "Lowest Price should be in range",
-                }}
-                render={({ field: { onChange, value } }) => {
-                  return (
-                    <>
-                      <Row>
-                        <Col span={12}>
-                          <AntSlider
-                            step={5}
-                            min={1500}
-                            max={50000}
-                            onChange={onChange}
-                            value={Number(value)}
-                          />
-                        </Col>
-                        <Col span={4}>
-                          <InputNumber
-                            min={1500}
-                            max={50000}
-                            style={{ margin: "0 16px" }}
-                            value={Number(value)}
-                            onChange={onChange}
-                          />
-                        </Col>
-                      </Row>
-                      {errors?.max_price && (
-                        <p>{errors.max_price.message + ""}</p>
-                      )}
-                    </>
-                  );
-                }}
-              />
-            </div>
-            <button
-              className="btn btn-admin-dark"
-              type="button"
-              onClick={applyPriceFilter}
-            >
-              Apply
-            </button>
-            <button
-              className="btn btn-admin-dark-outlined mx-3"
-              type="button"
-              onClick={clearPriceFilter}
-            >
-              Clear
-            </button>
-          </div>
-          {/* Features */}
-          <div className="col left_side_search_boxed">
-            <div className="left_side_search_heading">
-              <h5>Features</h5>
-            </div>
-            <div className="tour_search_type">
-              <div className="custom-select">
-                {!featureList && !featureError ? (
-                  <Skeleton className="mt-3" active paragraph={false} />
-                ) : (
-                  <>
-                    <Controller
-                      control={control}
-                      name="features"
-                      rules={{ required: "Feature is required!" }}
-                      render={({ field: { onChange, value } }) => (
-                        <>
-                          <Select
-                            mode="multiple"
-                            value={value}
-                            onChange={onChange}
-                            allowClear
-                            status={errors?.features?.message && "error"}
-                            size="large"
-                            className="form-control mb-3"
-                            placeholder="Select features"
-                          >
-                            {featureList?.map((feat: any) => (
-                              <Option key={feat.id} value={feat.id}>
-                                {feat.title}
-                              </Option>
-                            ))}
-                          </Select>
-                          {errors?.features?.message && (
-                            <div className="text-danger">
-                              {errors?.features?.message + ""}
-                            </div>
-                          )}
-                        </>
-                      )}
-                    />
-                    <button
-                      className="btn btn-admin-dark"
-                      type="button"
-                      onClick={applyFeaturesFilter}
-                    >
-                      Apply
-                    </button>
-                    <button
-                      className="btn btn-admin-dark-outlined mx-3"
-                      type="button"
-                      onClick={clearPriceFilter}
-                    >
-                      Clear
-                    </button>
-                  </>
-                )}
+          <form onSubmit={handleSubmit(submitFilter)} className="row">
+            <div className="col">
+              <div className="custom-room-filter">
+                {/* minimum price */}
+                <label>Minimum price</label>
+                <Controller
+                  name="min_price"
+                  control={control}
+                  render={({ field: { onChange, value } }) => {
+                    return (
+                      <>
+                        <Row>
+                          <Col span={12}>
+                            <AntSlider
+                              step={5}
+                              min={500}
+                              max={1500}
+                              onChange={onChange}
+                              value={Number(value)}
+                            />
+                          </Col>
+                          <Col span={4}>
+                            <InputNumber
+                              min={500}
+                              max={1500}
+                              style={{ margin: "0 16px" }}
+                              value={Number(value)}
+                              onChange={onChange}
+                            />
+                          </Col>
+                        </Row>
+                        {errors?.min_price && (
+                          <p>{errors.min_price.message + ""}</p>
+                        )}
+                      </>
+                    );
+                  }}
+                />
+                {/* minimum price */}
+                <label>MaxPrice price</label>
+                <Controller
+                  name="max_price"
+                  control={control}
+                  rules={{
+                    validate: (val) =>
+                      (val && val >= 100 && val <= 50000) ||
+                      "Lowest Price should be in range",
+                  }}
+                  render={({ field: { onChange, value } }) => {
+                    return (
+                      <>
+                        <Row>
+                          <Col span={12}>
+                            <AntSlider
+                              step={5}
+                              min={1500}
+                              max={50000}
+                              onChange={onChange}
+                              value={Number(value)}
+                            />
+                          </Col>
+                          <Col span={4}>
+                            <InputNumber
+                              min={1500}
+                              max={50000}
+                              style={{ margin: "0 16px" }}
+                              value={Number(value)}
+                              onChange={onChange}
+                            />
+                          </Col>
+                        </Row>
+                        {errors?.max_price && (
+                          <p>{errors.max_price.message + ""}</p>
+                        )}
+                      </>
+                    );
+                  }}
+                />
               </div>
             </div>
-          </div>
+            <div className="col">
+              <div className="tour_search_type text-align-right">
+                <div className="custom-select text-align-left">
+                  {!featureList && !featureError ? (
+                    <Skeleton className="mt-3" active paragraph={false} />
+                  ) : (
+                    <>
+                      <Controller
+                        control={control}
+                        name="features"
+                        // rules={{ required: "Feature is required!" }}
+                        render={({ field: { onChange, value } }) => (
+                          <>
+                            <Select
+                              mode="multiple"
+                              value={value}
+                              onChange={onChange}
+                              allowClear
+                              status={errors?.features?.message && "error"}
+                              size="large"
+                              className="form-control mb-3"
+                              placeholder="Select features"
+                            >
+                              {featureList?.map((feat: any) => (
+                                <Option key={feat.id} value={feat.id}>
+                                  {feat.title}
+                                </Option>
+                              ))}
+                            </Select>
+                            {errors?.features?.message && (
+                              <div className="text-danger">
+                                {errors?.features?.message + ""}
+                              </div>
+                            )}
+                          </>
+                        )}
+                      />
+                    </>
+                  )}
+                </div>
+                <button className="btn btn-admin-dark" type="submit">
+                  Apply
+                </button>
+              </div>
+            </div>
+          </form>
+          {/* Features */}
         </div>
       </div>
     );
