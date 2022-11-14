@@ -19,7 +19,6 @@ class CustomDocument extends Document {
             sizes="180x180"
             href="/images/apple-touch-icon.png"
           />
-          {/* <link rel="shortcut icon" href="/images/favicon.png" /> */}
           <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -75,7 +74,6 @@ class CustomDocument extends Document {
           <script src="/client/assets/js/slick.min.js" defer />
           {/* <script src="/client/assets/js/slick-slider.js"></script> */}
           {/* admin dashboard */}
-          <link rel="icon" href="/admin/img/mini_logo.png" type="image/png" />
           <link rel="stylesheet" href="/admin/css/bootstrap1.min.css" />
           <link rel="stylesheet" href="/client/assets/css/style.css" />
 

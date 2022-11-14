@@ -25,16 +25,16 @@ export const SuperadminSidebarMenus = [
         icon: "/admin/img/menu-icon/7.svg",
         children: [
             {
-                title: "Create Admin",
+                title: "Pending Approvals",
+                link: "/superadmin/hotels/approval"
+            },
+            {
+                title: "Create Hotel",
                 link: "/superadmin/hotels/create"
             },
             {
                 title: "Listing",
                 link: "/superadmin/hotels"
-            },
-            {
-                title: "Pending Approval",
-                link: "/superadmin/hotels/approval"
             },
         ]
     },

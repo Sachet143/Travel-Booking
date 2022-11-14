@@ -1,7 +1,25 @@
+import { hotelApplication } from "@/api/contact";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import React from "react";
+import { isValidEmail, responseErrorHandler } from "@/services/helper";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 function BecomeAPartner() {
+
+  const [loading, setLoading] = useState(false);
+  const { handleSubmit, register, formState: { errors }, reset } = useForm();
+
+  function submitApplication(data: any) {
+    hotelApplication(data)
+      .then((res: any) => {
+        toast.success(res.message);
+        reset();
+      })
+      .catch(responseErrorHandler)
+      .finally(() => setLoading(false))
+  }
+
   return (
     <ClientLayout>
       <div>
@@ -114,134 +132,16 @@ function BecomeAPartner() {
             <div className="row">
               <div className="col-lg-12">
                 <div className="vendor_form_heading">
-                  <h2>Become a vendor</h2>
+                  <h2>Become a Vendor</h2>
                   <p>
-                    Eu sint minim tempor anim aliqua officia voluptate
-                    incididunt deserunt.
-                    <br /> Velitgo quis Lorem culpa qui pariatur occaecat.
+                    Submit your hotel application here and get your hotel listed on <b>YatraSamaya</b>.
                   </p>
                 </div>
               </div>
               <div className="col-lg-8">
                 <div className="vendor_form">
                   <div className="tour_booking_form_box">
-                    <form
-                      action="https://andit.co/projects/html/and-tour/!#"
-                      id="tour_bookking_form_item"
-                    >
-                      <div className="row">
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              className="form-control bg_input"
-                              placeholder="First name*"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              className="form-control bg_input"
-                              placeholder="Last name*"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              className="form-control bg_input"
-                              placeholder="Email address (Optional)"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              className="form-control bg_input"
-                              placeholder="Mobile number*"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-12">
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              className="form-control bg_input"
-                              placeholder="Street address"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              className="form-control bg_input"
-                              placeholder="Apartment, Suite, House no (optional)"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <select className="form-control form-select bg_input">
-                              <option value={1}>Khulna</option>
-                              <option value={1}>New York</option>
-                              <option value={1}>Barisal</option>
-                              <option value={1}>Nator</option>
-                              <option value={1}>Joybangla</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <select className="form-control form-select bg_input">
-                              <option value={1}>State</option>
-                              <option value={1}>New York</option>
-                              <option value={1}>Barisal</option>
-                              <option value={1}>Nator</option>
-                              <option value={1}>Joybangla</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <select className="form-control form-select bg_input">
-                              <option value={1}>Country</option>
-                              <option value={1}>New York</option>
-                              <option value={1}>Barisal</option>
-                              <option value={1}>Nator</option>
-                              <option value={1}>Joybangla</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <div className="booking_tour_form_submit pt-4">
-                    <div className="form-check write_spical_check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexCheckDefaultf1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefaultf1"
-                      >
-                        I have read and accept the{" "}
-                        <a href="terms-service.html">Terms and conditions</a>{" "}
-                        and <a href="privacy-policy.html">Privacy policy</a>
-                      </label>
-                    </div>
-                    <a
-                      href="booking-confirmation.html"
-                      className="btn btn_theme btn_md"
-                    >
-                      Sign up
-                    </a>
+                    {renderHotelApplication()}
                   </div>
                 </div>
               </div>
@@ -256,6 +156,110 @@ function BecomeAPartner() {
       </div>
     </ClientLayout>
   );
+
+  function renderHotelApplication() {
+    return (
+      <form
+        onSubmit={handleSubmit(submitApplication)}
+        action="https://andit.co/projects/html/and-tour/!#"
+        id="tour_bookking_form_item"
+      >
+        <div className="row">
+          <div className="col-lg-6">
+            <div className="form-group">
+              <div className="form-group mb-3">
+                <input
+                  autoFocus
+                  placeholder="Hotel Name"
+                  className="mb-0 form-control bg_input"
+                  aria-invalid={!!errors?.hotel_name?.message}
+                  {...register("hotel_name", { required: "Hotel Name is Required" })}
+                />
+                {errors?.hotel_name?.message && (
+                  <div className="text-danger">{errors?.hotel_name?.message + ""}</div>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6">
+            <div className="form-group mb-3">
+              <input
+                placeholder="Hotel Admin Name"
+                className="mb-0 form-control bg_input"
+                aria-invalid={!!errors?.name?.message}
+                {...register("name", { required: "Admin Name is Required" })}
+              />
+              {errors?.name?.message && (
+                <div className="text-danger">{errors?.name?.message + ""}</div>
+              )}
+            </div>
+          </div>
+          <div className="col-lg-6">
+            <div className="form-group">
+              <div className="form-group mb-3">
+                <input
+                  placeholder="Email"
+                  className="mb-0 form-control bg_input"
+                  aria-invalid={!!errors?.email?.message}
+                  {...register("email", {
+                    required: "Email is Required", validate: (email) =>
+                      isValidEmail(email) || "Email format is invalid!",
+                  })}
+                />
+                {errors?.email?.message && (
+                  <div className="text-danger">{errors?.email?.message + ""}</div>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6">
+            <div className="form-group mb-3">
+              <input
+                placeholder="Phone Number"
+                className="mb-0 form-control bg_input"
+                aria-invalid={!!errors?.phone_number?.message}
+                {...register("phone_number", { required: "Phone number is Required" })}
+              />
+              {errors?.phone_number?.message && (
+                <div className="text-danger">{errors?.phone_number?.message + ""}</div>
+              )}
+            </div>
+          </div>
+          <div className="col-lg-12">
+            <div className="form-group mb-3">
+              <input
+                placeholder="Address: City, State, Country"
+                className="mb-0 form-control bg_input"
+                aria-invalid={!!errors?.address?.message}
+                {...register("address", { required: "Hotel Address is Required" })}
+              />
+              {errors?.address?.message && (
+                <div className="text-danger">{errors?.address?.message + ""}</div>
+              )}
+            </div>
+          </div>
+          <div className="col-lg-12">
+            <div className="form-group my-3">
+              <textarea
+                placeholder="Hotel Description"
+                rows={4}
+                className="mb-0 form-control bg_input"
+                aria-invalid={!!errors?.description?.message}
+                {...register("description", { required: "Description is Required" })}
+              />
+              {errors?.description?.message && (
+                <div className="text-danger">{errors?.description?.message + ""}</div>
+              )}
+            </div>
+          </div>
+        </div>
+        <button type="submit" className="btn btn_theme btn_md" disabled={loading}
+        >
+          Submit Application
+        </button>
+      </form>
+    )
+  }
 }
 
 export default BecomeAPartner;
