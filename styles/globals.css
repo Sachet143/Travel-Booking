@@ -454,3 +454,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .custom-edit-profile i {
   margin-right: 10px;
 }
+
+.text-align-right {
+  text-align: right;
+}
+.text-align-left {
+  text-align: left;
+}

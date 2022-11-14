@@ -47,19 +47,21 @@ const HotelListing = () => {
   const {
     register,
     control,
-    formState: { errors },
+    formState: { errors, touchedFields, dirtyFields },
     getValues,
     reset,
+    handleSubmit,
+    watch,
   } = useForm<any>({
     defaultValues: {
       search: null,
-      min_price: 0,
-      max_price: 0,
-      country: null,
+      min_price: 500,
+      max_price: 50000,
+      country: "Nepal",
       state: null,
       city: null,
       features: [],
-      categories: []
+      categories: [],
     },
   });
 
@@ -71,21 +73,19 @@ const HotelListing = () => {
         ...router.query,
         min_price: getValues("min_price"),
         max_price: getValues("max_price"),
-        page: 1
+        page: 1,
       })
     );
   };
 
-  const applyLocationFilter = (e: any) => {
-    e.preventDefault();
-
+  const applyLocationFilter = () => {
     router.push(
       cleanUrlParams("/hotels", {
         ...router.query,
         country: getValues("country"),
         state: getValues("state"),
         city: getValues("city"),
-        page: 1
+        page: 1,
       })
     );
   };
@@ -115,13 +115,12 @@ const HotelListing = () => {
     );
   };
 
-  const applyFeaturesFilter = (e: any) => {
-    e.preventDefault();
+  const applyFeaturesFilter = (value: any) => {
     router.push(
       cleanUrlParams("/hotels", {
         ...router.query,
-        features: getValues("features").join(","),
-        page: 1
+        features: value.join(","),
+        page: 1,
       })
     );
   };
@@ -136,13 +135,12 @@ const HotelListing = () => {
     );
   };
 
-  const applyCategoriesFilter = (e: any) => {
-    e.preventDefault();
+  const applyCategoriesFilter = () => {
     router.push(
       cleanUrlParams("/hotels", {
         ...router.query,
         categories: getValues("categories").join(","),
-        page: 1
+        page: 1,
       })
     );
   };
@@ -157,20 +155,18 @@ const HotelListing = () => {
     );
   };
 
-
   const debounceName = useMemo(() => {
     const searchHotel = (value: any) => {
       router.push(
         cleanUrlParams("/hotels", {
           ...router.query,
           search: value,
-          page: 1
+          page: 1,
         })
       );
     };
     return debounce(searchHotel, 1000);
   }, []);
-
 
   const clearFilter = (value: any) => {
     router.push(
@@ -185,19 +181,23 @@ const HotelListing = () => {
     reset({
       ...router.query,
       categories: router.query.categories
-        ? router.query.categories
-          .toString()
-          .split(",")
-          .map(Number)
+        ? router.query.categories.toString().split(",").map(Number)
         : [],
       features: router.query.features
-        ? router.query.features
-          .toString()
-          .split(",")
-          .map(Number)
+        ? router.query.features.toString().split(",").map(Number)
         : [],
     });
   }, [router.query]);
+
+  const customFilter = (value: any) => {
+    router.push(
+      cleanUrlParams("/hotels", {
+        ...router.query,
+        ...value,
+        page: 1,
+      })
+    );
+  };
 
   return (
     <ClientLayout>
@@ -244,311 +244,270 @@ const HotelListing = () => {
                   </>
                 )}
 
-                <div className="left_side_search_area">
-                  <input
-                    {...register("search", {
-                      required: "Please enter the hotel name",
-                    })}
-                    className="form-control border mb-4"
-                    placeholder="Search Hotel"
-                    onChange={(e: any) => debounceName(e.target.value)}
-                  />
-                </div>
-                <div className="left_side_search_area">
-                  {/* filter by price */}
-                  <div className="left_side_search_boxed">
-                    <div className="left_side_search_heading">
-                      <h5>Filter by Price</h5>
-                    </div>
-                    <div className="filter-price">
-                      {/* minimum price */}
-                      <label>Minimum price</label>
-                      <Controller
-                        name="min_price"
-                        control={control}
-                        render={({ field: { onChange, value } }) => {
-                          return (
-                            <>
-                              <Row>
-                                <Col span={12}>
-                                  <Slider
-                                    step={5}
-                                    min={500}
-                                    max={1500}
-                                    onChange={onChange}
-                                    value={Number(value)}
-                                  />
-                                </Col>
-                                {/* <Col span={4}>
-                                  <InputNumber
-                                    min={500}
-                                    max={1500}
-                                    style={{ margin: "0 16px" }}
-                                    value={Number(value)}
-                                    onChange={onChange}
-                                  />
-                                </Col> */}
-                              </Row>
-                              {errors?.min_price && (
-                                <p>{errors.min_price.message + ""}</p>
-                              )}
-                            </>
-                          );
-                        }}
-                      />
-                      {/* minimum price */}
-                      <label>MaxPrice price</label>
-                      <Controller
-                        name="max_price"
-                        control={control}
-                        rules={{
-                          validate: (val) =>
-                            (val && val >= 100 && val <= 50000) ||
-                            "Lowest Price should be in range",
-                        }}
-                        render={({ field: { onChange, value } }) => {
-                          return (
-                            <>
-                              <Row>
-                                <Col span={12}>
-                                  <Slider
-                                    step={5}
-                                    min={1500}
-                                    max={50000}
-                                    onChange={onChange}
-                                    value={Number(value)}
-                                  />
-                                </Col>
-                                <Col span={4}>
-                                  <InputNumber
-                                    min={1500}
-                                    max={50000}
-                                    style={{ margin: "0 16px" }}
-                                    value={Number(value)}
-                                    onChange={onChange}
-                                  />
-                                </Col>
-                              </Row>
-                              {errors?.max_price && (
-                                <p>{errors.max_price.message + ""}</p>
-                              )}
-                            </>
-                          );
-                        }}
-                      />
-                    </div>
-                    <button
-                      className="btn btn-admin-dark"
-                      type="button"
-                      onClick={applyPriceFilter}
-                    >
-                      Apply
-                    </button>
-                    <button
-                      className="btn btn-admin-dark-outlined mx-3"
-                      type="button"
-                      onClick={clearPriceFilter}
-                    >
-                      Clear
-                    </button>
+                <form onSubmit={handleSubmit(customFilter)}>
+                  <div className="left_side_search_area">
+                    <input
+                      {...register("search")}
+                      className="form-control border mb-4"
+                      placeholder="Search Hotel"
+                      onChange={(e: any) => debounceName(e.target.value)}
+                    />
                   </div>
-                  {/* Features */}
-                  <div className="left_side_search_boxed">
-                    <div className="left_side_search_heading">
-                      <h5>Features</h5>
-                    </div>
-                    <div className="tour_search_type">
-                      <div className="custom-select">
-                        {!featureList && !featureError ? (
-                          <Skeleton className="mt-3" active paragraph={false} />
-                        ) : (
-                          <>
-                            {" "}
-                            <Controller
-                              control={control}
-                              name="features"
-                              rules={{ required: "Feature is required!" }}
-                              render={({ field: { onChange, value } }) => (
-                                <>
-                                  <Select
-                                    mode="multiple"
-                                    value={value}
-                                    onChange={onChange}
-                                    allowClear
-                                    status={
-                                      errors?.features?.message && "error"
-                                    }
-                                    size="large"
-                                    className="form-control mb-3"
-                                    placeholder="Select features"
-                                  >
-                                    {featureList?.map((feat: any) => (
-                                      <Option key={feat.id} value={feat.id}>
-                                        {feat.title}
-                                      </Option>
-                                    ))}
-                                  </Select>
-                                  {errors?.features?.message && (
-                                    <div className="text-danger">
-                                      {errors?.features?.message + ""}
-                                    </div>
-                                  )}
-                                </>
-                              )}
-                            />
-                            <button
-                              className="btn btn-admin-dark"
-                              type="button"
-                              onClick={applyFeaturesFilter}
-                            >
-                              Apply
-                            </button>
-                            <button
-                              className="btn btn-admin-dark-outlined mx-3"
-                              type="button"
-                              onClick={clearFeaturesFilter}
-                            >
-                              Clear
-                            </button>
-                          </>
-                        )}
+                  <div className="left_side_search_area">
+                    {/* filter by price */}
+                    <div className="left_side_search_boxed">
+                      <div className="left_side_search_heading">
+                        <h5>Filter by Price</h5>
                       </div>
-                    </div>
-                  </div>
-                  {/* Categories */}
-                  <div className="left_side_search_boxed">
-                    <div className="left_side_search_heading">
-                      <h5>Categories</h5>
-                    </div>
-                    <div className="tour_search_type">
-                      <div className="custom-select">
-                        {!catList && !catError ? (
-                          <Skeleton className="mt-3" active paragraph={false} />
-                        ) : (
-                          <>
-                            {" "}
-                            <Controller
-                              control={control}
-                              name="categories"
-                              rules={{ required: "Category is required!" }}
-                              render={({ field: { onChange, value } }) => (
-                                <>
-                                  <Select
-                                    mode="multiple"
-                                    value={value}
-                                    onChange={onChange}
-                                    allowClear
-                                    status={
-                                      errors?.categories?.message && "error"
-                                    }
-                                    size="large"
-                                    className="form-control mb-3"
-                                    placeholder="Select Categories"
-                                  >
-                                    {catList?.map((cat: any) => (
-                                      <Option key={cat.id} value={cat.id}>
-                                        {cat.title}
-                                      </Option>
-                                    ))}
-                                  </Select>
-                                  {errors?.categories?.message && (
-                                    <div className="text-danger">
-                                      {errors?.categories?.message + ""}
-                                    </div>
-                                  )}
-                                </>
-                              )}
-                            />
-                            <button
-                              className="btn btn-admin-dark"
-                              type="button"
-                              onClick={applyCategoriesFilter}
-                            >
-                              Apply
-                            </button>
-                            <button
-                              className="btn btn-admin-dark-outlined mx-3"
-                              type="button"
-                              onClick={clearCategoriesFilter}
-                            >
-                              Clear
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  {/* filter by location */}
-                  <div className="left_side_search_boxed">
-                    <div className="left_side_search_heading">
-                      <h5>Filter by Location</h5>
-                    </div>
-                    <div className="filter_review">
-                      <form className="review_star">
-                        <input
-                          className="mt-2 form-control"
-                          type="text"
-                          value="Nepal"
-                          disabled
-                        />
-                        <div className="custom-select">
-                          <Controller
-                            control={control}
-                            name="state"
-                            rules={{ required: "State is required!" }}
-                            render={({ field: { onChange, value } }) => (
+                      <div className="filter-price">
+                        {/* minimum price */}
+                        <label>Minimum price</label>
+                        <Controller
+                          name="min_price"
+                          control={control}
+                          render={({ field: { onChange, value } }) => {
+                            return (
                               <>
-                                <Select
-                                  status={errors?.state?.message && "error"}
-                                  value={value}
-                                  onChange={onChange}
-                                  showSearch
-                                  allowClear
-                                  size="large"
-                                  className="form-control my-4"
-                                  placeholder="Select State"
-                                >
-                                  {states.map((state) => (
-                                    <Option key={state} value={state}>
-                                      {state}
-                                    </Option>
-                                  ))}
-                                </Select>
-                                {errors?.state?.message && (
-                                  <div className="text-danger">
-                                    {errors?.state?.message + ""}
-                                  </div>
+                                <Row>
+                                  <Col span={12}>
+                                    <Slider
+                                      step={5}
+                                      min={500}
+                                      max={1500}
+                                      onChange={onChange}
+                                      value={Number(value)}
+                                    />
+                                  </Col>
+                                  <Col span={4}>
+                                    <InputNumber
+                                      min={500}
+                                      max={1500}
+                                      style={{ margin: "0 16px" }}
+                                      value={Number(value)}
+                                      onChange={onChange}
+                                    />
+                                  </Col>
+                                </Row>
+                                {errors?.min_price && (
+                                  <p>{errors.min_price.message + ""}</p>
                                 )}
                               </>
+                            );
+                          }}
+                        />
+                        {/* minimum price */}
+                        <label>MaxPrice price</label>
+                        <Controller
+                          name="max_price"
+                          control={control}
+                          rules={{
+                            validate: (val) =>
+                              (val && val >= 100 && val <= 50000) ||
+                              "Lowest Price should be in range",
+                          }}
+                          render={({ field: { onChange, value } }) => {
+                            return (
+                              <>
+                                <Row>
+                                  <Col span={12}>
+                                    <Slider
+                                      step={5}
+                                      min={1500}
+                                      max={50000}
+                                      onChange={onChange}
+                                      value={Number(value)}
+                                    />
+                                  </Col>
+                                  <Col span={4}>
+                                    <InputNumber
+                                      min={1500}
+                                      max={50000}
+                                      style={{ margin: "0 16px" }}
+                                      value={Number(value)}
+                                      onChange={onChange}
+                                    />
+                                  </Col>
+                                </Row>
+                                {errors?.max_price && (
+                                  <p>{errors.max_price.message + ""}</p>
+                                )}
+                              </>
+                            );
+                          }}
+                        />
+                      </div>
+                      {/* Features */}
+                      <div className="left_side_search_heading">
+                        <h5>Features</h5>
+                      </div>
+                      <div className="tour_search_type">
+                        <div className="custom-select">
+                          {!featureList && !featureError ? (
+                            <Skeleton
+                              className="mt-3"
+                              active
+                              paragraph={false}
+                            />
+                          ) : (
+                            <>
+                              {" "}
+                              <Controller
+                                control={control}
+                                name="features"
+                                // rules={{ required: "Feature is required!" }}
+                                render={({ field: { onChange, value } }) => (
+                                  <>
+                                    <Select
+                                      mode="multiple"
+                                      value={value}
+                                      onChange={onChange}
+                                      allowClear
+                                      status={
+                                        errors?.features?.message && "error"
+                                      }
+                                      size="large"
+                                      className="form-control mb-3"
+                                      placeholder="Select features"
+                                    >
+                                      {featureList?.map((feat: any) => (
+                                        <Option key={feat.id} value={feat.id}>
+                                          {feat.title}
+                                        </Option>
+                                      ))}
+                                    </Select>
+                                    {errors?.features?.message && (
+                                      <div className="text-danger">
+                                        {errors?.features?.message + ""}
+                                      </div>
+                                    )}
+                                  </>
+                                )}
+                              />
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      {/* Categories */}
+                      <div className="left_side_search_heading">
+                        <h5>Categories</h5>
+                      </div>
+                      <div className="tour_search_type">
+                        <div className="custom-select">
+                          {!catList && !catError ? (
+                            <Skeleton
+                              className="mt-3"
+                              active
+                              paragraph={false}
+                            />
+                          ) : (
+                            <>
+                              {" "}
+                              <Controller
+                                control={control}
+                                name="categories"
+                                // rules={{
+                                //   required: "Category is required!",
+                                // }}
+                                render={({ field: { onChange, value } }) => (
+                                  <>
+                                    <Select
+                                      mode="multiple"
+                                      value={value}
+                                      onChange={onChange}
+                                      allowClear
+                                      status={
+                                        errors?.categories?.message && "error"
+                                      }
+                                      size="large"
+                                      className="form-control mb-3"
+                                      placeholder="Select Categories"
+                                    >
+                                      {catList?.map((cat: any) => (
+                                        <Option key={cat.id} value={cat.id}>
+                                          {cat.title}
+                                        </Option>
+                                      ))}
+                                    </Select>
+                                    {errors?.categories?.message && (
+                                      <div className="text-danger">
+                                        {errors?.categories?.message + ""}
+                                      </div>
+                                    )}
+                                  </>
+                                )}
+                              />
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      {/* filter by location */}
+                      <div className="mb-3">
+                        <div className="left_side_search_heading">
+                          <h5>Filter by Location</h5>
+                        </div>
+                        <div className="filter_review">
+                          <input
+                            className="mt-2 form-control"
+                            type="text"
+                            disabled
+                            {...register("country")}
+                          />
+                          <div className="custom-select">
+                            <Controller
+                              control={control}
+                              name="state"
+                              //   rules={{ required: "State is required!" }}
+                              render={({ field: { onChange, value } }) => (
+                                <>
+                                  <Select
+                                    status={errors?.state?.message && "error"}
+                                    value={value}
+                                    onChange={onChange}
+                                    showSearch
+                                    allowClear
+                                    size="large"
+                                    className="form-control my-4"
+                                    placeholder="Select State"
+                                  >
+                                    {states.map((state) => (
+                                      <Option key={state} value={state}>
+                                        {state}
+                                      </Option>
+                                    ))}
+                                  </Select>
+                                  {errors?.state?.message && (
+                                    <div className="text-danger">
+                                      {errors?.state?.message + ""}
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                            />
+                          </div>
+                          <input
+                            {...register(
+                              "city"
+                              // {required: "City is required!",}
                             )}
+                            aria-invalid={!!errors?.city?.message}
+                            className="form-control border"
+                            placeholder="Enter City"
                           />
                         </div>
-                        <input
-                          {...register("city", {
-                            required: "City is required!",
-                          })}
-                          aria-invalid={!!errors?.city?.message}
-                          className="form-control border"
-                          placeholder="Enter City"
-                        />
-                        <button
-                          className="mt-4 btn btn-admin-dark"
-                          type="button"
-                          onClick={applyLocationFilter}
-                        >
-                          Apply
-                        </button>
-                        <button
-                          className="mt-4 btn btn-admin-dark-outlined mx-3"
-                          type="button"
-                          onClick={clearLocationFilter}
-                        >
-                          Clear
-                        </button>
-                      </form>
+                      </div>
+
+                      <button className="btn btn-admin-dark" type="submit">
+                        Apply
+                      </button>
+                      <button
+                        className="btn btn-admin-dark-outlined mx-3"
+                        type="button"
+                      >
+                        Clear
+                      </button>
                     </div>
                   </div>
-                </div>
+                </form>
               </div>
               {/* hotels */}
               <div className="col-lg-9">
@@ -565,7 +524,7 @@ const HotelListing = () => {
                           className="theme_common_box_two cursor-pointer"
                           // onClick={() => Router.push(`/hotels/${hotel.uuid}`, {router.query})}
                           onClick={() =>
-                            Router.push(
+                            router.push(
                               cleanUrlParams(`/hotels/${hotel.uuid}`, {
                                 min_price: router.query.min_price,
                                 max_price: router.query.max_price,
@@ -615,44 +574,6 @@ const HotelListing = () => {
                       total={hotels?.total}
                     />
                   </div>
-
-                  {/* <div className="col-lg-12">
-                    <div className="pagination_area">
-                      <ul className="pagination">
-                        <li className="page-item">
-                          <a
-                            className="page-link"
-                            href="#"
-                            aria-label="Previous"
-                          >
-                            <span aria-hidden="true">&laquo;</span>
-                            <span className="sr-only">Previous</span>
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            1
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            2
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            3
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span className="sr-only">Next</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div> */}
                 </div>
               </div>
             </div>
