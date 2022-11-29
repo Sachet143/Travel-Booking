@@ -212,7 +212,7 @@ const HotelListing = () => {
                       <Skeleton active paragraph={false} />
                     </div>
                   ) : (
-                    <h2>{hotels.total} hotel found</h2>
+                    <h2>{hotels?.total} hotel found</h2>
                   )}
                 </div>
               </div>
