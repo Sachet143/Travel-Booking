@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "refresh": "git pull origin main && npm i && pm2 delete 0 && npm run prod",
+    "refresh": "git pull origin main && npm i --force && pm2 delete 0 && npm run prod",
     "prod": "pm2 start npm --name TRAVEL-FRONT:3000 -- run dev",
     "dev": "next dev",
     "build": "next build",
