@@ -3762,7 +3762,7 @@ textarea {
 .room_book_item {
   display: flex;
   border: 1px solid #dddddd;
-  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .room_booking_heading h3 {
@@ -3815,7 +3815,6 @@ textarea {
 
 .room_booking_right_side {
   display: flex;
-  justify-content: center;
   padding: 15px 25px 0 25px;
   flex-wrap: wrap;
 }
