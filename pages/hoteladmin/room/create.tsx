@@ -13,7 +13,22 @@ function HotelRoomCreate() {
   const matchMutate = useMatchMutate();
   const formMethods = useForm<any>({
     defaultValues: {
-      status: true
+      title: "",
+      status: true,
+      features: [],
+      price: 0,
+      discount_price: 0,
+      max_people: 0,
+      breakfast: false,
+      lunch: false,
+      dinner: false,
+      available_rooms: 0,
+      king_bed: 0,
+      queen_bed: 0,
+      small_single_bed: 0,
+      twin_bed: 0,
+      full_bed: 0,
+
     }
   });
 
@@ -24,6 +39,9 @@ function HotelRoomCreate() {
 
     createHotelRoom(objectToFormData({
       ...data,
+      breakfast: Number(data.breakfast),
+      lunch: Number(data.lunch),
+      dinner: Number(data.dinner),
       status: Number(data.status),
       ["included_excluded"]: JSON.stringify(data["included_excluded"]),
       files: data.files.map((file: any) => file.originFileObj)

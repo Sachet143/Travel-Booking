@@ -49,7 +49,8 @@ function UpdateHotel() {
       city: user?.hotel?.location?.city,
       description: user.hotel.description,
       why_choose_us: user.hotel.why_choose_us ? JSON.parse(user.hotel.why_choose_us) : null,
-      our_facilities: user.hotel.our_facilities ? JSON.parse(user.hotel.our_facilities) : null
+      our_facilities: user.hotel.our_facilities ? JSON.parse(user.hotel.our_facilities) : null,
+      stars: user?.hotel?.stars,
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

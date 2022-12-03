@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { Button, message, Modal, Select, Skeleton, Switch } from 'antd';
+import { Button, Checkbox, message, Modal, Select, Skeleton, Switch } from 'antd';
 import Upload, { RcFile, UploadFile } from 'antd/lib/upload';
 import React, { useState } from 'react'
 import { Controller, UseFormReturn } from 'react-hook-form'
@@ -75,7 +75,7 @@ function HotelRoomForm({
             {...register("title", { required: "Room Title is required!" })}
             aria-invalid={!!errors?.title?.message}
             className="form-control"
-            placeholder="Enter Room Title"
+            placeholder="Super Deluxe Room"
           />
           {errors?.title?.message &&
             <div className="text-danger">
@@ -96,6 +96,58 @@ function HotelRoomForm({
           </div>
         </div>
       </div>
+      {/* row 2 */}
+      <div className="row my-3">
+        <div className="col-md-4 form-group">
+          <label className="form-label">Max People<span className='text-danger'> *</span></label>
+          <input
+            {...register("max_people", { required: "Max number of people is required!" })}
+            aria-invalid={!!errors?.max_people?.message}
+            className="form-control"
+            placeholder="Super Deluxe Room"
+          />
+          {errors?.max_people?.message &&
+            <div className="text-danger">
+              {errors?.max_people?.message + ""}
+            </div>
+          }
+        </div>
+        <div className="col-md-4 col-sm-12 form-group">
+          <label className="form-label">Price<span className='text-danger'> *</span></label>
+          <input
+            {...register("price", {
+              required: "Room Price is required!",
+              validate: price => !isNaN(price) || "Price must be a number"
+            })}
+            aria-invalid={!!errors?.price?.message}
+            className="form-control"
+            placeholder="Enter Room Price"
+          />
+          {errors?.price?.message &&
+            <div className="text-danger">
+              {errors?.price?.message + ""}
+            </div>
+          }
+        </div>
+        <div className="col-md-4 col-sm-12 form-group">
+          <label className="form-label">Discount Price</label>
+          <input
+            {...register("discount_price", {
+              value: 0,
+              validate: discount_price => !discount_price || !isNaN(discount_price) || "Discount Price must be a number"
+            })}
+            aria-invalid={!!errors?.discount_price?.message}
+            className="form-control"
+            placeholder="Enter Discount Price"
+          />
+          {errors?.discount_price?.message &&
+            <div className="text-danger">
+              {errors?.discount_price?.message + ""}
+            </div>
+          }
+        </div>
+      </div>
+      {/* row 3 */}
       <div className="col-12 form-group">
         <label className="form-label">Features<span className='text-danger'> *</span></label>
         <div className='custom-select'>
@@ -133,18 +185,21 @@ function HotelRoomForm({
           }
         </div>
       </div>
-      {/* row 2 */}
+      {/* row 4 */}
       <div className="row my-3">
-        <div className="col-md-6 col-sm-12 form-group">
-          <label className="form-label">Price<span className='text-danger'> *</span></label>
-          <input
-            {...register("price", {
-              required: "Room Price is required!",
-              validate: price => !isNaN(price) || "Price must be a number"
-            })}
-            aria-invalid={!!errors?.price?.message}
-            className="form-control"
-            placeholder="Enter Room Price"
+        <div className="col-md-4 form-group">
+          <label className="form-label">Breakfast</label><br />
+          <Controller
+            name="breakfast"
+            control={control}
+            render={({ field: { value, onChange } }) => {
+              return (
+                <Checkbox
+                  checked={value}
+                  onChange={e => onChange(e.target.checked)}
+                />
+              )
+            }}
           />
           {errors?.price?.message &&
             <div className="text-danger">
@@ -152,25 +207,135 @@ function HotelRoomForm({
             </div>
           }
         </div>
-        <div className="col-md-6 col-sm-12 form-group">
-          <label className="form-label">Discount Price</label>
-          <input
-            {...register("discount_price", {
-              value: 0,
-              validate: discount_price => !discount_price || !isNaN(discount_price) || "Discount Price must be a number"
-            })}
-            aria-invalid={!!errors?.discount_price?.message}
-            className="form-control"
-            placeholder="Enter Discount Price"
+        <div className="col-md-4 form-group">
+          <label className="form-label">Dinner</label><br />
+          <Controller
+            name="dinner"
+            control={control}
+            render={({ field: { value, onChange } }) => {
+              return (
+                <Checkbox
+                  checked={value}
+                  onChange={e => onChange(e.target.checked)}
+                />
+              )
+            }}
           />
-          {errors?.discount_price?.message &&
+          {errors?.price?.message &&
             <div className="text-danger">
-              {errors?.discount_price?.message + ""}
+              {errors?.price?.message + ""}
+            </div>
+          }
+        </div>
+        <div className="col-md-4 form-group">
+          <label className="form-label">Lunch</label><br />
+          <Controller
+            name="lunch"
+            control={control}
+            render={({ field: { value, onChange } }) => {
+              return (
+                <Checkbox
+                  checked={value}
+                  onChange={e => onChange(e.target.checked)}
+                />
+              )
+            }}
+          />
+          {errors?.price?.message &&
+            <div className="text-danger">
+              {errors?.price?.message + ""}
             </div>
           }
         </div>
       </div>
-      {/* row 3 */}
+      {/* row 5 */}
+      <div className="row my-3">
+        <div className="col-md-4 form-group">
+          <label className="form-label">Available Rooms<span className='text-danger'> *</span></label>
+          <input
+            {...register("available_rooms", { required: "Available Rooms is required!" })}
+            aria-invalid={!!errors?.available_rooms?.message}
+            className="form-control"
+            placeholder="eg: 2"
+          />
+          {errors?.available_rooms?.message &&
+            <div className="text-danger">
+              {errors?.available_rooms?.message + ""}
+            </div>
+          }
+        </div>
+        <div className="col-md-4 form-group">
+          <label className="form-label">King Bed</label>
+          <input
+            {...register("king_bed", { required: "King Bed number is required!" })}
+            aria-invalid={!!errors?.king_bed?.message}
+            className="form-control"
+            placeholder="eg: 2"
+          />
+          {errors?.king_bed?.message &&
+            <div className="text-danger">
+              {errors?.king_bed?.message + ""}
+            </div>
+          }
+        </div>
+        <div className="col-md-4 form-group">
+          <label className="form-label">Queen Bed</label>
+          <input
+            {...register("queen_bed", { required: "Queen Bed number is required!" })}
+            aria-invalid={!!errors?.queen_bed?.message}
+            className="form-control"
+            placeholder="eg: 2"
+          />
+          {errors?.queen_bed?.message &&
+            <div className="text-danger">
+              {errors?.queen_bed?.message + ""}
+            </div>
+          }
+        </div>
+        <div className="mt-3 col-md-4 form-group">
+          <label className="form-label">Single Bed</label>
+          <input
+            {...register("twin_bed", { required: "Available Rooms is required!" })}
+            aria-invalid={!!errors?.twin_bed?.message}
+            className="form-control"
+            placeholder="eg: 2"
+          />
+          {errors?.twin_bed?.message &&
+            <div className="text-danger">
+              {errors?.twin_bed?.message + ""}
+            </div>
+          }
+        </div>
+        <div className="mt-3 col-md-4 form-group">
+          <label className="form-label">Twin Bed</label>
+          <input
+            {...register("twin_bed", { required: "Available Rooms is required!" })}
+            aria-invalid={!!errors?.twin_bed?.message}
+            className="form-control"
+            placeholder="eg: 2"
+          />
+          {errors?.twin_bed?.message &&
+            <div className="text-danger">
+              {errors?.twin_bed?.message + ""}
+            </div>
+          }
+        </div>
+        <div className="mt-3 col-md-4 form-group">
+          <label className="form-label">Full Bed</label>
+          <input
+            {...register("full_bed", { required: "Available Rooms is required!" })}
+            aria-invalid={!!errors?.full_bed?.message}
+            className="form-control"
+            placeholder="eg: 2"
+          />
+          {errors?.full_bed?.message &&
+            <div className="text-danger">
+              {errors?.full_bed?.message + ""}
+            </div>
+          }
+        </div>
+      </div>
+      {/* row 5 */}
       <div className="form-group mb-3">
         <label className="form-label">included_excluded<span className='text-danger'> *</span></label>
         <Controller
@@ -206,7 +371,7 @@ function HotelRoomForm({
           }
         />
       </div>
-      {/* row 4 */}
+      {/* row 6 */}
       <div className="form-group my-4">
         <label className="form-label">Room Images<span className='text-danger'> *</span></label>
         <Controller

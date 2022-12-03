@@ -1,13 +1,12 @@
-import HoteladminLayout from '@/components/layout/hoteladmin'
-import React, { useState } from 'react'
-import useSWR from 'swr'
-import { Popconfirm, Skeleton, Space, Table, Tag } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
-import Link from 'next/link';
-import { toast } from 'react-toastify';
 import { deleteHotelRoom } from '@/api/hoteladmin/hotelRoom';
+import HoteladminLayout from '@/components/layout/hoteladmin';
 import { responseErrorHandler } from '@/services/helper';
+import { Popconfirm, Skeleton, Space, Table } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 import Router from 'next/router';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import useSWR from 'swr';
 
 interface DataType {
   id: number;
