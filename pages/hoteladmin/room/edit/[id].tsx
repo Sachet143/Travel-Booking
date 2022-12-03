@@ -1,11 +1,9 @@
-import { updateHotel } from '@/api/hoteladmin/hotel';
-import { createHotelRoom, updateHotelRoom } from '@/api/hoteladmin/hotelRoom';
-import { resetPassword } from '@/api/superadmin/auth';
+import { updateHotelRoom } from '@/api/hoteladmin/hotelRoom';
 import HotelRoomForm from '@/components/hoteladmin/forms/HotelRoom';
 import HoteladminLayout from '@/components/layout/hoteladmin';
 import { imageFullPath, objectToFormData, responseErrorHandler } from '@/services/helper';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
@@ -23,8 +21,11 @@ function HotelRoomEdit() {
     setLoading(true);
     updateHotelRoom(id, objectToFormData({
       ...data,
+      breakfast: Number(data.breakfast),
+      lunch: Number(data.lunch),
+      dinner: Number(data.dinner),
       status: Number(data.status),
-      ["included/excluded"]: JSON.stringify(data["included/excluded"]),
+      ["included_excluded"]: JSON.stringify(data["included_excluded"]),
       files: data.files.map((file: any) => file.originFileObj)
     }))
       .then((res: any) => {
@@ -40,12 +41,9 @@ function HotelRoomEdit() {
 
     if (data) {
       reset({
-        title: data.title,
-        status: data.status,
-        price: data.price,
-        features: data.features.map((f: any) => f.hotel_feature_id),
-        discount_price: data.discount_price,
-        "included/excluded": data["included/excluded"] ? JSON.parse(data["included/excluded"]) : null,
+        ...data,
+        features: data.features.map((f: any) => f.id),
+        "included_excluded": data["included_excluded"] ? JSON.parse(data["included_excluded"]) : null,
         files: data.files.map((file: any) => ({
           uid: file.id,
           name: `image.${file.type}`,

@@ -1,14 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { Button, message, Select, Skeleton, Upload } from 'antd';
-import { RcFile } from 'antd/lib/upload';
-import React, { useEffect, useState } from 'react'
-import { Controller, UseFormReturn } from 'react-hook-form'
-import dynamic from "next/dynamic";
-import useSWR from 'swr';
-import states from '@/states.json'
 import axiosClient from '@/services/axios/clientfetch';
-import useUser from '@/services/hooks/useUser';
+import states from '@/states.json';
+import { Button, message, Rate, Select, Skeleton, Upload } from 'antd';
+import { RcFile } from 'antd/lib/upload';
+import dynamic from "next/dynamic";
+import { useState } from 'react';
+import { Controller, UseFormReturn } from 'react-hook-form';
+import useSWR from 'swr';
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod: any) => mod.Editor),
   { ssr: false }
@@ -394,6 +393,18 @@ function HotelForm({
                 </div>
               }
             </div>
+          }
+        />
+      </div>
+      {/* row 8 */}
+      <div className="form-group mb-3">
+        <label className="form-label">Hotel Rating</label><br />
+        <Controller
+          control={control}
+          name="stars"
+          rules={{ required: "Enter Stars for your Hotel!" }}
+          render={({ field: { onChange, value } }) =>
+            <Rate value={value} onChange={onChange} />
           }
         />
       </div>

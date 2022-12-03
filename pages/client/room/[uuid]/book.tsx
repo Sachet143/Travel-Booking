@@ -438,14 +438,14 @@ const BookRoom = () => {
                               <div className="tour_details_right_box_heading">
                                 <h3>{roomData.title}</h3>
                               </div>
-                              {roomData["included/excluded"] && (
+                              {roomData["included_excluded"] && (
                                 <div className="tour_package_details_bar_list">
-                                  <h5>Included/Excluded</h5>
+                                  <h5>included_excluded</h5>
                                   <Editor
                                     //@ts-ignore
                                     toolbarHidden
                                     contentState={JSON.parse(`{\"blocks\":[{\"key\":\"d675\",\"text\":\"our facilities are top notch\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}`)}
-                                    // contentState={JSON.parse(roomData["included/excluded"])}
+                                    // contentState={JSON.parse(roomData["included_excluded"])}
                                     readOnly
                                   />
                                 </div>

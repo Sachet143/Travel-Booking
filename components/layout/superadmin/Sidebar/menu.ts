@@ -44,9 +44,17 @@ export const SuperadminSidebarMenus = [
         icon: "/admin/img/menu-icon/7.svg",
         children: [
             {
-                title: "Facilities",
+                title: "Activities",
+                link: "/superadmin/miscs/activities"
+            },
+            {
+                title: "Hotel Facilities",
                 link: "/superadmin/miscs/facilities"
-            }
+            },
+            {
+                title: "Room Facilities",
+                link: "/superadmin/miscs/room-facilities"
+            },
         ]
     },
 ]
