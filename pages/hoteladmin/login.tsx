@@ -13,6 +13,7 @@ import { Button } from "antd";
 import { setCookie } from "cookies-next";
 import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
 import Password from "@/components/common/Password";
+import Crypto from "crypto-js";
 
 function HotelAdminLogin() {
   const [loading, setLoading] = useState(false);
@@ -22,7 +23,12 @@ function HotelAdminLogin() {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      "email": "hotel1@mail.com",
+      "password": "Testing123!",
+    }
+  });
 
   function submitLogin(data: any) {
     setLoading(true);
@@ -30,7 +36,7 @@ function HotelAdminLogin() {
       .then((res: any) => {
         toast.success(res.message);
         // @ts-ignore
-        setCookie(TOKEN_KEY, appEncrypt(res.data.token));
+        setCookie(TOKEN_KEY, res.data.token);
         // @ts-ignore
         setCookie(USER_TYPE_KEY, appEncrypt("hoteladmin"));
         Router.push("/hoteladmin");
