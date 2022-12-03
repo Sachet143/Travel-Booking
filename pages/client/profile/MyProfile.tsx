@@ -15,11 +15,14 @@ const MyProfile = () => {
     formState: { errors },
     reset,
     getValues,
+    watch,
     handleSubmit,
   } = useForm({
     defaultValues: {
       name: user.name || "",
       phone: user.phone || "",
+      password: "",
+      confirm_password: "",
     },
   });
 
@@ -35,6 +38,8 @@ const MyProfile = () => {
         setLoading(false);
       });
   };
+
+  console.log(errors);
 
   return (
     <div className="dashboard_common_table">
@@ -77,6 +82,7 @@ const MyProfile = () => {
                 <input
                   placeholder="Enter Phone Number *"
                   className="mb-0 form-control"
+                  type="phone"
                   aria-invalid={!!errors?.phone?.message}
                   {...register("phone")}
                 />
@@ -88,16 +94,43 @@ const MyProfile = () => {
               </div>
             </div>
 
-            <div className="col-lg-12">
-              <div className="form-group change_password_field">
-                <label>Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="password"
-                  value={"Please look into the items"}
-                />
-                <p>Change password</p>
+            <div className="change_password_input_boxed">
+              <h3>Change password</h3>
+              <div className="row">
+                <div className="col-lg-6">
+                  <div className="form-group">
+                    <input
+                      type="password"
+                      className="form-control"
+                      placeholder="New Password"
+                      {...register("password", {
+                        required: true,
+                      })}
+                    />
+                  </div>
+                </div>
+                <div className="col-lg-6">
+                  <div className="form-group">
+                    <input
+                      type="password"
+                      className="form-control"
+                      placeholder="Confirm New Password"
+                      {...register("confirm_password", {
+                        required: true,
+                        validate: (val: string) => {
+                          if (watch("password") != val) {
+                            return "Your passwords do no match";
+                          }
+                        },
+                      })}
+                    />
+                  </div>
+                  {errors?.confirm_password?.message && (
+                    <div className="text-danger">
+                      {errors?.confirm_password?.message + ""}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             <div className="custom-edit-profile">
@@ -109,29 +142,6 @@ const MyProfile = () => {
                 <i className="fa fa-edit" />
                 Edit
               </Button>
-            </div>
-            <div className="change_password_input_boxed">
-              <h3>Change password</h3>
-              <div className="row">
-                <div className="col-lg-6">
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      className="form-control"
-                      placeholder="Old Password"
-                    />
-                  </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      className="form-control"
-                      placeholder="New Password"
-                    />
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </form>

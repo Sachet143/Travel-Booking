@@ -29,8 +29,18 @@ const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 const HotelListing = () => {
   const router = useRouter();
 
-  const { data: featureList, error: featureError } = useSWR(
+  const { data: hotelFeatureList, error: featureError } = useSWR(
     `/features`,
+    customFetcher
+  );
+
+  const { data: hotelActivitiesList, error: hotelActivitiesError } = useSWR(
+    `/activities`,
+    customFetcher
+  );
+
+  const { data: roomFeatureList, error: roomFeatureError } = useSWR(
+    `/room-features`,
     customFetcher
   );
 
@@ -60,8 +70,10 @@ const HotelListing = () => {
       country: "Nepal",
       state: null,
       city: null,
-      features: [],
+      hotelFeatures: [],
       categories: [],
+      roomFeatures: [],
+      hotelActivities: [],
     },
   });
 
@@ -183,8 +195,14 @@ const HotelListing = () => {
       categories: router.query.categories
         ? router.query.categories.toString().split(",").map(Number)
         : [],
-      features: router.query.features
-        ? router.query.features.toString().split(",").map(Number)
+      hotelFeatures: router.query.hotelFeatures
+        ? router.query.hotelFeatures.toString().split(",").map(Number)
+        : [],
+      roomFeatures: router.query.roomFeatures
+        ? router.query.roomFeatures.toString().split(",").map(Number)
+        : [],
+      hotelActivities: router.query.hotelActivities
+        ? router.query.hotelActivities.toString().split(",").map(Number)
         : [],
     });
   }, [router.query]);
@@ -212,7 +230,7 @@ const HotelListing = () => {
                       <Skeleton active paragraph={false} />
                     </div>
                   ) : (
-                    <h2>{hotels.total} hotel found</h2>
+                    <h2>{hotels?.total} Hotel found</h2>
                   )}
                 </div>
               </div>
@@ -336,13 +354,13 @@ const HotelListing = () => {
                           }}
                         />
                       </div>
-                      {/* Features */}
+                      {/*Hotel Features */}
                       <div className="left_side_search_heading">
-                        <h5>Features</h5>
+                        <h5>Hotel Features</h5>
                       </div>
                       <div className="tour_search_type">
                         <div className="custom-select">
-                          {!featureList && !featureError ? (
+                          {!hotelFeatureList && !featureError ? (
                             <Skeleton
                               className="mt-3"
                               active
@@ -353,7 +371,7 @@ const HotelListing = () => {
                               {" "}
                               <Controller
                                 control={control}
-                                name="features"
+                                name="hotelFeatures"
                                 // rules={{ required: "Feature is required!" }}
                                 render={({ field: { onChange, value } }) => (
                                   <>
@@ -363,13 +381,14 @@ const HotelListing = () => {
                                       onChange={onChange}
                                       allowClear
                                       status={
-                                        errors?.features?.message && "error"
+                                        errors?.hotelFeatures?.message &&
+                                        "error"
                                       }
                                       size="large"
                                       className="form-control mb-3"
                                       placeholder="Select features"
                                     >
-                                      {featureList?.map((feat: any) => (
+                                      {hotelFeatureList?.map((feat: any) => (
                                         <Option key={feat.id} value={feat.id}>
                                           {feat.title}
                                         </Option>
@@ -377,7 +396,7 @@ const HotelListing = () => {
                                     </Select>
                                     {errors?.features?.message && (
                                       <div className="text-danger">
-                                        {errors?.features?.message + ""}
+                                        {errors?.hotelFeatures?.message + ""}
                                       </div>
                                     )}
                                   </>
@@ -387,6 +406,111 @@ const HotelListing = () => {
                           )}
                         </div>
                       </div>
+                      {/* Room Features */}
+                      <div className="left_side_search_heading">
+                        <h5>Room Features</h5>
+                      </div>
+                      <div className="tour_search_type">
+                        <div className="custom-select">
+                          {!roomFeatureList && !roomFeatureError ? (
+                            <Skeleton
+                              className="mt-3"
+                              active
+                              paragraph={false}
+                            />
+                          ) : (
+                            <>
+                              {" "}
+                              <Controller
+                                control={control}
+                                name="roomFeatures"
+                                // rules={{ required: "Feature is required!" }}
+                                render={({ field: { onChange, value } }) => (
+                                  <>
+                                    <Select
+                                      mode="multiple"
+                                      value={value}
+                                      onChange={onChange}
+                                      allowClear
+                                      status={
+                                        errors?.roomFeatures?.message && "error"
+                                      }
+                                      size="large"
+                                      className="form-control mb-3"
+                                      placeholder="Select features"
+                                    >
+                                      {roomFeatureList?.map((feat: any) => (
+                                        <Option key={feat.id} value={feat.id}>
+                                          {feat.title}
+                                        </Option>
+                                      ))}
+                                    </Select>
+                                    {errors?.roomFeatures?.message && (
+                                      <div className="text-danger">
+                                        {errors?.roomFeatures?.message + ""}
+                                      </div>
+                                    )}
+                                  </>
+                                )}
+                              />
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      {/* Room features */}
+                      {/* Hotel Activities */}
+                      <div className="left_side_search_heading">
+                        <h5>Hotel Activities</h5>
+                      </div>
+                      <div className="tour_search_type">
+                        <div className="custom-select">
+                          {!hotelActivitiesList && !hotelActivitiesError ? (
+                            <Skeleton
+                              className="mt-3"
+                              active
+                              paragraph={false}
+                            />
+                          ) : (
+                            <>
+                              {" "}
+                              <Controller
+                                control={control}
+                                name="hotelActivities"
+                                // rules={{ required: "Feature is required!" }}
+                                render={({ field: { onChange, value } }) => (
+                                  <>
+                                    <Select
+                                      mode="multiple"
+                                      value={value}
+                                      onChange={onChange}
+                                      allowClear
+                                      status={
+                                        errors?.hotelActivities?.message &&
+                                        "error"
+                                      }
+                                      size="large"
+                                      className="form-control mb-3"
+                                      placeholder="Select features"
+                                    >
+                                      {hotelActivitiesList?.map((feat: any) => (
+                                        <Option key={feat.id} value={feat.id}>
+                                          {feat.title}
+                                        </Option>
+                                      ))}
+                                    </Select>
+                                    {errors?.hotelActivities?.message && (
+                                      <div className="text-danger">
+                                        {errors?.hotelActivities?.message + ""}
+                                      </div>
+                                    )}
+                                  </>
+                                )}
+                              />
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      {/* Hotel Activities */}
                       {/* Categories */}
                       <div className="left_side_search_heading">
                         <h5>Categories</h5>
