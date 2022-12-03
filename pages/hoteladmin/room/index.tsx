@@ -1,5 +1,5 @@
 import HoteladminLayout from '@/components/layout/hoteladmin'
-import React from 'react'
+import React, { useState } from 'react'
 import useSWR from 'swr'
 import { Popconfirm, Skeleton, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -19,7 +19,8 @@ interface DataType {
 }
 
 function RoomListing() {
-  const { data, error, mutate } = useSWR('/hotel/rooms');
+  const [page, setPage] = useState(1);
+  const { data, error, mutate } = useSWR(`/hotel/rooms?page=${page}`);
 
   const columns: ColumnsType<DataType> = [
     {
@@ -67,12 +68,20 @@ function RoomListing() {
         !data && !error ?
           <Skeleton active />
           :
-          <Table columns={columns} dataSource={data?.data?.map((room: any) => ({
-            id: room.id,
-            title: room.title,
-            price: room.price,
-            discount: room.discount || '-',
-          }))} />
+          <Table
+            pagination={{
+              hideOnSinglePage: true,
+              current: data?.current_page,
+              pageSize: data?.per_page,
+              total: data?.total,
+              onChange: setPage
+            }}
+            columns={columns} dataSource={data?.data?.map((room: any) => ({
+              id: room.id,
+              title: room.title,
+              price: room.price,
+              discount: room.discount || '-',
+            }))} />
       }
     </HoteladminLayout>
   )

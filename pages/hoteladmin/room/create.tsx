@@ -25,7 +25,7 @@ function HotelRoomCreate() {
     createHotelRoom(objectToFormData({
       ...data,
       status: Number(data.status),
-      ["included/excluded"]: JSON.stringify(data["included/excluded"]),
+      ["included_excluded"]: JSON.stringify(data["included_excluded"]),
       files: data.files.map((file: any) => file.originFileObj)
     }))
       .then((res: any) => {

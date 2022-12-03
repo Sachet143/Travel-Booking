@@ -202,14 +202,14 @@ const RoomDetail = () => {
                         </div>
                       </div>
 
-                      {roomData["included/excluded"] && (
+                      {roomData["included_excluded"] && (
                         <div className="tour_details_boxed">
-                          <h3 className="heading_theme">Included/Excluded</h3>
+                          <h3 className="heading_theme">included_excluded</h3>
                           <Editor
                             //@ts-ignore
                             toolbarHidden
                             contentState={JSON.parse(
-                              roomData["included/excluded"]
+                              roomData["included_excluded"]
                             )}
                             readOnly
                           />

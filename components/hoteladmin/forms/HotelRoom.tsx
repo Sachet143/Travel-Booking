@@ -37,7 +37,7 @@ function HotelRoomForm({
   formMethods,
 }: IProps) {
   const { control, register, formState: { errors }, handleSubmit } = formMethods;
-  const { data: features, error: featureError } = useSWR(`hotel/features`, customFetcher);
+  const { data: features, error: featureError } = useSWR(`/room-features`, customFetcher);
 
   // wysiwyg
   const [rtfChanged, setRtfChanged] = useState(false);
@@ -172,13 +172,13 @@ function HotelRoomForm({
       </div>
       {/* row 3 */}
       <div className="form-group mb-3">
-        <label className="form-label">Included/Excluded<span className='text-danger'> *</span></label>
+        <label className="form-label">included_excluded<span className='text-danger'> *</span></label>
         <Controller
           control={control}
-          name="included/excluded" rules={{ required: "Included/Excluded facilities are required!" }}
+          name="included_excluded" rules={{ required: "included_excluded facilities are required!" }}
           render={({ field: { onChange, value = null } }) =>
             <>
-              <div className='wysiwyg-wrapper' aria-invalid={!!errors["included/excluded"]?.message}>
+              <div className='wysiwyg-wrapper' aria-invalid={!!errors["included_excluded"]?.message}>
                 {rtfChanged
                   ?
                   <Editor
@@ -197,9 +197,9 @@ function HotelRoomForm({
                   />
                 }
               </div>
-              {errors["included/excluded"]?.message &&
+              {errors["included_excluded"]?.message &&
                 <div className="text-danger">
-                  {errors["included/excluded"]?.message + ""}
+                  {errors["included_excluded"]?.message + ""}
                 </div>
               }
             </>

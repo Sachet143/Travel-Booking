@@ -24,7 +24,7 @@ function HotelRoomEdit() {
     updateHotelRoom(id, objectToFormData({
       ...data,
       status: Number(data.status),
-      ["included/excluded"]: JSON.stringify(data["included/excluded"]),
+      ["included_excluded"]: JSON.stringify(data["included_excluded"]),
       files: data.files.map((file: any) => file.originFileObj)
     }))
       .then((res: any) => {
@@ -43,9 +43,9 @@ function HotelRoomEdit() {
         title: data.title,
         status: data.status,
         price: data.price,
-        features: data.features.map((f: any) => f.hotel_feature_id),
+        features: data.features.map((f: any) => f.id),
         discount_price: data.discount_price,
-        "included/excluded": data["included/excluded"] ? JSON.parse(data["included/excluded"]) : null,
+        "included_excluded": data["included_excluded"] ? JSON.parse(data["included_excluded"]) : null,
         files: data.files.map((file: any) => ({
           uid: file.id,
           name: `image.${file.type}`,

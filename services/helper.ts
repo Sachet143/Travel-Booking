@@ -3,6 +3,18 @@ import Crypto from "crypto-js";
 import { useSWRConfig } from "swr";
 import _, { isArray, isObject } from "lodash";
 import queryString from "query-string";
+import { decode as base64_decode, encode as base64_encode } from 'base-64';
+
+
+export function appEncrypt(data: string) {
+  return data
+  // return Crypto.enc.Base64.stringify(Crypto.enc.Utf8.parse(data));
+}
+
+export function appDecrypt(data: string) {
+  return data
+  // return Crypto.enc.Base64.parse(data)?.toString(Crypto.enc.Utf8);
+}
 
 export function responseErrorHandler(res: any, setError?: any) {
   if (res && res?.data && res?.data?.errors) {
@@ -27,14 +39,6 @@ export function responseErrorHandler(res: any, setError?: any) {
   }
 
   throw toast.error("Something went wrong. Please try again later!");
-}
-
-export function appEncrypt(data: string) {
-  return Crypto.enc.Base64.stringify(Crypto.enc.Utf8.parse(data));
-}
-
-export function appDecrypt(data: string) {
-  return Crypto.enc.Base64.parse(data)?.toString(Crypto.enc.Utf8);
 }
 
 export function objectToFormData(
