@@ -22,7 +22,7 @@ const Editor = dynamic(
 
 const BookRoom = () => {
   const router = useRouter();
-  const { data: paymentMethods } = useSWR('/paymentMethods');
+  const { data: paymentMethods } = useSWR("/paymentMethods");
   const { uuid } = router.query;
   const { data: roomData, error: roomError } = useSWR(
     uuid ? `rooms/${uuid}` : null
@@ -58,11 +58,11 @@ const BookRoom = () => {
       to: moment(Date.now()).add(1, "days").format("YYYY-MM-DD"),
       no_of_adult: finalTotal.adult,
       no_of_children: finalTotal.children,
+      quantity: 1,
     },
   });
 
   function bookRoomHandler(data: any) {
-
     const duration = moment.duration(moment(data.to).diff(moment(data.from)));
     const totalDays = duration.asDays();
 
@@ -74,17 +74,17 @@ const BookRoom = () => {
       payment_method_id: payment,
       room_price: roomData.price,
       discount: roomData.discount_price,
-      total: totalDays * (roomData.price - Number(roomData.discount_price))
+      total: totalDays * (roomData.price - Number(roomData.discount_price)),
     };
 
     setButtonLoading(true);
     roomBooking(finalBookingData)
       .then((res: any) => {
-        toast.success(res.message)
+        toast.success(res.message);
       })
       .catch(responseErrorHandler)
       .finally(() => setButtonLoading(false));
-  };
+  }
 
   const [nav1, setNav1] = useState<any>();
   const [nav2, setNav2] = useState<any>();
@@ -281,30 +281,40 @@ const BookRoom = () => {
                                 </div>
                                 {/* payment method */}
                                 <div className="booking_tour_form mt-5">
-                                  <h3 className="heading_theme">Payment method</h3>
+                                  <h3 className="heading_theme">
+                                    Payment method
+                                  </h3>
                                   <div className="tour_booking_form_box">
                                     <div className="booking_payment_boxed">
                                       <div id="payment_checked">
-                                        {
-                                          !paymentMethods
-                                            ? <Skeleton active />
-                                            : paymentMethods.map((pm: any) => (
-                                              <div className="form-check" key={pm.id}>
-                                                <input
-                                                  onChange={e => setPayment(e.target.id)}
-                                                  className="form-check-input cursor-pointer"
-                                                  type="radio"
-                                                  name="flexRadioDefault"
-                                                  id={pm.id}
-                                                  // @ts-ignore
-                                                  value={payment === pm.id}
-                                                />
-                                                <label className="form-check-label cursor-pointer" htmlFor={pm.id}>
-                                                  {pm.title}
-                                                </label>
-                                              </div>
-                                            ))
-                                        }
+                                        {!paymentMethods ? (
+                                          <Skeleton active />
+                                        ) : (
+                                          paymentMethods.map((pm: any) => (
+                                            <div
+                                              className="form-check"
+                                              key={pm.id}
+                                            >
+                                              <input
+                                                onChange={(e) =>
+                                                  setPayment(e.target.id)
+                                                }
+                                                className="form-check-input cursor-pointer"
+                                                type="radio"
+                                                name="flexRadioDefault"
+                                                id={pm.id}
+                                                // @ts-ignore
+                                                value={payment === pm.id}
+                                              />
+                                              <label
+                                                className="form-check-label cursor-pointer"
+                                                htmlFor={pm.id}
+                                              >
+                                                {pm.title}
+                                              </label>
+                                            </div>
+                                          ))
+                                        )}
                                         {/* <div className="form-check">
                                     <input
                                       className="form-check-input"
@@ -444,7 +454,9 @@ const BookRoom = () => {
                                   <Editor
                                     //@ts-ignore
                                     toolbarHidden
-                                    contentState={JSON.parse(`{\"blocks\":[{\"key\":\"d675\",\"text\":\"our facilities are top notch\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}`)}
+                                    contentState={JSON.parse(
+                                      `{\"blocks\":[{\"key\":\"d675\",\"text\":\"our facilities are top notch\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}`
+                                    )}
                                     // contentState={JSON.parse(roomData["included_excluded"])}
                                     readOnly
                                   />
@@ -459,21 +471,20 @@ const BookRoom = () => {
                               <div className="tour_package_details_bar_price">
                                 <h3>Price Per Day</h3>
                                 <div className="tour_package_bar_price">
-                                  {
-                                    roomData.discount_price ?
-                                      <>
-                                        <h6>
-                                          <del>NRs.{roomData.price}</del>
-                                        </h6>
-                                        <h3>
-                                          NRs.{roomData.price - roomData.discount_price}
-                                        </h3>
-                                      </>
-                                      :
+                                  {roomData.discount_price ? (
+                                    <>
                                       <h6>
-                                        NRs.{roomData.price}
+                                        <del>NRs.{roomData.price}</del>
                                       </h6>
-                                  }
+                                      <h3>
+                                        NRs.
+                                        {roomData.price -
+                                          roomData.discount_price}
+                                      </h3>
+                                    </>
+                                  ) : (
+                                    <h6>NRs.{roomData.price}</h6>
+                                  )}
                                 </div>
                               </div>
                             </div>
