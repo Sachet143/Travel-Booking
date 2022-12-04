@@ -111,6 +111,7 @@ function HotelListDetail({ hotel }: any) {
                 className="btn btn_theme btn_sm mt-5"
                 type="button"
                 onClick={() => {
+                  router.push(`/hotels/${hotel.uuid}`)
                   // bookRoomHandler(hotel.uuid)
                 }}
               >
