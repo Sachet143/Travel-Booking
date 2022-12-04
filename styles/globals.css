@@ -461,3 +461,21 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .text-align-left {
   text-align: left;
 }
+.sleeping_wrapper {
+  padding: 8px 0px !important;
+}
+.sleeping_wrapper p {
+  margin-bottom: 0px;
+}
+
+.sleeping_wrapper p:first-child {
+  margin-top: 8px;
+}
+
+.sleeping_wrapper p:last-child {
+  margin-bottom: 8px;
+}
+.sticky-sidebar {
+  top: 85px;
+  position: sticky;
+}

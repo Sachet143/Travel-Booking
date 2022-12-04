@@ -29,6 +29,7 @@ import YoutubeComponent from "@/components/common/YoutubeComponent";
 import { Controller, useForm } from "react-hook-form";
 import axiosClient from "@/services/axios/clientfetch";
 import useUser from "@/services/hooks/useUser";
+import RoomTable from "@/components/client/RoomTable";
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
@@ -52,7 +53,6 @@ function HotelPage() {
       : null
   );
   const hotelLoading = !hotel && !error;
-  const roomLoading = !rooms && !error;
 
   const { data: featureList, error: featureError } = useSWR(
     `/features`,
@@ -117,17 +117,6 @@ function HotelPage() {
       })
     );
   };
-
-  function bookRoomHandler(roomId) {
-    if (user) {
-      router.push(`/room/${roomId}/book`);
-    } else {
-      router.push({
-        pathname: "/login",
-        query: { redirectUrl: `/room/${roomId}/book` },
-      });
-    }
-  }
 
   const clearFilter = (value: any) => {
     router.push(
@@ -256,7 +245,7 @@ function HotelPage() {
                         </div>
                       </div>
 
-                      {renderRoomFilter()}
+                      {/* {renderRoomFilter()} */}
 
                       <div className="tour_details_boxed">
                         <h3 className="heading_theme">Select your room</h3>
@@ -303,139 +292,10 @@ function HotelPage() {
                               aria-labelledby="home-tab"
                             >
                               <div className="room_booking_area">
-                                {roomLoading ? (
-                                  <section
-                                    id="tour_details_main"
-                                    className="section_padding"
-                                  >
-                                    <div className="container">
-                                      <Skeleton active />
-                                    </div>
-                                  </section>
-                                ) : (
-                                  <>
-                                    {rooms.data.length ? (
-                                      <>
-                                        {rooms.data.map((room: any) => {
-                                          return (
-                                            <div
-                                              className="room_book_item"
-                                              key={room.id}
-                                            >
-                                              <div className="room_book_img">
-                                                <img
-                                                  src={imageFullPath(
-                                                    room.files[0]?.path
-                                                  )}
-                                                  alt="img"
-                                                />
-                                              </div>
-                                              <div className="room_booking_right_side">
-                                                <div className="room_booking_heading">
-                                                  <h3>
-                                                    <a
-                                                      className="text-capitalize"
-                                                      onClick={() => {
-                                                        router.push(
-                                                          `/room/${room.uuid}`
-                                                        );
-                                                      }}
-                                                    >
-                                                      {room.title}
-                                                    </a>
-                                                  </h3>
-                                                  <div className="room_fasa_area">
-                                                    <ul
-                                                      style={{
-                                                        justifyContent:
-                                                          "space-between",
-                                                      }}
-                                                    >
-                                                      {room.features.map(
-                                                        (f) => {
-                                                          return (
-                                                            <li
-                                                              className="toru_details_top_bottom_item"
-                                                              key={f.id}
-                                                            >
-                                                              <div className="tour_details_top_bottom_icon">
-                                                                <i
-                                                                  className={
-                                                                    f.icon_link
-                                                                  }
-                                                                />
-                                                                {/* <img src="/client/assets/img/icon/ac.png" alt="icon" /> */}
-                                                              </div>
-                                                              <div className="tour_details_top_bottom_text">
-                                                                <p className="text-capitalize mx-1">
-                                                                  {f.title}
-                                                                </p>
-                                                              </div>
-                                                            </li>
-                                                          );
-                                                        }
-                                                      )}
-                                                    </ul>
-                                                  </div>
-                                                </div>
-                                                <div className="room_person_select">
-                                                  <h3
-                                                    style={{
-                                                      "white-space": "nowrap",
-                                                    }}
-                                                  >
-                                                    {"Rs." + room.price}
-                                                    {"/"}
-                                                    <sub>Per night</sub>
-                                                  </h3>
-                                                  <button
-                                                    className="btn btn_theme btn_sm"
-                                                    type="button"
-                                                    onClick={() =>
-                                                      bookRoomHandler(room.uuid)
-                                                    }
-                                                  >
-                                                    Book Now
-                                                  </button>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          );
-                                        })}
-                                        <div className="pagination_area">
-                                          <Pagination
-                                            style={{
-                                              visibility:
-                                                rooms?.last_page > 1
-                                                  ? "visible"
-                                                  : "hidden",
-                                            }}
-                                            onChange={(page) =>
-                                              router.push(
-                                                cleanUrlParams(
-                                                  `/hotels/${uuid}`,
-                                                  {
-                                                    ...restQuery,
-                                                    page,
-                                                  }
-                                                )
-                                              )
-                                            }
-                                            className="pagination"
-                                            current={rooms?.current_page}
-                                            pageSize={rooms?.per_page || 1}
-                                            total={rooms?.total}
-                                          />
-                                        </div>
-                                      </>
-                                    ) : (
-                                      <Empty
-                                        className="my-4"
-                                        description="No Rooms Found for this Hotel"
-                                      />
-                                    )}
-                                  </>
-                                )}
+                                <RoomTable
+                                  roomLoading={hotelLoading}
+                                  rooms={hotel?.hotel_rooms}
+                                />
                               </div>
                             </div>
                             <div
@@ -548,6 +408,11 @@ function HotelPage() {
                         </div>
                       </div>
                     ) : null}
+
+                    <div className="tour_details_boxed sticky-sidebar">
+                      <h3 className="heading_theme">Booking details</h3>
+                      <div className="google-map-code">Testing</div>
+                    </div>
                   </div>
                 </div>
               </div>
