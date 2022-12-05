@@ -1,13 +1,19 @@
 import { imageFullPath } from "@/services/helper";
 import useUser from "@/services/hooks/useUser";
-import { Empty, Select, Skeleton } from "antd";
+import { Button, Empty, Select, Skeleton } from "antd";
+import { differenceBy } from "lodash";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 
 const RoomTable = ({ roomLoading, rooms }: any) => {
   const router = useRouter();
   const { user } = useUser();
+  let selectedRooms: any = [];
+
+  const [selectedRows, setSelectedRows] = useState<any>(selectedRooms);
+  const [toggleCleared, setToggleCleared] = useState<any>(false);
+  const [allSelected, setAllSelected] = useState<any>([]);
 
   function bookRoomHandler(roomId: any) {
     if (user) {
@@ -43,10 +49,32 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
     },
   ];
 
-  const data = rooms.map((room: any, index: any) => {
+  const conditionalRowStyles = [
+    {
+      when: (row: any) => {
+        let value = selectedRooms.map((item: any) => {
+          return row.id == item.id;
+        });
+
+        return value.length > 0;
+      },
+      style: {
+        backgroundColor: "green",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
+  const roomData = rooms.map((room: any, index: any) => {
     const handleChange = (value: string) => {
-      console.log(`selected ${value}`);
+      setSelectedRows(data[index]);
+      setAllSelected(data[index]);
+      selectedRooms = [...selectedRooms, data[index]];
     };
+
     return {
       id: index,
       title: room.title,
@@ -109,6 +137,37 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
       ),
     };
   });
+  const [data, setData] = React.useState(roomData);
+
+  const handleRowSelected = React.useCallback((state: any) => {
+    setSelectedRows(state.selectedRows);
+  }, []);
+
+  const contextActions = React.useMemo(() => {
+    const handleDelete = () => {
+      if (
+        window.confirm(
+          `Are you sure you want to delete:\r ${selectedRows.map(
+            (r: any) => r.title
+          )}?`
+        )
+      ) {
+        setToggleCleared(!toggleCleared);
+        setData(differenceBy(data, selectedRows, "title"));
+      }
+    };
+
+    return (
+      <Button
+        key="delete"
+        onClick={handleDelete}
+        style={{ backgroundColor: "red" }}
+        icon
+      >
+        Book Now
+      </Button>
+    );
+  }, [data, selectedRows, toggleCleared]);
 
   return (
     <div>
@@ -121,7 +180,16 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
       ) : (
         <>
           {rooms?.length ? (
-            <DataTable selectableRows columns={columns} data={data} />
+            <DataTable
+              title="Desserts"
+              columns={columns}
+              data={data}
+              selectableRows
+              contextActions={contextActions}
+              onSelectedRowsChange={handleRowSelected}
+              clearSelectedRows={toggleCleared}
+              pagination
+            />
           ) : (
             <Empty
               className="my-4"
