@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import { imageFullPath } from '@/services/helper';
+import MapLocation from '@/components/common/MapLocation';
+import { imageFullPath, renderLocation } from '@/services/helper';
 import { Modal, Rate, Tooltip } from 'antd';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react'
-import { renderLocation } from '@/services/helper'
-import MapLocation from '@/components/common/MapLocation';
+import { useState } from 'react';
 
 function HotelListDetail({ hotel }: any) {
   const router = useRouter();
@@ -34,11 +33,7 @@ function HotelListDetail({ hotel }: any) {
                 <h3>
                   <a
                     className="text-capitalize"
-                    onClick={() => {
-                      router.push(
-                        `/room/${hotel.uuid}`
-                      );
-                    }}
+                    onClick={() => router.push(`/hotels/${hotel.uuid}`)}
                   >
                     {hotel.name}
                   </a>
@@ -112,7 +107,6 @@ function HotelListDetail({ hotel }: any) {
                 type="button"
                 onClick={() => {
                   router.push(`/hotels/${hotel.uuid}`)
-                  // bookRoomHandler(hotel.uuid)
                 }}
               >
                 See Availability
