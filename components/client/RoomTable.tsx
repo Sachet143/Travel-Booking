@@ -1,10 +1,16 @@
-import { imageFullPath } from "@/services/helper";
+import { imageFullPath, responseErrorHandler } from "@/services/helper";
 import useUser from "@/services/hooks/useUser";
 import { Button, Empty, Select, Skeleton } from "antd";
 import { differenceBy } from "lodash";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-import DataTable from "react-data-table-component";
+import React, { useEffect, useState } from "react";
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { esewaPay } from "@/api/client/booking";
 
 const RoomTable = ({ roomLoading, rooms }: any) => {
   const router = useRouter();
@@ -14,6 +20,15 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
   const [selectedRows, setSelectedRows] = useState<any>(selectedRooms);
   const [toggleCleared, setToggleCleared] = useState<any>(false);
   const [allSelected, setAllSelected] = useState<any>([]);
+  const [changeValue, setChangeValue] = useState<any>("Total Rooms Datas");
+  const rerender = React.useReducer(() => ({}), {})[1];
+
+  type TRoomData = {
+    title: string;
+    sleeps: string;
+    price: number;
+    choice: number;
+  };
 
   function bookRoomHandler(roomId: any) {
     if (user) {
@@ -26,46 +41,39 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
     }
   }
 
-  const columns = [
-    {
-      name: "Room Type",
-      selector: (row: any) => row.title,
-    },
-    {
-      name: "Sleeps",
-      selector: (row: any) => row.sleeps,
-    },
-    {
-      name: "Price for one night",
-      selector: (row: any) => row.price,
-    },
-    {
-      name: "Your Choices",
-      selector: (row: any) => row.choice,
-    },
-    {
-      name: "Select Rooms",
-      selector: (row: any) => row.select,
-    },
-  ];
+  const columnHelper = createColumnHelper<any>();
 
-  const conditionalRowStyles = [
-    {
-      when: (row: any) => {
-        let value = selectedRooms.map((item: any) => {
-          return row.id == item.id;
-        });
-
-        return value.length > 0;
-      },
-      style: {
-        backgroundColor: "green",
-        color: "white",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
+  const columns: any = [
+    columnHelper.accessor((row) => row.title, {
+      id: "title",
+      cell: (info) => <>{info.getValue()}</>,
+      header: () => <span>Title</span>,
+    }),
+    columnHelper.accessor((row) => row.sleeps, {
+      id: "sleeps",
+      cell: (info) => <>{info.getValue()}</>,
+      header: () => <span>Sleeps</span>,
+    }),
+    columnHelper.accessor((row) => row.price, {
+      id: "price",
+      cell: (info) => <>{info.getValue()}</>,
+      header: () => <span>Price</span>,
+    }),
+    columnHelper.accessor((row) => row.choice, {
+      id: "choice",
+      cell: (info) => <>{info.getValue()}</>,
+      header: () => <span>Choice</span>,
+    }),
+    columnHelper.accessor((row) => row.select, {
+      id: "select",
+      cell: (info) => <>{info.getValue()}</>,
+      header: () => <span>Select</span>,
+    }),
+    columnHelper.accessor((row) => row.total, {
+      id: "total",
+      cell: (info) => <>{info.getValue()}</>,
+      header: () => <span>Total</span>,
+    }),
   ];
 
   const roomData = rooms.map((room: any, index: any) => {
@@ -73,6 +81,10 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
       setSelectedRows(data[index]);
       setAllSelected(data[index]);
       selectedRooms = [...selectedRooms, data[index]];
+      setChangeValue((state: any) => {
+        console.log(state);
+        return "hello";
+      });
     };
 
     return {
@@ -135,39 +147,17 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
           />
         </>
       ),
+      total: index < 1 ? <>{changeValue}</> : null,
     };
   });
+
   const [data, setData] = React.useState(roomData);
 
-  const handleRowSelected = React.useCallback((state: any) => {
-    setSelectedRows(state.selectedRows);
-  }, []);
-
-  const contextActions = React.useMemo(() => {
-    const handleDelete = () => {
-      if (
-        window.confirm(
-          `Are you sure you want to delete:\r ${selectedRows.map(
-            (r: any) => r.title
-          )}?`
-        )
-      ) {
-        setToggleCleared(!toggleCleared);
-        setData(differenceBy(data, selectedRows, "title"));
-      }
-    };
-
-    return (
-      <Button
-        key="delete"
-        onClick={handleDelete}
-        style={{ backgroundColor: "red" }}
-        icon
-      >
-        Book Now
-      </Button>
-    );
-  }, [data, selectedRows, toggleCleared]);
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
 
   return (
     <div>
@@ -180,22 +170,68 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
       ) : (
         <>
           {rooms?.length ? (
-            <DataTable
-              title="Desserts"
-              columns={columns}
-              data={data}
-              selectableRows
-              contextActions={contextActions}
-              onSelectedRowsChange={handleRowSelected}
-              clearSelectedRows={toggleCleared}
-              pagination
-            />
+            <div className="p-2">
+              <table className="w-100">
+                <thead>
+                  {table.getHeaderGroups().map((headerGroup) => (
+                    <tr key={headerGroup.id}>
+                      {headerGroup.headers.map((header) => (
+                        <th key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </th>
+                      ))}
+                    </tr>
+                  ))}
+                </thead>
+                <tbody>
+                  {table.getRowModel().rows.map((row, index) => {
+                    return (
+                      <tr key={row.id}>
+                        {row.getVisibleCells().map((cell) => {
+                          console.log();
+                          return (
+                            <td
+                              key={cell.id}
+                              rowSpan={
+                                cell.column.id == "total" && index == 0
+                                  ? data.length
+                                  : null
+                              }
+                            >
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           ) : (
             <Empty
               className="my-4"
               description="No Rooms Found for this Hotel"
             />
           )}
+
+          <button
+            onClick={() => {
+              esewaPay()
+                .then((res) => console.log("Sucessfull"))
+                .catch(responseErrorHandler);
+            }}
+          >
+            Pay Now
+          </button>
         </>
       )}
     </div>

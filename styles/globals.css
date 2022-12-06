@@ -479,3 +479,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   top: 85px;
   position: sticky;
 }
+.w-100 {
+  width: 100%;
+}
