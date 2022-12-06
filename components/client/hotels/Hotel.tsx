@@ -33,11 +33,7 @@ function HotelListDetail({ hotel }: any) {
                 <h3>
                   <a
                     className="text-capitalize"
-                    onClick={() => {
-                      router.push(
-                        `/room/${hotel.uuid}`
-                      );
-                    }}
+                    onClick={() => router.push(`/hotels/${hotel.uuid}`)}
                   >
                     {hotel.name}
                   </a>
@@ -111,7 +107,6 @@ function HotelListDetail({ hotel }: any) {
                 type="button"
                 onClick={() => {
                   router.push(`/hotels/${hotel.uuid}`)
-                  // bookRoomHandler(hotel.uuid)
                 }}
               >
                 See Availability

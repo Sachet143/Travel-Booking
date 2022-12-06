@@ -11,6 +11,7 @@ import {
 } from "@/services/helper";
 import useUser from "@/services/hooks/useUser";
 import {
+  Breadcrumb,
   Col,
   Empty,
   InputNumber, Row,
@@ -18,6 +19,7 @@ import {
   Skeleton, Slider as AntSlider, Tag
 } from "antd";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -143,6 +145,15 @@ function HotelPage() {
             <section id="tour_details_main" className="section_padding">
               <div className="container">
                 <div className="row">
+                  <Breadcrumb className="mt-3 mb-5">
+                    <Breadcrumb.Item>
+                      <Link href='/'>Home</Link>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                      <Link href='/hotels'>Hotels</Link>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>{hotel?.name}</Breadcrumb.Item>
+                  </Breadcrumb>
                   <div className="col-lg-8">
                     <div className="tour_details_leftside_wrapper">
                       <div className="tour_details_heading_wrapper">
