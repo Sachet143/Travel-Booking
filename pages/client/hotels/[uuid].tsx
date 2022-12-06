@@ -1,35 +1,30 @@
 /* eslint-disable @next/next/no-img-element */
 // @ts-nocheck
-import Dropdown from "@/components/common/Dropdown";
+import RoomTable from "@/components/client/RoomTable";
+import YoutubeComponent from "@/components/common/YoutubeComponent";
 import ClientLayout from "@/components/layout/client/ClientLayout";
+import axiosClient from "@/services/axios/clientfetch";
 import {
   cleanUrlParams,
   imageFullPath,
-  renderLocation,
+  renderLocation
 } from "@/services/helper";
+import useUser from "@/services/hooks/useUser";
 import {
-  Button,
+  Breadcrumb,
   Col,
   Empty,
-  InputNumber,
-  Pagination,
-  Row,
+  InputNumber, Row,
   Select,
-  Skeleton,
-  Tag,
+  Skeleton, Slider as AntSlider, Tag
 } from "antd";
-import moment from "moment";
-import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
-import useSWR from "swr";
 import dynamic from "next/dynamic";
-import Slider from "react-slick";
-import { Slider as AntSlider } from "antd";
-import YoutubeComponent from "@/components/common/YoutubeComponent";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import axiosClient from "@/services/axios/clientfetch";
-import useUser from "@/services/hooks/useUser";
-import RoomTable from "@/components/client/RoomTable";
+import Slider from "react-slick";
+import useSWR from "swr";
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
@@ -47,9 +42,9 @@ function HotelPage() {
   const { data: rooms, error: roomError } = useSWR(
     hotel
       ? cleanUrlParams(`rooms`, {
-          hotel_id: hotel.id,
-          ...restQuery,
-        })
+        hotel_id: hotel.id,
+        ...restQuery,
+      })
       : null
   );
   const hotelLoading = !hotel && !error;
@@ -150,6 +145,15 @@ function HotelPage() {
             <section id="tour_details_main" className="section_padding">
               <div className="container">
                 <div className="row">
+                  <Breadcrumb className="mt-3 mb-5">
+                    <Breadcrumb.Item>
+                      <Link href='/'>Home</Link>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                      <Link href='/hotels'>Hotels</Link>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>{hotel?.name}</Breadcrumb.Item>
+                  </Breadcrumb>
                   <div className="col-lg-8">
                     <div className="tour_details_leftside_wrapper">
                       <div className="tour_details_heading_wrapper">
