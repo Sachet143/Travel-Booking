@@ -1,6 +1,7 @@
-import { Empty, Select, Skeleton } from "antd";
+import { Empty, Modal, Select, Skeleton } from "antd";
 import { useState } from "react";
 import DataTable from "react-data-table-component";
+import ContextComponent from "./ContextComponent";
 
 const columns = [
   {
@@ -26,10 +27,20 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
 
   function handleRoomChange(room: any, roomCount: any) {
     if (roomCount == 0) {
-      console.log(selectedRooms);
-      setSelectedRooms([...selectedRooms, { ...room, roomCount }]);
+      setSelectedRooms(
+        selectedRooms.filter((item: any) => {
+          return item.id != room.id;
+        })
+      );
     } else {
-      setSelectedRooms([...selectedRooms, { ...room, roomCount }]);
+      if (!!selectedRooms.filter((item: any) => item.id == room.id).length) {
+        let filteredList = selectedRooms.filter((item: any) => {
+          return item.id != room.id;
+        });
+        setSelectedRooms([...filteredList, { ...room, roomCount }]);
+      } else {
+        setSelectedRooms([...selectedRooms, { ...room, roomCount }]);
+      }
     }
   }
 
@@ -114,9 +125,14 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
               data={data2}
               selectableRowDisabled={(row) => true}
               selectableRows
-              //   onSelectedRowsChange={(value: any) => console.log(value)}
+              onSelectedRowsChange={(value: any) => console.log(value)}
               selectableRowSelected={(row) =>
                 selectedRooms.find((room: any) => room.id === row.id)
+              }
+              selectableRowsNoSelectAll={true}
+              highlightOnHover={true}
+              contextComponent={
+                <ContextComponent selectedRoom={selectedRooms} />
               }
               pagination
             />
