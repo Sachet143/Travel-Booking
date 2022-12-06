@@ -1,54 +1,46 @@
-import { imageFullPath } from "@/services/helper";
-import useUser from "@/services/hooks/useUser";
 import { Empty, Select, Skeleton } from "antd";
-import { useRouter } from "next/router";
-import React from "react";
+import { useState } from "react";
 import DataTable from "react-data-table-component";
 
-const RoomTable = ({ roomLoading, rooms }: any) => {
-  const router = useRouter();
-  const { user } = useUser();
+const columns = [
+  {
+    name: "Room Type",
+    selector: (row: any) => row.title,
+  },
+  {
+    name: "Sleeps",
+    selector: (row: any) => row.sleeps,
+  },
+  {
+    name: "Price for one night",
+    selector: (row: any) => row.price,
+  },
+  {
+    name: "Select Rooms",
+    selector: (row: any) => row.select,
+  },
+];
 
-  function bookRoomHandler(roomId: any) {
-    if (user) {
-      router.push(`/room/${roomId}/book`);
+const RoomTable = ({ roomLoading, rooms }: any) => {
+  const [selectedRooms, setSelectedRooms] = useState<any>([]);
+
+  function handleRoomChange(room: any, roomCount: any) {
+    if (roomCount == 0) {
+      console.log(selectedRooms);
+      setSelectedRooms([...selectedRooms, { ...room, roomCount }]);
     } else {
-      router.push({
-        pathname: "/login",
-        query: { redirectUrl: `/room/${roomId}/book` },
-      });
+      setSelectedRooms([...selectedRooms, { ...room, roomCount }]);
     }
   }
 
-  const columns = [
-    {
-      name: "Room Type",
-      selector: (row: any) => row.title,
-    },
-    {
-      name: "Sleeps",
-      selector: (row: any) => row.sleeps,
-    },
-    {
-      name: "Price for one night",
-      selector: (row: any) => row.price,
-    },
-    {
-      name: "Your Choices",
-      selector: (row: any) => row.choice,
-    },
-    {
-      name: "Select Rooms",
-      selector: (row: any) => row.select,
-    },
-  ];
-
-  const data = rooms.map((room: any, index: any) => {
-    const handleChange = (value: string) => {
-      console.log(`selected ${value}`);
-    };
+  const data2 = rooms.map((room: any, i: any) => {
+    let totalRoomLength = Array.from(
+      { length: room?.available_rooms },
+      (_, i) => i + 1
+    );
+    totalRoomLength.splice(0, 0, 0);
     return {
-      id: index,
+      id: room.id,
       title: room.title,
       price: (
         <div className="">
@@ -67,8 +59,6 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
           )}
         </div>
       ),
-      choice: <>No dish available</>,
-      year: room.title,
       sleeps: (
         <span className="sleeping_wrapper">
           <p>
@@ -94,11 +84,8 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
           <Select
             defaultValue="0"
             style={{ width: 120 }}
-            onChange={handleChange}
-            options={Array.from(
-              { length: room?.available_rooms },
-              (_, i) => i + 1
-            ).map((item) => {
+            onChange={(value: any) => handleRoomChange(room, value)}
+            options={totalRoomLength.map((item) => {
               return {
                 value: item,
                 label: item,
@@ -121,7 +108,18 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
       ) : (
         <>
           {rooms?.length ? (
-            <DataTable selectableRows columns={columns} data={data} />
+            <DataTable
+              title="Rooms"
+              columns={columns}
+              data={data2}
+              selectableRowDisabled={(row) => true}
+              selectableRows
+              //   onSelectedRowsChange={(value: any) => console.log(value)}
+              selectableRowSelected={(row) =>
+                selectedRooms.find((room: any) => room.id === row.id)
+              }
+              pagination
+            />
           ) : (
             <Empty
               className="my-4"
