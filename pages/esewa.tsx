@@ -9,9 +9,9 @@ function Esewa() {
       <input defaultValue={0} name="psc" type="hidden" />
       <input defaultValue={0} name="pdc" type="hidden" />
       <input defaultValue="EPAYTEST" name="scd" type="hidden" />
-      <input defaultValue="12345" name="pid" type="hidden" />
-      <input defaultValue="https://eakaksha.com:8000/user/esewa/success" type="hidden" name="su" />
-      <input defaultValue="https://eakaksha.com:8000/user/esewa/fail" type="hidden" name="fu" />
+      <input defaultValue="2345" name="pid" type="hidden" />
+      <input defaultValue="https://eakaksha.com/user/esewa/success" type="hidden" name="su" />
+      <input defaultValue="https://eakaksha.com/user/esewa/fail" type="hidden" name="fu" />
       <input defaultValue="Submit" type="submit" />
     </form>
   )
