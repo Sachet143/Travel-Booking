@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import { imageFullPath } from '@/services/helper';
+import MapLocation from '@/components/common/MapLocation';
+import { imageFullPath, renderLocation } from '@/services/helper';
 import { Modal, Rate, Tooltip } from 'antd';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react'
-import { renderLocation } from '@/services/helper'
-import MapLocation from '@/components/common/MapLocation';
+import { useState } from 'react';
 
 function HotelListDetail({ hotel }: any) {
   const router = useRouter();

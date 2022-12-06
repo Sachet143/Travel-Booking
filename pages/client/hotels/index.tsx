@@ -3,9 +3,7 @@ import HotelListDetail from "@/components/client/hotels/Hotel";
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import axiosClient from "@/services/axios/clientfetch";
 import {
-  cleanUrlParams,
-  imageFullPath,
-  renderLocation
+  cleanUrlParams
 } from "@/services/helper";
 import states from "@/states.json";
 import {
