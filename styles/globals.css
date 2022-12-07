@@ -503,3 +503,16 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .Fgnmg {
   background-color: #f5f5f9 !important;
 }
+
+.booking_bottom {
+  color: white !important;
+}
+
+.table_room_title {
+  color: var(--main-color);
+  cursor: pointer;
+}
+
+.table_room_title:hover {
+  color: lighten(var(--main-color));
+}

@@ -2,6 +2,7 @@ import { Empty, Modal, Select, Skeleton } from "antd";
 import { useState } from "react";
 import DataTable from "react-data-table-component";
 import ContextComponent from "./ContextComponent";
+import RoomModal from "./RoomModal";
 
 const columns = [
   {
@@ -24,6 +25,7 @@ const columns = [
 
 const RoomTable = ({ roomLoading, rooms }: any) => {
   const [selectedRooms, setSelectedRooms] = useState<any>([]);
+  const [viewRoom, setViewRoom] = useState<any>();
 
   function handleRoomChange(room: any, roomCount: any) {
     if (roomCount == 0) {
@@ -52,7 +54,11 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
     totalRoomLength.splice(0, 0, 0);
     return {
       id: room.id,
-      title: room.title,
+      title: (
+        <h4 className="table_room_title" onClick={() => setViewRoom(room)}>
+          {room.title}
+        </h4>
+      ),
       price: (
         <div className="">
           {room?.discount_price ? (
@@ -144,6 +150,7 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
           )}
         </>
       )}
+      <RoomModal viewRoom={viewRoom} setViewRoom={setViewRoom} />
     </div>
   );
 };
