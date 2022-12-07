@@ -12,7 +12,6 @@ const RoomModal = ({ viewRoom, setViewRoom }: any) => {
   const [nav1, setNav1] = useState<any>();
   const [nav2, setNav2] = useState<any>();
 
-  console.log(viewRoom);
   return (
     <Modal
       visible={!!viewRoom}

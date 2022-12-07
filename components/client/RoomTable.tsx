@@ -9,10 +9,10 @@ const columns = [
     name: "Room Type",
     selector: (row: any) => row.title,
   },
-  {
-    name: "Sleeps",
-    selector: (row: any) => row.sleeps,
-  },
+  //   {
+  //     name: "Sleeps",
+  //     selector: (row: any) => row.sleeps,
+  //   },
   {
     name: "Price for one night",
     selector: (row: any) => row.price,
@@ -55,46 +55,69 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
     return {
       id: room.id,
       title: (
-        <h4 className="table_room_title" onClick={() => setViewRoom(room)}>
-          {room.title}
-        </h4>
+        <div>
+          <h4 className="table_room_title" onClick={() => setViewRoom(room)}>
+            {room.title}
+          </h4>
+          <span className="sleeping_wrapper">
+            {room?.full_bed != 0 && <> {room?.full_bed + " "}Full Bed&nbsp;</>}
+            {room?.king_bed != 0 && <>{room?.king_bed + " "}King Bed&nbsp;</>}
+            {room?.queen_bed != 0 && (
+              <>{room?.queen_bed + " "} Queen Bed&nbsp;</>
+            )}
+            {room?.small_single_bed != 0 && (
+              <>{room?.small_single_bed + " "}Single Bed&nbsp;</>
+            )}
+            {room?.twin_bed != 0 && <>{room?.twin_bed + " "}Twin Bed </>}
+          </span>
+        </div>
       ),
       price: (
-        <div className="">
+        <div className="custom_pricing_detail">
           {room?.discount_price ? (
             <>
               <h6>
-                <del>NRs.{room?.price}</del>
+                <del>Rs.{room?.price}</del>
               </h6>
-              <h3>
-                NRs.
+              <h5>
+                Rs.
                 {room?.price - room?.discount_price}
-              </h3>
+              </h5>
             </>
           ) : (
-            <h6>NRs.{room?.price}</h6>
+            <h6>Rs.{room?.price}</h6>
           )}
         </div>
       ),
-      sleeps: (
-        <span className="sleeping_wrapper">
-          <p>
-            <b>Full Bed </b>: {room?.full_bed}
-          </p>
-          <p>
-            <b>King Bed </b>: {room?.king_bed}
-          </p>
-          <p>
-            <b>Queen Bed </b>: {room?.queen_bed}
-          </p>
-          <p>
-            <b>Single Bed </b>: {room?.small_single_bed}
-          </p>
-          <p>
-            <b>Twin Bed </b>: {room?.twin_bed}
-          </p>
-        </span>
-      ),
+      //   sleeps: (
+      //     <span className="sleeping_wrapper">
+      //       {room?.full_bed != 0 && (
+      //         <p>
+      //           <b>Full Bed </b>: {room?.full_bed}
+      //         </p>
+      //       )}
+      //       {room?.king_bed != 0 && (
+      //         <p>
+      //           <b>King Bed </b>: {room?.king_bed}
+      //         </p>
+      //       )}
+      //       {room?.queen_bed != 0 && (
+      //         <p>
+      //           <b>Queen Bed </b>: {room?.queen_bed}
+      //         </p>
+      //       )}
+      //       {room?.small_single_bed != 0 && (
+      //         <p>
+      //           <b>Single Bed </b>: {room?.small_single_bed}
+      //         </p>
+      //       )}
+      //       {room?.twin_bed != 0 && (
+      //         <p>
+      //           <b>Twin Bed </b>: {room?.twin_bed}
+      //         </p>
+      //       )}
+      //     </span>
+      //   ),
       select: (
         <>
           {" "}
