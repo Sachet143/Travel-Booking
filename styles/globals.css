@@ -462,19 +462,20 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   text-align: left;
 }
 .sleeping_wrapper {
-  padding: 8px 0px !important;
+  /* padding: 8px 0px !important; */
+  white-space: normal;
 }
 .sleeping_wrapper p {
   margin-bottom: 0px;
 }
 
-.sleeping_wrapper p:first-child {
+/* .sleeping_wrapper p:first-child {
   margin-top: 8px;
 }
 
 .sleeping_wrapper p:last-child {
   margin-bottom: 8px;
-}
+} */
 .sticky-sidebar {
   top: 85px;
   position: sticky;
@@ -502,4 +503,35 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 .Fgnmg {
   background-color: #f5f5f9 !important;
+}
+
+.booking_bottom {
+  color: white !important;
+}
+
+.table_room_title {
+  color: var(--main-color);
+  cursor: pointer;
+  margin: 0px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.table_room_title:hover {
+  color: #592698;
+}
+
+.custom_pricing_detail {
+  display: flex;
+  align-items: center;
+  justify-content: "center";
+}
+
+.custom_pricing_detail h6 {
+  font-size: small;
+  color: rgb(124, 9, 9);
+}
+
+.custom_pricing_detail h5 {
+  margin-left: 1rem;
 }
