@@ -23,6 +23,7 @@ import { Controller, useForm } from "react-hook-form";
 import states from "@/states.json";
 import axiosClient from "@/services/axios/clientfetch";
 import { debounce } from "lodash";
+import HotelListDetail from "@/components/client/hotels/Hotel";
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
@@ -640,44 +641,7 @@ const HotelListing = () => {
                     <Skeleton active />
                   ) : (
                     hotels?.data?.map((hotel: any) => (
-                      <div
-                        className="col-lg-4 col-md-6 col-sm-6 col-12"
-                        key={hotel.id}
-                      >
-                        <div
-                          className="theme_common_box_two cursor-pointer"
-                          // onClick={() => Router.push(`/hotels/${hotel.uuid}`, {router.query})}
-                          onClick={() =>
-                            router.push(
-                              cleanUrlParams(`/hotels/${hotel.uuid}`, {
-                                min_price: router.query.min_price,
-                                max_price: router.query.max_price,
-                                features: router.query.features,
-                              })
-                            )
-                          }
-                        >
-                          <div className="theme_two_box_img">
-                            <img
-                              style={{ height: "200px", objectFit: "cover" }}
-                              src={
-                                hotel.cover_image
-                                  ? imageFullPath(hotel.cover_image)
-                                  : "/imageplaceholder.jpg"
-                              }
-                              // src={'/imageplaceholder.jpg'}
-                              alt="img"
-                            />
-                            <p>
-                              <i className="fas fa-map-marker-alt"></i>
-                              {renderLocation(hotel.location)}
-                            </p>
-                          </div>
-                          <div className="theme_two_box_content">
-                            <h4>{hotel.name}</h4>
-                          </div>
-                        </div>
-                      </div>
+                      <HotelListDetail key={hotel.id} hotel={hotel} />
                     ))
                   )}
 
