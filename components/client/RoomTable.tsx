@@ -1,16 +1,18 @@
-import { Empty, Select, Skeleton } from "antd";
+import { Empty, Modal, Select, Skeleton } from "antd";
 import { useState } from "react";
 import DataTable from "react-data-table-component";
+import ContextComponent from "./ContextComponent";
+import RoomModal from "./RoomModal";
 
 const columns = [
   {
     name: "Room Type",
     selector: (row: any) => row.title,
   },
-  {
-    name: "Sleeps",
-    selector: (row: any) => row.sleeps,
-  },
+  //   {
+  //     name: "Sleeps",
+  //     selector: (row: any) => row.sleeps,
+  //   },
   {
     name: "Price for one night",
     selector: (row: any) => row.price,
@@ -23,13 +25,24 @@ const columns = [
 
 const RoomTable = ({ roomLoading, rooms }: any) => {
   const [selectedRooms, setSelectedRooms] = useState<any>([]);
+  const [viewRoom, setViewRoom] = useState<any>();
 
   function handleRoomChange(room: any, roomCount: any) {
     if (roomCount == 0) {
-      console.log(selectedRooms);
-      setSelectedRooms([...selectedRooms, { ...room, roomCount }]);
+      setSelectedRooms(
+        selectedRooms.filter((item: any) => {
+          return item.id != room.id;
+        })
+      );
     } else {
-      setSelectedRooms([...selectedRooms, { ...room, roomCount }]);
+      if (!!selectedRooms.filter((item: any) => item.id == room.id).length) {
+        let filteredList = selectedRooms.filter((item: any) => {
+          return item.id != room.id;
+        });
+        setSelectedRooms([...filteredList, { ...room, roomCount }]);
+      } else {
+        setSelectedRooms([...selectedRooms, { ...room, roomCount }]);
+      }
     }
   }
 
@@ -41,43 +54,70 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
     totalRoomLength.splice(0, 0, 0);
     return {
       id: room.id,
-      title: room.title,
+      title: (
+        <div>
+          <h4 className="table_room_title" onClick={() => setViewRoom(room)}>
+            {room.title}
+          </h4>
+          <span className="sleeping_wrapper">
+            {room?.full_bed != 0 && <> {room?.full_bed + " "}Full Bed&nbsp;</>}
+            {room?.king_bed != 0 && <>{room?.king_bed + " "}King Bed&nbsp;</>}
+            {room?.queen_bed != 0 && (
+              <>{room?.queen_bed + " "} Queen Bed&nbsp;</>
+            )}
+            {room?.small_single_bed != 0 && (
+              <>{room?.small_single_bed + " "}Single Bed&nbsp;</>
+            )}
+            {room?.twin_bed != 0 && <>{room?.twin_bed + " "}Twin Bed </>}
+          </span>
+        </div>
+      ),
       price: (
-        <div className="">
+        <div className="custom_pricing_detail">
           {room?.discount_price ? (
             <>
               <h6>
-                <del>NRs.{room?.price}</del>
+                <del>Rs.{room?.price}</del>
               </h6>
-              <h3>
-                NRs.
+              <h5>
+                Rs.
                 {room?.price - room?.discount_price}
-              </h3>
+              </h5>
             </>
           ) : (
-            <h6>NRs.{room?.price}</h6>
+            <h6>Rs.{room?.price}</h6>
           )}
         </div>
       ),
-      sleeps: (
-        <span className="sleeping_wrapper">
-          <p>
-            <b>Full Bed </b>: {room?.full_bed}
-          </p>
-          <p>
-            <b>King Bed </b>: {room?.king_bed}
-          </p>
-          <p>
-            <b>Queen Bed </b>: {room?.queen_bed}
-          </p>
-          <p>
-            <b>Single Bed </b>: {room?.small_single_bed}
-          </p>
-          <p>
-            <b>Twin Bed </b>: {room?.twin_bed}
-          </p>
-        </span>
-      ),
+      //   sleeps: (
+      //     <span className="sleeping_wrapper">
+      //       {room?.full_bed != 0 && (
+      //         <p>
+      //           <b>Full Bed </b>: {room?.full_bed}
+      //         </p>
+      //       )}
+      //       {room?.king_bed != 0 && (
+      //         <p>
+      //           <b>King Bed </b>: {room?.king_bed}
+      //         </p>
+      //       )}
+      //       {room?.queen_bed != 0 && (
+      //         <p>
+      //           <b>Queen Bed </b>: {room?.queen_bed}
+      //         </p>
+      //       )}
+      //       {room?.small_single_bed != 0 && (
+      //         <p>
+      //           <b>Single Bed </b>: {room?.small_single_bed}
+      //         </p>
+      //       )}
+      //       {room?.twin_bed != 0 && (
+      //         <p>
+      //           <b>Twin Bed </b>: {room?.twin_bed}
+      //         </p>
+      //       )}
+      //     </span>
+      //   ),
       select: (
         <>
           {" "}
@@ -114,9 +154,14 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
               data={data2}
               selectableRowDisabled={(row) => true}
               selectableRows
-              //   onSelectedRowsChange={(value: any) => console.log(value)}
+              onSelectedRowsChange={(value: any) => console.log(value)}
               selectableRowSelected={(row) =>
                 selectedRooms.find((room: any) => room.id === row.id)
+              }
+              selectableRowsNoSelectAll={true}
+              highlightOnHover={true}
+              contextComponent={
+                <ContextComponent selectedRoom={selectedRooms} />
               }
               pagination
             />
@@ -128,6 +173,7 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
           )}
         </>
       )}
+      <RoomModal viewRoom={viewRoom} setViewRoom={setViewRoom} />
     </div>
   );
 };

@@ -396,7 +396,7 @@ function HotelPage() {
                       </div>
                     </div>
                     {hotel?.location?.lat && hotel.location.long ? (
-                      <div className="tour_details_boxed">
+                      <div className="tour_details_boxed sticky-sidebar">
                         <h3 className="heading_theme">Hotel location</h3>
                         <div className="google-map-code">
                           <iframe
@@ -412,11 +412,6 @@ function HotelPage() {
                         </div>
                       </div>
                     ) : null}
-
-                    <div className="tour_details_boxed sticky-sidebar">
-                      <h3 className="heading_theme">Booking details</h3>
-                      <div className="google-map-code">Testing</div>
-                    </div>
                   </div>
                 </div>
               </div>
