@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { roomBooking } from "@/api/client/booking";
+// import { roomBooking } from "@/api/client/booking";
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import { imageFullPath, responseErrorHandler } from "@/services/helper";
@@ -78,12 +78,12 @@ const BookRoom = () => {
     };
 
     setButtonLoading(true);
-    roomBooking(finalBookingData)
-      .then((res: any) => {
-        toast.success(res.message);
-      })
-      .catch(responseErrorHandler)
-      .finally(() => setButtonLoading(false));
+    // roomBooking(finalBookingData)
+    //   .then((res: any) => {
+    //     toast.success(res.message);
+    //   })
+    //   .catch(responseErrorHandler)
+    //   .finally(() => setButtonLoading(false));
   }
 
   const [nav1, setNav1] = useState<any>();

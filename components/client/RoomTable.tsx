@@ -89,35 +89,6 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
           )}
         </div>
       ),
-      //   sleeps: (
-      //     <span className="sleeping_wrapper">
-      //       {room?.full_bed != 0 && (
-      //         <p>
-      //           <b>Full Bed </b>: {room?.full_bed}
-      //         </p>
-      //       )}
-      //       {room?.king_bed != 0 && (
-      //         <p>
-      //           <b>King Bed </b>: {room?.king_bed}
-      //         </p>
-      //       )}
-      //       {room?.queen_bed != 0 && (
-      //         <p>
-      //           <b>Queen Bed </b>: {room?.queen_bed}
-      //         </p>
-      //       )}
-      //       {room?.small_single_bed != 0 && (
-      //         <p>
-      //           <b>Single Bed </b>: {room?.small_single_bed}
-      //         </p>
-      //       )}
-      //       {room?.twin_bed != 0 && (
-      //         <p>
-      //           <b>Twin Bed </b>: {room?.twin_bed}
-      //         </p>
-      //       )}
-      //     </span>
-      //   ),
       select: (
         <>
           {" "}
