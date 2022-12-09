@@ -127,7 +127,7 @@ const TopBar = () => {
                         <li className="nav-item">
                           <a href="#" className="nav-link">
                             <img src={Tour.src} alt="logo" />
-                            Tours
+                            Buses
                           </a>
                         </li>
 
@@ -199,13 +199,12 @@ const TopBar = () => {
 
         {/* {navbar type3} */}
         <div
-          className={`navbar-type2 navbar-area ${
-            router.pathname != "/client"
+          className={`navbar-type2 navbar-area ${router.pathname != "/client"
               ? "is-sticky"
               : offset > 100
-              ? "is-sticky"
-              : ""
-          }`}
+                ? "is-sticky"
+                : ""
+            }`}
         >
           <div className="container">
             <div className="row">
