@@ -7,7 +7,7 @@ import Hotel from "@/public/client/assets/img/resort.png";
 import { useRouter } from "next/router";
 import SearchBar from "./SearchBar";
 import useUser from "@/services/hooks/useUser";
-import { Dropdown, Menu, Space } from "antd";
+import { Button, Dropdown, Menu, Space } from "antd";
 import { appDecrypt, avatarGenerator } from "@/services/helper";
 import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
 import { deleteCookie, getCookie } from "cookies-next";
@@ -200,10 +200,10 @@ const TopBar = () => {
         {/* {navbar type3} */}
         <div
           className={`navbar-type2 navbar-area ${router.pathname != "/client"
+            ? "is-sticky"
+            : offset > 100
               ? "is-sticky"
-              : offset > 100
-                ? "is-sticky"
-                : ""
+              : ""
             }`}
         >
           <div className="container">
@@ -258,17 +258,17 @@ const TopBar = () => {
                       </ul>
                     </div>
                   </div>
-                  <div className="others-options d-flex align-items-center">
+                  <div className="others-options d-flex align-items-center gap-5">
                     <div className="option-item">
-                      <a
+                      <button
                         onClick={(e) => {
                           e.preventDefault();
                           router.push("/become-partner");
                         }}
-                        className="btn "
+                        className="btn btn_theme btn_sm"
                       >
                         Become a partner
-                      </a>
+                      </button>
                     </div>
                     {user?.id ? (
                       <div>
