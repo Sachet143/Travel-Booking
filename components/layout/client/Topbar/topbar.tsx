@@ -200,10 +200,10 @@ const TopBar = () => {
         {/* {navbar type3} */}
         <div
           className={`navbar-type2 navbar-area ${router.pathname != "/client"
-            ? "is-sticky"
-            : offset > 100
               ? "is-sticky"
-              : ""
+              : offset > 100
+                ? "is-sticky"
+                : ""
             }`}
         >
           <div className="container">
@@ -221,6 +221,50 @@ const TopBar = () => {
                       >
                         <img src={LogoPurple.src} alt="logo" />
                       </a>
+                    </div>
+                    <div className="others-options d-flex align-items-center small-screen-option">
+                      <div className="option-item">
+                        <a
+                          onClick={(e) => {
+                            e.preventDefault();
+                            router.push("/become-partner");
+                          }}
+                          className="btn "
+                        >
+                          Become a partner
+                        </a>
+                      </div>
+                      {user?.id ? (
+                        <div>
+                          <Dropdown
+                            className="custom_drop"
+                            overlay={menu}
+                            trigger={["click"]}
+                          >
+                            <a onClick={(e) => e.preventDefault()}>
+                              <Space>
+                                <img
+                                  src={avatarGenerator(user.email)}
+                                  className="user_image bg-white border"
+                                />
+                              </Space>
+                            </a>
+                          </Dropdown>
+                        </div>
+                      ) : (
+                        <div className="option-item">
+                          <a
+                            href="_target"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              router.push("/login");
+                            }}
+                            className="btn "
+                          >
+                            Login
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="text-nav-wrapper">
@@ -258,7 +302,7 @@ const TopBar = () => {
                       </ul>
                     </div>
                   </div>
-                  <div className="others-options d-flex align-items-center gap-5">
+                  <div className="others-options d-flex align-items-center big-screen-option">
                     <div className="option-item">
                       <button
                         onClick={(e) => {

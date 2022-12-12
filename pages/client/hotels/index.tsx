@@ -287,8 +287,8 @@ const HotelListing = () => {
                           render={({ field: { onChange, value } }) => {
                             return (
                               <>
-                                <Row>
-                                  <Col span={12}>
+                                <div className="row">
+                                  <div className="col-md-12">
                                     <Slider
                                       step={5}
                                       min={500}
@@ -296,20 +296,24 @@ const HotelListing = () => {
                                       onChange={onChange}
                                       value={Number(value)}
                                     />
-                                  </Col>
-                                  <Col span={4}>
-                                    <InputNumber
+                                  </div>
+                                  <div className="col-md-12">
+                                    <input
+                                      className="form-control"
                                       min={500}
                                       max={1500}
-                                      style={{ margin: "0 16px" }}
+                                      style={{ marginBottom: "10px" }}
                                       value={Number(value)}
                                       onChange={onChange}
+                                      type={"number"}
                                     />
-                                  </Col>
-                                </Row>
-                                {errors?.min_price && (
-                                  <p>{errors.min_price.message + ""}</p>
-                                )}
+                                  </div>
+                                </div>
+                                <>
+                                  {errors?.min_price && (
+                                    <p>{errors.min_price.message + ""}</p>
+                                  )}
+                                </>
                               </>
                             );
                           }}
@@ -327,8 +331,8 @@ const HotelListing = () => {
                           render={({ field: { onChange, value } }) => {
                             return (
                               <>
-                                <Row>
-                                  <Col span={12}>
+                                <div className="row">
+                                  <div className="12">
                                     <Slider
                                       step={5}
                                       min={1500}
@@ -336,17 +340,18 @@ const HotelListing = () => {
                                       onChange={onChange}
                                       value={Number(value)}
                                     />
-                                  </Col>
-                                  <Col span={4}>
-                                    <InputNumber
+                                  </div>
+                                  <div className="12">
+                                    <input
                                       min={1500}
                                       max={50000}
-                                      style={{ margin: "0 16px" }}
+                                      style={{ marginBottom: "10px" }}
                                       value={Number(value)}
                                       onChange={onChange}
+                                      className="form-control"
                                     />
-                                  </Col>
-                                </Row>
+                                  </div>
+                                </div>
                                 {errors?.max_price && (
                                   <p>{errors.max_price.message + ""}</p>
                                 )}

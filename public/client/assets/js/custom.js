@@ -21,9 +21,9 @@
     });
   });
 
-  jQuery(".mean-menu").meanmenu({
-    meanScreenWidth: "1199",
-  });
+  //   jQuery(".mean-menu").meanmenu({
+  //     meanScreenWidth: "1199",
+  //   });
 
   $(".others-option-for-responsive .dot-menu").on("click", function () {
     $(".others-option-for-responsive .container .container").toggleClass(
@@ -147,6 +147,6 @@ function backSp(backKey) {
   }
 }
 
-jQuery(window).on("load", function () {
-  jQuery(".preloader").fadeOut(500);
-});
+// jQuery(window).on("load", function () {
+//   jQuery(".preloader").fadeOut(500);
+// });
