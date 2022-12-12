@@ -3771,7 +3771,8 @@ textarea {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  width: 335px;
+  /* width: 335px; */
+  align-self: center;
   padding-bottom: 0px;
 }
 
@@ -4248,4 +4249,8 @@ textarea {
 .topbar-others-options p,
 .topbar-others-options a {
   color: white !important;
+}
+
+.purp{
+  color: var(--main-color) !important;
 }

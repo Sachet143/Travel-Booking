@@ -1,10 +1,7 @@
-import { toast } from "react-toastify";
-import Crypto from "crypto-js";
-import { useSWRConfig } from "swr";
 import _, { isArray, isObject } from "lodash";
 import queryString from "query-string";
-import { decode as base64_decode, encode as base64_encode } from 'base-64';
-
+import { toast } from "react-toastify";
+import { useSWRConfig } from "swr";
 
 export function appEncrypt(data: string) {
   return data
@@ -147,11 +144,12 @@ export function useMatchMutate() {
 export function renderLocation({ city, state, country }: any) {
   if (city) {
     if (state) {
-      if (country) {
-        return city + ", " + state + ", " + country; // city & state & country
-      } else {
-        return city + ", " + state; // city & state
-      }
+      return city + ", " + state; // city & state
+      // if (country) {
+      //   return city + ", " + state + ", " + country; // city & state & country
+      // } else {
+      //   return city + ", " + state; // city & state
+      // }
     } else {
       if (country) {
         return city + ", " + country; // city & country
