@@ -4,6 +4,11 @@ import useSWR from "swr";
 
 const Dashboard = () => {
   const { data } = useSWR("/user/booking");
+
+  function cancleHandler() {
+
+  }
+
   return (
     <>
       <div className="dashboard_main_top">
@@ -44,6 +49,7 @@ const Dashboard = () => {
                 <th>Total Amount</th>
                 <th>Booking Date</th>
                 <th>Stay Date</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -59,6 +65,7 @@ const Dashboard = () => {
                       {moment(item.from).format("L")} -&nbsp;
                       {moment(item.to).format("L")}
                     </td>
+                    <td><button className="btn btn-sm text-danger" onClick={cancleHandler}>Cancel</button></td>
                   </tr>
                 );
               })}

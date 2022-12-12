@@ -200,10 +200,10 @@ const TopBar = () => {
         {/* {navbar type3} */}
         <div
           className={`navbar-type2 navbar-area ${router.pathname != "/client"
+            ? "is-sticky"
+            : offset > 100
               ? "is-sticky"
-              : offset > 100
-                ? "is-sticky"
-                : ""
+              : ""
             }`}
         >
           <div className="container">
@@ -302,7 +302,7 @@ const TopBar = () => {
                       </ul>
                     </div>
                   </div>
-                  <div className="others-options d-flex align-items-center big-screen-option">
+                  <div className="others-options d-flex align-items-center big-screen-option gap-5">
                     <div className="option-item">
                       <button
                         onClick={(e) => {

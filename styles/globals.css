@@ -849,3 +849,12 @@ html[dir="ltr"] .appendRight5 {
   color: rgba(0, 0, 0, 0.8);
   margin-left: -15px;
 }
+
+.ant-menu-item-selected{
+  color: blueviolet;
+}
+
+.ant-menu-item-selected::after,
+.ant-menu-item:hover::after{
+  border-bottom: 2px solid blueviolet !important;
+}
