@@ -375,14 +375,13 @@ function HotelPage() {
                   <div className="col-lg-4">
                     <div className="tour_details_right_sidebar_wrapper">
                       <div className="tour_detail_right_sidebar">
-                        <div style={{ "margin-bottom": "30px" }}>
+                        <div className="shadow" style={{ "margin-bottom": "30px" }}>
                           <YoutubeComponent id={"0NMIZ-PTt8k"} />
                         </div>
                       </div>
                     </div>
                     {hotel?.location?.lat && hotel.location.long ? (
-                      <div className="tour_details_boxed sticky-sidebar">
-                        <h3 className="heading_theme">Hotel location</h3>
+                      <div className="shadow sticky-sidebar">
                         <div className="google-map-code">
                           <iframe
                             src={`https://maps.google.com/maps?q=${hotel.location.lat},${hotel.location.long}&hl=es;z=14&output=embed`}
