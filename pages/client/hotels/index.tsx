@@ -1,29 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
+import HotelListDetail from "@/components/client/hotels/Hotel";
 import ClientLayout from "@/components/layout/client/ClientLayout";
+import axiosClient from "@/services/axios/clientfetch";
 import {
-  cleanUrlParams,
-  imageFullPath,
-  renderLocation,
+  cleanUrlParams
 } from "@/services/helper";
+import states from "@/states.json";
 import {
-  Col,
-  InputNumber,
-  Pagination,
-  Row,
-  Select,
+  Pagination, Select,
   Skeleton,
   Slider,
-  Tag,
+  Tag
 } from "antd";
-import Router, { useRouter } from "next/router";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import useSWR from "swr";
-import _debounce from "lodash/debounce";
-import { Controller, useForm } from "react-hook-form";
-import states from "@/states.json";
-import axiosClient from "@/services/axios/clientfetch";
 import { debounce } from "lodash";
-import HotelListDetail from "@/components/client/hotels/Hotel";
+import { useRouter } from "next/router";
+import { useEffect, useMemo } from "react";
+import { Controller, useForm } from "react-hook-form";
+import useSWR from "swr";
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
