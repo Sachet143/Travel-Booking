@@ -86,6 +86,7 @@ export const config = {
     "/search",
     "/profile",
     "/become-partner",
+    "/bus",
 
     // superadmin routes
     "/superadmin",

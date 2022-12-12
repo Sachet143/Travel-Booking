@@ -1424,7 +1424,7 @@ section {
 }
 
 .filter-price {
-  padding-top: 30px;
+  /* padding-top: 30px; */
   padding-bottom: 50px;
 }
 
@@ -3763,6 +3763,7 @@ textarea {
   display: flex;
   border: 1px solid #dddddd;
   margin-bottom: 30px;
+  padding-left: 0px;
 }
 
 .room_booking_heading h3 {
@@ -3803,7 +3804,8 @@ textarea {
 .room_person_select {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   width: 100%;
 }
 
@@ -4251,6 +4253,6 @@ textarea {
   color: white !important;
 }
 
-.purp{
+.purp {
   color: var(--main-color) !important;
 }
