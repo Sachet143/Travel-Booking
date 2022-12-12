@@ -14,9 +14,9 @@ import {
   Breadcrumb,
   Col,
   Empty,
-  InputNumber, Row,
+  InputNumber, Rate, Row,
   Select,
-  Skeleton, Slider as AntSlider, Tag
+  Skeleton, Slider as AntSlider, Tag, Tooltip
 } from "antd";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -158,6 +158,13 @@ function HotelPage() {
                     <div className="tour_details_leftside_wrapper">
                       <div className="tour_details_heading_wrapper">
                         <div className="tour_details_top_heading">
+                          <div className="d-flex gap-2 align-items-center mb-2">
+                            <Tag color="grey">{hotel?.category?.title}</Tag>
+                            {/* rating */}
+                            <Tooltip placement="top" title="The Stars are provided by the property and is usually determined by an official">
+                              <Rate count={hotel.stars || 3} style={{ fontSize: "11px" }} value={hotel.stars || 3} disabled />
+                            </Tooltip>
+                          </div>
                           <h2 className="text-capitalize mb-0">{hotel?.name}</h2>
                           <h5 className="text-capitalize mb-0">
                             <i className="fas fa-map-marker-alt" style={{ color: "#EA4335" }}></i>{" "}
