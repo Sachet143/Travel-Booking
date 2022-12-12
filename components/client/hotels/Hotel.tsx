@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import MapLocation from '@/components/common/MapLocation';
 import { imageFullPath, renderLocation } from '@/services/helper';
-import { Modal, Rate, Tooltip } from 'antd';
+import { Modal, Rate, Tag, Tooltip } from 'antd';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -19,7 +19,7 @@ function HotelListDetail({ hotel }: any) {
           <img
             width="350px"
             height="250px"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "cover", minWidth: "315px" }}
             src={imageFullPath(
               hotel.files[0]?.path
             )}
@@ -30,14 +30,41 @@ function HotelListDetail({ hotel }: any) {
           <div className='col-md-9 col-sm-12'>
             <div className="room_booking_right_side">
               <div className="room_booking_heading">
-                <h3>
-                  <a
-                    className="text-capitalize"
-                    onClick={() => router.push(`/hotels/${hotel.uuid}`)}
-                  >
-                    {hotel.name}
-                  </a>
-                </h3>
+                <div className='d-flex gap-3'>
+                  <h3 className='mb-0'>
+                    <a
+                      className="text-capitalize purp"
+                      onClick={() => router.push(`/hotels/${hotel.uuid}`)}
+                    >
+                      {hotel.name}
+                    </a>
+                  </h3>
+                  {/* rating */}
+                  <Tooltip placement="top" title="The Stars are provided by the property and is usually determined by an official">
+                    <span>
+                      <Rate style={{ fontSize: "11px" }} value={hotel.stars || 3} disabled />
+                    </span>
+                  </Tooltip>
+                </div>
+                <div className='d-flex gap-4 mt-2'>
+                  {/* location */}
+                  <div>
+                    <span>
+                      <p>
+                        <i className='fas fa-map-marker' aria-hidden="true" />{" "}
+                        {renderLocation(hotel.location)}
+                      </p>
+                    </span>
+                  </div>
+                  <u>
+                    <p
+                      className="text-capitalize cursor-pointer purp"
+                      onClick={() => setShowMap(true)}
+                    >
+                      Show on map
+                    </p>
+                  </u>
+                </div>
                 {/* features */}
                 <div className="room_fasa_area">
                   <ul>
@@ -54,7 +81,6 @@ function HotelListDetail({ hotel }: any) {
                                   f.icon_link
                                 }
                               />
-                              {/* <img src="/client/assets/img/icon/ac.png" alt="icon" /> */}
                             </div>
                             <div className="tour_details_top_bottom_text">
                               <p className="text-capitalize mx-1">
@@ -67,43 +93,32 @@ function HotelListDetail({ hotel }: any) {
                     )}
                   </ul>
                 </div>
-                {/* rating */}
-                <Tooltip placement="top" title="The Stars are provided by the property and is usually determined by an official">
-                  <span>
-                    <Rate value={hotel.stars || 3} disabled />
-                  </span>
-                </Tooltip>
-                {/* location */}
-                <div className='my-3'>
-                  <i className='fa fa-map-marker' />{" "}
-                  <span>
-                    {renderLocation(hotel.location)}
-                  </span>
-                </div>
-                <h5>
-                  <u>
-                    <a
-                      className="text-capitalize"
-                      onClick={() => setShowMap(true)}
-                    >
-                      Show on map
-                    </a>
-                  </u>
-                </h5>
+                {/* description */}
+                <p className='mt-3'>{hotel.description.length > 315 ? hotel.description.slice(0, 315) + "..." : hotel.description}</p>
               </div>
             </div>
           </div>
           <div className='col-md-3 col-sm-12 align-self-center'>
+            <div className='d-flex gap-2 mt-2 ml-auto' style={{ float: 'right' }}>
+              <p style={{ fontSize: '9px' }}>{hotel.rating_count} reviews</p>
+              <Tag style={{ height: "fit-content", marginRight: "0 !important" }} color="#3b5999">{Math.round(hotel.rating * 10) / 10}</Tag>
+            </div>
             {/* price */}
             <div className="room_person_select flex-wrap">
-              <h3>Starting from</h3>
-              <h3 style={{ marginBottom: "10px !important" }}>
-                {"Rs." + hotel.starting_price}
-                {"/"}
-                <sub>Per night</sub>
-              </h3>
+              <div style={{ width: "100%", textAlign: "end", marginRight: "8px" }}>
+                <p className='mb-0' style={{ fontSize: '12px', marginRight: "5px !important" }}>
+                  Starting from
+                </p>
+              </div>
+              <div style={{ width: "100%", textAlign: 'end', marginRight: "9px" }}>
+                <p style={{ fontSize: '16px' }}>
+                  {"Rs." + hotel.starting_price}
+                  {"/"}
+                  <sub>Per night</sub>
+                </p>
+              </div>
               <button
-                className="btn btn_theme btn_sm mt-5"
+                className="btn btn_theme btn_sm my-5"
                 type="button"
                 onClick={() => {
                   router.push(`/hotels/${hotel.uuid}`)
