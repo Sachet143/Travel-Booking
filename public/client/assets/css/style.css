@@ -1424,7 +1424,7 @@ section {
 }
 
 .filter-price {
-  padding-top: 30px;
+  /* padding-top: 30px; */
   padding-bottom: 50px;
 }
 
@@ -3804,7 +3804,8 @@ textarea {
 .room_person_select {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   width: 100%;
 }
 

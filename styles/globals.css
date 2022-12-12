@@ -555,3 +555,64 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     display: none !important;
   }
 }
+
+.nepali_price_wrapper {
+  color: black;
+}
+
+.nepali_price_wrapper span {
+  font-size: 12px !important;
+  font-weight: 600;
+}
+
+.nepali_price_wrapper b {
+  font-weight: 600 !important;
+}
+.strating_wrapper {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.7) !important;
+  font-weight: 400 !important;
+}
+
+.show_on_map {
+  position: relative;
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+.show_on_map:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 0.5px;
+  bottom: 4px;
+  left: 0px;
+  background-color: var(--main-color);
+}
+
+.bus-card {
+  margin: 15px 0 0;
+  border-radius: 4px;
+  border: 1px solid #cecece;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
+}
+
+.bus-card .makeFlex {
+  display: flex;
+}
+
+.makeFlex.column {
+  flex-direction: column;
+}
+.bus-view-left {
+  width: 100%;
+  padding: 20px 20px 0 24px;
+}
+
+.number_heading {
+  font-size: 26px;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.8);
+  margin-left: -15px;
+}

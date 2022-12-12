@@ -2,16 +2,9 @@
 import HotelListDetail from "@/components/client/hotels/Hotel";
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import axiosClient from "@/services/axios/clientfetch";
-import {
-  cleanUrlParams
-} from "@/services/helper";
+import { cleanUrlParams } from "@/services/helper";
 import states from "@/states.json";
-import {
-  Pagination, Select,
-  Skeleton,
-  Slider,
-  Tag
-} from "antd";
+import { Pagination, Select, Skeleton, Slider, Tag } from "antd";
 import { debounce } from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
@@ -218,15 +211,7 @@ const HotelListing = () => {
           <div className="container">
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                <div className="section_heading_center">
-                  {hotelLoading ? (
-                    <div className="w-25 mx-auto">
-                      <Skeleton active paragraph={false} />
-                    </div>
-                  ) : (
-                    <h2>{hotels?.total} Hotel found</h2>
-                  )}
-                </div>
+                <div className="section_heading_center"></div>
               </div>
             </div>
             <div className="row">
@@ -268,9 +253,6 @@ const HotelListing = () => {
                   <div className="left_side_search_area">
                     {/* filter by price */}
                     <div className="left_side_search_boxed">
-                      <div className="left_side_search_heading">
-                        <h5>Filter by Price</h5>
-                      </div>
                       <div className="filter-price">
                         {/* minimum price */}
                         <label>Minimum price</label>
@@ -634,6 +616,15 @@ const HotelListing = () => {
               </div>
               {/* hotels */}
               <div className="col-lg-9">
+                {hotelLoading ? (
+                  <div className="w-25 mx-auto">
+                    <Skeleton active paragraph={false} />
+                  </div>
+                ) : (
+                  <h2 className="number_heading">
+                    Total {hotels?.total} Properties found
+                  </h2>
+                )}
                 <div className="row">
                   {hotelLoading ? (
                     <Skeleton active />
