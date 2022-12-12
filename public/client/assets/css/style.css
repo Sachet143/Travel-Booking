@@ -3763,6 +3763,7 @@ textarea {
   display: flex;
   border: 1px solid #dddddd;
   margin-bottom: 30px;
+  padding-left: 0px;
 }
 
 .room_booking_heading h3 {
@@ -4251,6 +4252,6 @@ textarea {
   color: white !important;
 }
 
-.purp{
+.purp {
   color: var(--main-color) !important;
 }
