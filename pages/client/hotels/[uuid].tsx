@@ -158,28 +158,12 @@ function HotelPage() {
                     <div className="tour_details_leftside_wrapper">
                       <div className="tour_details_heading_wrapper">
                         <div className="tour_details_top_heading">
-                          <h2 className="text-capitalize">{hotel?.name}</h2>
-                          <h5 className="text-capitalize">
-                            <i className="fas fa-map-marker-alt"></i>{" "}
+                          <h2 className="text-capitalize mb-0">{hotel?.name}</h2>
+                          <h5 className="text-capitalize mb-0">
+                            <i className="fas fa-map-marker-alt" style={{ color: "#EA4335" }}></i>{" "}
                             {renderLocation(hotel?.location)}
                           </h5>
                         </div>
-                      </div>
-                      {/* hotel features */}
-                      <div className="tour_details_top_bottom">
-                        {hotel.features.map((f) => (
-                          <div
-                            className="toru_details_top_bottom_item"
-                            key={f.id}
-                          >
-                            <div className="tour_details_top_bottom_icon">
-                              <i className={f.icon_link} />
-                            </div>
-                            <div className="tour_details_top_bottom_text">
-                              <p className="text-capitalize mx-1">{f.title}</p>
-                            </div>
-                          </div>
-                        ))}
                       </div>
                       {/* images */}
                       <div className="tour_details_img_wrapper">
@@ -242,14 +226,48 @@ function HotelPage() {
                           </div>
                         )}
                       </div>
-                      <div className="tour_details_boxed">
-                        <h3 className="heading_theme">Overview</h3>
+                      {/* hotel features */}
+                      <div className="tour_details_top_bottom">
+                        {hotel.features.map((f) => (
+                          <div
+                            className="toru_details_top_bottom_item"
+                            key={f.id}
+                          >
+                            <div className="tour_details_top_bottom_icon">
+                              <i className={`${f.icon_link} text-primary`} />
+                            </div>
+                            <div className="tour_details_top_bottom_text" >
+                              <p className="text-capitalize mx-1" style={{ color: "black" }}>{f.title}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-3">
                         <div className="tour_details_boxed_inner">
-                          <p>{hotel.description}</p>
+                          <p style={{ color: "black", fontWeight: "600" }}>{hotel.description}</p>
                         </div>
                       </div>
 
-                      {/* {renderRoomFilter()} */}
+                      {hotel.why_choose_us && (
+                        <div>
+                          <Editor
+                            //@ts-ignore
+                            toolbarHidden
+                            contentState={JSON.parse(hotel.why_choose_us)}
+                            readOnly
+                          />
+                        </div>
+                      )}
+                      {hotel.our_facilities && (
+                        <div>
+                          <Editor
+                            //@ts-ignore
+                            toolbarHidden
+                            contentState={JSON.parse(hotel.our_facilities)}
+                            readOnly
+                          />
+                        </div>
+                      )}
 
                       <div className="tour_details_boxed">
                         <h3 className="heading_theme">Select your room</h3>
@@ -352,47 +370,14 @@ function HotelPage() {
                           </div>
                         </div>
                       </div>
-
-                      {hotel.why_choose_us && (
-                        <div className="tour_details_boxed">
-                          <h3 className="heading_theme">Why Choose Us</h3>
-                          <Editor
-                            //@ts-ignore
-                            toolbarHidden
-                            contentState={JSON.parse(hotel.why_choose_us)}
-                            readOnly
-                          />
-                        </div>
-                      )}
                     </div>
                   </div>
                   <div className="col-lg-4">
                     <div className="tour_details_right_sidebar_wrapper">
                       <div className="tour_detail_right_sidebar">
-                        <div
-                          className="tour_details_right_boxed"
-                          style={{ "margin-bottom": "30px" }}
-                        >
-                          <div className="tour_details_right_box_heading">
-                            <h3>Video</h3>
-                          </div>
+                        <div style={{ "margin-bottom": "30px" }}>
                           <YoutubeComponent id={"0NMIZ-PTt8k"} />
                         </div>
-                        {hotel.our_facilities && (
-                          <div className="tour_details_right_boxed">
-                            <div className="tour_details_right_box_heading">
-                              <h3> Our Facilities</h3>
-                            </div>
-                            <div className="first_child_padding_none">
-                              <Editor
-                                //@ts-ignore
-                                toolbarHidden
-                                contentState={JSON.parse(hotel.our_facilities)}
-                                readOnly
-                              />
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
                     {hotel?.location?.lat && hotel.location.long ? (

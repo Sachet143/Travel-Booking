@@ -1739,7 +1739,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   border-bottom: 1px solid #eeeaea;
   padding-bottom: 13px;
   display: flex;
-  justify-content: space-between;
+  column-gap: 15px;
 }
 
 .toru_details_top_bottom_item {
