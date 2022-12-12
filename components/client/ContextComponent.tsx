@@ -84,7 +84,7 @@ const ContextComponent = ({ selectedRoom }: any) => {
 
   return (
     <div className="contextmenu_wrapper">
-      <div className="context_room_detail">
+      <div className="context_room_detail" style={{ fontSize: "14px" }}>
         {selectedRoom?.map((item: any, i: any) => {
           return (
             item.roomCount +
@@ -92,11 +92,11 @@ const ContextComponent = ({ selectedRoom }: any) => {
             item.title +
             `${i + 1 != selectedRoom.length ? ", " : " "}`
           );
-        })}
+        })} for {" "}
+        <span style={{ fontSize: "16px" }}><strong>NPR {selectedPrice}</strong></span>
       </div>
 
       <div className="context_room_price">
-        Total Price: ${selectedPrice}
         <button className="btn btn_theme btn_sm px-4 ml-2" onClick={showModal}>
           Book now
         </button>

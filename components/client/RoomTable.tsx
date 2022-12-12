@@ -9,10 +9,6 @@ const columns = [
     name: "Room Type",
     selector: (row: any) => row.title,
   },
-  //   {
-  //     name: "Sleeps",
-  //     selector: (row: any) => row.sleeps,
-  //   },
   {
     name: "Price for one night",
     selector: (row: any) => row.price,
@@ -55,7 +51,7 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
     return {
       id: room.id,
       title: (
-        <div>
+        <div className="py-4">
           <h4 className="table_room_title" onClick={() => setViewRoom(room)}>
             {room.title}
           </h4>
@@ -125,7 +121,6 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
               data={data2}
               selectableRowDisabled={(row) => true}
               selectableRows
-              onSelectedRowsChange={(value: any) => console.log(value)}
               selectableRowSelected={(row) =>
                 selectedRooms.find((room: any) => room.id === row.id)
               }
@@ -134,7 +129,6 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
               contextComponent={
                 <ContextComponent selectedRoom={selectedRooms} />
               }
-              pagination
             />
           ) : (
             <Empty

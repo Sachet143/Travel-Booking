@@ -42,7 +42,7 @@ function HotelListDetail({ hotel }: any) {
                   {/* rating */}
                   <Tooltip placement="top" title="The Stars are provided by the property and is usually determined by an official">
                     <span>
-                      <Rate style={{ fontSize: "11px" }} value={hotel.stars || 3} disabled />
+                      <Rate count={hotel.stars || 3} style={{ fontSize: "11px" }} value={hotel.stars || 3} disabled />
                     </span>
                   </Tooltip>
                 </div>
@@ -51,7 +51,7 @@ function HotelListDetail({ hotel }: any) {
                   <div>
                     <span>
                       <p>
-                        <i className='fas fa-map-marker' aria-hidden="true" />{" "}
+                        <i className='fas fa-map-marker-alt' style={{ color: "#EA4335" }} aria-hidden="true" />{" "}
                         {renderLocation(hotel.location)}
                       </p>
                     </span>
@@ -76,11 +76,7 @@ function HotelListDetail({ hotel }: any) {
                             key={f.id}
                           >
                             <div className="tour_details_top_bottom_icon">
-                              <i
-                                className={
-                                  f.icon_link
-                                }
-                              />
+                              <i className={`${f.icon_link} text-primary`} />
                             </div>
                             <div className="tour_details_top_bottom_text">
                               <p className="text-capitalize mx-1">
@@ -112,19 +108,19 @@ function HotelListDetail({ hotel }: any) {
               </div>
               <div style={{ width: "100%", textAlign: 'end', marginRight: "9px" }}>
                 <p style={{ fontSize: '16px' }}>
-                  {"Rs." + hotel.starting_price}
+                  <b>{"NRP " + hotel.starting_price}</b>
                   {"/"}
                   <sub>Per night</sub>
                 </p>
               </div>
               <button
-                className="btn btn_theme btn_sm my-5"
+                className="btn btn_theme btn_sm my-5 py-2"
                 type="button"
                 onClick={() => {
                   router.push(`/hotels/${hotel.uuid}`)
                 }}
               >
-                See Availability
+                See availability <span>&nbsp;&nbsp;<i className='fa fa-chevron-right' /></span>
               </button>
             </div>
           </div>
