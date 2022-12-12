@@ -290,6 +290,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .navbar-type2 .logo-wrapper .logo {
@@ -534,4 +535,23 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .custom_pricing_detail h5 {
   margin-left: 1rem;
+}
+@media only screen and (min-width: 768px) {
+  .small-screen-option {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .logo-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .navbar-type2 .nav-wrapper {
+    justify-content: center;
+  }
+  .big-screen-option {
+    display: none !important;
+  }
 }

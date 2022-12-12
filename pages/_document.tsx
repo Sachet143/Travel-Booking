@@ -142,7 +142,7 @@ class CustomDocument extends Document {
           <script src="/admin/js/metisMenu.js" defer></script>
           <script src="/admin/js/bootstrap.bundle.js"></script>
 
-          <script src="/admin/vendors/count_up/jquery.waypoints.min.js"></script>
+          {/* <script src="/admin/vendors/count_up/jquery.waypoints.min.js"></script> */}
           <script src="/admin/vendors/chartlist/Chart.min.js"></script>
           <script src="/admin/vendors/count_up/jquery.counterup.min.js"></script>
           <script src="/admin/vendors/niceselect/js/jquery.nice-select.min.js"></script>
