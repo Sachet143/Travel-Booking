@@ -3762,7 +3762,7 @@ textarea {
 .room_book_item {
   display: flex;
   border: 1px solid #dddddd;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   padding-left: 0px;
 }
 
