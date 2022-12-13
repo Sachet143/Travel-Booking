@@ -850,11 +850,54 @@ html[dir="ltr"] .appendRight5 {
   margin-left: -15px;
 }
 
-.ant-menu-item-selected{
+.ant-menu-item-selected {
   color: blueviolet;
 }
 
 .ant-menu-item-selected::after,
-.ant-menu-item:hover::after{
+.ant-menu-item:hover::after {
   border-bottom: 2px solid blueviolet !important;
+}
+
+.custom-seat {
+  height: 40px;
+  width: 50px;
+  background-color: rgb(55, 55, 55);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.empty-seat {
+  height: 40px;
+  width: 50px;
+  background-color: white;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: not-allowed;
+}
+.seat-wrapper {
+  gap: 3px;
+  margin: 3px 0px;
+}
+.seat_container {
+  display: flex;
+  justify-content: space-between;
+}
+.all_seat_wrapper {
+  position: relative;
+}
+.driver {
+  position: absolute;
+  left: -20px;
+  transform: rotate(-90deg);
+  transform-origin: 0% 100%;
+  top: calc(50% - 12.5px);
+  font-size: 30px;
+  color: rgba(0, 0, 0, 0.2);
+  opacity: 0.8;
 }
