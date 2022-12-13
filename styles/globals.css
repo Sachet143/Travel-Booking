@@ -617,8 +617,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   margin-left: -15px;
 }
 
+.ant-menu-item-active,
 .ant-menu-item-selected{
-  color: blueviolet;
+  color: blueviolet !important;
 }
 
 .ant-menu-item-selected::after,
