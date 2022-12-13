@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SeatBooking from "./sections/SeatBooking";
 
 const BusTable = (bus: any) => {
-  const [section, setSection] = useState("");
+  const [section, setSection] = useState("bookseat");
 
   const renderDetailSections = (value: any) => {
     switch (value) {

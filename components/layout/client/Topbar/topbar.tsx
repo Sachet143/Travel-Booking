@@ -125,7 +125,14 @@ const TopBar = () => {
                           </a>
                         </li>
                         <li className="nav-item">
-                          <a href="#" className="nav-link">
+                          <a
+                            href="#"
+                            className="nav-link"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              router.push("/bus");
+                            }}
+                          >
                             <img src={Tour.src} alt="logo" />
                             Buses
                           </a>
@@ -199,12 +206,13 @@ const TopBar = () => {
 
         {/* {navbar type3} */}
         <div
-          className={`navbar-type2 navbar-area ${router.pathname != "/client"
-            ? "is-sticky"
-            : offset > 100
+          className={`navbar-type2 navbar-area ${
+            router.pathname != "/client"
+              ? "is-sticky"
+              : offset > 100
               ? "is-sticky"
               : ""
-            }`}
+          }`}
         >
           <div className="container">
             <div className="row">
@@ -280,9 +288,16 @@ const TopBar = () => {
                           </a>
                         </li>
                         <li className="nav-item">
-                          <a href="#" className="nav-link">
+                          <a
+                            href="#"
+                            className="nav-link"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              router.push("/bus");
+                            }}
+                          >
                             <img src={Tour.src} alt="logo" />
-                            Tours
+                            Buses
                           </a>
                         </li>
 

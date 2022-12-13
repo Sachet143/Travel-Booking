@@ -174,7 +174,7 @@ const Bus = () => {
                     aria-labelledby="home-tab"
                   >
                     <div className="room_booking_area">
-                      {hotel?.hotel_rooms.map((item: any, index: any) => {
+                      {hotel?.hotel_rooms?.map((item: any, index: any) => {
                         return <BusTable key={index} bus={item} />;
                       })}
                     </div>
