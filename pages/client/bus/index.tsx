@@ -49,7 +49,7 @@ const Bus = () => {
       <div className="section_padding">
         <div className="container">
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-md-3">
               <div className="left_side_search_area">
                 {/* filter by price */}
                 <div className="left_side_search_boxed">
@@ -163,9 +163,9 @@ const Bus = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-8">
+            <div className="col-md-9">
               {" "}
-              <div className="tour_details_boxed">
+              <div>
                 <div className="room_select_area">
                   <div
                     className="tab-pane fade show active"
@@ -174,10 +174,9 @@ const Bus = () => {
                     aria-labelledby="home-tab"
                   >
                     <div className="room_booking_area">
-                      <BusTable
-                        roomLoading={hotelLoading}
-                        rooms={hotel?.hotel_rooms}
-                      />
+                      {hotel?.hotel_rooms?.map((item: any, index: any) => {
+                        return <BusTable key={index} bus={item} />;
+                      })}
                     </div>
                   </div>
                 </div>
