@@ -3,13 +3,17 @@ import queryString from "query-string";
 import { toast } from "react-toastify";
 import { useSWRConfig } from "swr";
 
+export function capitalizeFirstLetter(text: string | any) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
 export function appEncrypt(data: string) {
-  return data
+  return data;
   // return Crypto.enc.Base64.stringify(Crypto.enc.Utf8.parse(data));
 }
 
 export function appDecrypt(data: string) {
-  return data
+  return data;
   // return Crypto.enc.Base64.parse(data)?.toString(Crypto.enc.Utf8);
 }
 
@@ -101,11 +105,11 @@ export function isValidPhone(email: string) {
 export function isValidUrl(url: string) {
   const pattern = new RegExp(
     "^(https?:\\/\\/)" + // protocol
-    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-    "(\\#[-a-z\\d_]*)?$",
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+      "(\\#[-a-z\\d_]*)?$",
     "i"
   );
 
@@ -178,7 +182,8 @@ export function renderLocation({ city, state, country }: any) {
 // export const imageFullPath = (url: string) => "https://via.placeholder.com/1280x720.png/00dd99?text=ipsa"
 export const imageFullPath = (url: string) => url;
 
-export const avatarGenerator = (email: string) => 'https://robohash.org/' + (email || "random") + '.png';
+export const avatarGenerator = (email: string) =>
+  "https://robohash.org/" + (email || "random") + ".png";
 
 export function cleanUrlParams(url: string, parameter: object): string {
   let params = {};
