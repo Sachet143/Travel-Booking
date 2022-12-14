@@ -2,13 +2,13 @@
 import HotelListDetail from "@/components/client/hotels/Hotel";
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import axiosClient from "@/services/axios/clientfetch";
-import { cleanUrlParams } from "@/services/helper";
+import { capitalizeFirstLetter, cleanUrlParams } from "@/services/helper";
 import states from "@/states.json";
-import { Pagination, Select, Skeleton, Slider, Tag } from "antd";
+import { Divider, Pagination, Select, Skeleton, Slider, Tag } from "antd";
 import { debounce } from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useFormState } from "react-hook-form";
 import useSWR from "swr";
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
@@ -20,22 +20,18 @@ const HotelListing = () => {
     `/features`,
     customFetcher
   );
-
   const { data: hotelActivitiesList, error: hotelActivitiesError } = useSWR(
     `/activities`,
     customFetcher
   );
-
   const { data: roomFeatureList, error: roomFeatureError } = useSWR(
     `/room-features`,
     customFetcher
   );
-
   const { data: catList, error: catError } = useSWR(
     `/categories`,
     customFetcher
   );
-
   const { data: hotels, error } = useSWR(
     cleanUrlParams(`/hotels`, router.query)
   );
@@ -43,17 +39,15 @@ const HotelListing = () => {
 
   const {
     register,
-    control,
-    formState: { errors, touchedFields, dirtyFields },
     getValues,
+    control,
+    formState: { errors },
     reset,
     handleSubmit,
-    watch,
   } = useForm<any>({
     defaultValues: {
       search: null,
-      min_price: 500,
-      max_price: 50000,
+      price: [500, 50000],
       country: "Nepal",
       state: null,
       city: null,
@@ -61,98 +55,13 @@ const HotelListing = () => {
       categories: [],
       roomFeatures: [],
       hotelActivities: [],
+      order: null,
     },
   });
 
-  const applyPriceFilter = (e: any) => {
-    e.preventDefault();
-
-    router.push(
-      cleanUrlParams("/hotels", {
-        ...router.query,
-        min_price: getValues("min_price"),
-        max_price: getValues("max_price"),
-        page: 1,
-      })
-    );
-  };
-
-  const applyLocationFilter = () => {
-    router.push(
-      cleanUrlParams("/hotels", {
-        ...router.query,
-        country: getValues("country"),
-        state: getValues("state"),
-        city: getValues("city"),
-        page: 1,
-      })
-    );
-  };
-
-  const clearPriceFilter = (e: any) => {
-    e.preventDefault();
-
-    router.push(
-      cleanUrlParams("/hotels", {
-        ...router.query,
-        min_price: null,
-        max_price: null,
-      })
-    );
-  };
-
-  const clearLocationFilter = (e: any) => {
-    e.preventDefault();
-
-    router.push(
-      cleanUrlParams("/hotels", {
-        ...router.query,
-        country: null,
-        state: null,
-        city: null,
-      })
-    );
-  };
-
-  const applyFeaturesFilter = (value: any) => {
-    router.push(
-      cleanUrlParams("/hotels", {
-        ...router.query,
-        features: value.join(","),
-        page: 1,
-      })
-    );
-  };
-  const clearFeaturesFilter = (e: any) => {
-    e.preventDefault();
-
-    router.push(
-      cleanUrlParams("/hotels", {
-        ...router.query,
-        features: [],
-      })
-    );
-  };
-
-  const applyCategoriesFilter = () => {
-    router.push(
-      cleanUrlParams("/hotels", {
-        ...router.query,
-        categories: getValues("categories").join(","),
-        page: 1,
-      })
-    );
-  };
-  const clearCategoriesFilter = (e: any) => {
-    e.preventDefault();
-
-    router.push(
-      cleanUrlParams("/hotels", {
-        ...router.query,
-        categories: [],
-      })
-    );
-  };
+  const { dirtyFields } = useFormState({
+    control,
+  });
 
   const debounceName = useMemo(() => {
     const searchHotel = (value: any) => {
@@ -177,8 +86,18 @@ const HotelListing = () => {
   };
 
   useEffect(() => {
+    const hasPrice = router.query.min_price && router.query.max_price;
+    const order =
+      router.query.orderBy && router.query.order
+        ? router.query.orderBy + "-" + router.query.order
+        : null;
+
     reset({
       ...router.query,
+      order,
+      price: hasPrice
+        ? [Number(router.query.min_price), Number(router.query.max_price)]
+        : [500, 500000],
       categories: router.query.categories
         ? router.query.categories.toString().split(",").map(Number)
         : [],
@@ -195,14 +114,38 @@ const HotelListing = () => {
   }, [router.query]);
 
   const customFilter = (value: any) => {
+    // PRICE to MIN and MAX
+    const { price, order, ...restFilters } = value;
+    const hasPriceApplied = dirtyFields.price;
+    const priceFilter = hasPriceApplied
+      ? { min_price: value.price[0], max_price: value.price[1] }
+      : {};
+
     router.push(
       cleanUrlParams("/hotels", {
         ...router.query,
-        ...value,
+        ...restFilters,
+        ...priceFilter,
         page: 1,
       })
     );
   };
+
+  function handleOrder() {
+    const order = getValues("order");
+    // ORDER
+    const orderBy = order ? order.split("-")[0] : null;
+    const orderPosition = order ? order.split("-")[1] : null;
+
+    router.push(
+      cleanUrlParams("/hotels", {
+        ...router.query,
+        orderBy,
+        order: orderPosition,
+        page: 1,
+      })
+    );
+  }
 
   return (
     <ClientLayout>
@@ -215,8 +158,9 @@ const HotelListing = () => {
               </div>
             </div>
             <div className="row">
-              {/* filters */}
+              {/* filter section */}
               <div className="col-lg-3">
+                {/* applied filter */}
                 {Object.keys(router.query).length > 0 && (
                   <>
                     <div className="h5">
@@ -240,24 +184,24 @@ const HotelListing = () => {
                     </div>
                   </>
                 )}
-
+                {/* filter inputs */}
                 <form onSubmit={handleSubmit(customFilter)}>
                   <div className="left_side_search_area">
                     <input
                       {...register("search")}
                       className="form-control border mb-4"
-                      placeholder="Search Hotel"
+                      placeholder="Search Hotel by Name"
                       onChange={(e: any) => debounceName(e.target.value)}
                     />
                   </div>
                   <div className="left_side_search_area">
                     {/* filter by price */}
                     <div className="left_side_search_boxed">
-                      <div className="filter-price">
+                      <div>
                         {/* minimum price */}
-                        <label>Minimum price</label>
+                        <label>Price</label>
                         <Controller
-                          name="min_price"
+                          name="price"
                           control={control}
                           render={({ field: { onChange, value } }) => {
                             return (
@@ -265,22 +209,18 @@ const HotelListing = () => {
                                 <div className="row">
                                   <div className="col-md-12">
                                     <Slider
-                                      step={5}
-                                      min={500}
-                                      max={1500}
+                                      marks={{
+                                        500: 500,
+                                        10000: "10K",
+                                        20000: "20K",
+                                        35000: "35K",
+                                        50000: "50K",
+                                      }}
+                                      range
+                                      step={100}
+                                      max={50000}
                                       onChange={onChange}
-                                      value={Number(value)}
-                                    />
-                                  </div>
-                                  <div className="col-md-12">
-                                    <input
-                                      className="form-control"
-                                      min={500}
-                                      max={1500}
-                                      style={{ marginBottom: "10px" }}
-                                      value={Number(value)}
-                                      onChange={onChange}
-                                      type={"number"}
+                                      value={value}
                                     />
                                   </div>
                                 </div>
@@ -293,51 +233,11 @@ const HotelListing = () => {
                             );
                           }}
                         />
-                        {/* minimum price */}
-                        <label>MaxPrice price</label>
-                        <Controller
-                          name="max_price"
-                          control={control}
-                          rules={{
-                            validate: (val) =>
-                              (val && val >= 100 && val <= 50000) ||
-                              "Lowest Price should be in range",
-                          }}
-                          render={({ field: { onChange, value } }) => {
-                            return (
-                              <>
-                                <div className="row">
-                                  <div className="12">
-                                    <Slider
-                                      step={5}
-                                      min={1500}
-                                      max={50000}
-                                      onChange={onChange}
-                                      value={Number(value)}
-                                    />
-                                  </div>
-                                  <div className="12">
-                                    <input
-                                      min={1500}
-                                      max={50000}
-                                      style={{ marginBottom: "10px" }}
-                                      value={Number(value)}
-                                      onChange={onChange}
-                                      className="form-control"
-                                    />
-                                  </div>
-                                </div>
-                                {errors?.max_price && (
-                                  <p>{errors.max_price.message + ""}</p>
-                                )}
-                              </>
-                            );
-                          }}
-                        />
                       </div>
+                      <Divider className="my-2" />
                       {/*Hotel Features */}
                       <div className="left_side_search_heading">
-                        <h5>Hotel Features</h5>
+                        <label>Hotel Features</label>
                       </div>
                       <div className="tour_search_type">
                         <div className="custom-select">
@@ -367,7 +267,7 @@ const HotelListing = () => {
                                       }
                                       size="large"
                                       className="form-control mb-3"
-                                      placeholder="Select features"
+                                      placeholder="Select hotel features"
                                     >
                                       {hotelFeatureList?.map((feat: any) => (
                                         <Option key={feat.id} value={feat.id}>
@@ -387,9 +287,10 @@ const HotelListing = () => {
                           )}
                         </div>
                       </div>
+                      <Divider className="my-2" />
                       {/* Room Features */}
                       <div className="left_side_search_heading">
-                        <h5>Room Features</h5>
+                        <label>Room Features</label>
                       </div>
                       <div className="tour_search_type">
                         <div className="custom-select">
@@ -418,7 +319,7 @@ const HotelListing = () => {
                                       }
                                       size="large"
                                       className="form-control mb-3"
-                                      placeholder="Select features"
+                                      placeholder="Select room features"
                                     >
                                       {roomFeatureList?.map((feat: any) => (
                                         <Option key={feat.id} value={feat.id}>
@@ -438,10 +339,10 @@ const HotelListing = () => {
                           )}
                         </div>
                       </div>
-                      {/* Room features */}
+                      <Divider className="my-2" />
                       {/* Hotel Activities */}
                       <div className="left_side_search_heading">
-                        <h5>Hotel Activities</h5>
+                        <label>Hotel Activities</label>
                       </div>
                       <div className="tour_search_type">
                         <div className="custom-select">
@@ -491,10 +392,10 @@ const HotelListing = () => {
                           )}
                         </div>
                       </div>
-                      {/* Hotel Activities */}
+                      <Divider className="my-2" />
                       {/* Categories */}
                       <div className="left_side_search_heading">
-                        <h5>Categories</h5>
+                        <label>Categories</label>
                       </div>
                       <div className="tour_search_type">
                         <div className="custom-select">
@@ -525,7 +426,7 @@ const HotelListing = () => {
                                       }
                                       size="large"
                                       className="form-control mb-3"
-                                      placeholder="Select Categories"
+                                      placeholder="Select categories"
                                     >
                                       {catList?.map((cat: any) => (
                                         <Option key={cat.id} value={cat.id}>
@@ -545,10 +446,11 @@ const HotelListing = () => {
                           )}
                         </div>
                       </div>
+                      <Divider className="my-2" />
                       {/* filter by location */}
-                      <div className="mb-3">
+                      <div className="mb-5">
                         <div className="left_side_search_heading">
-                          <h5>Filter by Location</h5>
+                          <label>Filter by Location</label>
                         </div>
                         <div className="filter_review">
                           <input
@@ -622,9 +524,55 @@ const HotelListing = () => {
                   </div>
                 ) : (
                   <h2 className="number_heading">
-                    Total {hotels?.total} Properties found
+                    {router.query.state
+                      ? `${capitalizeFirstLetter(router.query.state)}- `
+                      : null}
+                    {hotels?.total} Properties found
                   </h2>
                 )}
+
+                <div className="border-radius-20">
+                  <Controller
+                    name="order"
+                    control={control}
+                    render={({ field: { value, onChange } }) => {
+                      return (
+                        <Select
+                          allowClear
+                          placeholder="Sort Filter"
+                          className="rounded mb-3"
+                          size="large"
+                          style={{
+                            width: "220px",
+                            marginLeft: "-10px",
+                          }}
+                          value={value}
+                          onChange={(e) => {
+                            onChange(e);
+                            handleOrder();
+                          }}
+                        >
+                          <Option value="rating_count-DESC">
+                            Top Reviewed
+                          </Option>
+                          <Option value="price-ASC">
+                            Price (lowest to highest)
+                          </Option>
+                          <Option value="price-DESC">
+                            Price (highest to lowest)
+                          </Option>
+                          <Option value="stars-ASC">
+                            Stars (lowest to highest)
+                          </Option>
+                          <Option value="stars-DESC">
+                            Stars (highest to lowest)
+                          </Option>
+                        </Select>
+                      );
+                    }}
+                  />
+                </div>
+
                 <div className="row">
                   {hotelLoading ? (
                     <Skeleton active />
