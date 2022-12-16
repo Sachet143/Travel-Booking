@@ -914,3 +914,15 @@ html[dir="ltr"] .appendRight5 {
 .selected_seat:hover {
   background-color: rgb(167, 158, 3, 1);
 }
+
+/* border radius select */
+.border-radius-20 .ant-select-selector {
+  border-radius: 20px !important;
+  border-color: #592698;
+  color: #592698;
+}
+.border-radius-20
+  .ant-select:not(.ant-select-disabled):hover
+  .ant-select-selector {
+  border-color: #592698;
+}
