@@ -22,6 +22,20 @@ const SeatBooking = () => {
 
   const grouped = groupBy(data?.data, (item: any) => item.row_name);
 
+  const savingSeats = (item: any) => {
+    if (
+      bookedSeat.filter((e: any) => e.column_name === item.column_name).length >
+      0
+    ) {
+      const allBookedSeat = bookedSeat.filter((bookItem: any) => {
+        return bookItem.column_name != item.column_name;
+      });
+      setBookedSeat(allBookedSeat);
+    } else {
+      setBookedSeat([...bookedSeat, item]);
+    }
+  };
+
   return (
     <div className="details-container">
       <div className="seat_container">
@@ -45,10 +59,15 @@ const SeatBooking = () => {
                             <>
                               {
                                 <div
-                                  className="custom-seat"
-                                  onClick={() =>
-                                    setBookedSeat([...bookedSeat, item1])
-                                  }
+                                  className={`custom-seat ${
+                                    bookedSeat.filter(
+                                      (e: any) =>
+                                        e.column_name === item1.column_name
+                                    ).length > 0
+                                      ? "selected_seat"
+                                      : "available_seats"
+                                  }`}
+                                  onClick={() => savingSeats(item1)}
                                 >
                                   {item1?.column_name}
                                 </div>
