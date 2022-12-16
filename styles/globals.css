@@ -862,8 +862,7 @@ html[dir="ltr"] .appendRight5 {
 .custom-seat {
   height: 40px;
   width: 50px;
-  background-color: rgb(55, 55, 55);
-  color: white;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -900,4 +899,18 @@ html[dir="ltr"] .appendRight5 {
   font-size: 30px;
   color: rgba(0, 0, 0, 0.2);
   opacity: 0.8;
+}
+.available_seats {
+  background-color: rgba(64, 56, 93, 0.9);
+  color: white;
+}
+.available_seats:hover {
+  background-color: rgba(64, 56, 93, 1);
+}
+.selected_seat {
+  background-color: rgb(167, 158, 3, 0.9);
+  color: white;
+}
+.selected_seat:hover {
+  background-color: rgb(167, 158, 3, 1);
 }
