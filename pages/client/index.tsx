@@ -70,8 +70,7 @@ function Index() {
             <div className="container">
               <div className="row align-items-center">
                 <div className="col-lg-12">
-                  <div className="banner_one_text">
-                  </div>
+                  <div className="banner_one_text"></div>
                 </div>
               </div>
             </div>
@@ -127,7 +126,7 @@ function Index() {
                             aria-selected="false"
                           >
                             <i className="fas fa-hotel" />
-                            Hotels
+                            Stays
                           </button>
                         </li>
                       </ul>
