@@ -7,16 +7,21 @@ import axiosClient from "@/services/axios/clientfetch";
 import {
   cleanUrlParams,
   imageFullPath,
-  renderLocation
+  renderLocation,
 } from "@/services/helper";
 import useUser from "@/services/hooks/useUser";
 import {
   Breadcrumb,
   Col,
   Empty,
-  InputNumber, Rate, Row,
+  InputNumber,
+  Rate,
+  Row,
   Select,
-  Skeleton, Slider as AntSlider, Tag, Tooltip
+  Skeleton,
+  Slider as AntSlider,
+  Tag,
+  Tooltip,
 } from "antd";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -42,9 +47,9 @@ function HotelPage() {
   const { data: rooms, error: roomError } = useSWR(
     hotel
       ? cleanUrlParams(`rooms`, {
-        hotel_id: hotel.id,
-        ...restQuery,
-      })
+          hotel_id: hotel.id,
+          ...restQuery,
+        })
       : null
   );
   const hotelLoading = !hotel && !error;
@@ -147,10 +152,10 @@ function HotelPage() {
                 <div className="row">
                   <Breadcrumb className="mt-3 mb-5">
                     <Breadcrumb.Item>
-                      <Link href='/'>Home</Link>
+                      <Link href="/">Home</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                      <Link href='/hotels'>Hotels</Link>
+                      <Link href="/hotels">Hotels</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>{hotel?.name}</Breadcrumb.Item>
                   </Breadcrumb>
@@ -161,13 +166,26 @@ function HotelPage() {
                           <div className="d-flex gap-2 align-items-center mb-2">
                             <Tag color="grey">{hotel?.category?.title}</Tag>
                             {/* rating */}
-                            <Tooltip placement="top" title="The Stars are provided by the property and is usually determined by an official">
-                              <Rate count={hotel.stars || 3} style={{ fontSize: "11px" }} value={hotel.stars || 3} disabled />
+                            <Tooltip
+                              placement="top"
+                              title="The Stars are provided by the property and is usually determined by an official"
+                            >
+                              <Rate
+                                count={hotel.stars || 3}
+                                style={{ fontSize: "11px" }}
+                                value={hotel.stars || 3}
+                                disabled
+                              />
                             </Tooltip>
                           </div>
-                          <h2 className="text-capitalize mb-0">{hotel?.name}</h2>
+                          <h2 className="text-capitalize mb-0">
+                            {hotel?.name}
+                          </h2>
                           <h5 className="text-capitalize mb-0">
-                            <i className="fas fa-map-marker-alt" style={{ color: "#EA4335" }}></i>{" "}
+                            <i
+                              className="fas fa-map-marker-alt"
+                              style={{ color: "#EA4335" }}
+                            ></i>{" "}
                             {renderLocation(hotel?.location)}
                           </h5>
                         </div>
@@ -243,15 +261,22 @@ function HotelPage() {
                             <div className="tour_details_top_bottom_icon">
                               <i className={`${f.icon_link} text-primary`} />
                             </div>
-                            <div className="tour_details_top_bottom_text" >
-                              <p className="text-capitalize mx-1" style={{ color: "black" }}>{f.title}</p>
+                            <div className="tour_details_top_bottom_text">
+                              <p
+                                className="text-capitalize mx-1"
+                                style={{ color: "black" }}
+                              >
+                                {f.title}
+                              </p>
                             </div>
                           </div>
                         ))}
                       </div>
                       <div className="mt-3">
                         <div className="tour_details_boxed_inner">
-                          <p style={{ color: "black", fontWeight: "600" }}>{hotel.description}</p>
+                          <p style={{ color: "black", fontWeight: "600" }}>
+                            {hotel.description}
+                          </p>
                         </div>
                       </div>
 
@@ -382,7 +407,7 @@ function HotelPage() {
                   <div className="col-lg-4">
                     <div className="tour_details_right_sidebar_wrapper">
                       <div className="tour_detail_right_sidebar">
-                        <div className="shadow" style={{ "margin-bottom": "30px" }}>
+                        <div className="shadow">
                           <YoutubeComponent id={"0NMIZ-PTt8k"} />
                         </div>
                       </div>

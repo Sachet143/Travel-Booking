@@ -148,7 +148,7 @@ const TopBar = () => {
                             href="_target"
                           >
                             <img src={Hotel.src} alt="logo" />
-                            Hotel
+                            Stays
                           </a>
                         </li>
                       </ul>
@@ -311,7 +311,7 @@ const TopBar = () => {
                             href="_target"
                           >
                             <img src={Hotel.src} alt="logo" />
-                            Hotel
+                            Stays
                           </a>
                         </li>
                       </ul>

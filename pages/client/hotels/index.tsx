@@ -393,9 +393,9 @@ const HotelListing = () => {
                         </div>
                       </div>
                       <Divider className="my-2" />
-                      {/* Categories */}
+                      {/* property type */}
                       <div className="left_side_search_heading">
-                        <label>Categories</label>
+                        <label>Property Type</label>
                       </div>
                       <div className="tour_search_type">
                         <div className="custom-select">
@@ -411,9 +411,6 @@ const HotelListing = () => {
                               <Controller
                                 control={control}
                                 name="categories"
-                                // rules={{
-                                //   required: "Category is required!",
-                                // }}
                                 render={({ field: { onChange, value } }) => (
                                   <>
                                     <Select
@@ -426,7 +423,7 @@ const HotelListing = () => {
                                       }
                                       size="large"
                                       className="form-control mb-3"
-                                      placeholder="Select categories"
+                                      placeholder="Select property"
                                     >
                                       {catList?.map((cat: any) => (
                                         <Option key={cat.id} value={cat.id}>
