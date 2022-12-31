@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
 import LogoWhite from "@/public/client/assets/img/YS-White.svg";
 import LogoPurple from "@/public/client/assets/img/YS-purple.svg";
@@ -154,7 +155,7 @@ const TopBar = () => {
                       </ul>
                     </div>
                   </div>
-                  <div className="others-options d-flex align-items-center">
+                  <div className="others-options d-flex align-items-center gap-5">
                     <div className="option-item">
                       <a
                         onClick={(e) => {
@@ -173,14 +174,18 @@ const TopBar = () => {
                           overlay={menu}
                           trigger={["click"]}
                         >
-                          <a onClick={(e) => e.preventDefault()}>
-                            <Space>
-                              <img
-                                src={avatarGenerator(user.email)}
-                                className="user_image bg-white border"
-                              />
-                            </Space>
-                          </a>
+                          <div className="d-flex gap-2 align-items-center">
+                            <p className="text-white mb-0" style={{ fontWeight: 400 }}><b>Hi, {user?.name.split(' ')[0]}</b></p>
+                            <a onClick={(e) => e.preventDefault()}>
+                              <Space>
+                                <img
+                                  alt="pro-pic"
+                                  src={avatarGenerator(user.email)}
+                                  className="user_image bg-white border"
+                                />
+                              </Space>
+                            </a>
+                          </div>
                         </Dropdown>
                       </div>
                     ) : (
@@ -206,13 +211,12 @@ const TopBar = () => {
 
         {/* {navbar type3} */}
         <div
-          className={`navbar-type2 navbar-area ${
-            router.pathname != "/client"
-              ? "is-sticky"
-              : offset > 100
+          className={`navbar-type2 navbar-area ${router.pathname != "/client"
+            ? "is-sticky"
+            : offset > 100
               ? "is-sticky"
               : ""
-          }`}
+            }`}
         >
           <div className="container">
             <div className="row">
@@ -239,7 +243,7 @@ const TopBar = () => {
                           }}
                           className="btn "
                         >
-                          Become a partner
+                          Become a partners
                         </a>
                       </div>
                       {user?.id ? (
@@ -326,7 +330,7 @@ const TopBar = () => {
                         }}
                         className="btn btn_theme btn_sm"
                       >
-                        Become a partner
+                        Become a partners
                       </button>
                     </div>
                     {user?.id ? (
@@ -336,14 +340,18 @@ const TopBar = () => {
                           overlay={menu}
                           trigger={["click"]}
                         >
-                          <a onClick={(e) => e.preventDefault()}>
-                            <Space>
-                              <img
-                                src={avatarGenerator(user.email)}
-                                className="user_image bg-white border"
-                              />
-                            </Space>
-                          </a>
+                          <div className="d-flex gap-2 align-items-center">
+                            <p className=" mb-0" style={{ fontWeight: 400 }}><b>Hi, {user?.name.split(' ')[0]}</b></p>
+                            <a onClick={(e) => e.preventDefault()}>
+                              <Space>
+                                <img
+                                  alt="pro-pic"
+                                  src={avatarGenerator(user.email)}
+                                  className="user_image bg-white border"
+                                />
+                              </Space>
+                            </a>
+                          </div>
                         </Dropdown>
                       </div>
                     ) : (

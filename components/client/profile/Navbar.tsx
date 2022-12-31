@@ -4,23 +4,35 @@ import { MenuProps } from 'rc-menu';
 
 const items: MenuProps['items'] = [
   {
+    label: 'Account/profile',
+    key: 'profile',
+    // @ts-ignore
+    icon: <i className="fas fa-user-circle" />
+  },
+  {
     label: 'Dashboard',
     key: 'dashboard',
     // @ts-ignore
     icon: <i className="fas fa-tachometer-alt" />,
   },
   {
-    label: 'Profile',
-    key: 'profile',
-    // @ts-ignore
-    icon: <i className="fas fa-user-circle" />
-  },
-  {
     label: 'Booking History',
     key: 'booking',
     // @ts-ignore
     icon: <AppstoreOutlined />
-  }
+  },
+  {
+    label: 'Rewards',
+    key: 'rewards',
+  },
+  {
+    label: 'Coupons & credits',
+    key: 'coupons',
+  },
+  {
+    label: 'Privacy & security',
+    key: 'privacy',
+  },
 ];
 
 
