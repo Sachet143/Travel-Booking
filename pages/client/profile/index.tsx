@@ -3,10 +3,13 @@ import ClientLayout from "@/components/layout/client/ClientLayout";
 import useUser from "@/services/hooks/useUser";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import Credits from "./Credits";
 import Dashboard from "./Dashboard";
 import HotelProfile from "./HotelProfile";
 import MyProfile from "./MyProfile";
 import Notification from "./Notification";
+import Privacy from "./Privacy";
+import Rewards from "./Rewards";
 
 const Profile = () => {
   const { user } = useUser();
@@ -32,11 +35,17 @@ const renderTab = (tab: any) => {
     case "dashboard":
       return <Dashboard />;
     case "profile":
-      return <HotelProfile />;
-    case "booking":
       return <MyProfile />;
+    case "booking":
+      return <HotelProfile />;
+    case "privacy":
+      return <Privacy />;
+    case "coupons":
+      return <Credits />;
+    case "rewards":
+      return <Rewards />;
     default:
-      return <Dashboard />;
+      return <MyProfile />;
   }
 };
 

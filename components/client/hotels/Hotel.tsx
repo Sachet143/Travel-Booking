@@ -12,8 +12,10 @@ function HotelListDetail({ hotel }: any) {
   return (
     <>
       <div className="room_book_item" key={hotel.id}>
-        <div className="room_book_img">
+        <div className="room_book_img" style={{ zIndex: 1 }}>
           <img
+            onClick={() => router.push(`/hotels/${hotel.uuid}`)}
+            className="cursor-pointer"
             width="250px"
             height="200px"
             style={{ objectFit: "cover", minWidth: "250px", maxWidth: "250px" }}
