@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify';
 
-function CreateBuss() {
+function CreateBus() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { reset, getValues, register, formState: { errors }, handleSubmit, setError } = useForm()
@@ -119,4 +119,4 @@ function CreateBuss() {
   )
 }
 
-export default CreateBuss
+export default CreateBus

@@ -11,7 +11,6 @@ function BusadminIndex() {
     <BusadminLayout title='Dashboard'>
       <></>
     </BusadminLayout>
-
   )
 }
 
@@ -19,7 +18,7 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
   const { req, res } = ctx;
   const token = appDecrypt(getCookie(TOKEN_KEY, ctx) + "");
 
-  const { data: busUser } = await axiosServer(token).get('/bus/user')
+  const { data: busUser } = await axiosServer(token).get('/bus-operator/user')
     .catch((err: any) => {
       console.log({ err });
 
