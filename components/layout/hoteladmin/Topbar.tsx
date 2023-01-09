@@ -25,6 +25,7 @@ function HoteladminTopbar() {
                             onClick={() => {
                                 const sidebar = document.getElementsByClassName('sidebar');
                                 const main = document.getElementsByClassName('main_content');
+                                if (!sidebar.length) return
                                 // sidebar
                                 if (sidebar[0].classList.contains("mini_sidebar")) {
                                     sidebar[0].classList.remove("mini_sidebar")
