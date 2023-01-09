@@ -33,7 +33,7 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
       }
     })
 
-  if (!busUser.bus_id) {
+  if (!busUser.bus_operator_id) {
     return {
       redirect: {
         destination: '/busadmin/bus/create'

@@ -23,6 +23,7 @@ const TopBar = () => {
   // user types
   const isSuperAdmin = userType && appDecrypt(userType + "") === "superadmin";
   const isHotelAdmin = userType && appDecrypt(userType + "") === "hoteladmin";
+  const isBusAdmin = userType && appDecrypt(userType + "") === "busadmin";
 
   const menu = (
     <Menu
@@ -38,6 +39,8 @@ const TopBar = () => {
                   router.push("/superadmin");
                 } else if (isHotelAdmin) {
                   router.push("/hoteladmin");
+                } else if (isBusAdmin) {
+                  router.push("/busadmin");
                 } else {
                   router.push("/profile");
                 }
@@ -57,6 +60,8 @@ const TopBar = () => {
               wasRole = "superadmin";
             } else if (isHotelAdmin) {
               wasRole = "hoteladmin";
+            } else if (isBusAdmin) {
+              wasRole = "busadmin";
             } else {
               wasRole = "customer";
             }
@@ -68,6 +73,8 @@ const TopBar = () => {
               window.location.href = "/superadmin/login";
             } else if (wasRole === "hoteladmin") {
               window.location.href = "/hoteladmin/login";
+            } else if (wasRole === "busadmin") {
+              window.location.href = "/busadmin/login";
             } else {
               window.location.href = "/login";
             }
