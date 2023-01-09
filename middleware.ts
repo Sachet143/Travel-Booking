@@ -11,15 +11,18 @@ export async function middleware(request: NextRequest) {
   // user types
   const isSuperAdmin = userType && appDecrypt(userType) === "superadmin";
   const isHotelAdmin = userType && appDecrypt(userType) === "hoteladmin";
-  const isUser = userType && appDecrypt(userType) === "user";
+  const isBusAdmin = userType && appDecrypt(userType) === "busadmin";
+
   // route types
   const isSuperAdminRoutes = url.pathname.includes("/superadmin");
   const isHotelAdminRoutes = url.pathname.includes("/hoteladmin");
+  const isBusAdminRoutes = url.pathname.includes("/busadmin");
 
   // login pages
   if (
     url.pathname.includes("/superadmin/login") ||
-    url.pathname.includes("/hoteladmin/login")
+    url.pathname.includes("/hoteladmin/login") ||
+    url.pathname.includes("/busadmin/login")
   ) {
     if (!token) {
       const responseMain = NextResponse.next();
@@ -31,7 +34,11 @@ export async function middleware(request: NextRequest) {
       } else if (isHotelAdmin) {
         url.pathname = "/hoteladmin";
         return NextResponse.redirect(url);
-      } else {
+      } else if (isBusAdmin) {
+        url.pathname = "/busadmin";
+        return NextResponse.redirect(url);
+      }
+      else {
         url.pathname = "/";
         return NextResponse.redirect(url);
       }
@@ -52,6 +59,17 @@ export async function middleware(request: NextRequest) {
   // protect hoteladmin routes
   if (isHotelAdminRoutes) {
     if (token && isHotelAdmin) {
+      const responseMain = NextResponse.next();
+      return responseMain;
+    } else {
+      url.pathname = "/client";
+      return NextResponse.rewrite(url);
+    }
+  }
+
+
+  if (isBusAdminRoutes) {
+    if (token && isBusAdmin) {
       const responseMain = NextResponse.next();
       return responseMain;
     } else {
@@ -98,3 +116,9 @@ export const config = {
     "/hoteladmin/hotel/create",
   ],
 };
+
+
+
+
+
+
