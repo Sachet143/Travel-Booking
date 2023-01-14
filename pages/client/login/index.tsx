@@ -81,98 +81,152 @@ const ClientLogin = () => {
         <section id="common_author_area" className="section_padding">
           <div className="container">
             <div className="row">
-              <div className="col-lg-6 offset-lg-3">
-                <div className="common_author_boxed">
-                  <div className="common_author_heading">
-                    <h3>Login your account</h3>
-                    <h2>Logged in to stay in touch</h2>
-                  </div>
-                  <div className="common_author_form">
-                    <form
-                      onSubmit={handleSubmit(submitLogin)}
-                      id="main_author_form"
-                    >
-                      <div className="form-group">
-                        {/* <label style={{ float: "left" }} className="form-label">
+              <div className="col-lg-8 offset-lg-2">
+                <div className="common_wrapper d-flex">
+                  <div className="common_author_boxed">
+                    <div className="common_author_heading">
+                      <h3 className="color-primary login_title">Login</h3>
+                    </div>
+                    <div className="common_author_form">
+                      <form
+                        onSubmit={handleSubmit(submitLogin)}
+                        id="main_author_form"
+                      >
+                        <div className="form-group">
+                          {/* <label style={{ float: "left" }} className="form-label">
                           Email
                         </label> */}
-                        <input
-                          placeholder="Enter Email"
-                          className="mb-0 form-control"
-                          aria-invalid={!!errors?.email?.message}
-                          {...register("email", {
-                            required: "Email is Required",
-                            validate: (email) =>
-                              isValidEmail(email) || "Email format is invalid!",
-                          })}
-                        />
-                        {errors?.email?.message && (
-                          <div className="text-danger">
-                            {errors?.email?.message + ""}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="form-group">
-                        <Controller
-                          control={control}
-                          name="password"
-                          rules={{
-                            required: "Password is required!",
-                            validate: (pw) =>
-                              isValidPassword(pw) ||
-                              "Password must contain - 6 characters, a symbol, an uppercase and a lowercase",
-                          }}
-                          render={({ field: { onChange, value } }) => (
-                            <>
-                              <Password
-                                value={value}
-                                onChange={onChange}
-                                aria-invalid={!!errors?.password?.message}
-                                placeholder="Enter Password"
-                              />
-                              {errors?.password?.message && (
-                                <div className="text-danger">
-                                  {errors?.password?.message + ""}
-                                </div>
-                              )}
-                            </>
+                          <input
+                            placeholder="Enter Email"
+                            className="mb-0 form-control"
+                            aria-invalid={!!errors?.email?.message}
+                            {...register("email", {
+                              required: "Email is Required",
+                              validate: (email) =>
+                                isValidEmail(email) ||
+                                "Email format is invalid!",
+                            })}
+                          />
+                          {errors?.email?.message && (
+                            <div className="text-danger">
+                              {errors?.email?.message + ""}
+                            </div>
                           )}
-                        />
-                        <a href="#" style={{ float: "right" }}>
-                          Forgot password?
-                        </a>
-                      </div>
-                      <div className="common_form_submit">
-                        <Button
-                          loading={loading}
-                          htmlType="submit"
-                          className="btn btn-admin-primary"
-                        >
-                          Login
-                        </Button>
-                        {/* <button className="btn btn_theme btn_md">Log in</button> */}
-                      </div>
-                      <div className="have_acount_area other_author_option">
-                        <div className="line_or">
-                          <span>or</span>
                         </div>
-                        <ul>
-                          <li>
-                            <a href="#!">
-                              <img
-                                src="/client/assets/img/icon/google.png"
-                                alt="icon"
-                              />
-                            </a>
-                          </li>
-                        </ul>
-                        <p>
-                          Dont have an account?{" "}
-                          <Link href={"/register"}>Register now</Link>
+
+                        <div className="form-group">
+                          <Controller
+                            control={control}
+                            name="password"
+                            rules={{
+                              required: "Password is required!",
+                              validate: (pw) =>
+                                isValidPassword(pw) ||
+                                "Password must contain - 6 characters, a symbol, an uppercase and a lowercase",
+                            }}
+                            render={({ field: { onChange, value } }) => (
+                              <>
+                                <Password
+                                  value={value}
+                                  onChange={onChange}
+                                  aria-invalid={!!errors?.password?.message}
+                                  placeholder="Enter Password"
+                                />
+                                {errors?.password?.message && (
+                                  <div className="text-danger">
+                                    {errors?.password?.message + ""}
+                                  </div>
+                                )}
+                              </>
+                            )}
+                          />
+                          <a href="#" style={{ float: "right" }}>
+                            Forgot password?
+                          </a>
+                        </div>
+                        <div className="common_form_submit">
+                          <Button
+                            loading={loading}
+                            htmlType="submit"
+                            className="btn btn-admin-primary"
+                          >
+                            Login
+                          </Button>
+                          {/* <button className="btn btn_theme btn_md">Log in</button> */}
+                        </div>
+                        <div className="have_acount_area other_author_option">
+                          <div className="line_or">
+                            <span>or</span>
+                          </div>
+                          <ul>
+                            <li>
+                              <a href="#!">
+                                <img
+                                  src="/client/assets/img/icon/google.png"
+                                  alt="icon"
+                                />
+                              </a>
+                            </li>
+                          </ul>
+                          <p>
+                            Dont have an account?{" "}
+                            <Link href={"/register"}>Register now</Link>
+                          </p>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div className="extra_details">
+                    <div className="detail_title">
+                      Logged In/Registered users get More !
+                    </div>
+                    <div className="detail_listing_wrapper">
+                      <div className="detail_list_item d-flex align-items-center">
+                        <i className="fas fa-bus" />
+                        <p className="ml-1">
+                          <b>View/Cancel/Reschedule</b> bookings
                         </p>
                       </div>
-                    </form>
+                      <div className="detail_list_item d-flex align-items-center">
+                        <i className="fas fa-bus" />
+                        <p className="ml-1">
+                          Check booking <b>history</b>, manage{" "}
+                          <b>cancellations</b> & print <b>eTickets</b>
+                        </p>
+                      </div>
+                      <div className="detail_list_item d-flex align-items-center">
+                        <i className="fas fa-bus" />
+                        <p className="ml-1">
+                          Book faster with Pre-Filled Forms, saved Travellers &
+                          Saved Cards
+                        </p>
+                      </div>
+                      <div className="detail_list_item d-flex align-items-center">
+                        <i className="fas fa-bus" />
+                        <p className="ml-1">Use Yatra eCash to get discounts</p>
+                      </div>
+                      <div className="detail_list_item d-flex align-items-center">
+                        <i className="fas fa-bus" />
+                        <p className="ml-1">
+                          Transfer eCash to your Family/Friends
+                        </p>
+                      </div>
+                      <div className="detail_list_item d-flex align-items-center">
+                        <i className="fas fa-bus" />
+                        <p className="ml-1">
+                          Convert eCash to Shopping Coupons from Amazon,
+                          BookMyShow, etc.
+                        </p>
+                      </div>
+                      <div className="detail_list_item d-flex align-items-center">
+                        <i className="fas fa-bus" />
+                        <p className="ml-1">
+                          Do you have GST number?Additional Benefits of Free
+                          Meals, Low Cancellation Fee, Free Rescheduling for SME
+                          business customers
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

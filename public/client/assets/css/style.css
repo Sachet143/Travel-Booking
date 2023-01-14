@@ -3332,7 +3332,7 @@ textarea {
 ================================ */
 .common_author_boxed {
   background: #f3f6fd;
-  padding: 45px 20px;
+  padding: 45px 0px;
 }
 
 .common_author_heading {
@@ -3349,7 +3349,7 @@ textarea {
 }
 
 .common_author_form {
-  padding: 50px 100px 0px 100px;
+  padding: 20px 70px 0px 70px;
 }
 
 #main_author_form .form-group {

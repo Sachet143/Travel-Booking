@@ -926,3 +926,60 @@ html[dir="ltr"] .appendRight5 {
   .ant-select-selector {
   border-color: #592698;
 }
+
+.ml-1 {
+  margin-left: 10px;
+}
+
+.common_wrapper {
+  background-color: #f3f6fd;
+  padding: 45px 20px;
+  align-items: center;
+}
+
+.common_wrapper .common_author_boxed {
+  flex: 3;
+}
+
+.common_wrapper .extra_details {
+  flex: 2;
+  /* padding: 15px 20px; */
+  background: white;
+  border-radius: 10px !important;
+  box-shadow: -1px -1px 10px #e8e8e8;
+  position: relative;
+  overflow: hidden;
+}
+
+.common_wrapper .extra_details .detail_title {
+  font-size: 16px !important;
+  margin-bottom: 12px;
+  font-weight: 600;
+  padding: 5px 20px;
+  background-color: #592698;
+  color: white;
+}
+
+.common_wrapper .extra_details .detail_listing_wrapper {
+  padding: 0px 8px;
+}
+
+.common_wrapper .extra_details .detail_listing_wrapper .detail_list_item {
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #0000001c;
+}
+
+.common_wrapper
+  .extra_details
+  .detail_listing_wrapper
+  .detail_list_item:last-child {
+  border-bottom: none;
+}
+.color-primary {
+  color: #592698 !important;
+}
+
+.login_title {
+  font-weight: 700;
+}
