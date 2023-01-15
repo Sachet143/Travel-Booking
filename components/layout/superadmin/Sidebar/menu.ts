@@ -39,6 +39,21 @@ export const SuperadminSidebarMenus = [
         ]
     },
     {
+        title: "Bus Management",
+        parent: true,
+        icon: "/admin/img/menu-icon/7.svg",
+        children: [
+            {
+                title: "Create Bus",
+                link: "/superadmin/bus/create"
+            },
+            {
+                title: "Listing",
+                link: "/superadmin/bus"
+            },
+        ]
+    },
+    {
         title: "Miscs",
         parent: true,
         icon: "/admin/img/menu-icon/7.svg",
