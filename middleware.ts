@@ -105,6 +105,7 @@ export const config = {
     "/profile",
     "/become-partner",
     "/bus",
+    "/bus/create",
 
     // superadmin routes
     "/superadmin",
