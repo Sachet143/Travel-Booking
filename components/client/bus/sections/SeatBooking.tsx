@@ -4,6 +4,7 @@ import Driver from "@/public/client/assets/img/driving.png";
 
 const SeatBooking = () => {
   const { data } = useSWR("/bus-seat");
+  const { data: tripsData } = useSWR("/trips");
   const [bookedSeat, setBookedSeat] = useState<any>([]);
 
   function groupBy(list: any, keyGetter: any) {
