@@ -911,6 +911,11 @@ html[dir="ltr"] .appendRight5 {
   background-color: rgb(167, 158, 3, 0.9);
   color: white;
 }
+.final_booked {
+  background-color: rgba(128, 25, 44, 0.9);
+  color: white;
+  cursor: not-allowed;
+}
 .selected_seat:hover {
   background-color: rgb(167, 158, 3, 1);
 }
@@ -982,4 +987,42 @@ html[dir="ltr"] .appendRight5 {
 
 .login_title {
   font-weight: 700;
+}
+
+.custom_bus_select .ant-select-selector {
+  background-color: transparent !important;
+  border: none !important;
+  margin-left: -11px !important;
+}
+.ant-select-focused.custom_bus_select {
+  border-color: red !important;
+}
+
+.custom_bus_select .ant-select-selection-item {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.bus_dropdown {
+  padding: 5px 15px !important;
+  background: #8b3eea0a !important;
+  border-radius: 6px !important;
+}
+.bus_title_filter {
+  margin-bottom: 6px !important;
+}
+.custom_bus_select .ant-select-arrow {
+  overflow: visible;
+  margin-top: -15px;
+}
+.custom_bus_select .ant-select-focused .ant-select-selector,
+.ant-select-selector:focus,
+.ant-select-selector:active,
+.ant-select-open .ant-select-selector {
+  border: 1px solid red;
+  border-color: red !important;
+  box-shadow: none !important;
 }

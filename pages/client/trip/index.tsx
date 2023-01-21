@@ -1,15 +1,13 @@
-import BusTable from "@/components/client/bus/BusTable";
-import RoomTable from "@/components/client/RoomTable";
-import ClientLayout from "@/components/layout/client/ClientLayout";
-import axiosClient from "@/services/axios/clientfetch";
-import { Select, Skeleton, Slider } from "antd";
 import React from "react";
+import BusTable from "@/components/client/bus/BusTable";
+import ClientLayout from "@/components/layout/client/ClientLayout";
+import { Select, Skeleton, Slider } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import useSWR from "swr";
+import axiosClient from "@/services/axios/clientfetch";
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
-
-const Bus = () => {
+const Trip = () => {
   const { data: hotelFeatureList, error: featureError } = useSWR(
     `/features`,
     customFetcher
@@ -188,4 +186,4 @@ const Bus = () => {
   );
 };
 
-export default Bus;
+export default Trip;

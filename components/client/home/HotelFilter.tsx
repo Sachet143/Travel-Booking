@@ -1,6 +1,7 @@
-import { Skeleton } from "antd";
+import { Select, Skeleton } from "antd";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { Controller } from "react-hook-form";
 import useSWR from "swr";
 
 function HotelFilter() {
@@ -70,32 +71,28 @@ function HotelFilter() {
                       {!categories ? (
                         <Skeleton active paragraph={false} />
                       ) : (
-                        <select
-                          className="select_design"
-                          placeholder="Type"
-                          defaultValue={""}
-                          onChange={(e) =>
-                            setFilter({ ...filter, categories: e.target.value })
-                          }
-                          style={{
-                            color: "rgb(118, 118, 118)",
-                            fontWeight: "500",
-                            fontSize: "22px",
-                            width: "100%",
-                            height: "35px",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <option value="" disabled selected>
-                            Select Type
-                          </option>
-                          {categories.map((cat: any) => (
-                            <option key={cat.id} value={cat.id}>
-                              {cat.title}
-                            </option>
-                          ))}
-                        </select>
+                        <>
+                          <Select
+                            className="custom_bus_select data-toggle bus_dropdown"
+                            placeholder="Select"
+                            dropdownAlign={{ offset: [0, 10] }}
+                            style={{ width: 250 }}
+                            size={"large"}
+                            onChange={(value) =>
+                              setFilter({
+                                ...filter,
+                                categories: value,
+                              })
+                            }
+                            bordered={false}
+                            options={categories.map((cat: any) => {
+                              return {
+                                value: cat.id,
+                                label: cat.title,
+                              };
+                            })}
+                          />
+                        </>
                       )}
                     </div>
                   </div>
