@@ -6,7 +6,9 @@ const Dropdown = ({
   setFinalTotal,
   childrenCount,
   adultCount,
-  maxPeople = 5
+  roomCount,
+  setRoomCount,
+  maxPeople = 5,
 }: any) => {
   const wrapperRef = useRef(null);
   function useOutsideAlerter(ref: any) {
@@ -32,6 +34,7 @@ const Dropdown = ({
   const [totalGuests, setTotalGuests] = useState({
     adult: adultCount,
     children: childrenCount,
+    room: roomCount,
   });
 
   useEffect(() => {
@@ -47,7 +50,6 @@ const Dropdown = ({
     >
       <div className="traveller-calulate-persons">
         <div className="passengers">
-          <h6>Passengers</h6>
           <div className="passengers-types">
             <div className="passengers-type">
               <div className="text">
@@ -65,7 +67,7 @@ const Dropdown = ({
                       setTotalGuests({
                         ...totalGuests,
                         adult: totalGuests.adult + 1,
-                      })
+                      });
                   }}
                 >
                   <i className="fas fa-plus"></i>
@@ -96,7 +98,8 @@ const Dropdown = ({
                 <button
                   type="button"
                   onClick={() =>
-                    totalGuests.adult + totalGuests.children !== maxPeople && setTotalGuests({
+                    totalGuests.adult + totalGuests.children !== maxPeople &&
+                    setTotalGuests({
                       ...totalGuests,
                       children: totalGuests.children + 1,
                     })
@@ -113,6 +116,32 @@ const Dropdown = ({
                       children: totalGuests.children - 1,
                     })
                   }
+                >
+                  <i className="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div className="passengers-type">
+              <div className="text">
+                <span className="count">{roomCount}</span>
+                <div className="type-label">
+                  <p className="fz14 mb-xs-0">Rooms</p>
+                  <span>Number of rooms</span>
+                </div>
+              </div>
+              <div className="button-set">
+                <button
+                  type="button"
+                  onClick={() => {
+                    console.log("hello");
+                    setRoomCount(roomCount + 1);
+                  }}
+                >
+                  <i className="fas fa-plus"></i>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => roomCount > 1 && setRoomCount(roomCount - 1)}
                 >
                   <i className="fas fa-minus"></i>
                 </button>

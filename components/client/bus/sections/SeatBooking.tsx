@@ -3,7 +3,11 @@ import useSWR from "swr";
 import Driver from "@/public/client/assets/img/driving.png";
 
 const SeatBooking = () => {
-  const { data } = useSWR("/bus-seat");
+  const { data: tripsData } = useSWR(
+    "/trips?from_location=kathmandu&to_location=pokhara&date=2023-01-27"
+  );
+  const { data } = useSWR("/show-seats/2/2");
+
   const [bookedSeat, setBookedSeat] = useState<any>([]);
 
   function groupBy(list: any, keyGetter: any) {
@@ -55,6 +59,17 @@ const SeatBooking = () => {
                             <div className="empty-seat">
                               {item1?.column_name}
                             </div>
+                          ) : item1.status == "Booked" ? (
+                            <>
+                              {
+                                <div
+                                  className={`custom-seat final_booked`}
+                                  onClick={() => savingSeats(item1)}
+                                >
+                                  {item1?.column_name}
+                                </div>
+                              }
+                            </>
                           ) : (
                             <>
                               {

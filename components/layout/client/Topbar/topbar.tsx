@@ -46,12 +46,42 @@ const TopBar = () => {
                 }
               }}
             >
-              Profile
+              My Acc.
             </a>
           ),
         },
         {
           key: "2",
+          label: (
+            <a target="_blank" rel="noopener noreferrer">
+              Customer Support
+            </a>
+          ),
+        },
+        {
+          key: "3",
+          label: (
+            <a target="_blank" rel="noopener noreferrer">
+              Feedback
+            </a>
+          ),
+        },
+        {
+          key: "4",
+          label: (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                router.push("/become-partner");
+              }}
+            >
+              Become a partner
+            </a>
+          ),
+        },
+        {
+          key: "5",
           danger: true,
           label: "Logout",
           onClick: () => {
@@ -182,8 +212,13 @@ const TopBar = () => {
                           trigger={["click"]}
                         >
                           <div className="d-flex gap-2 align-items-center">
-                            <p className="text-white mb-0" style={{ fontWeight: 400 }}><b>Hi, {user?.name.split(' ')[0]}</b></p>
-                            <a onClick={(e) => e.preventDefault()}>
+                            <p
+                              className="text-white mb-0"
+                              style={{ fontWeight: 400 }}
+                            >
+                              <b>Hi, {user?.name.split(" ")[0]}</b>
+                            </p>
+                            {/* <a onClick={(e) => e.preventDefault()}>
                               <Space>
                                 <img
                                   alt="pro-pic"
@@ -191,7 +226,7 @@ const TopBar = () => {
                                   className="user_image bg-white border"
                                 />
                               </Space>
-                            </a>
+                            </a> */}
                           </div>
                         </Dropdown>
                       </div>
@@ -218,12 +253,13 @@ const TopBar = () => {
 
         {/* {navbar type3} */}
         <div
-          className={`navbar-type2 navbar-area ${router.pathname != "/client"
-            ? "is-sticky"
-            : offset > 100
+          className={`navbar-type2 navbar-area ${
+            router.pathname != "/client"
+              ? "is-sticky"
+              : offset > 100
               ? "is-sticky"
               : ""
-            }`}
+          }`}
         >
           <div className="container">
             <div className="row">
@@ -250,7 +286,7 @@ const TopBar = () => {
                           }}
                           className="btn "
                         >
-                          Become a partners
+                          Become a partner
                         </a>
                       </div>
                       {user?.id ? (
@@ -337,7 +373,7 @@ const TopBar = () => {
                         }}
                         className="btn btn_theme btn_sm"
                       >
-                        Become a partners
+                        Become a partner
                       </button>
                     </div>
                     {user?.id ? (
@@ -348,8 +384,10 @@ const TopBar = () => {
                           trigger={["click"]}
                         >
                           <div className="d-flex gap-2 align-items-center">
-                            <p className=" mb-0" style={{ fontWeight: 400 }}><b>Hi, {user?.name.split(' ')[0]}</b></p>
-                            <a onClick={(e) => e.preventDefault()}>
+                            <p className=" mb-0" style={{ fontWeight: 400 }}>
+                              <b>Hi, {user?.name.split(" ")[0]}</b>
+                            </p>
+                            {/* <a onClick={(e) => e.preventDefault()}>
                               <Space>
                                 <img
                                   alt="pro-pic"
@@ -357,7 +395,7 @@ const TopBar = () => {
                                   className="user_image bg-white border"
                                 />
                               </Space>
-                            </a>
+                            </a> */}
                           </div>
                         </Dropdown>
                       </div>
