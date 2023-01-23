@@ -1,11 +1,32 @@
 import { MenuProps, Select } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { DownCircleTwoTone } from "@ant-design/icons";
+import { useRouter } from "next/router";
+import { Controller, useForm } from "react-hook-form";
+import moment from "moment";
 
 function BusFilter() {
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
+  const router = useRouter();
+
+  const {
+    control,
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    defaultValues: {
+      from_location: "Kathmandu",
+      to_location: "Pokhara",
+      date: "2023-01-27",
+      // date: moment(Date.now()).format("YYYY-MM-DD"),
+      shift: "Day",
+    },
+  });
+
+  function handleFilter(data: any) {
+    router.push({ pathname: "/trip", query: data });
+  }
+
   return (
     <div
       className="tab-pane fade"
@@ -16,13 +37,27 @@ function BusFilter() {
       <div className="row">
         <div className="col-lg-12">
           <div className="oneway_search_form">
-            <form action="#!">
+            <form onSubmit={handleSubmit(handleFilter)}>
               <div className="row">
                 <div className="col-lg-3 col-md-6 col-sm-12 col-12">
                   <div className="flight_Search_boxed">
                     <p>From</p>
-                    <input type="text" placeholder="From" />
-                    <span>Where does your trip starts ?</span>
+                    <input
+                      type="text"
+                      placeholder="From"
+                      //   aria-invalid={!!errors?.from_location?.message}
+                      {...register("from_location", {
+                        required: "Please select your travel start location!",
+                      })}
+                    />
+                    {errors?.from_location?.message ? (
+                      <span className="text-danger">
+                        {errors?.from_location?.message + ""}
+                      </span>
+                    ) : (
+                      <span>Where does your trip starts ?</span>
+                    )}
+
                     <div className="plan_icon_posation">
                       {/* <i className="fas fa-plane-departure" /> */}
                       <i className="fas fa-bus-alt"></i>
@@ -32,8 +67,21 @@ function BusFilter() {
                 <div className="col-lg-3 col-md-6 col-sm-12 col-12">
                   <div className="flight_Search_boxed">
                     <p>To</p>
-                    <input type="text" placeholder="To" />
-                    <span>Where is your destination ? </span>
+                    <input
+                      type="text"
+                      placeholder="To"
+                      {...register("to_location", {
+                        required: "Please select your destination of travel!",
+                      })}
+                    />
+                    {errors?.to_location?.message ? (
+                      <span className="text-danger">
+                        {errors?.to_location?.message + ""}
+                      </span>
+                    ) : (
+                      <span>Where is your destination ?</span>
+                    )}
+
                     <div className="plan_icon_posation">
                       {/* <i className="fas fa-plane-arrival" /> */}
                       <i className="fas fa-bus-alt"></i>
@@ -48,7 +96,12 @@ function BusFilter() {
                     <div className="flight_Search_boxed date_flex_area">
                       <div className="Journey_date">
                         <p>Journey date</p>
-                        <input type="date" defaultValue="2022-05-05" />
+                        <input
+                          type="date"
+                          {...register("date", {
+                            required: "Please select the date of travel!",
+                          })}
+                        />
                         <span>When do you prefer to travel ?</span>
                       </div>
                     </div>
@@ -58,28 +111,43 @@ function BusFilter() {
                   <div className="flight_Search_boxed dropdown_passenger_area">
                     <p className="bus_title_filter">Bus Shift </p>
                     <div className=" dropdown">
-                      <Select
-                        className="custom_bus_select data-toggle bus_dropdown"
-                        defaultValue="day"
-                        dropdownAlign={{ offset: [-3, 8] }}
-                        style={{ width: 150 }}
-                        // suffixIcon={<DownCircleTwoTone />}
-                        size={"middle"}
-                        onChange={handleChange}
-                        bordered={false}
-                        options={[
-                          { value: "day", label: "Day" },
-                          { value: "night", label: "Night" },
-                          { value: "both", label: "Both" },
-                        ]}
+                      <Controller
+                        control={control}
+                        name="shift"
+                        rules={{ required: "Please select the shift!" }}
+                        render={({ field: { onChange, value } }) => {
+                          return (
+                            <Select
+                              className="custom_bus_select data-toggle bus_dropdown"
+                              value={value}
+                              dropdownAlign={{ offset: [-3, 8] }}
+                              style={{ width: 150 }}
+                              size={"middle"}
+                              onChange={onChange}
+                              bordered={false}
+                              options={[
+                                { value: "Day", label: "Day" },
+                                { value: "Night", label: "Night" },
+                                { value: "Both", label: "Both" },
+                              ]}
+                            />
+                          );
+                        }}
                       />
+
                       {/* <i className="fas fa-caret-down"></i> */}
                     </div>
                     <span>Day/Night/Both</span>
                   </div>
                 </div>
                 <div className="top_form_search_button">
-                  <button className="btn btn_theme btn_md">Search</button>
+                  <button
+                    type="submit"
+                    onClick={handleFilter}
+                    className="btn btn_theme btn_md"
+                  >
+                    Search
+                  </button>
                 </div>
               </div>
             </form>

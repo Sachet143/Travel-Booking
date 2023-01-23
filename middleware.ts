@@ -37,8 +37,7 @@ export async function middleware(request: NextRequest) {
       } else if (isBusAdmin) {
         url.pathname = "/busadmin";
         return NextResponse.redirect(url);
-      }
-      else {
+      } else {
         url.pathname = "/";
         return NextResponse.redirect(url);
       }
@@ -66,7 +65,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(url);
     }
   }
-
 
   if (isBusAdminRoutes) {
     if (token && isBusAdmin) {
@@ -105,6 +103,7 @@ export const config = {
     "/profile",
     "/become-partner",
     "/bus",
+    "/trip",
     "/bus/create",
 
     // superadmin routes
@@ -117,9 +116,3 @@ export const config = {
     "/hoteladmin/hotel/create",
   ],
 };
-
-
-
-
-
-

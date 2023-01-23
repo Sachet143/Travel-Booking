@@ -1,23 +1,42 @@
+import Dropdown from "@/components/common/Dropdown";
 import { Select, Skeleton } from "antd";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import useSWR from "swr";
 
 function HotelFilter() {
   const router = useRouter();
   const { data: categories } = useSWR("/categories");
+  const [roomCount, setRoomCount] = useState(1);
+  const [finalTotal, setFinalTotal] = useState({
+    adult: 2,
+    children: 0,
+  });
+  const [sumGuests, setSumGuests] = useState(1);
 
   const [filter, setFilter] = useState({
     whole_location: "",
     max_price: "",
     categories: "",
+    max_room: roomCount,
+    max_people: sumGuests,
   });
+
+  const [dropDown, setDropDown] = useState(false);
 
   function handleFilter(e: any) {
     e.preventDefault();
     router.push({ pathname: "/hotels", query: filter });
   }
+
+  useEffect(() => {
+    setSumGuests(finalTotal.adult + finalTotal.children);
+  }, []);
+
+  useEffect(() => {
+    setFilter({ ...filter, max_people: sumGuests });
+  }, [sumGuests]);
 
   return (
     <div
@@ -31,7 +50,7 @@ function HotelFilter() {
           <div className="tour_search_form">
             <form action="#!">
               <div className="row">
-                <div className="col-lg-5 col-md-12 col-sm-12 col-12">
+                <div className="col-lg-3 col-md-12 col-sm-12 col-12">
                   <div className="flight_Search_boxed">
                     <p>Destination</p>
                     <input
@@ -45,7 +64,7 @@ function HotelFilter() {
                     <span>Where are you going?</span>
                   </div>
                 </div>
-                <div className="col-lg-4 col-md-6 col-sm-12 col-12">
+                <div className="col-lg-3 col-md-6 col-sm-12 col-12">
                   <div
                     className="flight_Search_boxed"
                     style={{ height: "100%" }}
@@ -94,6 +113,41 @@ function HotelFilter() {
                           />
                         </>
                       )}
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-12 col-12">
+                  <div className="flight_Search_boxed dropdown_passenger_area">
+                    <p>Guests</p>
+                    <div className="dropdown home_dropdown">
+                      <button
+                        className="dropdown-toggle"
+                        type="button"
+                        onClick={() => setDropDown(!dropDown)}
+                      >
+                        {sumGuests} Guests and {roomCount} Room
+                      </button>
+                      {dropDown && (
+                        <Dropdown
+                          setSumGuests={setSumGuests}
+                          setDropDown={setDropDown}
+                          setFinalTotal={setFinalTotal}
+                          adultCount={finalTotal.adult}
+                          childrenCount={finalTotal.children}
+                          roomCount={roomCount}
+                          setRoomCount={setRoomCount}
+                        />
+                      )}
+                    </div>
+                    <div className="d-flex">
+                      <span>
+                        {finalTotal.adult ? `Adult ${finalTotal.adult}` : null}
+                      </span>
+                      <span className="mx-3">
+                        {finalTotal.children
+                          ? `Children ${finalTotal.children}`
+                          : null}
+                      </span>
                     </div>
                   </div>
                 </div>

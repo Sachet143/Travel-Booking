@@ -5,6 +5,8 @@ import { Select, Skeleton, Slider } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import useSWR from "swr";
 import axiosClient from "@/services/axios/clientfetch";
+import { useRouter } from "next/router";
+import { cleanUrlParams } from "@/services/helper";
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 const Trip = () => {
@@ -13,12 +15,11 @@ const Trip = () => {
     customFetcher
   );
 
-  const { data: hotels, error: hotelError } = useSWR(`/hotels`);
-  const { data: hotel, error } = useSWR(
-    hotels?.data[0].uuid ? `/hotels/${hotels?.data[0].uuid}` : null
-  );
+  const router = useRouter();
 
-  const hotelLoading = !hotels && !error;
+  const { data: tripsData, error } = useSWR(
+    cleanUrlParams(`/trips`, router.query)
+  );
 
   const {
     register,
@@ -42,6 +43,7 @@ const Trip = () => {
       hotelActivities: [],
     },
   });
+
   return (
     <ClientLayout>
       <div className="section_padding">
@@ -171,7 +173,7 @@ const Trip = () => {
                     aria-labelledby="home-tab"
                   >
                     <div className="room_booking_area">
-                      {hotel?.hotel_rooms?.map((item: any, index: any) => {
+                      {tripsData?.data?.data.map((item: any, index: any) => {
                         return <BusTable key={index} bus={item} />;
                       })}
                     </div>
