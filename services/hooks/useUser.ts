@@ -37,13 +37,15 @@ function useUser(): IReturnType {
 }
 
 function getFetchUserUrl(
-  userType: "superadmin" | "hoteladmin" | "customer" | "client" | any
+  userType: "superadmin" | "hoteladmin" | "busadmin" | "customer" | "client" | any
 ) {
   switch (userType) {
     case "superadmin":
       return "/admin/user";
     case "hoteladmin":
       return "/hotel/user";
+    case "busadmin":
+      return "/bus-operator/user";
     case "customer":
       return "/customer/user";
     case "client":

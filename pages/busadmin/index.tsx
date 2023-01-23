@@ -3,8 +3,7 @@ import axiosServer from '@/services/axios/serverfetch';
 import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
 import { appDecrypt } from '@/services/helper';
 import { deleteCookie, getCookie } from 'cookies-next';
-import { NextPageContext } from 'next'
-import React from 'react'
+import { NextPageContext } from 'next';
 
 function BusadminIndex() {
   return (

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 
 import axiosClient from '@/services/axios/clientfetch';
 import states from '@/states.json';

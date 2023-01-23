@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { createHotel } from '@/api/hoteladmin/hotel';
 import { appDecrypt, objectToFormData, responseErrorHandler } from '@/services/helper';
 import React, { useState } from 'react'

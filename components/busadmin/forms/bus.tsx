@@ -1,17 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 
-import states from '@/states.json';
-import { Button, message, Rate, Select, Upload } from 'antd';
+import { Button, message, Upload } from 'antd';
 import { RcFile } from 'antd/lib/upload';
-import dynamic from "next/dynamic";
-import { useState } from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
-const Editor = dynamic(
-  () => import("react-draft-wysiwyg").then((mod: any) => mod.Editor),
-  { ssr: false }
-);
-
-const { Option } = Select;
 
 interface IProps {
   submitHandler: (data: any) => void;
@@ -25,11 +15,6 @@ function BusForm({
   formMethods,
 }: IProps) {
   const { control, register, formState: { errors }, handleSubmit } = formMethods;
-
-  const [rtfChanged, setRtfChanged] = useState({
-    whyChooseUs: false,
-    ourFacilities: false,
-  });
 
   return (
     <form onSubmit={handleSubmit(submitHandler)}>

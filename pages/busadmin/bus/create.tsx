@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { createBus } from '@/api/busadmin/bus';
 import { appDecrypt, objectToFormData, responseErrorHandler } from '@/services/helper';
 import React, { useState } from 'react'
