@@ -1,21 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
-import { createBus } from "@/api/busadmin/bus";
-import {
-  appDecrypt,
-  objectToFormData,
-  responseErrorHandler,
-} from "@/services/helper";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import BusadminTopbar from "@/components/layout/busadmin/Topbar";
-import useUser from "@/services/hooks/useUser";
-import { NextPageContext } from "next";
-import { deleteCookie, getCookie } from "cookies-next";
-import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
-import axiosServer from "@/services/axios/serverfetch";
-import Router from "next/router";
-import BusForm from "@/components/busadmin/forms/busOperator";
+import { createBus } from '@/api/busadmin/bus';
+import { appDecrypt, objectToFormData, responseErrorHandler } from '@/services/helper';
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify';
+import BusadminTopbar from '@/components/layout/busadmin/Topbar';
+import useUser from '@/services/hooks/useUser';
+import { NextPageContext } from 'next';
+import { deleteCookie, getCookie } from 'cookies-next';
+import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
+import axiosServer from '@/services/axios/serverfetch';
+import Router from 'next/router';
+import BusForm from '@/components/busadmin/forms/busOperator';
 
 export default function CreateBus() {
   const [loading, setLoading] = useState(false);

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import MapLocation from "@/components/common/MapLocation";
 import { imageFullPath, renderLocation } from "@/services/helper";
 import { Modal, Rate, Tag, Tooltip } from "antd";

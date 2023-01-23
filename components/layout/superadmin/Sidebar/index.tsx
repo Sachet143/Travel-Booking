@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 // @ts-nocheck
 import Link from "next/link";
 import Router, { useRouter } from "next/router";

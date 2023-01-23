@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 
 import { Button, Checkbox, message, Modal, Select, Skeleton, Switch } from 'antd';
 import Upload, { RcFile, UploadFile } from 'antd/lib/upload';
