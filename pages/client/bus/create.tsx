@@ -34,7 +34,7 @@ const Create = () => {
   }
 
   const [layout, setLayout] = useState(
-    groupBy(createSeatLayout(15), (item: any) => item.row_name)
+    groupBy(createSeatLayout(12), (item: any) => item.row_name)
   );
 
   const removeSeats = (seat: any) => {

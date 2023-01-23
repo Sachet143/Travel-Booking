@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import SeatBooking from "./sections/SeatBooking";
 
-const BusTable = (bus: any) => {
-  const [section, setSection] = useState("bookseat");
+const BusTable = ({ bus }: any) => {
+  const [section, setSection] = useState("");
+
+  console.log(bus);
 
   const renderDetailSections = (value: any) => {
     switch (value) {
@@ -27,7 +29,7 @@ const BusTable = (bus: any) => {
       case "bookseat":
         return <SeatBooking />;
       default:
-        return <b></b>;
+        return null;
     }
   };
 
@@ -41,7 +43,7 @@ const BusTable = (bus: any) => {
           <div className="makeFlex column appendBottom22">
             <div className="makeFlex hrtlCenter appendBottom8">
               <span className="latoBlack font22 blackText appendRight15">
-                Ac Full Delux
+                {bus.bus_type}
               </span>
 
               <span className="sc-kgoBCf hOSqgy">
@@ -50,7 +52,7 @@ const BusTable = (bus: any) => {
               <div className="font12 lightGreyText">6 Ratings</div>
             </div>
             <span className="latoBlack font12 blackText appendRight15">
-              Jagadamba Tours and Travels
+              Jagadamba Tours and Travels (Bus No:{bus?.plate_number})
             </span>
             <div className="makeFlex hrtlCenter font12 blackText">
               <span>A/C Sleeper (2+1)</span>
@@ -61,8 +63,8 @@ const BusTable = (bus: any) => {
               </ul>
               <div className="line-border-right"></div>
               <ul className="sc-fjdhpX fXgCif">
-                <span className="sc-cSHVUG lajtry sc-jzJRlG koyVmu"></span> 20
-                Window Seats
+                <span className="sc-cSHVUG lajtry sc-jzJRlG koyVmu"></span>{" "}
+                {bus.total_seats} total seats
               </ul>
             </div>
           </div>
@@ -83,20 +85,27 @@ const BusTable = (bus: any) => {
             </div>
           </div>
           <div className="makeFlex hrtlCenter font12 deepskyBlueText latoBold noSelection">
-            <div className="detail-header" onClick={() => setSection("photos")}>
+            <div
+              className="detail-header"
+              onClick={() => setSection(section == "photos" ? "" : "photos")}
+            >
               <span className="appendRight5">Photos</span>
               <i className="fa fa-angle-down mx-1 mt-1" />
             </div>
             <div
               className="detail-header"
-              onClick={() => setSection("amenities")}
+              onClick={() =>
+                setSection(section == "amenities" ? "" : "amenities")
+              }
             >
               <span className="appendRight5">Amenities</span>
               <i className="fa fa-angle-down mx-1 mt-1" />
             </div>
             <div
               className="detail-header"
-              onClick={() => setSection("pickdrop")}
+              onClick={() =>
+                setSection(section == "pickdrop" ? "" : "pickdrop")
+              }
             >
               <span className="appendRight5">Pickups &amp; Drops</span>
               <i className="fa fa-angle-down mx-1 mt-1" />
@@ -123,7 +132,7 @@ const BusTable = (bus: any) => {
             className="btn btn_theme btn_sm mt-5 mb-2 py-2"
             type="button"
             style={{ marginRight: "9px" }}
-            onClick={() => setSection("bookseat")}
+            onClick={() => setSection(section == "bookseat" ? "" : "bookseat")}
           >
             Select Seats{" "}
             <span>

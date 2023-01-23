@@ -10,10 +10,9 @@ import { deleteCookie, getCookie } from 'cookies-next';
 import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
 import axiosServer from '@/services/axios/serverfetch';
 import Router from 'next/router';
-import BusForm from '@/components/busadmin/forms/bus';
+import BusForm from '@/components/busadmin/forms/busOperator';
 
 export default function CreateBus() {
-
   const [loading, setLoading] = useState(false);
   const formMethods = useForm();
   const { reset, setError } = formMethods;
@@ -24,17 +23,17 @@ export default function CreateBus() {
     const dto = {
       ...data,
       logo: typeof data.logo === "string" ? null : data.logo,
-    }
+    };
 
     createBus(objectToFormData(dto))
       .then((res: any) => {
         reset();
         mutateUser();
         toast.success(res.message);
-        Router.push('/busadmin');
+        Router.push("/busadmin");
       })
       .catch((err: any) => responseErrorHandler(err, setError))
-      .finally(() => setLoading(false))
+      .finally(() => setLoading(false));
   }
 
   return (
@@ -61,18 +60,18 @@ export default function CreateBus() {
               />
             </div>
           </div>
-        </div >
-      </div >
+        </div>
+      </div>
     </>
-  )
+  );
 }
-
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
   const { req, res } = ctx;
   const token = appDecrypt(getCookie(TOKEN_KEY, ctx) + "");
 
-  const { data: busUser } = await axiosServer(token).get('/bus-operator/user')
+  const { data: busUser } = await axiosServer(token)
+    .get("/bus-operator/user")
     .catch((err: any) => {
       console.log({ err });
 
@@ -81,20 +80,20 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
 
       return {
         redirect: {
-          destination: '/client'
-        }
-      }
-    })
+          destination: "/client",
+        },
+      };
+    });
 
   if (busUser.bus_id) {
     return {
       redirect: {
-        destination: '/busadmin/bus/update'
-      }
-    }
+        destination: "/busadmin/bus/update",
+      },
+    };
   }
 
   return {
-    props: {}
-  }
-}
+    props: {},
+  };
+};

@@ -911,6 +911,11 @@ html[dir="ltr"] .appendRight5 {
   background-color: rgb(167, 158, 3, 0.9);
   color: white;
 }
+.final_booked {
+  background-color: rgba(128, 25, 44, 0.9);
+  color: white;
+  cursor: not-allowed;
+}
 .selected_seat:hover {
   background-color: rgb(167, 158, 3, 1);
 }
@@ -982,4 +987,108 @@ html[dir="ltr"] .appendRight5 {
 
 .login_title {
   font-weight: 700;
+}
+
+.custom_bus_select .ant-select-selector {
+  background-color: transparent !important;
+  border: none !important;
+  margin-left: -11px !important;
+}
+.ant-select-focused.custom_bus_select {
+  border-color: red !important;
+}
+
+.custom_bus_select .ant-select-selection-item {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.bus_dropdown {
+  padding: 5px 15px !important;
+  background: #8b3eea0a !important;
+  border-radius: 6px !important;
+}
+.bus_title_filter {
+  margin-bottom: 6px !important;
+}
+.custom_bus_select .ant-select-arrow {
+  overflow: visible;
+  margin-top: -15px;
+}
+.custom_bus_select .ant-select-focused .ant-select-selector,
+.ant-select-selector:focus,
+.ant-select-selector:active,
+.ant-select-open .ant-select-selector {
+  border: 1px solid red;
+  border-color: red !important;
+  box-shadow: none !important;
+}
+
+.home_dropdown .dropdown-menu {
+  min-width: 283px !important;
+}
+
+.home_dropdown .custom-dropDown {
+  top: -12px !important;
+  left: -37px !important;
+  border-radius: 5px !important;
+}
+
+.dashboard_main_top .dashboard_top_boxed {
+  padding: 10px !important;
+  justify-content: space-around;
+}
+
+.dashboard_main_top .dashboard_top_boxed .dashboard_top_icon img {
+  height: 40px;
+  width: 40px;
+}
+
+.dashboard_main_top .dashboard_top_boxed .dashboard_top_text h1 {
+  font-size: 1rem;
+  line-height: 24px;
+  margin-bottom: 0px;
+  text-align: right;
+  font-weight: 700;
+}
+
+.dashboard_main_top .dashboard_top_boxed .dashboard_top_text h3 {
+  font-size: 0.8rem;
+  margin-bottom: 0px;
+}
+
+.custom_detail_card {
+  display: flex !important;
+  flex-wrap: nowrap;
+  gap: 25px;
+  justify-content: center;
+}
+.user_name_profile {
+  font-size: medium;
+  color: black;
+  font-weight: 600;
+}
+
+.primary_color {
+  color: black;
+}
+
+.custom_profile_menu .ant-menu-overflow-item.ant-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+#footer_area {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(245, 246, 252, 0),
+      rgba(117, 19, 93, 0)
+    ),
+    url("https://cdn.discordapp.com/attachments/976997500349186119/1066796384864436234/prawesh_wallpaper_landscape_of_Nepal_mountains_in_the_backgroun_801eddb7-d4b5-40cc-aeea-3c537a848ea4.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
 }

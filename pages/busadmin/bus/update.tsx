@@ -1,15 +1,13 @@
 import { createBus } from '@/api/busadmin/bus';
-import BusForm from '@/components/busadmin/forms/bus';
+import BusForm from '@/components/busadmin/forms/busOperator';
 import BusadminLayout from '@/components/layout/busadmin';
 import { imageFullPath, objectToFormData, responseErrorHandler } from '@/services/helper';
 import useUser from '@/services/hooks/useUser';
-import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 function UpdateHotel() {
-
   const { user, mutateUser } = useUser();
   const [loading, setLoading] = useState(false);
   const formMethods = useForm();
@@ -29,7 +27,7 @@ function UpdateHotel() {
         toast.success(res.message);
       })
       .catch((err: any) => responseErrorHandler(err, setError))
-      .finally(() => setLoading(false))
+      .finally(() => setLoading(false));
   }
 
   useEffect(() => {
@@ -42,17 +40,17 @@ function UpdateHotel() {
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
+  }, [user]);
 
   return (
-    <BusadminLayout title="Update Hotel">
+    <BusadminLayout title="Update Bus">
       <div className="row justify-content-center">
         <div className="col-lg-6 card shadow">
           <div className="white_card card_height_100 mb_30">
             <div className="white_card_header">
               <div className="box_header m-0">
                 <div className="main-title">
-                  <h3 className="m-0">Create Bus Operator</h3>
+                  <h3 className="m-0">Update Bus Operator</h3>
                 </div>
               </div>
             </div>
@@ -67,10 +65,10 @@ function UpdateHotel() {
               />
             </div>
           </div>
-        </div >
+        </div>
       </div>
     </BusadminLayout>
   )
 }
 
-export default UpdateHotel
+export default UpdateHotel;

@@ -1,6 +1,32 @@
-import React from 'react'
+import { MenuProps, Select } from "antd";
+import React, { useState } from "react";
+import { DownCircleTwoTone } from "@ant-design/icons";
+import { useRouter } from "next/router";
+import { Controller, useForm } from "react-hook-form";
+import moment from "moment";
 
 function BusFilter() {
+  const router = useRouter();
+
+  const {
+    control,
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    defaultValues: {
+      from_location: "Kathmandu",
+      to_location: "Pokhara",
+      date: "2023-01-27",
+      // date: moment(Date.now()).format("YYYY-MM-DD"),
+      shift: "Day",
+    },
+  });
+
+  function handleFilter(data: any) {
+    router.push({ pathname: "/trip", query: data });
+  }
+
   return (
     <div
       className="tab-pane fade"
@@ -10,185 +36,116 @@ function BusFilter() {
     >
       <div className="row">
         <div className="col-lg-12">
-          <div className="tour_search_form">
-            <form action="#!">
+          <div className="oneway_search_form">
+            <form onSubmit={handleSubmit(handleFilter)}>
               <div className="row">
-                <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+                <div className="col-lg-3 col-md-6 col-sm-12 col-12">
                   <div className="flight_Search_boxed">
-                    <p>Destination</p>
+                    <p>From</p>
                     <input
                       type="text"
-                      placeholder="Where are you going?"
+                      placeholder="From"
+                      //   aria-invalid={!!errors?.from_location?.message}
+                      {...register("from_location", {
+                        required: "Please select your travel start location!",
+                      })}
                     />
-                    <span>Where are you going?</span>
+                    {errors?.from_location?.message ? (
+                      <span className="text-danger">
+                        {errors?.from_location?.message + ""}
+                      </span>
+                    ) : (
+                      <span>Where does your trip starts ?</span>
+                    )}
+
+                    <div className="plan_icon_posation">
+                      {/* <i className="fas fa-plane-departure" /> */}
+                      <i className="fas fa-bus-alt"></i>
+                    </div>
                   </div>
                 </div>
-                <div className="col-lg-4 col-md-6 col-sm-12 col-12">
+                <div className="col-lg-3 col-md-6 col-sm-12 col-12">
+                  <div className="flight_Search_boxed">
+                    <p>To</p>
+                    <input
+                      type="text"
+                      placeholder="To"
+                      {...register("to_location", {
+                        required: "Please select your destination of travel!",
+                      })}
+                    />
+                    {errors?.to_location?.message ? (
+                      <span className="text-danger">
+                        {errors?.to_location?.message + ""}
+                      </span>
+                    ) : (
+                      <span>Where is your destination ?</span>
+                    )}
+
+                    <div className="plan_icon_posation">
+                      {/* <i className="fas fa-plane-arrival" /> */}
+                      <i className="fas fa-bus-alt"></i>
+                    </div>
+                    <div className="range_plan">
+                      <i className="fas fa-exchange-alt" />
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4  col-md-6 col-sm-12 col-12">
                   <div className="form_search_date">
                     <div className="flight_Search_boxed date_flex_area">
                       <div className="Journey_date">
                         <p>Journey date</p>
                         <input
                           type="date"
-                          defaultValue="2022-05-03"
+                          {...register("date", {
+                            required: "Please select the date of travel!",
+                          })}
                         />
-                        <span>Thursday</span>
-                      </div>
-                      <div className="Journey_date">
-                        <p>Return date</p>
-                        <input
-                          type="date"
-                          defaultValue="2022-05-05"
-                        />
-                        <span>Thursday</span>
+                        <span>When do you prefer to travel ?</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="col-lg-2  col-md-6 col-sm-12 col-12">
                   <div className="flight_Search_boxed dropdown_passenger_area">
-                    <p>Passenger, Class </p>
-                    <div className="dropdown">
-                      <button
-                        className="dropdown-toggle final-count"
-                        data-toggle="dropdown"
-                        type="button"
-                        id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        0 Passenger
-                      </button>
-                      <div
-                        className="dropdown-menu dropdown_passenger_info"
-                        aria-labelledby="dropdownMenuButton1"
-                      >
-                        <div className="traveller-calulate-persons">
-                          <div className="passengers">
-                            <h6>Passengers</h6>
-                            <div className="passengers-types">
-                              <div className="passengers-type">
-                                <div className="text">
-                                  <span className="count pcount">
-                                    2
-                                  </span>
-                                  <div className="type-label">
-                                    <p>Adult</p>
-                                    <span>12+ yrs</span>
-                                  </div>
-                                </div>
-                                <div className="button-set">
-                                  <button
-                                    type="button"
-                                    className="btn-add"
-                                  >
-                                    <i className="fas fa-plus" />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn-subtract"
-                                  >
-                                    <i className="fas fa-minus" />
-                                  </button>
-                                </div>
-                              </div>
-                              <div className="passengers-type">
-                                <div className="text">
-                                  <span className="count ccount">
-                                    0
-                                  </span>
-                                  <div className="type-label">
-                                    <p className="fz14 mb-xs-0">
-                                      Children
-                                    </p>
-                                    <span>
-                                      2 - Less than 12 yrs
-                                    </span>
-                                  </div>
-                                </div>
-                                <div className="button-set">
-                                  <button
-                                    type="button"
-                                    className="btn-add-c"
-                                  >
-                                    <i className="fas fa-plus" />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn-subtract-c"
-                                  >
-                                    <i className="fas fa-minus" />
-                                  </button>
-                                </div>
-                              </div>
-                              <div className="passengers-type">
-                                <div className="text">
-                                  <span className="count incount">
-                                    0
-                                  </span>
-                                  <div className="type-label">
-                                    <p className="fz14 mb-xs-0">
-                                      Infant
-                                    </p>
-                                    <span>
-                                      Less than 2 yrs
-                                    </span>
-                                  </div>
-                                </div>
-                                <div className="button-set">
-                                  <button
-                                    type="button"
-                                    className="btn-add-in"
-                                  >
-                                    <i className="fas fa-plus" />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn-subtract-in"
-                                  >
-                                    <i className="fas fa-minus" />
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="cabin-selection">
-                            <h6>Cabin Class</h6>
-                            <div className="cabin-list">
-                              <button
-                                type="button"
-                                className="label-select-btn"
-                              >
-                                <span className="muiButton-label">
-                                  Economy
-                                </span>
-                              </button>
-                              <button
-                                type="button"
-                                className="label-select-btn active"
-                              >
-                                <span className="muiButton-label">
-                                  Business
-                                </span>
-                              </button>
-                              <button
-                                type="button"
-                                className="label-select-btn"
-                              >
-                                <span className="MuiButton-label">
-                                  First Class{" "}
-                                </span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    <p className="bus_title_filter">Bus Shift </p>
+                    <div className=" dropdown">
+                      <Controller
+                        control={control}
+                        name="shift"
+                        rules={{ required: "Please select the shift!" }}
+                        render={({ field: { onChange, value } }) => {
+                          return (
+                            <Select
+                              className="custom_bus_select data-toggle bus_dropdown"
+                              value={value}
+                              dropdownAlign={{ offset: [-3, 8] }}
+                              style={{ width: 150 }}
+                              size={"middle"}
+                              onChange={onChange}
+                              bordered={false}
+                              options={[
+                                { value: "Day", label: "Day" },
+                                { value: "Night", label: "Night" },
+                                { value: "Both", label: "Both" },
+                              ]}
+                            />
+                          );
+                        }}
+                      />
+
+                      {/* <i className="fas fa-caret-down"></i> */}
                     </div>
-                    <span>Business</span>
+                    <span>Day/Night/Both</span>
                   </div>
                 </div>
                 <div className="top_form_search_button">
-                  <button className="btn btn_theme btn_md">
+                  <button
+                    type="submit"
+                    onClick={handleFilter}
+                    className="btn btn_theme btn_md"
+                  >
                     Search
                   </button>
                 </div>
@@ -198,7 +155,7 @@ function BusFilter() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default BusFilter
+export default BusFilter;
