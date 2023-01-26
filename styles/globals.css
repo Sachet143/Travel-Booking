@@ -767,7 +767,7 @@ ul {
   text-transform: uppercase;
 }
 .line-border-top {
-  width: 29px;
+  width: 40px;
   height: 1px;
   margin: 13px 8px 10px;
   border-top: 1.4px solid #e7e7e7;
@@ -872,7 +872,7 @@ html[dir="ltr"] .appendRight5 {
 .empty-seat {
   height: 40px;
   width: 50px;
-  background-color: white;
+  background-color: transparent;
   color: white;
   display: flex;
   justify-content: center;
@@ -1085,10 +1085,28 @@ html[dir="ltr"] .appendRight5 {
   background-image: linear-gradient(
       to bottom,
       rgba(245, 246, 252, 0),
-      rgba(117, 19, 93, 0)
+      rgba(117, 19, 93, 0.6)
     ),
-    url("https://cdn.discordapp.com/attachments/976997500349186119/1066796384864436234/prawesh_wallpaper_landscape_of_Nepal_mountains_in_the_backgroun_801eddb7-d4b5-40cc-aeea-3c537a848ea4.png");
+    url("https://mail.google.com/mail/u/0?ui=2&ik=35b11e706c&attid=0.8&permmsgid=msg-f:1755831265105066298&th=185df73b9a1cb93a&view=fimg&realattid=f_ld90srrj7&disp=thd&attbid=ANGjdJ9MQrwBMK8EvQ5YBcvU3eET8Dl9TbfWtHU48D7eAwsntNSCQDgdbC_ED7plIYXcJBEj94Xn39VPeq_R5_22PuR0oLxqUD2Ny73XCBj95D9-SNLtPT8KjtjK5WU&ats=2524608000000&sz=w1920-h950");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: top center;
+}
+
+#footer_area * {
+  color: white;
+}
+
+.tabs_bus_booking {
+  background: #bbbbbb14;
+}
+
+.timeline_bus .ant-timeline-item-head-custom {
+  background-color: #fafafa !important;
+}
+
+.pick_drop_text {
+  font-weight: 900 !important;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 8px;
 }

@@ -174,7 +174,8 @@ const Bus = () => {
                   >
                     <div className="room_booking_area">
                       {hotel?.hotel_rooms?.map((item: any, index: any) => {
-                        return <BusTable key={index} bus={item} />;
+                        console.log(item);
+                        return <BusTable key={index} trip={item} />;
                       })}
                     </div>
                   </div>

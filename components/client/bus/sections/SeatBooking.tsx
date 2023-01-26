@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import useSWR from "swr";
 import Driver from "@/public/client/assets/img/driving.png";
+import { Skeleton } from "antd";
+import PickDrop from "./PickDrop";
 
-const SeatBooking = () => {
-  const { data: tripsData } = useSWR(
-    "/trips?from_location=kathmandu&to_location=pokhara&date=2023-01-27"
-  );
-  const { data } = useSWR("/show-seats/2/2");
+const SeatBooking = ({ bus_id, trip_id }: any) => {
+  const { data, error } = useSWR(`/show-seats/${bus_id}/${trip_id}`);
 
   const [bookedSeat, setBookedSeat] = useState<any>([]);
 
@@ -40,10 +39,18 @@ const SeatBooking = () => {
     }
   };
 
+  if (!data && !error) {
+    return (
+      <div className="p-5">
+        <Skeleton className=" w-100" />
+      </div>
+    );
+  }
+
   return (
     <div className="details-container">
       <div className="seat_container">
-        <div className="price_container">asdf</div>
+        <div className="price_container w-100">{/* <PickDrop /> */}</div>
         <div className="all_seat_wrapper">
           <div className="driver">FRONT</div>
           <>
