@@ -14,7 +14,7 @@ const BusTable = ({ trip }: any) => {
   const [tripId, setTripId] = useState();
   const [boardTime, setBoardTime] = useState("");
   const { data: pickDropData, error } = useSWR(
-    `/boards-drops/${trip.bus.id}/${router.query.from_location}`
+    `/boards-drops/${trip?.bus?.id}/${router.query.from_location}`
   );
   const [ticketPrice, setTicketPrice] = useState("");
 
