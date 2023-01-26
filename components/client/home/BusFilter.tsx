@@ -15,9 +15,9 @@ function BusFilter() {
     handleSubmit,
   } = useForm({
     defaultValues: {
-      from_location: "Kathmandu",
-      to_location: "Pokhara",
-      date: "2023-01-27",
+      from_location: "Pokhara",
+      to_location: "Kathmandu",
+      date: "2023-01-31",
       // date: moment(Date.now()).format("YYYY-MM-DD"),
       shift: "Day",
     },

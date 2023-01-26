@@ -173,8 +173,8 @@ const Trip = () => {
                     aria-labelledby="home-tab"
                   >
                     <div className="room_booking_area">
-                      {tripsData?.data?.data.map((item: any, index: any) => {
-                        return <BusTable key={index} bus={item} />;
+                      {tripsData?.data?.data?.map((item: any, index: any) => {
+                        return <BusTable key={index} trip={item} />;
                       })}
                     </div>
                   </div>
