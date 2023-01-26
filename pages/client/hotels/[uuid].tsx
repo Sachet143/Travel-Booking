@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 // @ts-nocheck
 import RoomTable from "@/components/client/RoomTable";
 import YoutubeComponent from "@/components/common/YoutubeComponent";
@@ -47,9 +46,9 @@ function HotelPage() {
   const { data: rooms, error: roomError } = useSWR(
     hotel
       ? cleanUrlParams(`rooms`, {
-          hotel_id: hotel.id,
-          ...restQuery,
-        })
+        hotel_id: hotel.id,
+        ...restQuery,
+      })
       : null
   );
   const hotelLoading = !hotel && !error;

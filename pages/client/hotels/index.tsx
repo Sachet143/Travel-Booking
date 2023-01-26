@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import HotelListDetail from "@/components/client/hotels/Hotel";
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import axiosClient from "@/services/axios/clientfetch";

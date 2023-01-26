@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
 import LogoWhite from "@/public/client/assets/img/YS-White.svg";
 import LogoPurple from "@/public/client/assets/img/YS-purple.svg";

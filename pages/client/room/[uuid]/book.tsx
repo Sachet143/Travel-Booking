@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 // import { roomBooking } from "@/api/client/booking";
 import Dropdown from "@/components/common/Dropdown";
 import ClientLayout from "@/components/layout/client/ClientLayout";
