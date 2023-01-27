@@ -1,5 +1,5 @@
 import SuperadminLayout from "@/components/layout/superadmin";
-import { Modal, Popconfirm, Space, Table, Tag } from "antd";
+import { Button, Modal, Popconfirm, Space, Table, Tag } from "antd";
 import React, { useState } from "react";
 import useSWR from "swr";
 import type { ColumnsType } from "antd/es/table";
@@ -8,15 +8,22 @@ import BusModal from "./BusModal";
 import { deleteBusCategory } from "@/api/superadmin/bus";
 import { responseErrorHandler } from "@/services/helper";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 interface DataType {
   key: string;
   name: string;
 }
 
 const list = () => {
+  const router = useRouter();
   const [isModalData, setIsModalData] = useState(null);
+  const [busName, setBusName] = useState("");
 
-  const { data: categoryData, mutate } = useSWR("/admin/bus/bus-category");
+  const {
+    data: categoryData,
+    error,
+    mutate,
+  } = useSWR("/admin/bus/bus-category");
 
   const deleteCategory = async (id: any) => {
     return deleteBusCategory(id)
@@ -44,7 +51,10 @@ const list = () => {
             <a>
               <EyeFilled
                 className="cursor-pointer"
-                onClick={() => setIsModalData(items.bus_seats_category)}
+                onClick={() => {
+                  setBusName(items.title);
+                  setIsModalData(items.bus_seats_category);
+                }}
               />
             </a>
             <Popconfirm
@@ -63,8 +73,21 @@ const list = () => {
   ];
   return (
     <SuperadminLayout title="Bus Category Listing">
-      <Table columns={columns} dataSource={categoryData?.data} />
-      <BusModal isModalData={isModalData} setIsModalData={setIsModalData} />
+      <div className="justify-content-start">
+        <Button
+          className="btn btn-admin-primary mb-3"
+          onClick={() => router.push("/superadmin/bus/category/create")}
+        >
+          Create
+        </Button>
+
+        <Table columns={columns} dataSource={categoryData?.data} />
+        <BusModal
+          busName={busName}
+          isModalData={isModalData}
+          setIsModalData={setIsModalData}
+        />
+      </div>
     </SuperadminLayout>
   );
 };

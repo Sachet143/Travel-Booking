@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal } from "antd";
 
-const BusModal = ({ isModalData, setIsModalData }: any) => {
+const BusModal = ({ busName, isModalData, setIsModalData }: any) => {
   const [bookedSeat, setBookedSeat] = useState<any>([]);
   const handleOk = () => {
     setIsModalData(null);
@@ -45,7 +45,7 @@ const BusModal = ({ isModalData, setIsModalData }: any) => {
     <>
       {" "}
       <Modal
-        title="Basic Modal"
+        title={busName}
         visible={isModalData}
         onOk={handleOk}
         onCancel={handleCancel}

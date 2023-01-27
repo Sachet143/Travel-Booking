@@ -11,6 +11,7 @@ const create = () => {
   const router = useRouter();
   const [seatName, setSeatName] = useState<any>([]);
   const [layout, setLayout] = useState<any>();
+  const [loading, setLoading] = useState(false);
 
   const {
     control,
@@ -100,34 +101,22 @@ const create = () => {
     }
   }, [seatName]);
 
-  //not finished after 200 res still the then function res is undefined
   const submitCategory = (data: any) => {
+    setLoading(true);
     let finalMergedValue = { ...data, seats: mergeValues(layout) };
     addBusCategory(finalMergedValue)
       .then((res: any) => {
         toast.success(res.message);
+        router.push("/superadmin/bus/category/list");
       })
       .catch(responseErrorHandler)
       .finally(() => {
-        console.log("hey");
+        setLoading(false);
       });
   };
 
   return (
     <SuperadminLayout title="Create Seat Layout">
-      <Select
-        defaultValue="5"
-        style={{ width: 120 }}
-        onChange={handleChange}
-        options={[
-          { value: "1", label: "1" },
-          { value: "2", label: "2" },
-          { value: "3", label: "3" },
-          { value: "4", label: "4" },
-          { value: "5", label: "5" },
-          { value: "6", label: "6" },
-        ]}
-      />
       <div className="details-container overflow-hidden">
         <form onSubmit={handleSubmit(submitCategory)}>
           <div className="seat_container">
@@ -157,7 +146,40 @@ const create = () => {
                   </>
                 )}
               />
+              <div className="d-flex flex-column">
+                <label className="form-label mt-3">Number Of Rows</label>
+                <Select
+                  defaultValue="5"
+                  style={{ width: 120 }}
+                  onChange={handleChange}
+                  options={[
+                    { value: "1", label: "1" },
+                    { value: "2", label: "2" },
+                    { value: "3", label: "3" },
+                    { value: "4", label: "4" },
+                    { value: "5", label: "5" },
+                    { value: "6", label: "6" },
+                  ]}
+                />
+              </div>
+              <div className="d-flex flex-column">
+                <label className="form-label mt-3">Number Of Column</label>
+                <Select
+                  defaultValue="5"
+                  style={{ width: 120 }}
+                  onChange={handleChange}
+                  options={[
+                    { value: "1", label: "1" },
+                    { value: "2", label: "2" },
+                    { value: "3", label: "3" },
+                    { value: "4", label: "4" },
+                    { value: "5", label: "5" },
+                    { value: "6", label: "6" },
+                  ]}
+                />
+              </div>
             </div>
+
             <div className="all_seat_wrapper">
               <div className="driver">FRONT</div>
               <>
@@ -196,7 +218,7 @@ const create = () => {
             </div>
           </div>
           <Button
-            loading={false}
+            loading={loading}
             htmlType="submit"
             className="btn btn-admin-primary mt-5 float-right"
           >
