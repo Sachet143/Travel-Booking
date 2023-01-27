@@ -5,22 +5,22 @@ export const BusadminSidebarMenus = [
         icon: "/admin/img/menu-icon/7.svg"
     },
     {
-        title: "My Bus",
-        link: "/busadmin/bus/update",
+        title: "My Operator",
+        link: "/busadmin/bus-operator/update",
         icon: "/admin/img/menu-icon/7.svg"
     },
     {
-        title: "Bus Room",
+        title: "Bus",
         parent: true,
         icon: "/admin/img/menu-icon/7.svg",
         children: [
             {
                 title: "Create",
-                link: "/busadmin/room/create"
+                link: "/busadmin/bus/create"
             },
             {
                 title: "Listing",
-                link: "/busadmin/room"
+                link: "/busadmin/bus/room"
             },
         ]
     },

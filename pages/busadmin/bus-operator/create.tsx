@@ -10,14 +10,10 @@ import { deleteCookie, getCookie } from 'cookies-next';
 import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
 import axiosServer from '@/services/axios/serverfetch';
 import Router from 'next/router';
-import BusForm from '@/components/busadmin/forms/bus';
-import BusadminLayout from '@/components/layout/busadmin';
-import { Button, Modal } from 'antd';
+import BusForm from '@/components/busadmin/forms/busOperator';
 
 export default function CreateBus() {
-
   const [loading, setLoading] = useState(false);
-  const [showSeatModal, setShowSeatModal] = useState<boolean>(false);
   const formMethods = useForm();
   const { reset, setError } = formMethods;
   const { mutateUser } = useUser();
@@ -27,31 +23,29 @@ export default function CreateBus() {
     const dto = {
       ...data,
       logo: typeof data.logo === "string" ? null : data.logo,
-      cover_image: typeof data.cover_image === "string" ? null : data.cover_image,
-      why_choose_us: data.why_choose_us && data.why_choose_us?.blocks[0]?.text?.length ? JSON.stringify(data.why_choose_us) : null,
-      our_facilities: data.our_facilities && data.our_facilities?.blocks[0]?.text?.length ? JSON.stringify(data.our_facilities) : null,
-    }
+    };
 
     createBus(objectToFormData(dto))
       .then((res: any) => {
         reset();
         mutateUser();
         toast.success(res.message);
-        Router.push('/busadmin');
+        Router.push("/busadmin");
       })
       .catch((err: any) => responseErrorHandler(err, setError))
-      .finally(() => setLoading(false))
+      .finally(() => setLoading(false));
   }
 
   return (
-    <BusadminLayout title="Bus">
-      <div className="row justify-content-center">
-        <div className="col-lg-10 card shadow">
+    <>
+      <BusadminTopbar />
+      <div className="row justify-content-center" style={{ marginTop: "5em" }}>
+        <div className="col-lg-6 card shadow">
           <div className="white_card card_height_100 mb_30">
             <div className="white_card_header">
               <div className="box_header m-0">
                 <div className="main-title">
-                  <h3 className="m-0">Create Bus</h3>
+                  <h3 className="m-0">Create Bus Operator</h3>
                 </div>
               </div>
             </div>
@@ -64,24 +58,20 @@ export default function CreateBus() {
                 loading={loading}
                 formMethods={formMethods}
               />
-              <Button type='primary' onClick={() => setShowSeatModal(true)}>Select Seat</Button>
             </div>
           </div>
         </div>
-        <Modal width={'80%'} visible={showSeatModal} onCancel={() => setShowSeatModal(false)}>
-          asdfasdfsadf
-        </Modal>
       </div>
-    </BusadminLayout>
-  )
+    </>
+  );
 }
-
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
   const { req, res } = ctx;
   const token = appDecrypt(getCookie(TOKEN_KEY, ctx) + "");
 
-  const { data: busUser } = await axiosServer(token).get('/bus/user')
+  const { data: busUser } = await axiosServer(token)
+    .get("/bus-operator/user")
     .catch((err: any) => {
       console.log({ err });
 
@@ -90,20 +80,20 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
 
       return {
         redirect: {
-          destination: '/client'
-        }
-      }
-    })
+          destination: "/client",
+        },
+      };
+    });
 
   if (busUser.bus_id) {
     return {
       redirect: {
-        destination: '/busadmin/bus/update'
-      }
-    }
+        destination: "/busadmin/bus/update",
+      },
+    };
   }
 
   return {
-    props: {}
-  }
-}
+    props: {},
+  };
+};
