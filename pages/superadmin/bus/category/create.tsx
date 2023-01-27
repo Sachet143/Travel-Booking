@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 const create = () => {
   const router = useRouter();
   const [seatName, setSeatName] = useState<any>([]);
+  const [seatColumn, setSeatColumn] = useState<any>(12);
   const [layout, setLayout] = useState<any>();
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +23,7 @@ const create = () => {
     defaultValues: {
       title: "",
       seats: [],
-      total_seats: 21,
+      total_seats: "",
     },
   });
 
@@ -55,8 +56,8 @@ const create = () => {
 
   function mergeValues(groupedMap: Map<any, any[]>) {
     let merged: any = [];
-    groupedMap.forEach((value) => {
-      merged = merged.concat(value);
+    groupedMap?.forEach((value) => {
+      merged = merged?.concat(value);
     });
     return merged;
   }
@@ -88,22 +89,67 @@ const create = () => {
   }
 
   const handleChange = (value: string) => {
-    let totalSeatsAvailable = ["A", "B", "C", "D", "E", "F"];
+    let totalSeatsAvailable = [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z",
+    ];
     setSeatName(totalSeatsAvailable.slice(0, parseInt(value)));
+  };
+
+  const handleColumnChange = (value: string) => {
+    setSeatColumn(parseInt(value));
   };
 
   useEffect(() => {
     setLayout(
-      groupBy(createSeatLayout(12, seatName), (item: any) => item.row_name)
+      groupBy(
+        createSeatLayout(seatColumn, seatName),
+        (item: any) => item.row_name
+      )
     );
     if (seatName.length == 0) {
       setSeatName(["A", "B", "C", "D", "E"]);
     }
-  }, [seatName]);
+  }, [seatName, seatColumn]);
+
+  console.log(mergeValues(layout));
 
   const submitCategory = (data: any) => {
     setLoading(true);
-    let finalMergedValue = { ...data, seats: mergeValues(layout) };
+    let finalLayout = mergeValues(layout);
+    let totalSeats = finalLayout.filter((item: any) => {
+      return item.column_name != "";
+    }).length;
+
+    let finalMergedValue = {
+      ...data,
+      seats: finalLayout,
+      total_seats: totalSeats,
+    };
     addBusCategory(finalMergedValue)
       .then((res: any) => {
         toast.success(res.message);
@@ -152,30 +198,24 @@ const create = () => {
                   defaultValue="5"
                   style={{ width: 120 }}
                   onChange={handleChange}
-                  options={[
-                    { value: "1", label: "1" },
-                    { value: "2", label: "2" },
-                    { value: "3", label: "3" },
-                    { value: "4", label: "4" },
-                    { value: "5", label: "5" },
-                    { value: "6", label: "6" },
-                  ]}
+                  options={Array.from(Array(26).keys()).map(
+                    (item: any, index: any) => {
+                      return { value: item + 1, label: item + 1 };
+                    }
+                  )}
                 />
               </div>
               <div className="d-flex flex-column">
                 <label className="form-label mt-3">Number Of Column</label>
                 <Select
-                  defaultValue="5"
+                  defaultValue="12"
                   style={{ width: 120 }}
-                  onChange={handleChange}
-                  options={[
-                    { value: "1", label: "1" },
-                    { value: "2", label: "2" },
-                    { value: "3", label: "3" },
-                    { value: "4", label: "4" },
-                    { value: "5", label: "5" },
-                    { value: "6", label: "6" },
-                  ]}
+                  onChange={handleColumnChange}
+                  options={Array.from(Array(12).keys()).map(
+                    (item: any, index: any) => {
+                      return { value: item + 1, label: item + 1 };
+                    }
+                  )}
                 />
               </div>
             </div>
