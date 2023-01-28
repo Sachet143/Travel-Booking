@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 interface DataType {
   key: string;
   name: string;
+  totalSeats: string;
 }
 
 const list = () => {
@@ -42,10 +43,15 @@ const list = () => {
       render: (text) => <a>{text}</a>,
     },
     {
+      title: "Total Seats",
+      dataIndex: "total_seats",
+      key: "total_seats",
+      render: (text) => <a>{text}</a>,
+    },
+    {
       title: "Action",
       key: "action",
       render: (items) => {
-        console.log(items);
         return (
           <Space size="middle">
             <a>
