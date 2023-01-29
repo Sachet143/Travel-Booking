@@ -7,15 +7,16 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import moment from "moment";
 
-const BusTable = ({ trip }: any) => {
+const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
   const router = useRouter();
   const [section, setSection] = useState("");
   const [busId, setBusID] = useState();
   const [tripId, setTripId] = useState();
   const [boardTime, setBoardTime] = useState("");
-  const { data: pickDropData, error } = useSWR(
-    `/boards-drops/${trip?.bus?.id}/${router.query.from_location}`
-  );
+  //   const { data: pickDropData, error } = useSWR(
+  //     `/boards-drops/${trip?.bus?.id}/pokhara`
+  //   );
+  let pickDropData: any = null;
   const [ticketPrice, setTicketPrice] = useState("");
 
   const renderDetailSections = (value: any) => {
@@ -36,7 +37,16 @@ const BusTable = ({ trip }: any) => {
         return busId && <PickDrop bus_id={busId} />;
       case "bookseat":
         return (
-          busId && tripId && <SeatBooking bus_id={busId} trip_id={tripId} />
+          busId &&
+          tripId && (
+            <SeatBooking
+              setTripInfo={setTripInfo}
+              setReserveSeats={setReserveSeats}
+              bus_id={busId}
+              trip={trip}
+              trip_id={tripId}
+            />
+          )
         );
       default:
         return null;
@@ -144,7 +154,10 @@ const BusTable = ({ trip }: any) => {
                 />
               )}
             </div>
-            <img src={Arrow.src} style={{ height: "32px", margin: "" }} />
+            <img
+              src={Arrow.src}
+              style={{ height: "32px", marginBottom: "-12px" }}
+            />
             <div className="">
               <p className="font12 pick_drop_text">Drop Location</p>
               {pickDropData?.data?.drops && (
@@ -174,7 +187,11 @@ const BusTable = ({ trip }: any) => {
               onClick={() => setSection(section == "photos" ? "" : "photos")}
             >
               <span className="appendRight5">Photos</span>
-              <i className="fa fa-angle-down mx-1 mt-1" />
+              <i
+                className={`fa  mx-1 mt-1 ${
+                  section == "photos" ? "fa-angle-up" : "fa-angle-down"
+                }`}
+              />
             </div>
             <div
               className="detail-header"
@@ -183,7 +200,11 @@ const BusTable = ({ trip }: any) => {
               }
             >
               <span className="appendRight5">Amenities</span>
-              <i className="fa fa-angle-down mx-1 mt-1" />
+              <i
+                className={`fa  mx-1 mt-1 ${
+                  section == "amenities" ? "fa-angle-up" : "fa-angle-down"
+                }`}
+              />
             </div>
             <div
               className="detail-header"
@@ -193,7 +214,11 @@ const BusTable = ({ trip }: any) => {
               }}
             >
               <span className="appendRight5">Pickups &amp; Drops</span>
-              <i className="fa fa-angle-down mx-1 mt-1" />
+              <i
+                className={`fa  mx-1 mt-1 ${
+                  section == "pickdrop" ? "fa-angle-up" : "fa-angle-down"
+                }`}
+              />
             </div>
           </div>
         </div>
@@ -214,7 +239,9 @@ const BusTable = ({ trip }: any) => {
             </div>
           </div>
           <button
-            className="btn btn_theme btn_sm mt-5 mb-2 py-2"
+            className={`btn custom_btn_seat ${
+              section != "bookseat" ? "btn_theme" : "grey_btn"
+            } btn_sm mt-5 mb-2 py-2`}
             type="button"
             style={{ marginRight: "9px" }}
             onClick={() => {
@@ -223,10 +250,14 @@ const BusTable = ({ trip }: any) => {
               setSection(section == "bookseat" ? "" : "bookseat");
             }}
           >
-            Select Seats{" "}
+            {section != "bookseat" ? "View Seats" : "Hide Seats"}{" "}
             <span>
               &nbsp;&nbsp;
-              <i className="fa fa-chevron-right" />
+              {section != "bookseat" ? (
+                <i className="fa fa-chevron-right" />
+              ) : (
+                <i className="fa fa-chevron-down" />
+              )}
             </span>
           </button>
         </div>

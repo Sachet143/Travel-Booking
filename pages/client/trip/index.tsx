@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import BusTable from "@/components/client/bus/BusTable";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { Select, Skeleton, Slider } from "antd";
+import { Empty, Modal, Select, Skeleton, Slider } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import useSWR from "swr";
 import axiosClient from "@/services/axios/clientfetch";
 import { useRouter } from "next/router";
 import { cleanUrlParams } from "@/services/helper";
+import ConfirmationModal from "@/components/client/bus/ConfirmationModal";
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 const Trip = () => {
@@ -15,10 +16,13 @@ const Trip = () => {
     customFetcher
   );
 
+  const [tripInfo, setTripInfo] = useState(null);
+  const [reserveSeats, setReserveSeats] = useState([]);
+
   const router = useRouter();
 
   const { data: tripsData, error } = useSWR(
-    cleanUrlParams(`/trips`, router.query)
+    router.query ? cleanUrlParams(`/trips`, router.query) : null
   );
 
   const {
@@ -173,15 +177,39 @@ const Trip = () => {
                     aria-labelledby="home-tab"
                   >
                     <div className="room_booking_area">
-                      {tripsData?.data?.data?.map((item: any, index: any) => {
-                        return <BusTable key={index} trip={item} />;
-                      })}
+                      {tripsData?.data?.data?.length <= 0 ? (
+                        <Empty
+                          className="mt-4"
+                          description="No Bus found ! ☹️"
+                        />
+                      ) : (
+                        <>
+                          {tripsData?.data?.data?.map(
+                            (item: any, index: any) => {
+                              return (
+                                <BusTable
+                                  setTripInfo={setTripInfo}
+                                  key={index}
+                                  trip={item}
+                                  setReserveSeats={setReserveSeats}
+                                />
+                              );
+                            }
+                          )}
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <ConfirmationModal
+            reserveSeats={reserveSeats}
+            tripInfo={tripInfo}
+            setReserveSeats={setReserveSeats}
+            setTripInfo={setTripInfo}
+          />
         </div>
       </div>
     </ClientLayout>
