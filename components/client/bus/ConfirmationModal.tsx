@@ -40,7 +40,7 @@ const ConfirmationModal = ({
       .finally(() => {});
   };
 
-  console.log(tripInfo);
+  console.log(reserveSeats);
 
   return (
     <Modal
@@ -181,7 +181,7 @@ const ConfirmationModal = ({
           <div className="col-md-4">
             <label>Travel Detail</label>
             <Card className="mt-2">
-              <div className="d-flex gap-5 my-3 mb-4 align-items-end">
+              <div className="d-flex gap-5 my-3 mb-4 align-items-end justify-content-between">
                 <div className="">
                   <p className="font12 pick_drop_text">
                     {tripInfo?.start_destination}
@@ -199,18 +199,27 @@ const ConfirmationModal = ({
               </div>
               <Divider plain>Seats</Divider>
               <div className="d-flex justify-content-between">
-                <p>Seat(s)</p>
-                <p>A8</p>
+                <p>Seat(s) :</p>
+                <div className="seats d-flex">
+                  {reserveSeats.map((seatNames: any, index: any) => {
+                    return (
+                      <p>
+                        {seatNames.column_name}
+                        {reserveSeats.length - 1 < index ? "" : ","}
+                      </p>
+                    );
+                  })}
+                </div>
               </div>
               <div className="d-flex justify-content-between">
-                <p>Seat(s)</p>
-                <p>A8</p>
+                <p>Date :</p>
+                <p>2023-01-31</p>
               </div>
             </Card>
             <Card className="mt-2">
               <div className="d-flex justify-content-between">
                 <p>Price</p>
-                <p>Rs.1000</p>
+                <p>Rs.1000 * {reserveSeats.length}</p>
               </div>
             </Card>
           </div>
