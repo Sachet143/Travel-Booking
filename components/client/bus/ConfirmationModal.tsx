@@ -1,7 +1,10 @@
-import { isValidEmail } from "@/services/helper";
-import { Modal, Select, message } from "antd";
-import React from "react";
+import { releaseSeats } from "@/api/client/booking";
+import { isValidEmail, responseErrorHandler } from "@/services/helper";
+import { Card, Divider, Modal, Select, message } from "antd";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import Arrow from "@/public/client/assets/img/show_arrow.png";
 
 const ConfirmationModal = ({
   tripInfo,
@@ -10,6 +13,7 @@ const ConfirmationModal = ({
   setReserveSeats,
 }: any) => {
   const [messageApi, contextHolder] = message.useMessage();
+  const [loading, setLoading] = useState(false);
   const {
     formState: { errors },
     register,
@@ -23,18 +27,34 @@ const ConfirmationModal = ({
     },
   });
 
-  const info = () => {
-    messageApi.info("Payment Option will be here !!");
+  const releasingSeats = () => {
+    releaseSeats({
+      seats: reserveSeats.map((item: any) => item.id),
+      trip_id: tripInfo?.id,
+    })
+      .then((res: any) => {
+        toast.success(res.message);
+        setReserveSeats([]);
+      })
+      .catch(responseErrorHandler)
+      .finally(() => {});
   };
+
+  console.log(tripInfo);
+
   return (
     <Modal
       visible={!!tripInfo && !!reserveSeats.length}
-      onOk={info}
+      //   onOk={releasingSeats}
       width={"80%"}
+      title={tripInfo?.bus?.name}
+      className="modal_form_style"
       onCancel={() => {
         setTripInfo(null);
         setReserveSeats([]);
+        releasingSeats();
       }}
+      okText={null}
     >
       {contextHolder}
       <div className="container">
@@ -160,6 +180,39 @@ const ConfirmationModal = ({
           </div>
           <div className="col-md-4">
             <label>Travel Detail</label>
+            <Card className="mt-2">
+              <div className="d-flex gap-5 my-3 mb-4 align-items-end">
+                <div className="">
+                  <p className="font12 pick_drop_text">
+                    {tripInfo?.start_destination}
+                  </p>
+                </div>
+                <img
+                  src={Arrow.src}
+                  style={{ height: "32px", marginBottom: "-12px" }}
+                />
+                <div className="">
+                  <p className="font12 pick_drop_text">
+                    {tripInfo?.final_destination}
+                  </p>
+                </div>
+              </div>
+              <Divider plain>Seats</Divider>
+              <div className="d-flex justify-content-between">
+                <p>Seat(s)</p>
+                <p>A8</p>
+              </div>
+              <div className="d-flex justify-content-between">
+                <p>Seat(s)</p>
+                <p>A8</p>
+              </div>
+            </Card>
+            <Card className="mt-2">
+              <div className="d-flex justify-content-between">
+                <p>Price</p>
+                <p>Rs.1000</p>
+              </div>
+            </Card>
           </div>
         </div>
       </div>

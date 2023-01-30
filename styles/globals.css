@@ -947,6 +947,13 @@ html[dir="ltr"] .appendRight5 {
   height: 30px;
   border-radius: 3px;
   width: 40px;
+  color: white;
+  background-color: #bcb6c3;
+}
+.legend_color_pending {
+  height: 25px;
+  border-radius: 3px;
+  width: 25px;
   background-color: #bcb6c3;
 }
 .legend_name {
@@ -1155,4 +1162,14 @@ html[dir="ltr"] .appendRight5 {
   font-weight: 900 !important;
   color: rgba(0, 0, 0, 0.7);
   margin-bottom: 8px;
+}
+.modal_form_style
+  .ant-select:not(.ant-select-customize-input)
+  .ant-select-selector {
+  box-shadow: 0px 1px 13px 0px #0000000d;
+  height: 52px !important;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  border: none;
 }

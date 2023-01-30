@@ -9,3 +9,6 @@ export const esewaPay = async () => {
 
 export const holdSeats = async (data: any) =>
   await axiosInstance.post("/hold-seats", data);
+
+export const releaseSeats = async (data: any) =>
+  await axiosInstance.post("/release-seats", data);

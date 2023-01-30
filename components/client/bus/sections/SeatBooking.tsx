@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useSWR from "swr";
 import Driver from "@/public/client/assets/img/driving.png";
-import { Button, Skeleton, notification } from "antd";
+import { Button, Popover, Skeleton, notification } from "antd";
 import PickDrop from "./PickDrop";
 import { RightOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
@@ -91,27 +91,33 @@ const SeatBooking = ({
 
       case "Available":
         return (
-          <div
-            className={`custom-seat ${
-              bookedSeat.filter((e: any) => e.column_name === item.column_name)
-                .length > 0
-                ? "selected_seat"
-                : "available_seats"
-            }`}
-            onClick={() => savingSeats(item)}
-          >
-            {item?.column_name}
-          </div>
+          <Popover content={"Available"}>
+            <div
+              title="Available"
+              className={`custom-seat ${
+                bookedSeat.filter(
+                  (e: any) => e.column_name === item.column_name
+                ).length > 0
+                  ? "selected_seat"
+                  : "available_seats"
+              }`}
+              onClick={() => savingSeats(item)}
+            >
+              {item?.column_name}
+            </div>
+          </Popover>
         );
 
       case "Reserved":
         return (
-          <div
-            className={`custom-seat seat-pending`}
-            // onClick={() => savingSeats(item)}
-          >
-            {item?.column_name}
-          </div>
+          <Popover content={"Reserved"}>
+            <div
+              className={`custom-seat seat-pending`}
+              // onClick={() => savingSeats(item)}
+            >
+              {item?.column_name}
+            </div>
+          </Popover>
         );
     }
   };
@@ -143,7 +149,6 @@ const SeatBooking = ({
                 return (
                   <div key={index} className="d-flex seat-wrapper">
                     {item[1].map((item1: any, index: any) => {
-                      console.log(item1);
                       return (
                         <div key={index}>
                           {item1.column_name == "" ? (
@@ -169,8 +174,8 @@ const SeatBooking = ({
                 loading={loading}
                 onClick={() => {
                   holdingSeats();
-                  //   setTripInfo(trip);
-                  //   setReserveSeats(bookedSeat);
+                  setTripInfo(trip);
+                  setReserveSeats(bookedSeat);
                 }}
               >
                 Proceed Booking <RightOutlined />
