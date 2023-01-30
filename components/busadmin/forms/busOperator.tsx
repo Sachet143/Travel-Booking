@@ -9,7 +9,7 @@ interface IProps {
   formMethods: UseFormReturn;
 }
 
-function BusForm({ submitHandler, loading, formMethods }: IProps) {
+function BusOperatorForm({ submitHandler, loading, formMethods }: IProps) {
   const {
     control,
     register,
@@ -191,4 +191,4 @@ function beforeUpload(file: RcFile) {
   return isJpgOrPng && isLt2M;
 }
 
-export default BusForm;
+export default BusOperatorForm;
