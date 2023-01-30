@@ -23,26 +23,26 @@ function BusListing() {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
+      title: 'Plate Number',
+      dataIndex: 'plate_number',
+      key: 'plate_number',
     },
     {
-      title: 'Discount Price',
-      dataIndex: 'discount',
-      key: 'discount',
+      title: 'Total Seats',
+      dataIndex: 'total_seats',
+      key: 'total_seats',
     },
     {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <i className="fa fa-pen text-primary cursor-pointer" style={{ fontSize: "20px" }} onClick={() => Router.push(`/hoteladmin/bus/edit/${record.id}`)} />
+          <i className="fa fa-pen text-primary cursor-pointer" style={{ fontSize: "20px" }} onClick={() => Router.push(`/busadmin/bus/edit/${record.id}`)} />
           <Popconfirm title="Are you sure to delete this bus?" onConfirm={() => deleteBusHandler(record.id)}>
             <i className="fa fa-trash text-danger cursor-pointer" style={{ fontSize: "20px" }} />
           </Popconfirm>
@@ -75,12 +75,9 @@ function BusListing() {
               total: data?.total,
               onChange: setPage
             }}
-            columns={columns} dataSource={data?.data?.map((bus: any) => ({
-              id: bus.id,
-              title: bus.title,
-              price: bus.price,
-              discount: bus.discount || '-',
-            }))} />
+            columns={columns}
+            dataSource={data?.data?.map((bus: any) => bus)}
+          />
       }
     </BusadminLayout>
   )

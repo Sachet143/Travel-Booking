@@ -1,3 +1,4 @@
+import { deleteServerFile } from '@/api/busadmin/files';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Modal, Select, Skeleton, Upload } from 'antd';
 import { RcFile, UploadFile } from 'antd/lib/upload';
@@ -85,7 +86,7 @@ function Bus({ submitHandler, showSeatModal, formMethods }: any) {
           />
           {errors?.plate_number?.message && (
             <div className="text-danger">{errors?.plate_number?.message + ""}</div>
-          )}1
+          )}
         </div>
       </div>
       {/* 2nd */}
@@ -222,7 +223,7 @@ function Bus({ submitHandler, showSeatModal, formMethods }: any) {
           render={({ field: { onChange, value } }) =>
             <>
               <Upload
-                // onRemove={val => { typeof val.uid === 'number' && deleteServerFile(val.uid) }}
+                onRemove={val => { typeof val.uid === 'number' && deleteServerFile(val.uid) }}
                 beforeUpload={beforeUpload}
                 maxCount={5}
                 listType="picture-card"

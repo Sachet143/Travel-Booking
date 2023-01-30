@@ -20,7 +20,7 @@ export const BusadminSidebarMenus = [
             },
             {
                 title: "Listing",
-                link: "/busadmin/bus/room"
+                link: "/busadmin/bus"
             },
         ]
     },

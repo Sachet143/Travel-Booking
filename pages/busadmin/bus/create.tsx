@@ -30,7 +30,7 @@ export default function CreateBus() {
         reset();
         mutateUser();
         toast.success(res.message);
-        Router.push('/busadmin');
+        Router.push('/busadmin/bus');
       })
       .catch((err: any) => responseErrorHandler(err, setError))
       .finally(() => setLoading(false))
@@ -49,9 +49,6 @@ export default function CreateBus() {
               </div>
             </div>
             <div className="white_card_body">
-              <h6 className="card-subtitle mb-4">
-                Enter your bus details to get a dashboard
-              </h6>
               <BusForm
                 showSeatModal={() => setShowSeatModal(true)}
                 submitHandler={createBusHandler}
