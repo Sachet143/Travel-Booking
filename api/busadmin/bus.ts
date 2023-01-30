@@ -7,4 +7,4 @@ export const updateBus = async (id: number, data: object) =>
   await axiosInstance.post(`/bus/bus-update/${id}`, data)
 
 export const deleteBus = async (id: number) =>
-  await axiosInstance.post(`/bus/bus-update/${id}`)
+  await axiosInstance.delete(`/bus/bus-destory/${id}`)

@@ -207,8 +207,8 @@ function Bus({ submitHandler, showSeatModal, formMethods }: any) {
         />
       </div>
       {/* 4th */}
-      <div className="col-md-6 col-sm-12 form-group my-5">
-        <Button className='w-100' size='large' type='ghost' onClick={showSeatModal}>Select Seat</Button>
+      <div className="col-md-12 col-sm-12 form-group my-5">
+        <Button className='w-100' size='large' type='primary' onClick={showSeatModal}>Select Seat Type</Button>
         {errors?.bus_category_id?.message && (
           <div className="text-danger">{errors?.bus_category_id?.message + ""}</div>
         )}
