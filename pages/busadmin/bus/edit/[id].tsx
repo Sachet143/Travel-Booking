@@ -1,23 +1,24 @@
-import { createBus } from '@/api/busadmin/bus';
+import { updateBus } from '@/api/busadmin/bus';
 import BusForm from '@/components/busadmin/forms/bus';
 import BusSeatModal from '@/components/busadmin/modal/busSeatModal';
 import BusadminLayout from '@/components/layout/busadmin';
 import { objectToFormData, responseErrorHandler } from '@/services/helper';
 import useUser from '@/services/hooks/useUser';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-export default function CreateBus() {
-
+export default function UpdateBus() {
+  const router = useRouter();
+  const { id } = router.query;
   const [loading, setLoading] = useState(false);
   const [showSeatModal, setShowSeatModal] = useState<boolean>(false);
   const formMethods = useForm();
   const { mutateUser } = useUser();
   const { reset, setError } = formMethods;
 
-  function createBusHandler(data: any) {
+  function updateBusHandler(data: any) {
     setLoading(true);
     const dto = {
       ...data,
@@ -25,7 +26,7 @@ export default function CreateBus() {
       policies: data.policies && data.policies?.blocks[0]?.text?.length ? JSON.stringify(data.policies) : null,
     }
 
-    createBus(objectToFormData(dto))
+    updateBus(Number(id), objectToFormData(dto))
       .then((res: any) => {
         reset();
         mutateUser();
@@ -37,7 +38,7 @@ export default function CreateBus() {
   }
 
   return (
-    <BusadminLayout title="Create Bus">
+    <BusadminLayout title="Update Bus">
       <div className="row justify-content-center">
         <div className="col-lg-10 card shadow">
           <div className="white_card card_height_100 mb_30">
@@ -54,7 +55,7 @@ export default function CreateBus() {
               </h6>
               <BusForm
                 showSeatModal={() => setShowSeatModal(true)}
-                submitHandler={createBusHandler}
+                submitHandler={updateBusHandler}
                 loading={loading}
                 formMethods={formMethods}
               />

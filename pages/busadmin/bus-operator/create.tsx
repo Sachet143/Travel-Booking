@@ -1,4 +1,4 @@
-import { createBus } from '@/api/busadmin/bus';
+import { createBusOperator as createBusOperator } from '@/api/busadmin/bus-operator';
 import { appDecrypt, objectToFormData, responseErrorHandler } from '@/services/helper';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -10,22 +10,22 @@ import { deleteCookie, getCookie } from 'cookies-next';
 import { TOKEN_KEY, USER_TYPE_KEY } from '@/services/constants';
 import axiosServer from '@/services/axios/serverfetch';
 import Router from 'next/router';
-import BusForm from '@/components/busadmin/forms/busOperator';
+import BusOperatorForm from '@/components/busadmin/forms/busOperator';
 
-export default function CreateBus() {
+export default function CreateBusOperator() {
   const [loading, setLoading] = useState(false);
   const formMethods = useForm();
   const { reset, setError } = formMethods;
   const { mutateUser } = useUser();
 
-  function createBusHandler(data: any) {
+  function createBusOperatorHandler(data: any) {
     setLoading(true);
     const dto = {
       ...data,
       logo: typeof data.logo === "string" ? null : data.logo,
     };
 
-    createBus(objectToFormData(dto))
+    createBusOperator(objectToFormData(dto))
       .then((res: any) => {
         reset();
         mutateUser();
@@ -53,8 +53,8 @@ export default function CreateBus() {
               <h6 className="card-subtitle mb-4">
                 Enter your bus details to get a dashboard
               </h6>
-              <BusForm
-                submitHandler={createBusHandler}
+              <BusOperatorForm
+                submitHandler={createBusOperatorHandler}
                 loading={loading}
                 formMethods={formMethods}
               />

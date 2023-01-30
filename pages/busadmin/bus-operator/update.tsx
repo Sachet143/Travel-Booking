@@ -1,5 +1,5 @@
-import { createBus } from '@/api/busadmin/bus';
-import BusForm from '@/components/busadmin/forms/busOperator';
+import { createBusOperator } from '@/api/busadmin/bus-operator';
+import BusOperatorForm from '@/components/busadmin/forms/busOperator';
 import BusadminLayout from '@/components/layout/busadmin';
 import { imageFullPath, objectToFormData, responseErrorHandler } from '@/services/helper';
 import useUser from '@/services/hooks/useUser';
@@ -20,7 +20,7 @@ function UpdateHotel() {
       logo: typeof data.logo === "string" ? null : data.logo,
     }
 
-    createBus(objectToFormData(dto))
+    createBusOperator(objectToFormData(dto))
       .then((res: any) => {
         reset();
         mutateUser();
@@ -58,7 +58,7 @@ function UpdateHotel() {
               <h6 className="card-subtitle mb-4">
                 Enter your bus details to get a dashboard
               </h6>
-              <BusForm
+              <BusOperatorForm
                 submitHandler={createBusHandler}
                 loading={loading}
                 formMethods={formMethods}
