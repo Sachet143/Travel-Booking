@@ -860,9 +860,9 @@ html[dir="ltr"] .appendRight5 {
 }
 
 .custom-seat {
-  height: 40px;
-  width: 50px;
-
+  height: 30px;
+  width: 40px;
+  border-radius: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -870,8 +870,8 @@ html[dir="ltr"] .appendRight5 {
 }
 
 .empty-seat {
-  height: 40px;
-  width: 50px;
+  height: 30px;
+  width: 40px;
   background-color: transparent;
   color: white;
   display: flex;
@@ -901,15 +901,64 @@ html[dir="ltr"] .appendRight5 {
   opacity: 0.8;
 }
 .available_seats {
-  background-color: rgba(64, 56, 93, 0.9);
-  color: white;
+  background-color: white;
+  color: rgba(0, 0, 0, 0.686);
+  border: 1px solid rgba(0, 0, 0, 0.324);
 }
 .available_seats:hover {
-  background-color: rgba(64, 56, 93, 1);
+  background-color: #59269897;
+  color: white;
 }
 .selected_seat {
-  background-color: rgb(167, 158, 3, 0.9);
+  background-color: #592698;
   color: white;
+}
+.legend_wrapper {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.legend_color_booked {
+  height: 25px;
+  border-radius: 3px;
+  width: 25px;
+  background-color: rgba(128, 25, 44, 0.9);
+}
+.legend_color_selected {
+  height: 25px;
+  border-radius: 3px;
+  width: 25px;
+  background-color: #592698;
+}
+.grey_btn {
+  background-color: #4d171736 !important;
+  color: black !important;
+}
+.custom_btn_seat {
+  transition: none !important;
+}
+.custom_btn_seat:before {
+  content: "";
+  background: #562296 !important;
+}
+.seat-pending {
+  height: 30px;
+  border-radius: 3px;
+  width: 40px;
+  color: white;
+  background-color: #bcb6c3;
+}
+.legend_color_pending {
+  height: 25px;
+  border-radius: 3px;
+  width: 25px;
+  background-color: #bcb6c3;
+}
+.legend_name {
+  font-size: 13px;
+  color: #3e4040;
 }
 .final_booked {
   background-color: rgba(128, 25, 44, 0.9);
@@ -917,7 +966,7 @@ html[dir="ltr"] .appendRight5 {
   cursor: not-allowed;
 }
 .selected_seat:hover {
-  background-color: rgb(167, 158, 3, 1);
+  background-color: #482474;
 }
 
 /* border radius select */
@@ -930,6 +979,10 @@ html[dir="ltr"] .appendRight5 {
   .ant-select:not(.ant-select-disabled):hover
   .ant-select-selector {
   border-color: #592698;
+}
+
+.flex-1 {
+  flex: 1;
 }
 
 .ml-1 {
@@ -1109,4 +1162,14 @@ html[dir="ltr"] .appendRight5 {
   font-weight: 900 !important;
   color: rgba(0, 0, 0, 0.7);
   margin-bottom: 8px;
+}
+.modal_form_style
+  .ant-select:not(.ant-select-customize-input)
+  .ant-select-selector {
+  box-shadow: 0px 1px 13px 0px #0000000d;
+  height: 52px !important;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  border: none;
 }
