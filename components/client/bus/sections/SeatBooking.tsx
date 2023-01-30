@@ -91,7 +91,7 @@ const SeatBooking = ({
 
       case "Available":
         return (
-          <Popover content={"Available"}>
+          <Popover content={"Available"} overlayStyle={{ padding: 0 }}>
             <div
               title="Available"
               className={`custom-seat ${

@@ -1137,13 +1137,12 @@ html[dir="ltr"] .appendRight5 {
 #footer_area {
   background-image: linear-gradient(
       to bottom,
-      rgba(245, 246, 252, 0),
-      rgba(117, 19, 93, 0.6)
+      rgba(0, 0, 0, 0),
+      rgba(255, 255, 255, 0)
     ),
-    url("https://mail.google.com/mail/u/0?ui=2&ik=35b11e706c&attid=0.8&permmsgid=msg-f:1755831265105066298&th=185df73b9a1cb93a&view=fimg&realattid=f_ld90srrj7&disp=thd&attbid=ANGjdJ9MQrwBMK8EvQ5YBcvU3eET8Dl9TbfWtHU48D7eAwsntNSCQDgdbC_ED7plIYXcJBEj94Xn39VPeq_R5_22PuR0oLxqUD2Ny73XCBj95D9-SNLtPT8KjtjK5WU&ats=2524608000000&sz=w1920-h950");
-  background-repeat: no-repeat;
+    url("../public/client/assets/img/footer.png");
   background-size: cover;
-  background-position: top center;
+  background-position: 0px -90px;
 }
 
 #footer_area * {
