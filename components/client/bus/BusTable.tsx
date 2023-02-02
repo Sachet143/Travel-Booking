@@ -8,16 +8,16 @@ import useSWR from "swr";
 import moment from "moment";
 
 const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
-  const router = useRouter();
   const [section, setSection] = useState("");
   const [busId, setBusID] = useState();
   const [tripId, setTripId] = useState();
-  const [boardTime, setBoardTime] = useState("");
+  const [board, setBoard] = useState<any>();
+  const [drop, setDrop] = useState<any>();
+
   //   const { data: pickDropData, error } = useSWR(
   //     `/boards-drops/${trip?.bus?.id}/pokhara`
   //   );
   let pickDropData: any = null;
-  const [ticketPrice, setTicketPrice] = useState("");
 
   const renderDetailSections = (value: any) => {
     switch (value) {
@@ -34,7 +34,11 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
           </div>
         );
       case "pickdrop":
-        return busId && <PickDrop bus_id={busId} />;
+        return (
+          tripId && (
+            <PickDrop setBoard={setBoard} setDrop={setDrop} trip_id={tripId} />
+          )
+        );
       case "bookseat":
         return (
           busId &&
@@ -53,29 +57,9 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
     }
   };
 
-  useEffect(() => {
-    handleBoardChange(pickDropData?.data?.boards[0]?.board_location);
-    handleDropChange("Kathmandu");
-  }, [pickDropData]);
-
-  const handleDropChange = (value: any) => {
-    setTicketPrice(getTicketPrice(value));
-  };
-
-  const getTicketPrice = (value: any) => {
-    return pickDropData?.data?.drops?.filter((item: any, index: any) => {
-      return item.drop_location == value;
-    })[0]?.price;
-  };
-
-  const handleBoardChange = (value: any) => {
-    setBoardTime(getBoardTime(value));
-  };
-
-  const getBoardTime = (value: any) => {
-    return pickDropData?.data?.boards?.filter((item: any, index: any) => {
-      return item.board_location == value;
-    })[0]?.board_time;
+  const dateConvertor = (dateParam: any) => {
+    let date = new Date(dateParam);
+    return moment(date).format("MMM-DD").split("-").reverse().join(" ");
   };
 
   return (
@@ -118,12 +102,18 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
           <div className="makeFlex hrtlCenter">
             <div>
               <span className="font20 latoBlack blackText">
-                {boardTime?.split(":").slice(0, -1).join(":")},&nbsp;
+                {board
+                  ? board.board_time
+                  : trip.departure_time?.split(":").slice(0, -1).join(":")}
+                ,&nbsp;
               </span>
               <span className="font16 lightGreyText capText">
-                {moment().format("MMM-DD").split("-").reverse().join(" ")}{" "}
+                {dateConvertor(
+                  board ? board?.board_datetime : trip.departure_date
+                )}
               </span>
             </div>
+
             <div className="line-border-top"></div>
             <div className="latoBold font16 lightGreyText">
               <span className="blackText">07</span>hrs{" "}
@@ -131,28 +121,18 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
             </div>
             <div className="line-border-top"></div>
             <div>
-              <span className="font20 latoBlack blackText">06:30, </span>
-              <span className="font16 lightGreyText capText">15 Dec</span>
+              <span className="font20 latoBlack blackText">
+                {drop?.drop_time?.split("")}{" "}
+              </span>
+              <span className="font16 lightGreyText capText">
+                {dateConvertor(drop ? drop.drop_datetime : null)}
+              </span>
             </div>
           </div>
-          <div className="d-flex gap-5 my-3 mb-4 align-items-end">
+          <div className="d-flex gap-5 my-3 mb-4 align-items-center">
             <div className="">
               <p className="font12 pick_drop_text">Board Location</p>
-              {pickDropData?.data?.boards && (
-                <Select
-                  defaultValue={pickDropData?.data?.boards[0]?.board_location}
-                  style={{ width: 160 }}
-                  onChange={handleBoardChange}
-                  options={pickDropData?.data?.boards.map(
-                    (item: any, index: any) => {
-                      return {
-                        value: item.board_location,
-                        label: item.board_location,
-                      };
-                    }
-                  )}
-                />
-              )}
+              {board ? board?.location : trip.start_destination}
             </div>
             <img
               src={Arrow.src}
@@ -160,25 +140,7 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
             />
             <div className="">
               <p className="font12 pick_drop_text">Drop Location</p>
-              {pickDropData?.data?.drops && (
-                <Select
-                  defaultValue={
-                    pickDropData?.data?.drops[
-                      pickDropData?.data?.drops.length - 1
-                    ]?.drop_location
-                  }
-                  style={{ width: 160 }}
-                  onChange={handleDropChange}
-                  options={pickDropData?.data?.drops.map(
-                    (item: any, index: any) => {
-                      return {
-                        value: item.drop_location,
-                        label: item.drop_location,
-                      };
-                    }
-                  )}
-                />
-              )}
+              {drop ? drop.location : trip.final_destination}
             </div>
           </div>
           <div className="makeFlex hrtlCenter font12 deepskyBlueText latoBold noSelection">
@@ -210,6 +172,7 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
               className="detail-header"
               onClick={() => {
                 setBusID(trip.bus.id);
+                setTripId(trip.id);
                 setSection(section == "pickdrop" ? "" : "pickdrop");
               }}
             >
@@ -234,7 +197,7 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
                 </span>
               </div>
               <span placeholder="true" className="sc-ckVGcZ dYlDBG" id="price">
-                &nbsp;{ticketPrice}
+                &nbsp;{drop ? drop?.price : trip.price}
               </span>
             </div>
           </div>

@@ -15,8 +15,8 @@ function BusFilter() {
     handleSubmit,
   } = useForm({
     defaultValues: {
-      from_location: "Pokhara",
-      to_location: "Kathmandu",
+      start_destination: "Pokhara",
+      final_destination: "Kathmandu",
       date: "2023-01-31",
       // date: moment(Date.now()).format("YYYY-MM-DD"),
       shift: "Day",
@@ -45,14 +45,14 @@ function BusFilter() {
                     <input
                       type="text"
                       placeholder="From"
-                      //   aria-invalid={!!errors?.from_location?.message}
-                      {...register("from_location", {
+                      //   aria-invalid={!!errors?.start_destination?.message}
+                      {...register("start_destination", {
                         required: "Please select your travel start location!",
                       })}
                     />
-                    {errors?.from_location?.message ? (
+                    {errors?.start_destination?.message ? (
                       <span className="text-danger">
-                        {errors?.from_location?.message + ""}
+                        {errors?.start_destination?.message + ""}
                       </span>
                     ) : (
                       <span>Where does your trip starts ?</span>
@@ -70,13 +70,13 @@ function BusFilter() {
                     <input
                       type="text"
                       placeholder="To"
-                      {...register("to_location", {
+                      {...register("final_destination", {
                         required: "Please select your destination of travel!",
                       })}
                     />
-                    {errors?.to_location?.message ? (
+                    {errors?.final_destination?.message ? (
                       <span className="text-danger">
-                        {errors?.to_location?.message + ""}
+                        {errors?.final_destination?.message + ""}
                       </span>
                     ) : (
                       <span>Where is your destination ?</span>

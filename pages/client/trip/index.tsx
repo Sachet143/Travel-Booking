@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BusTable from "@/components/client/bus/BusTable";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { Empty, Modal, Select, Skeleton, Slider } from "antd";
+import { Empty, Input, Modal, Segmented, Select, Skeleton, Slider } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import useSWR from "swr";
 import axiosClient from "@/services/axios/clientfetch";
 import { useRouter } from "next/router";
 import { cleanUrlParams } from "@/services/helper";
 import ConfirmationModal from "@/components/client/bus/ConfirmationModal";
+import moment from "moment";
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 const Trip = () => {
@@ -31,22 +32,54 @@ const Trip = () => {
     formState: { errors, touchedFields, dirtyFields },
     getValues,
     reset,
+    setValue,
     handleSubmit,
     watch,
   } = useForm<any>({
     defaultValues: {
-      search: null,
-      min_price: 500,
-      max_price: 50000,
-      country: "Nepal",
-      state: null,
-      city: null,
-      hotelFeatures: [],
-      categories: [],
-      roomFeatures: [],
-      hotelActivities: [],
+      start_destination: "",
+      final_destination: "",
+      shift: "",
     },
   });
+
+  const searchBus = (data: any) => {
+    router.replace({
+      query: data,
+    });
+  };
+
+  useEffect(() => {
+    setValue("start_destination", router.query.start_destination);
+    setValue("final_destination", router.query.final_destination);
+    setValue("shift", router.query.shift);
+  }, [router.query]);
+
+  function get7DaysDates() {
+    var dates = [];
+    var currentDate = moment();
+
+    for (var i = 0; i < 7; i++) {
+      if (i == 0) {
+        dates.push({
+          label: "Today",
+          value: moment(currentDate).add(i, "days").format("YYYY-MM-DD"),
+        });
+      } else if (i == 1) {
+        dates.push({
+          label: "Tomorrow",
+          value: moment(currentDate).add(i, "days").format("YYYY-MM-DD"),
+        });
+      } else {
+        dates.push({
+          label: moment(currentDate).add(i, "days").format("ll"),
+          value: moment(currentDate).add(i, "days").format("YYYY-MM-DD"),
+        });
+      }
+    }
+
+    return dates;
+  }
 
   return (
     <ClientLayout>
@@ -56,118 +89,129 @@ const Trip = () => {
             <div className="col-md-3">
               <div className="left_side_search_area">
                 {/* filter by price */}
-                <div className="left_side_search_boxed">
-                  {/*Hotel Features */}
-                  <div className="left_side_search_heading">
-                    <h5>Travel Type </h5>
-                  </div>
-                  <div className="tour_search_type">
-                    <div className="custom-select">
-                      {!hotelFeatureList && !featureError ? (
-                        <Skeleton className="mt-3" active paragraph={false} />
-                      ) : (
-                        <>
-                          {" "}
-                          <Controller
-                            control={control}
-                            name="hotelFeatures"
-                            // rules={{ required: "Feature is required!" }}
-                            render={({ field: { onChange, value } }) => (
+                <form onSubmit={handleSubmit(searchBus)}>
+                  <div className="left_side_search_boxed overflow-hidden">
+                    {/*Hotel Features */}
+                    <div className="left_side_search_heading">
+                      <h5>Start Destination</h5>
+                    </div>
+                    <div className="tour_search_type mb-3">
+                      <div className="custom-select">
+                        <Controller
+                          control={control}
+                          name="start_destination"
+                          render={({ field: { onChange, value } }) => {
+                            console.log(value);
+                            return (
                               <>
-                                <Select
-                                  mode="multiple"
+                                <Input
                                   value={value}
                                   onChange={onChange}
-                                  allowClear
-                                  status={
-                                    errors?.hotelFeatures?.message && "error"
-                                  }
-                                  size="large"
-                                  className="form-control mb-3"
-                                  placeholder="Select Travel Type"
-                                >
-                                  {hotelFeatureList?.map((feat: any) => (
-                                    <Option key={feat.id} value={feat.id}>
-                                      {feat.title}
-                                    </Option>
-                                  ))}
-                                </Select>
-                                {errors?.features?.message && (
+                                  placeholder="Basic usage"
+                                  className="mb-0 form-control"
+                                />
+                                {errors?.start_destination?.message && (
                                   <div className="text-danger">
-                                    {errors?.hotelFeatures?.message + ""}
+                                    {errors?.start_destination?.message + ""}
                                   </div>
                                 )}
                               </>
-                            )}
-                          />
-                        </>
-                      )}
+                            );
+                          }}
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="left_side_search_heading">
-                    <h5>Bus Type</h5>
-                  </div>
-                  <div className="tour_search_type">
-                    <div className="custom-select">
-                      {!hotelFeatureList && !featureError ? (
-                        <Skeleton className="mt-3" active paragraph={false} />
-                      ) : (
-                        <>
-                          {" "}
-                          <Controller
-                            control={control}
-                            name="hotelFeatures"
-                            // rules={{ required: "Feature is required!" }}
-                            render={({ field: { onChange, value } }) => (
+                    <div className="left_side_search_heading">
+                      <h5>Final Destination</h5>
+                    </div>
+                    <div className="tour_search_type mb-3">
+                      <div className="custom-select">
+                        <Controller
+                          control={control}
+                          name="final_destination"
+                          render={({ field: { onChange, value } }) => {
+                            return (
                               <>
-                                <Select
-                                  mode="multiple"
+                                <Input
                                   value={value}
                                   onChange={onChange}
-                                  allowClear
-                                  status={
-                                    errors?.hotelFeatures?.message && "error"
-                                  }
-                                  size="large"
-                                  className="form-control mb-3"
-                                  placeholder="Select Bus Type"
-                                >
-                                  {hotelFeatureList?.map((feat: any) => (
-                                    <Option key={feat.id} value={feat.id}>
-                                      {feat.title}
-                                    </Option>
-                                  ))}
-                                </Select>
-                                {errors?.features?.message && (
+                                  placeholder="Basic usage"
+                                  className="mb-0 form-control"
+                                />
+                                {errors?.final_destination?.message && (
                                   <div className="text-danger">
-                                    {errors?.hotelFeatures?.message + ""}
+                                    {errors?.final_destination?.message + ""}
                                   </div>
                                 )}
                               </>
-                            )}
-                          />
-                        </>
-                      )}
+                            );
+                          }}
+                        />
+                      </div>
                     </div>
+                    {/* Room Features */}
+                    <div className="left_side_search_heading">
+                      <h5>Shift</h5>
+                    </div>
+                    <div className="tour_search_type">
+                      <div className="shift custom-select">
+                        <Controller
+                          control={control}
+                          name="shift"
+                          rules={{ required: "Shift is required!" }}
+                          render={({ field: { onChange, value } }) => (
+                            <>
+                              <Select
+                                value={value}
+                                onChange={onChange}
+                                allowClear
+                                status={
+                                  errors?.hotelFeatures?.message && "error"
+                                }
+                                size="large"
+                                className="form-control mb-3"
+                                placeholder="Select Bus Type"
+                              >
+                                <Option key={1} value={"day"}>
+                                  Day
+                                </Option>
+                                <Option key={2} value={"night"}>
+                                  Night
+                                </Option>
+                              </Select>
+                              {errors?.features?.message && (
+                                <div className="text-danger">
+                                  {errors?.shift?.message + ""}
+                                </div>
+                              )}
+                            </>
+                          )}
+                        />
+                      </div>
+                    </div>
+                    {/* filter by location */}
+                    <button
+                      className="btn btn-admin-dark float-right"
+                      type="submit"
+                    >
+                      Apply
+                    </button>
                   </div>
-                  {/* Room Features */}
-
-                  {/* filter by location */}
-                  <button className="btn btn-admin-dark" type="submit">
-                    Apply
-                  </button>
-                  <button
-                    className="btn btn-admin-dark-outlined mx-3"
-                    type="button"
-                  >
-                    Clear
-                  </button>
-                </div>
+                </form>
               </div>
             </div>
             <div className="col-md-9">
               {" "}
+              <Segmented
+                block
+                options={get7DaysDates()}
+                onChange={(value) =>
+                  router.replace({
+                    query: { ...router.query, date: value },
+                  })
+                }
+              />
               <div>
                 <div className="room_select_area">
                   <div
@@ -177,25 +221,24 @@ const Trip = () => {
                     aria-labelledby="home-tab"
                   >
                     <div className="room_booking_area">
-                      {tripsData?.data?.data?.length <= 0 ? (
+                      {tripsData?.data?.length <= 0 ? (
                         <Empty
                           className="mt-4"
                           description="No Bus found ! ☹️"
                         />
                       ) : (
                         <>
-                          {tripsData?.data?.data?.map(
-                            (item: any, index: any) => {
-                              return (
-                                <BusTable
-                                  setTripInfo={setTripInfo}
-                                  key={index}
-                                  trip={item}
-                                  setReserveSeats={setReserveSeats}
-                                />
-                              );
-                            }
-                          )}
+                          {tripsData?.data?.map((item: any, index: any) => {
+                            console.log(item);
+                            return (
+                              <BusTable
+                                setTripInfo={setTripInfo}
+                                key={index}
+                                trip={item}
+                                setReserveSeats={setReserveSeats}
+                              />
+                            );
+                          })}
                         </>
                       )}
                     </div>

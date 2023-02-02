@@ -1,18 +1,27 @@
-import { Divider, Skeleton, Tabs, Tag, Timeline } from "antd";
-import React from "react";
+import {
+  Button,
+  Divider,
+  Radio,
+  RadioChangeEvent,
+  Skeleton,
+  Tabs,
+  Tag,
+  Timeline,
+} from "antd";
+import React, { useState } from "react";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import moment from "moment";
+import { CheckSquareOutlined } from "@ant-design/icons";
+
 const { Title } = Typography;
 
 const { TabPane } = Tabs;
-const PickDrop = ({ bus_id }: any) => {
+const PickDrop = ({ trip_id, setBoard, setDrop }: any) => {
   const router = useRouter();
-  const { data: pickDropData, error } = useSWR(
-    `/boards-drops/${bus_id}/${router.query.to_location}`
-  );
+  const { data: pickDropData, error } = useSWR(`/boards-drops/${trip_id}`);
 
   if (!pickDropData && !error) {
     return (
@@ -22,21 +31,27 @@ const PickDrop = ({ bus_id }: any) => {
     );
   }
 
-  console.log(moment().add("minutes", 5000).format());
-
   return (
     <div className="w-100 d-flex px-4 pt-2 timeline_bus">
       <div style={{ flex: 1 }}>
         <Divider orientation="center">Pick Up Location</Divider>
+
         <Timeline mode="left">
           {pickDropData?.data?.boards?.map((item: any, index: any) => {
             return (
               <Timeline.Item
                 dot={<ClockCircleOutlined style={{ fontSize: "16px" }} />}
-                label="3 PM"
+                label={item.board_time}
                 key={index}
               >
-                {item.board_location}
+                <Button
+                  type="link"
+                  className="d-flex align-items-center"
+                  onClick={() => setBoard(item)}
+                >
+                  {item.location}{" "}
+                  {true && <CheckSquareOutlined color="#87d068" />}
+                </Button>
               </Timeline.Item>
             );
           })}
@@ -58,11 +73,16 @@ const PickDrop = ({ bus_id }: any) => {
                 label={
                   <>
                     <Tag color="green">Rs. {item.price}</Tag>{" "}
-                    {moment(item.drop_time).format("LT")}
+                    {moment(item.drop_datetime).format("LT")}
                   </>
                 }
               >
-                {item.drop_location}
+                <div className="">
+                  {item.location}
+                  <Button type="link" onClick={() => setDrop(item)}>
+                    Select
+                  </Button>
+                </div>
               </Timeline.Item>
             );
           })}
