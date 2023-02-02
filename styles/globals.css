@@ -1172,3 +1172,6 @@ html[dir="ltr"] .appendRight5 {
   align-items: center;
   border: none;
 }
+.shift.custom-select .ant-select-selector {
+  overflow: hidden;
+}

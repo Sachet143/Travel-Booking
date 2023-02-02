@@ -1,4 +1,4 @@
-import { Divider, Skeleton, Tabs, Tag, Timeline } from "antd";
+import { Button, Divider, Skeleton, Tabs, Tag, Timeline } from "antd";
 import React from "react";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
@@ -8,11 +8,9 @@ import moment from "moment";
 const { Title } = Typography;
 
 const { TabPane } = Tabs;
-const PickDrop = ({ bus_id }: any) => {
+const PickDrop = ({ trip_id }: any) => {
   const router = useRouter();
-  const { data: pickDropData, error } = useSWR(
-    `/boards-drops/${bus_id}/${router.query.to_location}`
-  );
+  const { data: pickDropData, error } = useSWR(`/boards-drops/${trip_id}`);
 
   if (!pickDropData && !error) {
     return (
@@ -22,7 +20,7 @@ const PickDrop = ({ bus_id }: any) => {
     );
   }
 
-  console.log(moment().add("minutes", 5000).format());
+  console.log(router.query);
 
   return (
     <div className="w-100 d-flex px-4 pt-2 timeline_bus">
@@ -33,10 +31,10 @@ const PickDrop = ({ bus_id }: any) => {
             return (
               <Timeline.Item
                 dot={<ClockCircleOutlined style={{ fontSize: "16px" }} />}
-                label="3 PM"
+                label={item.board_time}
                 key={index}
               >
-                {item.board_location}
+                {item.location}
               </Timeline.Item>
             );
           })}
@@ -58,11 +56,26 @@ const PickDrop = ({ bus_id }: any) => {
                 label={
                   <>
                     <Tag color="green">Rs. {item.price}</Tag>{" "}
-                    {moment(item.drop_time).format("LT")}
+                    {moment(item.drop_datetime).format("LT")}
                   </>
                 }
               >
-                {item.drop_location}
+                <div className="">
+                  {item.location}
+                  <Button
+                    type="link"
+                    onClick={() =>
+                      router.replace({
+                        query: {
+                          ...router.query,
+                          final_destination: item.location,
+                        },
+                      })
+                    }
+                  >
+                    Select
+                  </Button>
+                </div>
               </Timeline.Item>
             );
           })}
