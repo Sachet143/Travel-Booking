@@ -11,8 +11,8 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
   const [section, setSection] = useState("");
   const [busId, setBusID] = useState();
   const [tripId, setTripId] = useState();
-  const [board, setBoard] = useState();
-  const [drop, setDrop] = useState();
+  const [board, setBoard] = useState<any>();
+  const [drop, setDrop] = useState<any>();
 
   //   const { data: pickDropData, error } = useSWR(
   //     `/boards-drops/${trip?.bus?.id}/pokhara`
@@ -67,7 +67,6 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
       className="bus-card"
       id="bus_39_MMTCC1199_MMTCC2140_14-12-2022_1001653243653972013"
     >
-      {board},{drop}
       <div className="makeFlex">
         <div className="makeFlex column bus-view-left">
           <div className="makeFlex column appendBottom22">
@@ -103,12 +102,18 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
           <div className="makeFlex hrtlCenter">
             <div>
               <span className="font20 latoBlack blackText">
-                {trip.departure_time?.split(":").slice(0, -1).join(":")},&nbsp;
+                {board
+                  ? board.board_time
+                  : trip.departure_time?.split(":").slice(0, -1).join(":")}
+                ,&nbsp;
               </span>
               <span className="font16 lightGreyText capText">
-                {dateConvertor(trip.departure_date)}
+                {dateConvertor(
+                  board ? board?.board_datetime : trip.departure_date
+                )}
               </span>
             </div>
+
             <div className="line-border-top"></div>
             <div className="latoBold font16 lightGreyText">
               <span className="blackText">07</span>hrs{" "}
@@ -116,14 +121,18 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
             </div>
             <div className="line-border-top"></div>
             <div>
-              <span className="font20 latoBlack blackText">06:30, </span>
-              <span className="font16 lightGreyText capText">15 Dec</span>
+              <span className="font20 latoBlack blackText">
+                {drop?.drop_time?.split("")}{" "}
+              </span>
+              <span className="font16 lightGreyText capText">
+                {dateConvertor(drop ? drop.drop_datetime : null)}
+              </span>
             </div>
           </div>
           <div className="d-flex gap-5 my-3 mb-4 align-items-center">
             <div className="">
               <p className="font12 pick_drop_text">Board Location</p>
-              {board ? board : trip.start_destination}
+              {board ? board?.location : trip.start_destination}
             </div>
             <img
               src={Arrow.src}
@@ -131,7 +140,7 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
             />
             <div className="">
               <p className="font12 pick_drop_text">Drop Location</p>
-              {drop ? drop : trip.final_destination}
+              {drop ? drop.location : trip.final_destination}
             </div>
           </div>
           <div className="makeFlex hrtlCenter font12 deepskyBlueText latoBold noSelection">
@@ -188,7 +197,7 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
                 </span>
               </div>
               <span placeholder="true" className="sc-ckVGcZ dYlDBG" id="price">
-                &nbsp;{trip.price}
+                &nbsp;{drop ? drop?.price : trip.price}
               </span>
             </div>
           </div>
