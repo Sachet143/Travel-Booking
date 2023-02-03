@@ -133,7 +133,6 @@ const Dropdown = ({
                 <button
                   type="button"
                   onClick={() => {
-                    console.log("hello");
                     setRoomCount(roomCount + 1);
                   }}
                 >

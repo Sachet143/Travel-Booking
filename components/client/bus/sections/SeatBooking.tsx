@@ -13,13 +13,14 @@ const SeatBooking = ({
   bus_id,
   trip_id,
   setTripInfo,
-  setReserveSeats,
+  setBookedSeat,
+  bookedSeat,
   trip,
 }: any) => {
   const { data, error } = useSWR(`/show-seats/${bus_id}/${trip_id}`);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [bookedSeat, setBookedSeat] = useState<any>([]);
+  //   const [bookedSeat, ] = useState<any>([]);
 
   function groupBy(list: any, keyGetter: any) {
     const map = new Map();
@@ -175,7 +176,6 @@ const SeatBooking = ({
                 onClick={() => {
                   holdingSeats();
                   setTripInfo(trip);
-                  setReserveSeats(bookedSeat);
                 }}
               >
                 Proceed Booking <RightOutlined />
