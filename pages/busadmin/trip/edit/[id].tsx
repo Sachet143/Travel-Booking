@@ -62,6 +62,7 @@ export default function UpdateBus() {
           : [{ location: "", time: "", price: "" }],
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   return (
