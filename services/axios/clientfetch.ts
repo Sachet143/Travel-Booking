@@ -7,8 +7,9 @@ const axiosClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_URL
 });
 
+// @ts-ignore
 // request interceptor
-axiosClient.interceptors.request.use(function (config) {
+axiosClient.interceptors.request.use((config) => {
     if (!config.headers) return;
 
     const token = getCookie(TOKEN_KEY);
