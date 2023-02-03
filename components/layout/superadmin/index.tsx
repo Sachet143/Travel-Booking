@@ -22,50 +22,48 @@ function SuperadminLayout(props: IProps) {
   //   $(".footer_part ").toggleClass("full_footer");
 
   useEffect(() => { }, [value]);
-  return (
-    <>
-      <SuperadminSidebar sidebarBoolean={value} />
-      <section
-        className={`main_content dashboard_part large_header_bg ${value && "full_main_content"
-          }`}
-      >
-        <SuperadminTopbar />
-        <div className="main_content_iner">
-          <div className="container-fluid p-0">
-            <div className="row justify-content-center">
-              <div className="col-12">
-                <div className="dashboard_header mb_50">
-                  <div className="row">
-                    <div className="col-lg-12">
-                      <div className="dashboard_header_title">
-                        <h3> {props.title}</h3>
-                      </div>
-                      {props.breadcrumbs?.length
-                        ? props.breadcrumbs.map((bd) => {
-                          if (bd.link) {
-                            return (
-                              <Breadcrumb.Item key={bd.name}>
-                                <Link href={bd.link}>{bd.name}</Link>
-                              </Breadcrumb.Item>
-                            );
-                          } else {
-                            return (
-                              <Breadcrumb.Item key={bd.name}>{bd.name}</Breadcrumb.Item>
-                            );
-                          }
-                        })
-                        : null}
+  return <>
+    <SuperadminSidebar sidebarBoolean={value} />
+    <section
+      className={`main_content dashboard_part large_header_bg ${value && "full_main_content"
+        }`}
+    >
+      <SuperadminTopbar />
+      <div className="main_content_iner">
+        <div className="container-fluid p-0">
+          <div className="row justify-content-center">
+            <div className="col-12">
+              <div className="dashboard_header mb_50">
+                <div className="row">
+                  <div className="col-lg-12">
+                    <div className="dashboard_header_title">
+                      <h3> {props.title}</h3>
                     </div>
+                    {props.breadcrumbs?.length
+                      ? props.breadcrumbs.map((bd) => {
+                        if (bd.link) {
+                          return (
+                            <Breadcrumb.Item key={bd.name}>
+                              <Link href={bd.link} legacyBehavior>{bd.name}</Link>
+                            </Breadcrumb.Item>
+                          );
+                        } else {
+                          return (
+                            <Breadcrumb.Item key={bd.name}>{bd.name}</Breadcrumb.Item>
+                          );
+                        }
+                      })
+                      : null}
                   </div>
                 </div>
               </div>
-              {props.children}
             </div>
+            {props.children}
           </div>
         </div>
-      </section>
-    </>
-  );
+      </div>
+    </section>
+  </>;
 }
 
 export default SuperadminLayout;

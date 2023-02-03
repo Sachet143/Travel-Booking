@@ -39,7 +39,7 @@ function SuperadminSidebar({ sidebarBoolean }: any) {
   return (
     <nav className={`sidebar ${sidebarBoolean && "mini_sidebar"}`}>
       <div className="logo d-flex justify-content-between">
-        <Link href="/superadmin" className="cursor-pointer">
+        <Link href="/superadmin" className="cursor-pointer" legacyBehavior>
           <img className="cursor-pointer" src="/client/assets/img/YS-purple.svg" alt="" />
         </Link>
         <a className="small_logo" href="index-2.html">
@@ -65,11 +65,14 @@ function SuperadminSidebar({ sidebarBoolean }: any) {
                 <ul>
                   {menu.children.map((cmenu) => {
                     return (
-                      <Link key={cmenu.title} href={cmenu.link}>
-                        <a className={isActive(cmenu.link) ? "cactive" : ""}>
-                          {cmenu.title}
-                        </a>
-                      </Link>
+                      (<Link
+                        key={cmenu.title}
+                        href={cmenu.link}
+                        className={isActive(cmenu.link) ? "cactive" : ""}>
+
+                        {cmenu.title}
+
+                      </Link>)
                     );
                   })}
                 </ul>

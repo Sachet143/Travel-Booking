@@ -354,7 +354,7 @@ Docs & License: https://fullcalendar.io/
             if (computedStyle.position === 'fixed') {
                 break;
             }
-            if ((/(auto|scroll)/).test(computedStyle.overflow + computedStyle.overflowY + computedStyle.overflowX)) {
+            if (((/(auto|scroll)/)).test(computedStyle.overflow + computedStyle.overflowY + computedStyle.overflowX)) {
                 parents.push(el);
             }
             el = el.parentNode;

@@ -39,7 +39,7 @@ function HoteladminSidebar() {
     return (
         <nav className="sidebar">
             <div className="logo d-flex justify-content-between">
-                <Link href="/hoteladmin" className="cursor-pointer">
+                <Link href="/hoteladmin" className="cursor-pointer" legacyBehavior>
                     <img className="cursor-pointer" src="/client/assets/img/YS-purple.svg" alt="" />
                 </Link>
                 {/* <Link href="/hoteladmin" className="cursor-pointer">
@@ -66,16 +66,19 @@ function HoteladminSidebar() {
                                     {
                                         menu.children.map(cmenu => {
                                             return (
-                                                <Link key={cmenu.title} href={cmenu.link}>
-                                                    <a className={isActive(cmenu.link) ? "cactive" : ""}>{cmenu.title}</a>
+                                                <Link
+                                                    key={cmenu.title}
+                                                    href={cmenu.link}
+                                                    className={isActive(cmenu.link) ? "cactive" : ""}>
+                                                    {cmenu.title}
                                                 </Link>
-                                            )
+                                            );
                                         }
                                         )
                                     }
                                 </ul>
                             </li>
-                        )
+                        );
                     } else {
                         return (
                             <li key={menu.title}>
@@ -93,7 +96,7 @@ function HoteladminSidebar() {
                 })}
             </ul>
         </nav>
-    )
+    );
 }
 
 export default HoteladminSidebar
