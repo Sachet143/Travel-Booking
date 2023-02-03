@@ -9,8 +9,9 @@ import Arrow from "@/public/client/assets/img/show_arrow.png";
 const ConfirmationModal = ({
   tripInfo,
   setTripInfo,
-  reserveSeats,
-  setReserveSeats,
+  bookedSeat,
+  setBookedSeat,
+  price,
 }: any) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
@@ -29,29 +30,27 @@ const ConfirmationModal = ({
 
   const releasingSeats = () => {
     releaseSeats({
-      seats: reserveSeats.map((item: any) => item.id),
+      seats: bookedSeat.map((item: any) => item.id),
       trip_id: tripInfo?.id,
     })
       .then((res: any) => {
         toast.success(res.message);
-        setReserveSeats([]);
+        setBookedSeat([]);
       })
       .catch(responseErrorHandler)
       .finally(() => {});
   };
 
-  console.log(reserveSeats);
-
   return (
     <Modal
-      visible={!!tripInfo && !!reserveSeats.length}
+      visible={!!tripInfo && !!bookedSeat.length}
       //   onOk={releasingSeats}
       width={"80%"}
       title={tripInfo?.bus?.name}
       className="modal_form_style"
       onCancel={() => {
         setTripInfo(null);
-        setReserveSeats([]);
+        setBookedSeat([]);
         releasingSeats();
       }}
       okText={null}
@@ -156,16 +155,12 @@ const ConfirmationModal = ({
                     <Select
                       defaultValue="lucy"
                       style={{ width: 120 }}
+                      disabled
                       className="mt-1 w-100"
                       options={[
                         { value: "jack", label: "Jack" },
                         { value: "lucy", label: "Lucy" },
                         { value: "Yiminghe", label: "yiminghe" },
-                        {
-                          value: "disabled",
-                          label: "Disabled",
-                          disabled: true,
-                        },
                       ]}
                     />
                   </div>
@@ -201,11 +196,11 @@ const ConfirmationModal = ({
               <div className="d-flex justify-content-between">
                 <p>Seat(s) :</p>
                 <div className="seats d-flex">
-                  {reserveSeats.map((seatNames: any, index: any) => {
+                  {bookedSeat.map((seatNames: any, index: any) => {
                     return (
                       <p>
                         {seatNames.column_name}
-                        {reserveSeats.length - 1 < index ? "" : ","}
+                        {bookedSeat.length - 1 < index ? "" : ","}
                       </p>
                     );
                   })}
@@ -219,7 +214,7 @@ const ConfirmationModal = ({
             <Card className="mt-2">
               <div className="d-flex justify-content-between">
                 <p>Price</p>
-                <p>Rs.1000 * {reserveSeats.length}</p>
+                <p>Rs.{price}</p>
               </div>
             </Card>
           </div>

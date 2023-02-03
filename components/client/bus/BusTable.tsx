@@ -7,17 +7,21 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import moment from "moment";
 
-const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
+const BusTable = ({
+  trip,
+  setTripInfo,
+  setPrice,
+  price,
+  setBookedSeat,
+  bookedSeat,
+}: any) => {
   const [section, setSection] = useState("");
   const [busId, setBusID] = useState();
   const [tripId, setTripId] = useState();
   const [board, setBoard] = useState<any>();
   const [drop, setDrop] = useState<any>();
-
-  //   const { data: pickDropData, error } = useSWR(
-  //     `/boards-drops/${trip?.bus?.id}/pokhara`
-  //   );
-  let pickDropData: any = null;
+  const [travelTime, setTravelTime] = useState<any>("");
+  const [dropTime, setDropTime] = useState("");
 
   const renderDetailSections = (value: any) => {
     switch (value) {
@@ -45,10 +49,11 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
           tripId && (
             <SeatBooking
               setTripInfo={setTripInfo}
-              setReserveSeats={setReserveSeats}
               bus_id={busId}
               trip={trip}
               trip_id={tripId}
+              bookedSeat={bookedSeat}
+              setBookedSeat={setBookedSeat}
             />
           )
         );
@@ -61,6 +66,68 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
     let date = new Date(dateParam);
     return moment(date).format("MMM-DD").split("-").reverse().join(" ");
   };
+
+  useEffect(() => {
+    if (board || drop) {
+      if (board && !drop) {
+        //setting the travel time by initial trip departure time and board api board time
+        // let duration = moment.duration(trip.travel_minutes, "minutes"); //gives total tracel munites
+        // let time = moment.utc(duration.asMilliseconds()).format("HH:mm");
+        // setTravelTime(time);
+        // let datetime = trip.departure_date + " " + trip.departure_time;
+        let duration = moment.duration(
+          moment(dropTime, "YYYY-MM-DD hh:mm A").diff(
+            moment(board.board_datetime, "YYYY-MM-DD hh:mm A")
+          )
+        );
+        let result = moment.utc(duration.asMilliseconds()).format("HH:mm");
+        setTravelTime(result);
+      }
+      if (drop && board) {
+        let duration = moment.duration(
+          moment(drop.drop_datetime, "YYYY-MM-DD hh:mm A").diff(
+            moment(board.board_datetime, "YYYY-MM-DD hh:mm A")
+          )
+        );
+        let result = moment.utc(duration.asMilliseconds()).format("HH:mm");
+        setTravelTime(result);
+      }
+      if (drop && !board) {
+        let duration = moment.duration(
+          moment(drop.drop_datetime, "YYYY-MM-DD hh:mm A").diff(
+            moment(
+              trip.departure_date + " " + trip.departure_time,
+              "YYYY-MM-DD HH:mm:ss"
+            )
+          )
+        );
+        let result = moment.utc(duration.asMilliseconds()).format("HH:mm");
+        setTravelTime(result);
+        console.log(trip, drop);
+      }
+    } else {
+      let duration = moment.duration(trip.travel_minutes, "minutes");
+      let time = moment.utc(duration.asMilliseconds()).format("HH:mm");
+      setTravelTime(time);
+      let datetime = trip.departure_date + " " + trip.departure_time;
+      setDropTime(
+        moment(datetime).add(time, "minutes").format("YYYY-MM-DD hh:mm A")
+      );
+    }
+    if (bookedSeat.length <= 1) {
+      if (drop) {
+        setPrice(drop?.price);
+      } else {
+        setPrice(trip.price);
+      }
+    } else {
+      if (drop) {
+        setPrice(drop?.price * bookedSeat.length);
+      } else {
+        setPrice(trip.price * bookedSeat.length);
+      }
+    }
+  }, [drop, bookedSeat, board]);
 
   return (
     <div
@@ -103,9 +170,10 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
             <div>
               <span className="font20 latoBlack blackText">
                 {board
-                  ? board.board_time
-                  : trip.departure_time?.split(":").slice(0, -1).join(":")}
+                  ? moment(board.board_time, "HH:mm:ss").format("hh:mm A")
+                  : moment(trip.departure_time, "HH:mm:ss").format("hh:mm A")}
                 ,&nbsp;
+                {/* trip.departure_time?.split(":").slice(0, -1).join(":") ; */}
               </span>
               <span className="font16 lightGreyText capText">
                 {dateConvertor(
@@ -116,16 +184,23 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
 
             <div className="line-border-top"></div>
             <div className="latoBold font16 lightGreyText">
-              <span className="blackText">07</span>hrs{" "}
-              <span className="blackText">20</span>mins
+              {}
+              <span className="blackText">{travelTime.split(":")[0]}</span>
+              hrs <span className="blackText">{travelTime.split(":")[1]}</span>
+              mins
             </div>
             <div className="line-border-top"></div>
             <div>
               <span className="font20 latoBlack blackText">
-                {drop?.drop_time?.split("")}{" "}
+                {drop ? (
+                  drop?.drop_time?.split("")
+                ) : (
+                  <>{dropTime.split(" ")[1] + " " + dropTime.split(" ")[2]}</>
+                )}
+                , &nbsp;
               </span>
               <span className="font16 lightGreyText capText">
-                {dateConvertor(drop ? drop.drop_datetime : null)}
+                {dateConvertor(dropTime)}
               </span>
             </div>
           </div>
@@ -197,7 +272,8 @@ const BusTable = ({ trip, setTripInfo, setReserveSeats }: any) => {
                 </span>
               </div>
               <span placeholder="true" className="sc-ckVGcZ dYlDBG" id="price">
-                &nbsp;{drop ? drop?.price : trip.price}
+                &nbsp;
+                {price}
               </span>
             </div>
           </div>

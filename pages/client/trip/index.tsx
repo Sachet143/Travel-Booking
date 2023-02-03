@@ -18,13 +18,14 @@ const Trip = () => {
   );
 
   const [tripInfo, setTripInfo] = useState(null);
-  const [reserveSeats, setReserveSeats] = useState([]);
+  const [bookedSeat, setBookedSeat] = useState([]);
 
   const router = useRouter();
 
   const { data: tripsData, error } = useSWR(
     router.query ? cleanUrlParams(`/trips`, router.query) : null
   );
+  const [price, setPrice] = useState();
 
   const {
     register,
@@ -101,7 +102,6 @@ const Trip = () => {
                           control={control}
                           name="start_destination"
                           render={({ field: { onChange, value } }) => {
-                            console.log(value);
                             return (
                               <>
                                 <Input
@@ -206,6 +206,11 @@ const Trip = () => {
               <Segmented
                 block
                 options={get7DaysDates()}
+                value={
+                  router.query.date
+                    ? router.query.date.toString()
+                    : moment().format("YYYY-MM-DD").toString()
+                }
                 onChange={(value) =>
                   router.replace({
                     query: { ...router.query, date: value },
@@ -229,13 +234,15 @@ const Trip = () => {
                       ) : (
                         <>
                           {tripsData?.data?.map((item: any, index: any) => {
-                            console.log(item);
                             return (
                               <BusTable
+                                price={price}
+                                setPrice={setPrice}
                                 setTripInfo={setTripInfo}
                                 key={index}
                                 trip={item}
-                                setReserveSeats={setReserveSeats}
+                                setBookedSeat={setBookedSeat}
+                                bookedSeat={bookedSeat}
                               />
                             );
                           })}
@@ -248,9 +255,10 @@ const Trip = () => {
             </div>
           </div>
           <ConfirmationModal
-            reserveSeats={reserveSeats}
+            bookedSeat={bookedSeat}
             tripInfo={tripInfo}
-            setReserveSeats={setReserveSeats}
+            price={price}
+            setBookedSeat={setBookedSeat}
             setTripInfo={setTripInfo}
           />
         </div>
