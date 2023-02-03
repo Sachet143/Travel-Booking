@@ -77,7 +77,7 @@ function SuperadminSidebar({ sidebarBoolean }: any) {
             );
           } else {
             return (
-              <li className>
+              <li key={menu.title}>
                 <a onClick={() => Router.push(menu.link)} aria-expanded="false">
                   <div className="nav_icon_small">
                     <i className={menu.icon} alt={menu.title}></i>

@@ -8,6 +8,7 @@ export async function middleware(request: NextRequest) {
   // @ts-ignore
   const token = request.cookies.get(TOKEN_KEY);
   const userType = request.cookies.get(USER_TYPE_KEY);
+  console.log({userType})
   // user types
   const isSuperAdmin = userType && appDecrypt(userType) === "superadmin";
   const isHotelAdmin = userType && appDecrypt(userType) === "hoteladmin";

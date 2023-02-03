@@ -44,13 +44,13 @@ function SuperadminLayout(props: IProps) {
                         ? props.breadcrumbs.map((bd) => {
                           if (bd.link) {
                             return (
-                              <Breadcrumb.Item>
+                              <Breadcrumb.Item key={bd.name}>
                                 <Link href={bd.link}>{bd.name}</Link>
                               </Breadcrumb.Item>
                             );
                           } else {
                             return (
-                              <Breadcrumb.Item>{bd.name}</Breadcrumb.Item>
+                              <Breadcrumb.Item key={bd.name}>{bd.name}</Breadcrumb.Item>
                             );
                           }
                         })
