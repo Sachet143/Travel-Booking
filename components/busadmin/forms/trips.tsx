@@ -127,7 +127,7 @@ function Trips({ submitHandler, formMethods }: any) {
                       style={{ height: "50px" }}
                       multiple
                       plugins={[
-                        <DatePanel />
+                        <DatePanel key={value} />
                       ]}
                     />
                   )}

@@ -1,8 +1,8 @@
 import { editClientData } from "@/api/client/auth";
-import { isValidEmail, responseErrorHandler } from "@/services/helper";
+import { responseErrorHandler } from "@/services/helper";
 import useUser from "@/services/hooks/useUser";
 import { Button } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -10,17 +10,14 @@ const MyProfile = () => {
   const { user, mutateUser } = useUser();
   const [loading, setLoading] = useState(false);
   const {
-    control,
     register,
     formState: { errors },
-    reset,
-    getValues,
     watch,
     handleSubmit,
   } = useForm({
     defaultValues: {
-      name: user.name || "",
-      phone: user.phone || "",
+      name: user?.name || "",
+      phone: user?.phone || "",
       password: "",
       confirm_password: "",
     },
@@ -38,8 +35,6 @@ const MyProfile = () => {
         setLoading(false);
       });
   };
-
-  console.log(errors);
 
   return (
     <div className="dashboard_common_table">

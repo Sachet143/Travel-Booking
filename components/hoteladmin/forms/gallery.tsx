@@ -88,7 +88,6 @@ function HotelGalleryComponent() {
               {value?.length >= 8 ? null : uploadButton}
             </Upload>
             <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img alt="example" style={{ width: '100%' }} src={previewImage} />
             </Modal>
             {errors?.files?.message &&

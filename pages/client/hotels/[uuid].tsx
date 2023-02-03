@@ -83,6 +83,8 @@ function HotelPage() {
         ? router.query.features.toString().split(",").map(Number)
         : [],
     });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);
 
   const applyPriceFilter = (e: any) => {

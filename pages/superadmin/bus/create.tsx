@@ -30,6 +30,8 @@ function CreateBus() {
       password: router.query.password,
       password_confirmation: router.query.password_confirmation,
     })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query])
 
   return (

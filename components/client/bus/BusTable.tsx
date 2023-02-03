@@ -127,6 +127,7 @@ const BusTable = ({
         setPrice(trip.price * bookedSeat.length);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drop, bookedSeat, board]);
 
   return (
@@ -184,7 +185,7 @@ const BusTable = ({
 
             <div className="line-border-top"></div>
             <div className="latoBold font16 lightGreyText">
-              {}
+              { }
               <span className="blackText">{travelTime.split(":")[0]}</span>
               hrs <span className="blackText">{travelTime.split(":")[1]}</span>
               mins
@@ -210,6 +211,7 @@ const BusTable = ({
               {board ? board?.location : trip.start_destination}
             </div>
             <img
+              alt="image"
               src={Arrow.src}
               style={{ height: "32px", marginBottom: "-12px" }}
             />
@@ -225,9 +227,8 @@ const BusTable = ({
             >
               <span className="appendRight5">Photos</span>
               <i
-                className={`fa  mx-1 mt-1 ${
-                  section == "photos" ? "fa-angle-up" : "fa-angle-down"
-                }`}
+                className={`fa  mx-1 mt-1 ${section == "photos" ? "fa-angle-up" : "fa-angle-down"
+                  }`}
               />
             </div>
             <div
@@ -238,9 +239,8 @@ const BusTable = ({
             >
               <span className="appendRight5">Amenities</span>
               <i
-                className={`fa  mx-1 mt-1 ${
-                  section == "amenities" ? "fa-angle-up" : "fa-angle-down"
-                }`}
+                className={`fa  mx-1 mt-1 ${section == "amenities" ? "fa-angle-up" : "fa-angle-down"
+                  }`}
               />
             </div>
             <div
@@ -253,9 +253,8 @@ const BusTable = ({
             >
               <span className="appendRight5">Pickups &amp; Drops</span>
               <i
-                className={`fa  mx-1 mt-1 ${
-                  section == "pickdrop" ? "fa-angle-up" : "fa-angle-down"
-                }`}
+                className={`fa  mx-1 mt-1 ${section == "pickdrop" ? "fa-angle-up" : "fa-angle-down"
+                  }`}
               />
             </div>
           </div>
@@ -278,9 +277,8 @@ const BusTable = ({
             </div>
           </div>
           <button
-            className={`btn custom_btn_seat ${
-              section != "bookseat" ? "btn_theme" : "grey_btn"
-            } btn_sm mt-5 mb-2 py-2`}
+            className={`btn custom_btn_seat ${section != "bookseat" ? "btn_theme" : "grey_btn"
+              } btn_sm mt-5 mb-2 py-2`}
             type="button"
             style={{ marginRight: "9px" }}
             onClick={() => {

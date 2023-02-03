@@ -27,7 +27,7 @@ const columns: ColumnsType<DataType> = [
     key: "hotel",
     render: (hotel) => {
       return (
-        <Link href={`/hotels/${hotel.uuid}`}>
+        <Link href={`/hotels/${hotel.uuid}`} legacyBehavior>
           <span className="purp cursor-pointer">{hotel.name}</span>
         </Link>
       );

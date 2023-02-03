@@ -73,6 +73,8 @@ const HotelListing = () => {
       );
     };
     return debounce(searchHotel, 1000);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const clearFilter = (value: any) => {
@@ -110,6 +112,8 @@ const HotelListing = () => {
         ? router.query.hotelActivities.toString().split(",").map(Number)
         : [],
     });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);
 
   const customFilter = (value: any) => {

@@ -1,28 +1,27 @@
-import SuperadminLayout from "@/components/layout/superadmin";
-import { Button, Modal, Popconfirm, Space, Table, Tag } from "antd";
-import React, { useState } from "react";
-import useSWR from "swr";
-import type { ColumnsType } from "antd/es/table";
-import { EyeFilled, DeleteFilled } from "@ant-design/icons";
-import BusModal from "./BusModal";
 import { deleteBusCategory } from "@/api/superadmin/bus";
+import SuperadminLayout from "@/components/layout/superadmin";
 import { responseErrorHandler } from "@/services/helper";
-import { toast } from "react-toastify";
+import { DeleteFilled, EyeFilled } from "@ant-design/icons";
+import { Button, Popconfirm, Space, Table } from "antd";
+import type { ColumnsType } from "antd/es/table";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import useSWR from "swr";
+import BusModal from "./BusModal";
 interface DataType {
   key: string;
   name: string;
   totalSeats: string;
 }
 
-const list = () => {
+const List = () => {
   const router = useRouter();
   const [isModalData, setIsModalData] = useState(null);
   const [busName, setBusName] = useState("");
 
   const {
     data: categoryData,
-    error,
     mutate,
   } = useSWR("/admin/bus/bus-category");
 
@@ -98,4 +97,4 @@ const list = () => {
   );
 };
 
-export default list;
+export default List;

@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
-import { appDecrypt } from "./services/helper";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
@@ -9,9 +8,9 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get(TOKEN_KEY);
   const userType = request.cookies.get(USER_TYPE_KEY);
   // user types
-  const isSuperAdmin = userType && appDecrypt(userType) === "superadmin";
-  const isHotelAdmin = userType && appDecrypt(userType) === "hoteladmin";
-  const isBusAdmin = userType && appDecrypt(userType) === "busadmin";
+  const isSuperAdmin = userType && userType.value === "superadmin";
+  const isHotelAdmin = userType && userType.value === "hoteladmin";
+  const isBusAdmin = userType && userType.value === "busadmin";
 
   // route types
   const isSuperAdminRoutes = url.pathname.includes("/superadmin");
