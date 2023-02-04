@@ -12,3 +12,6 @@ export const holdSeats = async (data: any) =>
 
 export const releaseSeats = async (data: any) =>
   await axiosInstance.post("/release-seats", data);
+
+export const bookSeats = async (data: any) =>
+  await axiosInstance.post("/user/book-bus", data);

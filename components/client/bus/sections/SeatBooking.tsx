@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useSWR from "swr";
 import Driver from "@/public/client/assets/img/driving.png";
-import { Button, Popover, Skeleton, notification } from "antd";
+import { Button, Popover, Skeleton, Tooltip, notification } from "antd";
 import PickDrop from "./PickDrop";
 import { RightOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
@@ -15,7 +15,10 @@ const SeatBooking = ({
   setTripInfo,
   setBookedSeat,
   bookedSeat,
+  board,
+  drop,
   trip,
+  setModal,
 }: any) => {
   const { data, error } = useSWR(`/show-seats/${bus_id}/${trip_id}`);
   const [loading, setLoading] = useState(false);
@@ -92,7 +95,7 @@ const SeatBooking = ({
 
       case "Available":
         return (
-          <Popover content={"Available"} overlayStyle={{ padding: 0 }}>
+          <Tooltip title={"Available"} overlayStyle={{ padding: 0 }}>
             <div
               title="Available"
               className={`custom-seat ${
@@ -106,19 +109,19 @@ const SeatBooking = ({
             >
               {item?.column_name}
             </div>
-          </Popover>
+          </Tooltip>
         );
 
       case "Reserved":
         return (
-          <Popover content={"Reserved"}>
+          <Tooltip title={"Reserved"}>
             <div
               className={`custom-seat seat-pending`}
               // onClick={() => savingSeats(item)}
             >
               {item?.column_name}
             </div>
-          </Popover>
+          </Tooltip>
         );
     }
   };
@@ -169,17 +172,26 @@ const SeatBooking = ({
             {bookedSeat.length <= 0 ? (
               <></>
             ) : (
-              <Button
-                className="float-right mt-4 align-items-center d-flex"
-                type="primary"
-                loading={loading}
-                onClick={() => {
-                  holdingSeats();
-                  setTripInfo(trip);
-                }}
-              >
-                Proceed Booking <RightOutlined />
-              </Button>
+              <>
+                <Button
+                  className="float-right mt-4 align-items-center d-flex"
+                  type="primary"
+                  loading={loading}
+                  onClick={() => {
+                    if (board && drop) {
+                      holdingSeats();
+                      setTripInfo(trip);
+                      setModal(true);
+                    } else {
+                      toast.error(
+                        "Please select the pick up and drop location"
+                      );
+                    }
+                  }}
+                >
+                  Proceed Booking <RightOutlined />
+                </Button>
+              </>
             )}
           </>
         </div>

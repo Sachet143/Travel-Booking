@@ -1,6 +1,6 @@
-import { releaseSeats } from "@/api/client/booking";
+import { bookSeats, releaseSeats } from "@/api/client/booking";
 import { isValidEmail, responseErrorHandler } from "@/services/helper";
-import { Card, Divider, Modal, Select, message } from "antd";
+import { Button, Card, Divider, Modal, Select, message } from "antd";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -12,19 +12,42 @@ const ConfirmationModal = ({
   bookedSeat,
   setBookedSeat,
   price,
+  modal,
+  setModal,
+  board,
+  drop,
 }: any) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
+
+  console.log(bookedSeat);
   const {
     formState: { errors },
     register,
+    handleSubmit,
   } = useForm({
     defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      boardingPoints: "",
-      dropPoints: "",
+      bus_id: tripInfo?.bus.id,
+      bus_trip_id: tripInfo?.id,
+      booked_seats: bookedSeat.map((item: any) => item.column_name).join(","),
+      departure_date: tripInfo?.departure_date,
+      start_destination: tripInfo?.start_destination,
+      final_destination: tripInfo?.final_destination,
+      bus_route_id: tripInfo.bus_route_id,
+      bus_trip_seats: bookedSeat.map((item: any) => {
+        return {
+          bus_trip_id: tripInfo.id,
+          bus_seat_id: item.id,
+        };
+      }),
+      drop_location: drop?.location,
+      board_location: board?.location,
+      drop_time: drop?.drop_time,
+      board_time: board?.board_datetime,
+      name: "Prawesh",
+      email: "prawesh@gmail.com",
+      phone: "9868108812",
+      gender: "Male",
     },
   });
 
@@ -41,9 +64,18 @@ const ConfirmationModal = ({
       .finally(() => { });
   };
 
+  const bookSeat = (data: any) => {
+    console.log(data);
+    setLoading(true);
+    bookSeats(data)
+      .then((res: any) => toast.success(res.message))
+      .catch(responseErrorHandler)
+      .finally(() => setLoading(false));
+  };
+
   return (
     <Modal
-      visible={!!tripInfo && !!bookedSeat.length}
+      visible={modal}
       //   onOk={releasingSeats}
       width={"80%"}
       title={tripInfo?.bus?.name}
@@ -52,6 +84,7 @@ const ConfirmationModal = ({
         setTripInfo(null);
         setBookedSeat([]);
         releasingSeats();
+        setModal(false);
       }}
       okText={null}
     >
@@ -59,7 +92,7 @@ const ConfirmationModal = ({
       <div className="container">
         <div className="row">
           <div className="col-md-8">
-            <form>
+            <form onSubmit={handleSubmit(bookSeat)}>
               <div className="d-flex gap-3">
                 <div className="form-group mb-3 flex-1">
                   <label>Name of Passenger</label>
@@ -124,20 +157,16 @@ const ConfirmationModal = ({
                 <div className="form-group mb-3 flex-1">
                   <label>Boarding Point</label>
                   <div>
-                    <Select
-                      defaultValue="lucy"
-                      style={{ width: 120 }}
-                      className="mt-1 w-100"
-                      options={[
-                        { value: "jack", label: "Jack" },
-                        { value: "lucy", label: "Lucy" },
-                        { value: "Yiminghe", label: "yiminghe" },
-                        {
-                          value: "disabled",
-                          label: "Disabled",
-                          disabled: true,
-                        },
-                      ]}
+                    <input
+                      autoFocus
+                      placeholder="e.g Hari Bahadur"
+                      className="mb-0 form-control mt-1"
+                      aria-invalid={!!errors?.email?.message}
+                      {...register("email", {
+                        required: "Name is Required",
+                        validate: (email) =>
+                          isValidEmail(email) || "Email format is invalid!",
+                      })}
                     />
                   </div>
 
@@ -171,6 +200,9 @@ const ConfirmationModal = ({
                   )}
                 </div>
               </div>
+              <Button loading={loading} type="primary" htmlType="submit">
+                Book
+              </Button>
             </form>
           </div>
           <div className="col-md-4">

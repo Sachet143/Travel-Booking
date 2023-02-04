@@ -248,13 +248,6 @@ const Trip = () => {
               </div>
             </div>
           </div>
-          <ConfirmationModal
-            bookedSeat={bookedSeat}
-            tripInfo={tripInfo}
-            price={price}
-            setBookedSeat={setBookedSeat}
-            setTripInfo={setTripInfo}
-          />
         </div>
       </div>
     </ClientLayout>
