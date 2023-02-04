@@ -14,13 +14,9 @@ import { Typography } from "antd";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import moment from "moment";
-import { CheckSquareOutlined } from "@ant-design/icons";
+import { CheckSquareFilled } from "@ant-design/icons";
 
-const { Title } = Typography;
-
-const { TabPane } = Tabs;
-const PickDrop = ({ trip_id, setBoard, setDrop }: any) => {
-  const router = useRouter();
+const PickDrop = ({ trip_id, setBoard, setDrop, board, drop }: any) => {
   const { data: pickDropData, error } = useSWR(`/boards-drops/${trip_id}`);
 
   if (!pickDropData && !error) {
@@ -46,11 +42,15 @@ const PickDrop = ({ trip_id, setBoard, setDrop }: any) => {
               >
                 <Button
                   type="link"
-                  className="d-flex align-items-center"
+                  className={`d-flex align-items-center  ${
+                    item?.location == board?.location
+                      ? "border_blue"
+                      : "border_grey"
+                  }`}
                   onClick={() => setBoard(item)}
                 >
                   {item.location}{" "}
-                  {true && <CheckSquareOutlined color="#87d068" />}
+                  {true && <CheckSquareFilled color="#ababab" />}
                 </Button>
               </Timeline.Item>
             );
@@ -77,12 +77,18 @@ const PickDrop = ({ trip_id, setBoard, setDrop }: any) => {
                   </>
                 }
               >
-                <div className="">
-                  {item.location}
-                  <Button type="link" onClick={() => setDrop(item)}>
-                    Select
-                  </Button>
-                </div>
+                <Button
+                  type="link"
+                  className={`d-flex align-items-center  ${
+                    item?.location == drop?.location
+                      ? "border_blue"
+                      : "border_grey"
+                  }`}
+                  onClick={() => setDrop(item)}
+                >
+                  {item.location}{" "}
+                  {true && <CheckSquareFilled color="#ababab" />}
+                </Button>
               </Timeline.Item>
             );
           })}

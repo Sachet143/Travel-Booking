@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SeatBooking from "./sections/SeatBooking";
 import PickDrop from "./sections/PickDrop";
-import { Select } from "antd";
+import { Badge, Popover, Select, Tooltip } from "antd";
 import Arrow from "@/public/client/assets/img/show_arrow.png";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import moment from "moment";
+import {
+  ClockCircleOutlined,
+  ExclamationCircleFilled,
+} from "@ant-design/icons";
+import ConfirmationModal from "./ConfirmationModal";
 
 const BusTable = ({
   trip,
@@ -22,6 +27,16 @@ const BusTable = ({
   const [drop, setDrop] = useState<any>();
   const [travelTime, setTravelTime] = useState<any>("");
   const [dropTime, setDropTime] = useState("");
+  const ref1 = useRef(null);
+  const [modal, setModal] = useState(false);
+
+  const steps: any["steps"] = [
+    {
+      title: "Upload File",
+      description: "Put your files here.",
+      target: () => ref1.current,
+    },
+  ];
 
   const renderDetailSections = (value: any) => {
     switch (value) {
@@ -40,7 +55,13 @@ const BusTable = ({
       case "pickdrop":
         return (
           tripId && (
-            <PickDrop setBoard={setBoard} setDrop={setDrop} trip_id={tripId} />
+            <PickDrop
+              setBoard={setBoard}
+              board={board}
+              drop={drop}
+              setDrop={setDrop}
+              trip_id={tripId}
+            />
           )
         );
       case "bookseat":
@@ -54,6 +75,9 @@ const BusTable = ({
               trip_id={tripId}
               bookedSeat={bookedSeat}
               setBookedSeat={setBookedSeat}
+              board={board}
+              drop={drop}
+              setModal={setModal}
             />
           )
         );
@@ -139,28 +163,23 @@ const BusTable = ({
           <div className="makeFlex column appendBottom22">
             <div className="makeFlex hrtlCenter appendBottom8">
               <span className="latoBlack font22 blackText appendRight15">
-                {trip?.bus?.bus_type}
+                {trip?.bus?.bus_type?.title}
               </span>
 
-              <span className="sc-kgoBCf hOSqgy">
+              {/* <span className="sc-kgoBCf hOSqgy">
                 <span className="sc-kGXeez bfoMHl">4.6</span>/5
-              </span>
-              <div className="font12 lightGreyText">6 Ratings</div>
+              </span> */}
+              {/* <div className="font12 lightGreyText">6 Ratings</div> */}
             </div>
 
             <span className="latoBlack font12 blackText appendRight15">
-              Jagadamba Tours and Travels (Bus No:{trip?.bus?.plate_number})
+              {trip?.bus?.name} (Bus No:{trip?.bus?.plate_number})
             </span>
             <div className="makeFlex hrtlCenter font12 blackText">
-              <span>A/C Sleeper (2+1)</span>
-              <div className="line-border-right"></div>
+              {/* <span>A/C Sleeper (2+1)</span> */}
+              {/* <div className="line-border-right"></div> */}
               <ul className="sc-fjdhpX fXgCif">
-                <span className="sc-cSHVUG lajtry sc-jzJRlG gKqGkn"></span> 30
-                Seats Left
-              </ul>
-              <div className="line-border-right"></div>
-              <ul className="sc-fjdhpX fXgCif">
-                <span className="sc-cSHVUG lajtry sc-jzJRlG koyVmu"></span>{" "}
+                <span className="sc-cSHVUG lajtry sc-jzJRlG gKqGkn"></span>{" "}
                 {trip?.bus?.total_seats} total seats
               </ul>
             </div>
@@ -251,12 +270,24 @@ const BusTable = ({
                 setSection(section == "pickdrop" ? "" : "pickdrop");
               }}
             >
-              <span className="appendRight5">Pickups &amp; Drops</span>
-              <i
-                className={`fa  mx-1 mt-1 ${
-                  section == "pickdrop" ? "fa-angle-up" : "fa-angle-down"
-                }`}
-              />
+              <div className="badge_wrapper">
+                <span className="appendRight5">Pickups &amp; Drops</span>
+                <i
+                  className={`fa  mx-1 mt-1 ${
+                    section == "pickdrop" ? "fa-angle-up" : "fa-angle-down"
+                  }`}
+                />
+                {board && drop ? (
+                  <></>
+                ) : (
+                  <Tooltip title={"! Check pickup drop."}>
+                    <ExclamationCircleFilled
+                      style={{ color: "#f5222d" }}
+                      className="badge_icon"
+                    />
+                  </Tooltip>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -271,9 +302,13 @@ const BusTable = ({
                   NPR
                 </span>
               </div>
-              <span placeholder="true" className="sc-ckVGcZ dYlDBG" id="price">
-                &nbsp;
-                {price}
+              <span
+                placeholder="true"
+                className="sc-ckVGcZ dYlDBG d-flex ml-1"
+                id="price"
+              >
+                {drop ? drop.price : trip.price} <br />X{" "}
+                {bookedSeat.length <= 1 ? 1 : bookedSeat.length} <br />= {price}
               </span>
             </div>
           </div>
@@ -302,6 +337,20 @@ const BusTable = ({
         </div>
       </div>
       <div className="tabs_bus_booking">{renderDetailSections(section)}</div>
+      {/* <Tour open={open} onClose={() => setOpen(false)} steps={steps} /> */}
+      {modal && (
+        <ConfirmationModal
+          bookedSeat={bookedSeat}
+          tripInfo={trip}
+          price={price}
+          setBookedSeat={setBookedSeat}
+          setTripInfo={setTripInfo}
+          modal={modal}
+          setModal={setModal}
+          board={board}
+          drop={drop}
+        />
+      )}
     </div>
   );
 };

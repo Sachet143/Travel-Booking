@@ -773,7 +773,7 @@ ul {
   border-top: 1.4px solid #e7e7e7;
 }
 .deepskyBlueText {
-  color: #008cff;
+  color: #008cff !important;
 }
 .noSelection {
   -webkit-user-select: none;
@@ -800,7 +800,7 @@ html[dir="ltr"] .appendRight5 {
   cursor: pointer;
 }
 .bus-card .price-section {
-  width: 178px;
+  width: 250px;
   text-align: right;
   display: flex;
   flex-direction: column;
@@ -1174,4 +1174,25 @@ html[dir="ltr"] .appendRight5 {
 }
 .shift.custom-select .ant-select-selector {
   overflow: hidden;
+}
+
+.border_grey {
+  border: 1px solid #ababab !important;
+  color: #ababab !important;
+}
+
+.border_blue {
+  border: 1px solid #1890ff !important;
+  color: #1890ff !important;
+}
+
+.badge_wrapper {
+  position: relative;
+}
+
+.badge_icon {
+  position: absolute;
+  left: -10px;
+  top: -2px;
+  font-size: 10px;
 }
