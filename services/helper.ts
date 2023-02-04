@@ -1,4 +1,4 @@
-import _, { isArray, isObject } from "lodash";
+import { isArray, isObject, includes } from "lodash";
 import queryString from "query-string";
 import { toast } from "react-toastify";
 import { useSWRConfig } from "swr";
@@ -135,7 +135,7 @@ export function useMatchMutate() {
     const keys = [];
     // @ts-ignore
     for (const key of cache.keys()) {
-      if (_.includes(key, matcher)) {
+      if (includes(key, matcher)) {
         keys.push(key);
       }
     }

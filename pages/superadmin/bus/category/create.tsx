@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const create = () => {
+const Create = () => {
   const router = useRouter();
   const [seatName, setSeatName] = useState<any>([]);
   const [seatColumn, setSeatColumn] = useState<any>(12);
@@ -270,4 +270,4 @@ const create = () => {
   );
 };
 
-export default create;
+export default Create;

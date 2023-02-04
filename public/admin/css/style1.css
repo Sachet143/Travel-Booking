@@ -12355,3 +12355,9 @@ table.lms_table_active3.dataTable thead .sorting_desc::after {
 .max-width-220 {
   max-width: 220px;
 }
+
+.f-width-date .rmdp-container,
+.f-width-date .rmdp-container .rmdp-input
+{
+  width: 100%;
+}

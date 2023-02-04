@@ -121,6 +121,7 @@ const TopBar = () => {
     window.removeEventListener("scroll", onScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -252,13 +253,12 @@ const TopBar = () => {
 
         {/* {navbar type3} */}
         <div
-          className={`navbar-type2 navbar-area ${
-            router.pathname != "/client"
-              ? "is-sticky"
-              : offset > 100
+          className={`navbar-type2 navbar-area ${router.pathname != "/client"
+            ? "is-sticky"
+            : offset > 100
               ? "is-sticky"
               : ""
-          }`}
+            }`}
         >
           <div className="container">
             <div className="row">
@@ -298,6 +298,7 @@ const TopBar = () => {
                             <a onClick={(e) => e.preventDefault()}>
                               <Space>
                                 <img
+                                  alt="image"
                                   src={avatarGenerator(user.email)}
                                   className="user_image bg-white border"
                                 />

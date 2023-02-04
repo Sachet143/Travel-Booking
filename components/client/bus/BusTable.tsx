@@ -151,6 +151,7 @@ const BusTable = ({
         setPrice(trip.price * bookedSeat.length);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drop, bookedSeat, board]);
 
   return (
@@ -229,6 +230,7 @@ const BusTable = ({
               {board ? board?.location : trip.start_destination}
             </div>
             <img
+              alt="image"
               src={Arrow.src}
               style={{ height: "32px", marginBottom: "-12px" }}
             />

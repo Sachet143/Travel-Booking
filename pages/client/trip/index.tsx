@@ -1,38 +1,30 @@
-import React, { useEffect, useState } from "react";
 import BusTable from "@/components/client/bus/BusTable";
+import ConfirmationModal from "@/components/client/bus/ConfirmationModal";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { Empty, Input, Modal, Segmented, Select, Skeleton, Slider } from "antd";
+import { cleanUrlParams } from "@/services/helper";
+import { Empty, Input, Segmented, Select } from "antd";
+import moment from "moment";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import useSWR from "swr";
-import axiosClient from "@/services/axios/clientfetch";
-import { useRouter } from "next/router";
-import { cleanUrlParams } from "@/services/helper";
-import ConfirmationModal from "@/components/client/bus/ConfirmationModal";
-import moment from "moment";
 const { Option } = Select;
-const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
+
 const Trip = () => {
-  const { data: hotelFeatureList, error: featureError } = useSWR(
-    `/features`,
-    customFetcher
-  );
 
   const [tripInfo, setTripInfo] = useState(null);
   const [bookedSeat, setBookedSeat] = useState([]);
 
   const router = useRouter();
 
-  const { data: tripsData, error } = useSWR(
+  const { data: tripsData } = useSWR(
     router.query ? cleanUrlParams(`/trips`, router.query) : null
   );
   const [price, setPrice] = useState();
 
   const {
-    register,
     control,
-    formState: { errors, touchedFields, dirtyFields },
-    getValues,
-    reset,
+    formState: { errors },
     setValue,
     handleSubmit,
     watch,
@@ -54,6 +46,8 @@ const Trip = () => {
     setValue("start_destination", router.query.start_destination);
     setValue("final_destination", router.query.final_destination);
     setValue("shift", router.query.shift);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);
 
   function get7DaysDates() {

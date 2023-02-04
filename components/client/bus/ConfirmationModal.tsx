@@ -61,7 +61,7 @@ const ConfirmationModal = ({
         setBookedSeat([]);
       })
       .catch(responseErrorHandler)
-      .finally(() => {});
+      .finally(() => { });
   };
 
   const bookSeat = (data: any) => {
@@ -215,6 +215,7 @@ const ConfirmationModal = ({
                   </p>
                 </div>
                 <img
+                  alt="image"
                   src={Arrow.src}
                   style={{ height: "32px", marginBottom: "-12px" }}
                 />
@@ -230,7 +231,7 @@ const ConfirmationModal = ({
                 <div className="seats d-flex">
                   {bookedSeat.map((seatNames: any, index: any) => {
                     return (
-                      <p>
+                      <p key={seatNames.column_name}>
                         {seatNames.column_name}
                         {bookedSeat.length - 1 < index ? "" : ","}
                       </p>

@@ -1,8 +1,7 @@
 import Dropdown from "@/components/common/Dropdown";
 import { Select, Skeleton } from "antd";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { Controller } from "react-hook-form";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 function HotelFilter() {
@@ -32,10 +31,13 @@ function HotelFilter() {
 
   useEffect(() => {
     setSumGuests(finalTotal.adult + finalTotal.children);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     setFilter({ ...filter, max_people: sumGuests });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sumGuests]);
 
   return (

@@ -40,6 +40,7 @@ const Dropdown = ({
   useEffect(() => {
     setSumGuests(totalGuests.adult + totalGuests.children);
     setFinalTotal(totalGuests);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalGuests.adult, totalGuests.children]);
 
   return (

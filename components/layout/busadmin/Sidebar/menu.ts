@@ -25,6 +25,36 @@ export const BusadminSidebarMenus = [
         ]
     },
     {
+        title: "Routes",
+        parent: true,
+        icon: "/admin/img/menu-icon/7.svg",
+        children: [
+            {
+                title: "Create",
+                link: "/busadmin/bus-routes/create"
+            },
+            {
+                title: "Listing",
+                link: "/busadmin/bus-routes"
+            },
+        ]
+    },
+    {
+        title: "Trip",
+        parent: true,
+        icon: "/admin/img/menu-icon/7.svg",
+        children: [
+            {
+                title: "Create",
+                link: "/busadmin/trip/create"
+            },
+            {
+                title: "Listing",
+                link: "/busadmin/trip"
+            },
+        ]
+    },
+    {
         title: "Bookings",
         parent: true,
         icon: "/admin/img/menu-icon/7.svg",
