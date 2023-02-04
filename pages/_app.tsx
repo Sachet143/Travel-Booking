@@ -12,6 +12,7 @@ import { SWRConfig } from "swr";
 import "../styles/globals.css";
 
 function App({ Component, pageProps, session }: any) {
+  //redeploy
   return (
     <>
       <NextNProgress />
