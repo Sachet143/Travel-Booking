@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import SeatBooking from "./sections/SeatBooking";
 import PickDrop from "./sections/PickDrop";
-import { Badge, Popover, Select, Tooltip } from "antd";
+import { Badge, Popover, Select, Tooltip, Tour } from "antd";
 import Arrow from "@/public/client/assets/img/show_arrow.png";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -9,6 +9,7 @@ import moment from "moment";
 import {
   ClockCircleOutlined,
   ExclamationCircleFilled,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import ConfirmationModal from "./ConfirmationModal";
 
@@ -27,13 +28,20 @@ const BusTable = ({
   const [drop, setDrop] = useState<any>();
   const [travelTime, setTravelTime] = useState<any>("");
   const [dropTime, setDropTime] = useState("");
-  const ref1 = useRef(null);
   const [modal, setModal] = useState(false);
+  const ref1 = useRef(null);
+  const [open, setOpen] = useState<boolean>(false);
 
   const steps: any["steps"] = [
     {
-      title: "Upload File",
-      description: "Put your files here.",
+      title: (
+        <div className="d-flex align-items-center gap-2">
+          <ExclamationCircleFilled style={{ color: " rgb(245, 34, 45);" }} />
+          <span>Select your route.</span>
+        </div>
+      ),
+      description: "Please select your pick up and drop point here.",
+
       target: () => ref1.current,
     },
   ];
@@ -265,6 +273,7 @@ const BusTable = ({
               />
             </div>
             <div
+              ref={ref1}
               className="detail-header"
               onClick={() => {
                 setBusID(trip.bus.id);
@@ -321,9 +330,16 @@ const BusTable = ({
             type="button"
             style={{ marginRight: "9px" }}
             onClick={() => {
-              setBusID(trip.bus.id);
-              setTripId(trip.id);
-              setSection(section == "bookseat" ? "" : "bookseat");
+              if (!drop || !board) {
+                setOpen(true);
+                setBusID(trip.bus.id);
+                setTripId(trip.id);
+                setSection(section == "pickdrop" ? "" : "pickdrop");
+              } else {
+                setBusID(trip.bus.id);
+                setTripId(trip.id);
+                setSection(section == "bookseat" ? "" : "bookseat");
+              }
             }}
           >
             {section != "bookseat" ? "View Seats" : "Hide Seats"}{" "}
@@ -353,6 +369,7 @@ const BusTable = ({
           drop={drop}
         />
       )}
+      <Tour open={open} onClose={() => setOpen(false)} steps={steps} />
     </div>
   );
 };

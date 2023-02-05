@@ -11,7 +11,6 @@ import useSWR from "swr";
 const { Option } = Select;
 
 const Trip = () => {
-
   const [tripInfo, setTripInfo] = useState(null);
   const [bookedSeat, setBookedSeat] = useState([]);
 
