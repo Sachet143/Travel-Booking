@@ -115,5 +115,6 @@ export const config = {
     "/hoteladmin",
     "/hoteladmin/login",
     "/hoteladmin/hotel/create",
+    "/((?!api|_next/static|_next/image|admin/css|admin/img|admin/vendors|admin/js|client/assets|favicon.ico).*)",
   ],
 };

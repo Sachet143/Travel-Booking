@@ -96,7 +96,7 @@ function Index() {
                             aria-selected="true"
                           >
                             <i className="fas fa-plane-departure" />
-                            Flights
+                            Flight
                           </button>
                         </li>
                         <li className="nav-item" role="presentation">
