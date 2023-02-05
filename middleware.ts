@@ -86,6 +86,35 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // public routes
-    '/((?!api|_next/static|_next/image|admin/css|admin/img|admin/vendors|admin/js|client/assets|favicon.ico).*)'
+    "/",
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password",
+    "/tour",
+    "/hotels",
+    "/hotels/:path",
+    "/room/:path",
+    "/room/:path/book",
+    "/login",
+    "/register",
+    "/search",
+    "/profile",
+    "/become-partner",
+    "/bus",
+    "/trip",
+    "/tour/success",
+    "/tour/failure",
+    "/bus/create",
+
+    // superadmin routes
+    "/superadmin",
+    "/superadmin/login",
+
+    // hoteladmin routes
+    "/hoteladmin",
+    "/hoteladmin/login",
+    "/hoteladmin/hotel/create",
+    "/((?!api|_next/static|_next/image|admin/css|admin/img|admin/vendors|admin/js|client/assets|favicon.ico).*)",
   ],
 };
