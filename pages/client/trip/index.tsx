@@ -36,16 +36,13 @@ const Trip = () => {
   });
 
   const searchBus = (data: any) => {
-    router.replace({
-      query: data,
-    });
+    router.push(cleanUrlParams("/trip", { ...router.query, ...data }));
   };
 
   useEffect(() => {
     setValue("start_destination", router.query.start_destination);
     setValue("final_destination", router.query.final_destination);
     setValue("shift", router.query.shift);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);
 
@@ -172,6 +169,9 @@ const Trip = () => {
                                 <Option key={2} value={"night"}>
                                   Night
                                 </Option>
+                                <Option key={2} value={"night"}>
+                                  Both
+                                </Option>
                               </Select>
                               {errors?.features?.message && (
                                 <div className="text-danger">
@@ -205,9 +205,12 @@ const Trip = () => {
                     : moment().format("YYYY-MM-DD").toString()
                 }
                 onChange={(value) =>
-                  router.replace({
-                    query: { ...router.query, date: value },
-                  })
+                  router.push(
+                    cleanUrlParams("/trip", {
+                      ...router.query,
+                      date: value,
+                    })
+                  )
                 }
               />
               <div>

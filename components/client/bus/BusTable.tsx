@@ -41,8 +41,8 @@ const BusTable = ({
         </div>
       ),
       description: "Please select your pick up and drop point here.",
-
       target: () => ref1.current,
+      nextButtonProps: { children: <>OK</> },
     },
   ];
 

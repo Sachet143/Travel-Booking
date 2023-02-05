@@ -1196,3 +1196,57 @@ html[dir="ltr"] .appendRight5 {
   top: -2px;
   font-size: 10px;
 }
+
+.payment_wrapper {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.esewa_wrapper {
+  height: 45px;
+  width: 117px;
+  padding: 10px;
+  border-radius: 2px;
+  background-color: rgb(143 143 143 / 24%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.khalti_wrapper {
+  height: 45px;
+  width: 100px;
+  padding: 6px;
+  border-radius: 2px;
+  background-color: whitesmoke;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.deadline_wrapper {
+  padding: 0px 15px;
+  background: rgb(247 0 0 / 16%);
+  border-radius: 3px;
+  border: 1px solid #ff000091;
+}
+.custom_border {
+  border: 2px solid #1890ff !important;
+}
+
+.img_wrapper_payment.custom_border .icon {
+  display: block !important;
+}
+
+.img_wrapper_payment {
+  position: relative;
+}
+.img_wrapper_payment .icon {
+  position: absolute;
+  color: #1890ff;
+  right: -5px;
+  top: -5px;
+  display: none;
+}
