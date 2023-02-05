@@ -4913,10 +4913,7 @@ a (active): #000000
   }
 }
 
-svg,
-img {
-  vertical-align: middle;
-}
+/* */
 .bus-booking-content,
 .agency-bottom-content {
   padding: 25px 0 50px;
