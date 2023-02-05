@@ -103,8 +103,7 @@ export const config = {
     "/become-partner",
     "/bus",
     "/trip:path",
-    "/tour/success",
-    "/tour/failure",
+    "/tour:path",
     "/bus/create",
 
     // superadmin routes
