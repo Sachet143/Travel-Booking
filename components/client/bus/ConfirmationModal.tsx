@@ -1,11 +1,16 @@
 import { bookSeats, releaseSeats } from "@/api/client/booking";
 import { isValidEmail, responseErrorHandler } from "@/services/helper";
-import { Button, Card, Divider, Modal, Select, message } from "antd";
+import { Button, Card, Divider, Modal, Select, Spin, message } from "antd";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import Arrow from "../../../public/client/assets/img/show_arrow.png";
+import Arrow from "@/public/client/assets/img/show_arrow.png";
 import Countdown from "antd/lib/statistic/Countdown";
+import ESEWA from "@/public/client/assets/img/esewa.png";
+import KHALTI from "@/public/client/assets/img/khalti.png";
+import { CheckCircleFilled, LoadingOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const ConfirmationModal = ({
   tripInfo,
@@ -18,20 +23,13 @@ const ConfirmationModal = ({
   board,
   drop,
 }: any) => {
+  const antIcon = <LoadingOutlined style={{ fontSize: 16 }} spin />;
   const [loading, setLoading] = useState(false);
-  let path = "https://uat.esewa.com.np/epay/main";
-
-  //   const [params, setParams] = useState<any>({
-  //     amt: 100,
-  //     psc: 0,
-  //     pdc: 0,
-  //     txAmt: 0,
-  //     tAmt: 0,
-  //     pid: null,
-  //     scd: "EPAYTEST",
-  //     su: `http://eakaksha.com:8000/bus/esewa/verifyBusPayment?q=su`,
-  //     fu: `http://eakaksha.com:8000/bus/esewa/verifyBusPayment?q=fu`,
-  //   });
+  const [payment, setPayment] = useState("");
+  const [khaltiLoading, setKhaltiLoading] = useState(false);
+  let esewaPath = "https://uat.esewa.com.np/epay/main";
+  let khaltipath = "https://a.khalti.com/api/v2/epayment/initiate/";
+  const router = useRouter();
 
   const {
     formState: { errors },
@@ -80,7 +78,7 @@ const ConfirmationModal = ({
   function post(params: any) {
     var form = document.createElement("form");
     form.setAttribute("method", "POST");
-    form.setAttribute("action", path);
+    form.setAttribute("action", esewaPath);
     for (var key in params) {
       var hiddenField = document.createElement("input");
       hiddenField.setAttribute("type", "hidden");
@@ -94,27 +92,70 @@ const ConfirmationModal = ({
   }
 
   const bookSeat = (data: any) => {
-    setLoading(true);
-    bookSeats(data)
-      .then((res: any) => {
-        toast.success(res.message);
-        post({
-          amt: res.data.total_amount,
-          psc: 0,
-          pdc: 0,
-          txAmt: 0,
-          tAmt: res.data.total_amount,
-          pid: res.data.uuid,
-          scd: "EPAYTEST",
-          su: `http://103.233.57.220:8000/bus/esewa/verifyBusPayment?q=su`,
-          fu: `http://103.233.57.220:8000/bus/esewa/verifyBusPayment?q=fu`,
-        });
-      })
-      .catch(responseErrorHandler)
-      .finally(() => setLoading(false));
+    if (!payment) {
+      return toast.error("Please select the payment method to proceed.");
+    } else {
+      setLoading(true);
+      bookSeats(data)
+        .then((res: any) => {
+          toast.success(res.message);
+          if (payment == "esewa") {
+            post({
+              amt: res.data.total_amount,
+              psc: 0,
+              pdc: 0,
+              txAmt: 0,
+              tAmt: res.data.total_amount,
+              pid: res.data.uuid,
+              scd: "EPAYTEST",
+              su: `http://103.233.57.220:8000/bus/esewa/verifyBusPayment?q=su`,
+              fu: `http://103.233.57.220:8000/bus/esewa/verifyBusPayment?q=fu`,
+            });
+          } else if (payment == "khalti") {
+            setKhaltiLoading(true);
+            axios
+              .post(
+                khaltipath,
+                {
+                  return_url:
+                    "http://103.233.57.220:8000/bus/khalti/verifyBusPayment",
+                  website_url: "http://103.233.57.220:3000/",
+                  amount: parseInt(res.data.total_amount) * 100,
+                  purchase_order_id: res.data.uuid,
+                  purchase_order_name: "test",
+                },
+
+                {
+                  headers: {
+                    Authorization: "Key addaae1af48a4d16979c8f0e25deacf3",
+                    "Content-Type": "application/json",
+                  },
+                }
+              )
+              .then((res: any) => {
+                router.replace(res.data.payment_url);
+              })
+              .catch(responseErrorHandler)
+              .finally(() => setKhaltiLoading(false));
+          }
+        })
+        .catch(responseErrorHandler)
+        .finally(() => setLoading(false));
+    }
   };
 
   const deadline = Date.now() + 1000 * 6 * 24 * 2;
+
+  const paymentCheck = (value: any) => {
+    switch (value) {
+      case "khalti":
+        setPayment("khalti");
+        break;
+
+      case "esewa":
+        setPayment("esewa");
+    }
+  };
 
   return (
     <Modal
@@ -260,24 +301,52 @@ const ConfirmationModal = ({
                   </div>
                 </div>
               </div>
-              <div className="d-flex justify-content-between">
-                <Countdown
-                  title="Bus Booking Deadline"
-                  value={deadline}
-                  format="mm:ss"
-                  onFinish={() => {
-                    setTripInfo(null);
-                    setBookedSeat([]);
-                    releasingSeats();
-                    setModal(false);
-                  }}
-                />
+              <div className="d-flex justify-content-between align-items-center">
+                <div className="">
+                  <label>Select Payment Method</label>
+                  <div className="payment_wrapper mt-2">
+                    <div
+                      className={`img_wrapper_payment  ${
+                        payment == "esewa" ? "custom_border" : ""
+                      }`}
+                    >
+                      <img
+                        src={ESEWA.src}
+                        className={`esewa_wrapper`}
+                        onClick={() => paymentCheck("esewa")}
+                      />
+                      <CheckCircleFilled
+                        height={30}
+                        width={30}
+                        className="icon"
+                      />
+                    </div>
+                    <Spin spinning={khaltiLoading} indicator={antIcon}>
+                      <div
+                        className={`img_wrapper_payment ${
+                          payment == "khalti" ? "custom_border" : ""
+                        }`}
+                      >
+                        <img
+                          src={KHALTI.src}
+                          className={`khalti_wrapper`}
+                          onClick={() => paymentCheck("khalti")}
+                        />
+                        <CheckCircleFilled
+                          height={30}
+                          width={30}
+                          className="icon"
+                        />
+                      </div>
+                    </Spin>
+                  </div>
+                </div>
+
                 <Button
                   size="large"
                   loading={loading}
                   type="primary"
                   htmlType="submit"
-                  className="mt-3"
                 >
                   Book
                 </Button>
@@ -285,7 +354,26 @@ const ConfirmationModal = ({
             </form>
           </div>
           <div className="col-md-4">
-            <label>Travel Detail</label>
+            <div className="d-flex justify-content-between align-items-center">
+              <label>Travel Detail</label>
+              <div className="d-flex gap-3 align-items-center  deadline_wrapper">
+                <label style={{ color: "red" }}>Deadline</label>
+                <Countdown
+                  // title="Bus Booking Deadline"
+                  valueStyle={{ fontSize: "17px", color: "red" }}
+                  value={deadline}
+                  format="mm:ss"
+                  style={{ fontSize: "40px" }}
+                  onFinish={() => {
+                    setTripInfo(null);
+                    setBookedSeat([]);
+                    releasingSeats();
+                    setModal(false);
+                  }}
+                />
+              </div>
+            </div>
+
             <Card className="mt-2">
               <div className="d-flex gap-5 my-3 mb-4 align-items-end justify-content-between">
                 <div className="">

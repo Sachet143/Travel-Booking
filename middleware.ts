@@ -102,7 +102,7 @@ export const config = {
     "/profile",
     "/become-partner",
     "/bus",
-    "/trip",
+    "/trip:path",
     "/tour/success",
     "/tour/failure",
     "/bus/create",
