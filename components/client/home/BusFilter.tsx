@@ -17,8 +17,7 @@ function BusFilter() {
     defaultValues: {
       start_destination: "Pokhara",
       final_destination: "Kathmandu",
-      date: "2023-01-31",
-      // date: moment(Date.now()).format("YYYY-MM-DD"),
+      date: moment(Date.now()).format("YYYY-MM-DD"),
       shift: "Day",
     },
   });
