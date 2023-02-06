@@ -15,21 +15,21 @@ const Success = () => {
               title="🎉🎉 Congratulations! 🎉🎉"
               subTitle="Your seat reservation has been successfully secured."
               extra={[
-                <>
-                  <iframe
-                    src="https://giphy.com/embed/l0Exgd8ofUusqQKGs"
-                    width="480"
-                    height="360"
-                    frameBorder="0"
-                    className="giphy-embed"
-                    allowFullScreen
-                  ></iframe>
-                  <p>
-                    <a href="https://giphy.com/gifs/oscars-academy-awards-oscars-1985-l0Exgd8ofUusqQKGs">
-                      via GIPHY
-                    </a>
-                  </p>
-                </>,
+                // <>
+                //   <iframe
+                //     src="https://giphy.com/embed/l0Exgd8ofUusqQKGs"
+                //     width="480"
+                //     height="360"
+                //     frameBorder="0"
+                //     className="giphy-embed"
+                //     allowFullScreen
+                //   ></iframe>
+                //   <p>
+                //     <a href="https://giphy.com/gifs/oscars-academy-awards-oscars-1985-l0Exgd8ofUusqQKGs">
+                //       via GIPHY
+                //     </a>
+                //   </p>
+                // </>,
                 <Button type="primary" key="console">
                   Download your ticket
                 </Button>,

@@ -169,7 +169,7 @@ const Trip = () => {
                                 <Option key={2} value={"night"}>
                                   Night
                                 </Option>
-                                <Option key={2} value={"night"}>
+                                <Option key={3} value={"both"}>
                                   Both
                                 </Option>
                               </Select>

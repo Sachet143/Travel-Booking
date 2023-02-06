@@ -14,19 +14,19 @@ const Failed = () => {
               title="Submission Failed"
               subTitle="Please check and modify the following information before resubmitting."
               extra={[
-                <>
-                  <iframe
-                    src="https://giphy.com/embed/XJCL959KwYbE4"
-                    width="480"
-                    height="433"
-                    frameBorder="0"
-                    className="giphy-embed"
-                    allowFullScreen
-                  ></iframe>
-                  <p>
-                    <a href="https://giphy.com/gifs/XJCL959KwYbE4">via GIPHY</a>
-                  </p>
-                </>,
+                // <>
+                //   <iframe
+                //     src="https://giphy.com/embed/XJCL959KwYbE4"
+                //     width="480"
+                //     height="433"
+                //     frameBorder="0"
+                //     className="giphy-embed"
+                //     allowFullScreen
+                //   ></iframe>
+                //   <p>
+                //     <a href="https://giphy.com/gifs/XJCL959KwYbE4">via GIPHY</a>
+                //   </p>
+                // </>,
                 <Button type="primary" key="console">
                   Go Console
                 </Button>,
