@@ -21,10 +21,9 @@ jobs:
       - uses: actions/checkout@v3
       # - uses: actions/setup-node@v3
       - run: npm install pm2@latest -g
-    # - name: Use Node.js ${{ matrix.node-version }}
-      # with:
-      #   node-version: ${{ matrix.no`de-version }}
-    #     cache: 'npm'
+      - run: node -v
+      - run: pm2 -V
+      - run: pm2 list
       - run: npm i
       - run: npm run build --if-present
       - run: pm2 start npm -- start
