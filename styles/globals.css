@@ -1250,3 +1250,15 @@ html[dir="ltr"] .appendRight5 {
   top: -5px;
   display: none;
 }
+
+.shift.custom-select .ant-select-selector {
+  width: 100%;
+  height: 40px !important;
+  padding: 0 11px;
+  align-items: center;
+  border: none !important;
+}
+
+.shift.custom-select .form-control {
+  padding: 10px 5px !important;
+}
