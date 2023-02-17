@@ -11,6 +11,7 @@ import { Button, Dropdown, Menu, Space } from "antd";
 import { appDecrypt, avatarGenerator } from "@/services/helper";
 import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
 import { deleteCookie, getCookie } from "cookies-next";
+import moment from "moment";
 
 const TopBar = () => {
   const router = useRouter();
@@ -23,6 +24,8 @@ const TopBar = () => {
   const isSuperAdmin = userType && appDecrypt(userType + "") === "superadmin";
   const isHotelAdmin = userType && appDecrypt(userType + "") === "hoteladmin";
   const isBusAdmin = userType && appDecrypt(userType + "") === "busadmin";
+
+  let date = moment(Date.now()).format("YYYY-MM-DD");
 
   const menu = (
     <Menu
@@ -168,7 +171,9 @@ const TopBar = () => {
                             className="nav-link"
                             onClick={(e) => {
                               e.preventDefault();
-                              router.push("/bus");
+                              router.push(
+                                `/trip?date=${date}&start_destination=Kathmandu&final_destination=Pokhara&shift=Day`
+                              );
                             }}
                           >
                             <img src={Tour.src} alt="logo" />
@@ -253,12 +258,13 @@ const TopBar = () => {
 
         {/* {navbar type3} */}
         <div
-          className={`navbar-type2 navbar-area ${router.pathname != "/client"
-            ? "is-sticky"
-            : offset > 100
+          className={`navbar-type2 navbar-area ${
+            router.pathname != "/client"
+              ? "is-sticky"
+              : offset > 100
               ? "is-sticky"
               : ""
-            }`}
+          }`}
         >
           <div className="container">
             <div className="row">
@@ -340,7 +346,9 @@ const TopBar = () => {
                             className="nav-link"
                             onClick={(e) => {
                               e.preventDefault();
-                              router.push("/bus");
+                              router.push(
+                                `/trip?date=${date}&start_destination=Kathmandu&final_destination=Pokhara&shift=Day`
+                              );
                             }}
                           >
                             <img src={Tour.src} alt="logo" />

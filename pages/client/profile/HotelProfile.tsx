@@ -15,7 +15,7 @@ const HotelProfile = () => {
                 <th>SL no.</th>
                 <th>Receipt No.</th>
                 <th>Number of People</th>
-                <th>Total Amount</th>
+                <th>Total Amounting</th>
                 <th>Booking Date</th>
                 <th>Stay Date</th>
               </tr>

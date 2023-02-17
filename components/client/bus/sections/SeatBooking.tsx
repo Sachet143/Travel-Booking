@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import Driver from "@/public/client/assets/img/driving.png";
 import { Button, Popover, Skeleton, Tooltip, notification } from "antd";
@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { holdSeats } from "@/api/client/booking";
 import { toast } from "react-toastify";
 import { responseErrorHandler } from "@/services/helper";
+import useUser from "@/services/hooks/useUser";
 
 const SeatBooking = ({
   bus_id,
@@ -22,7 +23,7 @@ const SeatBooking = ({
 }: any) => {
   const { data, error } = useSWR(`/show-seats/${bus_id}/${trip_id}`);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+
   //   const [bookedSeat, ] = useState<any>([]);
 
   function groupBy(list: any, keyGetter: any) {

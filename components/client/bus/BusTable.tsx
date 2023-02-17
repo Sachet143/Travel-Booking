@@ -12,6 +12,7 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import ConfirmationModal from "./ConfirmationModal";
+import useUser from "@/services/hooks/useUser";
 
 const BusTable = ({
   trip,
@@ -161,6 +162,8 @@ const BusTable = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drop, bookedSeat, board]);
+
+  const { mutateUser, errorUser } = useUser();
 
   return (
     <div
@@ -330,6 +333,7 @@ const BusTable = ({
             type="button"
             style={{ marginRight: "9px" }}
             onClick={() => {
+              mutateUser();
               if (!drop || !board) {
                 setOpen(true);
                 setBusID(trip.bus.id);

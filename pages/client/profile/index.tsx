@@ -10,6 +10,7 @@ import MyProfile from "./MyProfile";
 import Notification from "./Notification";
 import Privacy from "./Privacy";
 import Rewards from "./Rewards";
+import BusProfile from "./BusProfile";
 
 const Profile = () => {
   const { user } = useUser();
@@ -36,6 +37,8 @@ const renderTab = (tab: any) => {
       return <Dashboard />;
     case "profile":
       return <MyProfile />;
+    case "busProfile":
+      return <BusProfile />;
     case "booking":
       return <HotelProfile />;
     case "privacy":
