@@ -17,17 +17,23 @@ function ClientNavbar({ tab, setTab }: any) {
       // @ts-ignore
       icon: <i className="fas fa-user-circle primary_color" />,
     },
+
     {
       label: "Dashboard",
       key: "dashboard",
       // @ts-ignore
       // icon: <i className="fas fa-tachometer-alt" />,
     },
+
     {
       label: "My Bookings",
       key: "booking",
       // @ts-ignore
       // icon: <AppstoreOutlined />,
+    },
+    {
+      label: "Bus Booking",
+      key: "busProfile",
     },
     {
       label: "Rewards",

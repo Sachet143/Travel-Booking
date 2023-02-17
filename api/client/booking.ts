@@ -15,3 +15,7 @@ export const releaseSeats = async (data: any) =>
 
 export const bookSeats = async (data: any) =>
   await axiosInstance.post("/user/book-bus", data);
+
+export const getBookingDetails = async (data: any) => {
+  await axiosInstance.get("/");
+};

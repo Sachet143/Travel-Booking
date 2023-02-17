@@ -120,7 +120,7 @@ const ConfirmationModal = ({
                   return_url:
                     "http://103.233.57.220:8000/bus/khalti/verifyBusPayment",
                   website_url: "http://103.233.57.220:3000/",
-                  amount: parseInt(res.data.total_amount) * 100,
+                  amount: parseInt(res.data.total_amount),
                   purchase_order_id: res.data.uuid,
                   purchase_order_name: "test",
                 },
@@ -135,12 +135,10 @@ const ConfirmationModal = ({
               .then((res: any) => {
                 router.replace(res.data.payment_url);
               })
-              .catch(responseErrorHandler)
-              .finally(() => setKhaltiLoading(false));
+              .catch(responseErrorHandler);
           }
         })
-        .catch(responseErrorHandler)
-        .finally(() => setLoading(false));
+        .catch(responseErrorHandler);
     }
   };
 
