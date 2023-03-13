@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import LogoPurple from "@/public/client/assets/img/YS-purple.svg";
+import Comming from "@/public/client/assets/img/cooming.jpg";
 
 function Index() {
   useEffect(() => {
@@ -95,7 +96,7 @@ function Index() {
       </div>
       <div className="hero-image-desktop">
         <img
-          src="https://pixabay.com/get/gecd8595e3484dd6a13d14bc06333c72466117bf5656d0ab55d2c7494e699a8298031675c308e5c84ddd98c3fe8eda14a_1920.jpg"
+          src={Comming.src}
           alt="Femail athlete squinting towards the camera."
         />
       </div>
