@@ -1360,7 +1360,7 @@ input {
 }
 
 .hero-banner .hero-image {
-  background-image: url(https://assets.codepen.io/6060109/athlete-girl.png);
+  background-image: url("../public/client/assets/img/cooming.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -1439,7 +1439,7 @@ input {
 
 @media only screen and (min-width: 768px) {
   body {
-    background-image: url(https://assets.codepen.io/6060109/destop-bg.png);
+    background-image: url("https://assets.codepen.io/6060109/destop-bg.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
