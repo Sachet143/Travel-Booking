@@ -87,6 +87,7 @@ export const config = {
   matcher: [
     // public routes
     "/",
+    "/home",
     "/login",
     "/register",
     "/forgot-password",
