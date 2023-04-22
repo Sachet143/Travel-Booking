@@ -8,12 +8,11 @@ interface IProps {
 
 const ClientLayout = (props: IProps) => {
   return (
-    <>
+    <div className="asdf">
       <TopBar />
-
       {props.children}
       <Footer />
-    </>
+    </div>
   );
 };
 

@@ -1294,7 +1294,7 @@ html[dir="ltr"] .appendRight5 {
   font-weight: bold;
   font-style: normal;
 }
-
+/* 
 *,
 *::before,
 *::after {
@@ -1304,7 +1304,7 @@ html[dir="ltr"] .appendRight5 {
   margin: 0;
   padding: 0;
   text-decoration: none;
-}
+} */
 
 :root {
   --theme-color-black: #333333; /* rgba(51, 51, 51, 1) */
@@ -1443,7 +1443,7 @@ input {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    display: flex;
+    /* display: flex; */
     flex-direction: row;
     height: 100%;
   }
