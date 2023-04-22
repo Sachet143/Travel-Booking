@@ -1,7 +1,7 @@
 import "@/public/admin/css/custom.css";
 import axiosClient from "@/services/axios/clientfetch";
 // import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
-import 'antd/dist/reset.css';
+import "antd/dist/reset.css";
 
 import { SessionProvider } from "next-auth/react";
 import NextNProgress from "nextjs-progressbar";
@@ -12,7 +12,7 @@ import { SWRConfig } from "swr";
 import "../styles/globals.css";
 
 function App({ Component, pageProps, session }: any) {
-
+  // redeploy
   return (
     <>
       <NextNProgress />
