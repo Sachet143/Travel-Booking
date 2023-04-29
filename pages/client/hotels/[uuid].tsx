@@ -8,8 +8,8 @@ import {
   imageFullPath,
   renderLocation,
 } from "@/services/helper";
-import useUser from "@/services/hooks/useUser";
 import {
+  Slider as AntSlider,
   Breadcrumb,
   Col,
   Empty,
@@ -18,10 +18,11 @@ import {
   Row,
   Select,
   Skeleton,
-  Slider as AntSlider,
   Tag,
   Tooltip,
+  DatePicker,
 } from "antd";
+import moment from "moment";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -29,6 +30,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Slider from "react-slick";
 import useSWR from "swr";
+const { RangePicker } = DatePicker;
 const { Option } = Select;
 const customFetcher = (url: string) => axiosClient(url).then((res: any) => res);
 
@@ -39,30 +41,36 @@ const Editor = dynamic(
 
 function HotelPage() {
   const router = useRouter();
-  const { user } = useUser();
   const { uuid, ...restQuery } = router.query;
+  const [bookingDate, setBookingDate] = useState(null);
+  const [people, setPeople] = useState(0);
 
-  const { data: hotel, error } = useSWR(uuid ? `/hotels/${uuid}` : null);
-  const { data: rooms, error: roomError } = useSWR(
-    hotel
-      ? cleanUrlParams(`rooms`, {
-        hotel_id: hotel.id,
-        ...restQuery,
-      })
-      : null
+  const { data: hotel, error } = useSWR(
+    uuid ? `/hotels/${uuid}` : null,
+    (url: string) => axiosClient(url).then((res: any) => res.data)
   );
   const hotelLoading = !hotel && !error;
+
+  const { data: roomAvailability, error: availabilityError } = useSWR(
+    cleanUrlParams(`/hotels/${uuid}`, {
+      checkin_date: bookingDate
+        ? moment(bookingDate[0]).format("YYYY-MM-DD")
+        : null,
+      checkout_date: bookingDate
+        ? moment(bookingDate[1]).format("YYYY-MM-DD")
+        : null,
+      ...restQuery,
+    }),
+    (url: string) => axiosClient(url).then((res: any) => res.data)
+  );
+  const availabilityLoading = !roomAvailability && !availabilityError;
 
   const { data: featureList, error: featureError } = useSWR(
     `/features`,
     customFetcher
   );
 
-  const [nav1, setNav1] = useState();
-  const [nav2, setNav2] = useState();
-
   const {
-    getValues,
     control,
     formState: { errors },
     reset,
@@ -75,49 +83,8 @@ function HotelPage() {
     },
   });
 
-  useEffect(() => {
-    reset({
-      min_price: restQuery?.min_price || 500,
-      max_price: restQuery?.max_price || 50000,
-      features: router.query.features
-        ? router.query.features.toString().split(",").map(Number)
-        : [],
-    });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query]);
-
-  const applyPriceFilter = (e: any) => {
-    e.preventDefault();
-    router.push(
-      cleanUrlParams(`/hotels/${uuid}`, {
-        ...restQuery,
-        min_price: getValues("min_price"),
-        max_price: getValues("max_price"),
-      })
-    );
-  };
-
-  const clearPriceFilter = (e: any) => {
-    e.preventDefault();
-
-    router.push(
-      cleanUrlParams(`/hotels/${uuid}`, {
-        ...restQuery,
-        min_price: 500,
-        max_price: 50000,
-      })
-    );
-  };
-  const applyFeaturesFilter = (e: any) => {
-    e.preventDefault();
-    router.push(
-      cleanUrlParams(`/hotels/${uuid}`, {
-        ...restQuery,
-        features: getValues("features").join(","),
-      })
-    );
-  };
+  const [nav1, setNav1] = useState();
+  const [nav2, setNav2] = useState();
 
   const clearFilter = (value: any) => {
     router.push(
@@ -136,6 +103,18 @@ function HotelPage() {
       })
     );
   };
+
+  useEffect(() => {
+    reset({
+      min_price: restQuery?.min_price || 500,
+      max_price: restQuery?.max_price || 50000,
+      features: router.query.features
+        ? router.query.features.toString().split(",").map(Number)
+        : [],
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query]);
 
   return (
     <ClientLayout>
@@ -347,9 +326,43 @@ function HotelPage() {
                               aria-labelledby="home-tab"
                             >
                               <div className="room_booking_area">
+                                <div className="d-flex gap-5">
+                                  <div>
+                                    <h5>Select Booking Date</h5>
+                                    <RangePicker
+                                      size="large"
+                                      disabledDate={(cell) => cell < new Date()}
+                                      onChange={(val) =>
+                                        val
+                                          ? setBookingDate([
+                                              moment(val[0].$d).format(
+                                                "YYYY-MM-DD"
+                                              ),
+                                              moment(val[1].$d).format(
+                                                "YYYY-MM-DD"
+                                              ),
+                                            ])
+                                          : setBookingDate(null)
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                    <h5>Number of People</h5>
+                                    <InputNumber
+                                      size="large"
+                                      value={people}
+                                      onChange={(val) => setPeople(val)}
+                                    />
+                                  </div>
+                                </div>
                                 <RoomTable
-                                  roomLoading={hotelLoading}
-                                  rooms={hotel?.hotel_rooms}
+                                  bookingDate={bookingDate}
+                                  people={people}
+                                  roomLoading={availabilityLoading}
+                                  rooms={
+                                    roomAvailability?.hotel_rooms ||
+                                    hotel?.hotel_rooms
+                                  }
                                 />
                               </div>
                             </div>

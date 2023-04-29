@@ -1,12 +1,22 @@
 import { roomBookingApi } from "@/api/client/booking";
 import { responseErrorHandler } from "@/services/helper";
-import { Button, Input, Modal, Select } from "antd";
+import useUser from "@/services/hooks/useUser";
+import { Modal, notification } from "antd";
+import axios from "axios";
+import clsx from "clsx";
 import moment from "moment";
-import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import Router, { useRouter } from "next/router";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const ContextComponent = ({ selectedRoom }: any) => {
+const ContextComponent = ({ selectedRoom, bookingDate, people }: any) => {
+  const router = useRouter();
+  let esewaPath = "https://uat.esewa.com.np/epay/main";
+  let khaltipath = "https://a.khalti.com/api/v2/epayment/initiate/";
+  const { user } = useUser();
+  const [paymentMethodId, setPaymentMethodId] = useState<any>(null);
+  const [paymentMethodToggle, setPaymentMethodToggle] = useState(false);
   const initialValue = 0;
   let selectedPrice = selectedRoom
     .map((room: any) => {
@@ -17,70 +27,91 @@ const ContextComponent = ({ selectedRoom }: any) => {
       initialValue
     );
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const myInitial = 0;
-
-  const roomBooking = (roomData: any) => {
-    const finalRoomData = selectedRoom.map((room: any) => {
-      return {
-        type: "hotel",
+  const roomBooking = () => {
+    if (!bookingDate) {
+      return notification.error({ message: "Please select date" });
+    }
+    if (!people) {
+      return notification.error({ message: "Please select number of people" });
+    }
+    if (!selectedRoom?.length) {
+      return notification.error({ message: "Please select atleast one room" });
+    }
+    const finalRoomData = {
+      hotel_id: selectedRoom[0].hotel_id,
+      checkin_date: bookingDate[0],
+      checkout_date: bookingDate[1],
+      no_of_adult: 0,
+      no_of_children: people,
+      room_selected_bookings: selectedRoom.map((room: any) => ({
         hotel_room_id: room.id,
-        payment_method_id: roomData.payment_method_id,
-        hotel_id: room.hotel_id,
-        from: roomData.from,
-        to: roomData.to,
         quantity: room.roomCount,
-        room_price: room.price,
-        discount: room.discount_price,
-        total: (room?.price - room?.discount_price) * room.roomCount,
-      };
-    });
-    setIsLoading(true);
+      })),
+    };
     roomBookingApi(finalRoomData)
       .then((res: any) => {
         toast.success(res.message);
-        handleCancel();
+
+        if (paymentMethodId == "esewa") {
+          post({
+            amt: res.data.total_amount,
+            psc: 0,
+            pdc: 0,
+            txAmt: 0,
+            tAmt: res.data.total_amount,
+            pid: res.data.uuid,
+            scd: "EPAYTEST",
+            su: `https://api.eakaksha.com/hotel/esewa/verifyHotelPayment?q=su`,
+            fu: `https://api.eakaksha.com/bus/esewa/verifyHotelPayment?q=fu`,
+          });
+        } else if (paymentMethodId == "khalti") {
+          //  setKhaltiLoading(true);
+          axios
+            .post(
+              khaltipath,
+              {
+                return_url:
+                  "https://api.eakaksha.com/bus/esewa/verifyHotelPayment",
+                website_url: "http://103.233.57.220:3000/",
+                amount: parseInt(res.data.total_amount),
+                purchase_order_id: res.data.uuid,
+                purchase_order_name: "test",
+              },
+
+              {
+                headers: {
+                  Authorization: "Key addaae1af48a4d16979c8f0e25deacf3",
+                  "Content-Type": "application/json",
+                },
+              }
+            )
+            .then((res: any) => {
+              router.replace(res.data.payment_url);
+            })
+            .catch(responseErrorHandler);
+        }
       })
       .catch(responseErrorHandler)
       .finally(() => {
-        setIsLoading(false);
+        // setIsLoading(false);
       });
   };
 
-  const {
-    control,
-    register,
-    handleSubmit,
-    setError,
-    getValues,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      payment_method_id: 1,
-      from: moment(Date.now()).format("YYYY-MM-DD"),
-      to: moment(Date.now()).add(1, "days").format("YYYY-MM-DD"),
-    },
-  });
+  function post(params: any) {
+    var form = document.createElement("form");
+    form.setAttribute("method", "POST");
+    form.setAttribute("action", esewaPath);
+    for (var key in params) {
+      var hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "hidden");
+      hiddenField.setAttribute("name", key);
+      hiddenField.setAttribute("value", params[key]);
+      form.appendChild(hiddenField);
+    }
 
-  const [selectedDay, setSelectedDay] = useState({
-    today: moment(Date.now()).format("dddd"),
-    tomorrow: moment(Date.now()).add(1, "days").format("dddd"),
-  });
+    document.body.appendChild(form);
+    form.submit();
+  }
 
   return (
     <div className="contextmenu_wrapper">
@@ -92,100 +123,57 @@ const ContextComponent = ({ selectedRoom }: any) => {
             item.title +
             `${i + 1 != selectedRoom.length ? ", " : " "}`
           );
-        })} for {" "}
-        <span style={{ fontSize: "16px" }}><strong>NPR {selectedPrice}</strong></span>
+        })}{" "}
+        for{" "}
+        <span style={{ fontSize: "16px" }}>
+          <strong>NPR {selectedPrice}</strong>
+        </span>
       </div>
 
       <div className="context_room_price">
-        <button className="btn btn_theme btn_sm px-4 ml-2" onClick={showModal}>
-          Book now
-        </button>
+        {!user ? (
+          <button
+            className="btn btn_theme btn_sm px-4 ml-2"
+            onClick={(e) => Router.push("/login")}
+          >
+            Login
+          </button>
+        ) : (
+          <button
+            className="btn btn_theme btn_sm px-4 ml-2"
+            onClick={() => setPaymentMethodToggle(true)}
+          >
+            Book now
+          </button>
+        )}
       </div>
       <Modal
-        visible={isModalOpen}
-        title="Booking Detail"
-        onCancel={handleCancel}
-        okText={"Book"}
-        footer={false}
+        onOk={roomBooking}
+        open={paymentMethodToggle}
+        onCancel={() => setPaymentMethodToggle(false)}
       >
-        <form onSubmit={handleSubmit(roomBooking)}>
-          <div className="col-lg-12 col-md-12 col-sm-12 col-12 d-flex w-100 flex-wrap">
-            <div className="form_search_date">
-              <div className="flight_Search_boxed date_flex_area">
-                <div className="Journey_date">
-                  <p>Check In date</p>
-                  <Controller
-                    name="from"
-                    control={control}
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <Input
-                          type="date"
-                          onChange={(val: any) => {
-                            setSelectedDay({
-                              ...selectedDay,
-                              today: moment(val.target.value).format("dddd"),
-                            });
-                            onChange(val);
-                          }}
-                          value={value}
-                        />
-                      );
-                    }}
-                  />
-                  <span>{selectedDay.today}</span>
-                </div>
-                <div className="Journey_date">
-                  <p>Check Out date</p>
-                  <Controller
-                    name="to"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <Input
-                        type="date"
-                        onChange={(val: any) => {
-                          setSelectedDay({
-                            ...selectedDay,
-                            tomorrow: moment(val.target.value).format("dddd"),
-                          });
-                          onChange(val);
-                        }}
-                        value={value}
-                      />
-                    )}
-                  />
-                  <span>{selectedDay.tomorrow}</span>
-                </div>
-              </div>
-            </div>
-            <label></label>
-            <div className="form_search_date mt-3">
-              <div className="flight_Search_boxed">
-                <Select
-                  defaultValue="0"
-                  style={{ width: 120 }}
-                  //   onChange={(value: any) => handleRoomChange(room, value)}
-                  options={[1, 2, 4, 5, 6, 6].map((item) => {
-                    return {
-                      value: item,
-                      label: item,
-                    };
-                  })}
-                />
-              </div>
-            </div>
+        <div className="d-flex align-items-center" style={{ height: "150px" }}>
+          <div
+            className={clsx(
+              "cursor-pointer text-center border",
+              paymentMethodId === "esewa" ? "bg-success" : ""
+            )}
+            style={{ width: "50%", height: "100%" }}
+            onClick={() => setPaymentMethodId("esewa")}
+          >
+            <p>Esewa</p>
           </div>
-          <div className="w-100 d-flex justify-content-end">
-            <Button
-              loading={isLoading}
-              htmlType="submit"
-              className="mt-3 btn btn_theme btn_sm"
-            >
-              Book Room
-            </Button>
+          <div
+            className={clsx(
+              "cursor-pointer text-center border",
+              paymentMethodId === "khalti" ? "bg-success" : ""
+            )}
+            style={{ width: "50%", height: "100%" }}
+            onClick={() => setPaymentMethodId("khalti")}
+          >
+            <p>Khalti</p>
           </div>
-        </form>
+        </div>
       </Modal>
     </div>
   );

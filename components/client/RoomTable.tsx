@@ -19,7 +19,7 @@ const columns = [
   },
 ];
 
-const RoomTable = ({ roomLoading, rooms }: any) => {
+const RoomTable = ({ roomLoading, rooms, bookingDate, people }: any) => {
   const [selectedRooms, setSelectedRooms] = useState<any>([]);
   const [viewRoom, setViewRoom] = useState<any>();
 
@@ -127,7 +127,11 @@ const RoomTable = ({ roomLoading, rooms }: any) => {
               selectableRowsNoSelectAll={true}
               highlightOnHover={true}
               contextComponent={
-                <ContextComponent selectedRoom={selectedRooms} />
+                <ContextComponent
+                  bookingDate={bookingDate}
+                  people={people}
+                  selectedRoom={selectedRooms}
+                />
               }
             />
           ) : (

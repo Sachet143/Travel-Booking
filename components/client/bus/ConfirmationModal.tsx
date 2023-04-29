@@ -108,8 +108,8 @@ const ConfirmationModal = ({
               tAmt: res.data.total_amount,
               pid: res.data.uuid,
               scd: "EPAYTEST",
-              su: `http://103.233.57.220:8000/bus/esewa/verifyBusPayment?q=su`,
-              fu: `http://103.233.57.220:8000/bus/esewa/verifyBusPayment?q=fu`,
+              su: `https://api.eakaksha.com/bus/esewa/verifyBusPayment?q=su`,
+              fu: `https://api.eakaksha.com/bus/esewa/verifyBusPayment?q=fu`,
             });
           } else if (payment == "khalti") {
             setKhaltiLoading(true);
@@ -118,7 +118,7 @@ const ConfirmationModal = ({
                 khaltipath,
                 {
                   return_url:
-                    "http://103.233.57.220:8000/bus/khalti/verifyBusPayment",
+                    "https://api.eakaksha.com/bus/khalti/verifyBusPayment",
                   website_url: "http://103.233.57.220:3000/",
                   amount: parseInt(res.data.total_amount),
                   purchase_order_id: res.data.uuid,
