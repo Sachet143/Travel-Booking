@@ -168,7 +168,7 @@ textarea[aria-invalid="true"] {
   position: absolute;
   top: 0px;
   left: 0px;
-  backdrop-filter: blur(6px) brightness(80%);
+  backdrop-filter: blur(1px) brightness(80%);
 }
 
 .my-wrapper {
