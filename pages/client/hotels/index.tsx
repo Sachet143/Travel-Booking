@@ -243,52 +243,44 @@ const HotelListing = () => {
                         <label>Hotel Features</label>
                       </div>
                       <div className="tour_search_type">
-                        <div className="custom-select">
-                          {!hotelFeatureList && !featureError ? (
-                            <Skeleton
-                              className="mt-3"
-                              active
-                              paragraph={false}
+                        {!hotelFeatureList && !featureError ? (
+                          <Skeleton className="mt-3" active paragraph={false} />
+                        ) : (
+                          <>
+                            {" "}
+                            <Controller
+                              control={control}
+                              name="hotelFeatures"
+                              render={({ field: { onChange, value } }) => (
+                                <>
+                                  <Select
+                                    mode="multiple"
+                                    value={value}
+                                    onChange={onChange}
+                                    allowClear
+                                    status={
+                                      errors?.hotelFeatures?.message && "error"
+                                    }
+                                    size="large"
+                                    className="w-100 mb-3"
+                                    placeholder="Select hotel features"
+                                  >
+                                    {hotelFeatureList?.map((feat: any) => (
+                                      <Option key={feat.id} value={feat.id}>
+                                        {feat.title}
+                                      </Option>
+                                    ))}
+                                  </Select>
+                                  {errors?.features?.message && (
+                                    <div className="text-danger">
+                                      {errors?.hotelFeatures?.message + ""}
+                                    </div>
+                                  )}
+                                </>
+                              )}
                             />
-                          ) : (
-                            <>
-                              {" "}
-                              <Controller
-                                control={control}
-                                name="hotelFeatures"
-                                // rules={{ required: "Feature is required!" }}
-                                render={({ field: { onChange, value } }) => (
-                                  <>
-                                    <Select
-                                      mode="multiple"
-                                      value={value}
-                                      onChange={onChange}
-                                      allowClear
-                                      status={
-                                        errors?.hotelFeatures?.message &&
-                                        "error"
-                                      }
-                                      size="large"
-                                      className="form-control mb-3"
-                                      placeholder="Select hotel features"
-                                    >
-                                      {hotelFeatureList?.map((feat: any) => (
-                                        <Option key={feat.id} value={feat.id}>
-                                          {feat.title}
-                                        </Option>
-                                      ))}
-                                    </Select>
-                                    {errors?.features?.message && (
-                                      <div className="text-danger">
-                                        {errors?.hotelFeatures?.message + ""}
-                                      </div>
-                                    )}
-                                  </>
-                                )}
-                              />
-                            </>
-                          )}
-                        </div>
+                          </>
+                        )}
                       </div>
                       <Divider className="my-2" />
                       {/* Room Features */}
@@ -296,51 +288,45 @@ const HotelListing = () => {
                         <label>Room Features</label>
                       </div>
                       <div className="tour_search_type">
-                        <div className="custom-select">
-                          {!roomFeatureList && !roomFeatureError ? (
-                            <Skeleton
-                              className="mt-3"
-                              active
-                              paragraph={false}
+                        {!roomFeatureList && !roomFeatureError ? (
+                          <Skeleton className="mt-3" active paragraph={false} />
+                        ) : (
+                          <>
+                            {" "}
+                            <Controller
+                              control={control}
+                              name="roomFeatures"
+                              // rules={{ required: "Feature is required!" }}
+                              render={({ field: { onChange, value } }) => (
+                                <>
+                                  <Select
+                                    mode="multiple"
+                                    value={value}
+                                    onChange={onChange}
+                                    allowClear
+                                    status={
+                                      errors?.roomFeatures?.message && "error"
+                                    }
+                                    size="large"
+                                    className="w-100 mb-3"
+                                    placeholder="Select room features"
+                                  >
+                                    {roomFeatureList?.map((feat: any) => (
+                                      <Option key={feat.id} value={feat.id}>
+                                        {feat.title}
+                                      </Option>
+                                    ))}
+                                  </Select>
+                                  {errors?.roomFeatures?.message && (
+                                    <div className="text-danger">
+                                      {errors?.roomFeatures?.message + ""}
+                                    </div>
+                                  )}
+                                </>
+                              )}
                             />
-                          ) : (
-                            <>
-                              {" "}
-                              <Controller
-                                control={control}
-                                name="roomFeatures"
-                                // rules={{ required: "Feature is required!" }}
-                                render={({ field: { onChange, value } }) => (
-                                  <>
-                                    <Select
-                                      mode="multiple"
-                                      value={value}
-                                      onChange={onChange}
-                                      allowClear
-                                      status={
-                                        errors?.roomFeatures?.message && "error"
-                                      }
-                                      size="large"
-                                      className="form-control mb-3"
-                                      placeholder="Select room features"
-                                    >
-                                      {roomFeatureList?.map((feat: any) => (
-                                        <Option key={feat.id} value={feat.id}>
-                                          {feat.title}
-                                        </Option>
-                                      ))}
-                                    </Select>
-                                    {errors?.roomFeatures?.message && (
-                                      <div className="text-danger">
-                                        {errors?.roomFeatures?.message + ""}
-                                      </div>
-                                    )}
-                                  </>
-                                )}
-                              />
-                            </>
-                          )}
-                        </div>
+                          </>
+                        )}
                       </div>
                       <Divider className="my-2" />
                       {/* Hotel Activities */}
@@ -348,52 +334,46 @@ const HotelListing = () => {
                         <label>Hotel Activities</label>
                       </div>
                       <div className="tour_search_type">
-                        <div className="custom-select">
-                          {!hotelActivitiesList && !hotelActivitiesError ? (
-                            <Skeleton
-                              className="mt-3"
-                              active
-                              paragraph={false}
+                        {!hotelActivitiesList && !hotelActivitiesError ? (
+                          <Skeleton className="mt-3" active paragraph={false} />
+                        ) : (
+                          <>
+                            {" "}
+                            <Controller
+                              control={control}
+                              name="hotelActivities"
+                              // rules={{ required: "Feature is required!" }}
+                              render={({ field: { onChange, value } }) => (
+                                <>
+                                  <Select
+                                    mode="multiple"
+                                    value={value}
+                                    onChange={onChange}
+                                    allowClear
+                                    status={
+                                      errors?.hotelActivities?.message &&
+                                      "error"
+                                    }
+                                    size="large"
+                                    className="w-100 mb-3"
+                                    placeholder="Select features"
+                                  >
+                                    {hotelActivitiesList?.map((feat: any) => (
+                                      <Option key={feat.id} value={feat.id}>
+                                        {feat.title}
+                                      </Option>
+                                    ))}
+                                  </Select>
+                                  {errors?.hotelActivities?.message && (
+                                    <div className="text-danger">
+                                      {errors?.hotelActivities?.message + ""}
+                                    </div>
+                                  )}
+                                </>
+                              )}
                             />
-                          ) : (
-                            <>
-                              {" "}
-                              <Controller
-                                control={control}
-                                name="hotelActivities"
-                                // rules={{ required: "Feature is required!" }}
-                                render={({ field: { onChange, value } }) => (
-                                  <>
-                                    <Select
-                                      mode="multiple"
-                                      value={value}
-                                      onChange={onChange}
-                                      allowClear
-                                      status={
-                                        errors?.hotelActivities?.message &&
-                                        "error"
-                                      }
-                                      size="large"
-                                      className="form-control mb-3"
-                                      placeholder="Select features"
-                                    >
-                                      {hotelActivitiesList?.map((feat: any) => (
-                                        <Option key={feat.id} value={feat.id}>
-                                          {feat.title}
-                                        </Option>
-                                      ))}
-                                    </Select>
-                                    {errors?.hotelActivities?.message && (
-                                      <div className="text-danger">
-                                        {errors?.hotelActivities?.message + ""}
-                                      </div>
-                                    )}
-                                  </>
-                                )}
-                              />
-                            </>
-                          )}
-                        </div>
+                          </>
+                        )}
                       </div>
                       <Divider className="my-2" />
                       {/* property type */}
@@ -401,50 +381,44 @@ const HotelListing = () => {
                         <label>Property Type</label>
                       </div>
                       <div className="tour_search_type">
-                        <div className="custom-select">
-                          {!catList && !catError ? (
-                            <Skeleton
-                              className="mt-3"
-                              active
-                              paragraph={false}
+                        {!catList && !catError ? (
+                          <Skeleton className="mt-3" active paragraph={false} />
+                        ) : (
+                          <>
+                            {" "}
+                            <Controller
+                              control={control}
+                              name="categories"
+                              render={({ field: { onChange, value } }) => (
+                                <>
+                                  <Select
+                                    mode="multiple"
+                                    value={value}
+                                    onChange={onChange}
+                                    allowClear
+                                    status={
+                                      errors?.categories?.message && "error"
+                                    }
+                                    size="large"
+                                    className="w-100 mb-3"
+                                    placeholder="Select property"
+                                  >
+                                    {catList?.map((cat: any) => (
+                                      <Option key={cat.id} value={cat.id}>
+                                        {cat.title}
+                                      </Option>
+                                    ))}
+                                  </Select>
+                                  {errors?.categories?.message && (
+                                    <div className="text-danger">
+                                      {errors?.categories?.message + ""}
+                                    </div>
+                                  )}
+                                </>
+                              )}
                             />
-                          ) : (
-                            <>
-                              {" "}
-                              <Controller
-                                control={control}
-                                name="categories"
-                                render={({ field: { onChange, value } }) => (
-                                  <>
-                                    <Select
-                                      mode="multiple"
-                                      value={value}
-                                      onChange={onChange}
-                                      allowClear
-                                      status={
-                                        errors?.categories?.message && "error"
-                                      }
-                                      size="large"
-                                      className="form-control mb-3"
-                                      placeholder="Select property"
-                                    >
-                                      {catList?.map((cat: any) => (
-                                        <Option key={cat.id} value={cat.id}>
-                                          {cat.title}
-                                        </Option>
-                                      ))}
-                                    </Select>
-                                    {errors?.categories?.message && (
-                                      <div className="text-danger">
-                                        {errors?.categories?.message + ""}
-                                      </div>
-                                    )}
-                                  </>
-                                )}
-                              />
-                            </>
-                          )}
-                        </div>
+                          </>
+                        )}
                       </div>
                       <Divider className="my-2" />
                       {/* filter by location */}
@@ -459,38 +433,36 @@ const HotelListing = () => {
                             disabled
                             {...register("country")}
                           />
-                          <div className="custom-select">
-                            <Controller
-                              control={control}
-                              name="state"
-                              //   rules={{ required: "State is required!" }}
-                              render={({ field: { onChange, value } }) => (
-                                <>
-                                  <Select
-                                    status={errors?.state?.message && "error"}
-                                    value={value}
-                                    onChange={onChange}
-                                    showSearch
-                                    allowClear
-                                    size="large"
-                                    className="form-control my-4"
-                                    placeholder="Select State"
-                                  >
-                                    {states.map((state) => (
-                                      <Option key={state} value={state}>
-                                        {state}
-                                      </Option>
-                                    ))}
-                                  </Select>
-                                  {errors?.state?.message && (
-                                    <div className="text-danger">
-                                      {errors?.state?.message + ""}
-                                    </div>
-                                  )}
-                                </>
-                              )}
-                            />
-                          </div>
+                          <Controller
+                            control={control}
+                            name="state"
+                            //   rules={{ required: "State is required!" }}
+                            render={({ field: { onChange, value } }) => (
+                              <>
+                                <Select
+                                  status={errors?.state?.message && "error"}
+                                  value={value}
+                                  onChange={onChange}
+                                  showSearch
+                                  allowClear
+                                  size="large"
+                                  className="w-100 my-4"
+                                  placeholder="Select State"
+                                >
+                                  {states.map((state) => (
+                                    <Option key={state} value={state}>
+                                      {state}
+                                    </Option>
+                                  ))}
+                                </Select>
+                                {errors?.state?.message && (
+                                  <div className="text-danger">
+                                    {errors?.state?.message + ""}
+                                  </div>
+                                )}
+                              </>
+                            )}
+                          />
                           <input
                             {...register(
                               "city"

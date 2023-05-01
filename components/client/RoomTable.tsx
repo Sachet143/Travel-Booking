@@ -118,7 +118,9 @@ const RoomTable = ({ roomLoading, rooms, bookingDate, people }: any) => {
             <DataTable
               className="mt-4"
               title="Rooms"
-              columns={columns}
+              columns={columns.filter((col) =>
+                !bookingDate ? col.name !== "Select Rooms" : col
+              )}
               data={data2}
               selectableRowDisabled={(row) => true}
               selectableRows
