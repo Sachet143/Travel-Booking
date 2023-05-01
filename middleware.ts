@@ -21,7 +21,7 @@ export async function middleware(request: NextRequest) {
   // client public pages
   if (token && isClient) {
     if (url.pathname.includes("/login")) {
-      url.pathname = "/home";
+      url.pathname = "/";
       return NextResponse.redirect(url);
     }
   }
@@ -96,7 +96,6 @@ export const config = {
   matcher: [
     // public routes
     "/",
-    "/home",
     "/login",
     "/register",
     "/forgot-password",
