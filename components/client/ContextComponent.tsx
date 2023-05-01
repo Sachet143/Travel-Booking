@@ -147,30 +147,51 @@ const ContextComponent = ({ selectedRoom, bookingDate, people }: any) => {
         )}
       </div>
       <Modal
+        title="Payment Method"
         onOk={roomBooking}
         open={paymentMethodToggle}
         onCancel={() => setPaymentMethodToggle(false)}
       >
-        <div className="d-flex align-items-center" style={{ height: "150px" }}>
+        <div
+          className="row align-items-center mt-4 rounded"
+          style={{ height: "150px", backgroundColor: "lightgray" }}
+        >
           <div
-            className={clsx(
-              "cursor-pointer text-center border",
-              paymentMethodId === "esewa" ? "bg-success" : ""
-            )}
-            style={{ width: "50%", height: "100%" }}
+            className={clsx("col cursor-pointer text-center rounded")}
+            style={{
+              // width: "50%",
+              height: "150px",
+              lineHeight: "10",
+              backgroundColor: paymentMethodId === "esewa" ? "#73b10e7a" : "",
+              border:
+                paymentMethodId === "esewa"
+                  ? "3px solid rgb(11 84 11 / 36%)"
+                  : "",
+            }}
             onClick={() => setPaymentMethodId("esewa")}
           >
-            <p>Esewa</p>
+            <img
+              src="/client/assets/img/esewa.png"
+              // className="w-50"
+              // style={{ objectFit: "cover" }}
+            />
           </div>
           <div
-            className={clsx(
-              "cursor-pointer text-center border",
-              paymentMethodId === "khalti" ? "bg-success" : ""
-            )}
-            style={{ width: "50%", height: "100%" }}
+            className={clsx("col cursor-pointer text-center rounded")}
+            style={{
+              // width: "50%",
+              height: "150px",
+              lineHeight: "10",
+              backgroundColor:
+                paymentMethodId === "khalti" ? "rgb(81 20 123 / 30%)" : "",
+              border:
+                paymentMethodId === "khalti"
+                  ? "3px solid rgb(57 11 78 / 50%)"
+                  : "",
+            }}
             onClick={() => setPaymentMethodId("khalti")}
           >
-            <p>Khalti</p>
+            <img className="w-50" src="/client/assets/img/khalti.png" />
           </div>
         </div>
       </Modal>
