@@ -82,7 +82,7 @@ const ClientLogin = () => {
           <div className="container">
             <div className="row">
               <div className="col-lg-8 offset-lg-2">
-                <div className="common_wrapper d-flex">
+                <div className="common_wrapper d-flex gap-5 bg-white flex-wrap">
                   <div className="common_author_boxed">
                     <div className="common_author_heading">
                       <h3 className="color-primary login_title">Login</h3>
@@ -176,7 +176,7 @@ const ClientLogin = () => {
                       </form>
                     </div>
                   </div>
-                  <div className="extra_details">
+                  <div className="extra_details border">
                     <div className="detail_title">
                       Logged In/Registered users get More !
                     </div>

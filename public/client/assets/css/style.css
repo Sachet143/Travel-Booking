@@ -4950,3 +4950,7 @@ a (active): #000000
 .primary-color {
   color: #8b3eea;
 }
+
+input::placeholder {
+  color: gray !important;
+}

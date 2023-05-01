@@ -69,7 +69,7 @@ const Register = () => {
         <section id="common_author_area" className="section_padding">
           <div className="container">
             <div className="row">
-              <div className="col-lg-8 offset-lg-2">
+              <div className="col-lg-8 offset-lg-2 shadow ">
                 <div className="common_author_boxed">
                   <div className="common_author_heading">
                     <h3>Register account</h3>
