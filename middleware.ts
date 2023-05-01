@@ -8,6 +8,7 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get(TOKEN_KEY);
   const userType = request.cookies.get(USER_TYPE_KEY);
   // user types
+  const isClient = userType && userType.value === "client";
   const isSuperAdmin = userType && userType.value === "superadmin";
   const isHotelAdmin = userType && userType.value === "hoteladmin";
   const isBusAdmin = userType && userType.value === "busadmin";
@@ -17,12 +18,20 @@ export async function middleware(request: NextRequest) {
   const isHotelAdminRoutes = url.pathname.includes("/hoteladmin");
   const isBusAdminRoutes = url.pathname.includes("/busadmin");
 
-  // login pages
+  // client public pages
+  if (token && isClient) {
+    if (url.pathname.includes("/login")) {
+      url.pathname = "/home";
+      return NextResponse.redirect(url);
+    }
+  }
+
   if (
     url.pathname.includes("/superadmin/login") ||
     url.pathname.includes("/hoteladmin/login") ||
     url.pathname.includes("/busadmin/login")
   ) {
+    // login pages
     if (!token) {
       const responseMain = NextResponse.next();
       return responseMain;

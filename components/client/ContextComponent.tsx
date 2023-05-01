@@ -4,14 +4,13 @@ import useUser from "@/services/hooks/useUser";
 import { Modal, notification } from "antd";
 import axios from "axios";
 import clsx from "clsx";
-import moment from "moment";
 import Router, { useRouter } from "next/router";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const ContextComponent = ({ selectedRoom, bookingDate, people }: any) => {
   const router = useRouter();
+  const { uuid } = router.query;
   let esewaPath = "https://uat.esewa.com.np/epay/main";
   let khaltipath = "https://a.khalti.com/api/v2/epayment/initiate/";
   const { user } = useUser();
@@ -134,7 +133,7 @@ const ContextComponent = ({ selectedRoom, bookingDate, people }: any) => {
         {!user ? (
           <button
             className="btn btn_theme btn_sm px-4 ml-2"
-            onClick={(e) => Router.push("/login")}
+            onClick={(e) => Router.push(`/login?redirectUrl=/hotels/${uuid}`)}
           >
             Login
           </button>

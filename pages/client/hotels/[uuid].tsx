@@ -284,7 +284,7 @@ function HotelPage() {
                       <div className="tour_details_boxed">
                         <h3 className="heading_theme">Select your room</h3>
                         <div className="room_select_area">
-                          <ul
+                          {/* <ul
                             className="nav nav-tabs"
                             id="myTab"
                             role="tablist"
@@ -317,7 +317,7 @@ function HotelPage() {
                                 Enquiry
                               </button>
                             </li>
-                          </ul>
+                          </ul> */}
                           <div className="tab-content" id="myTabContent">
                             <div
                               className="tab-pane fade show active"
@@ -349,6 +349,7 @@ function HotelPage() {
                                   <div>
                                     <h5>Number of People</h5>
                                     <InputNumber
+                                      min={0}
                                       size="large"
                                       value={people}
                                       onChange={(val) => setPeople(val)}

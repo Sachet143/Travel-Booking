@@ -116,6 +116,7 @@ const RoomTable = ({ roomLoading, rooms, bookingDate, people }: any) => {
         <>
           {rooms?.length ? (
             <DataTable
+              className="mt-4"
               title="Rooms"
               columns={columns}
               data={data2}
