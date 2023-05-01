@@ -8,25 +8,25 @@ class CustomDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link
+          {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" /> */}
+          {/* <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-          />
-          <link
+          /> */}
+          {/* <link
             rel="apple-touch-icon"
             sizes="180x180"
             href="/images/apple-touch-icon.png"
-          />
-          <link
+          /> */}
+          {/* <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
             crossOrigin="anonymous"
-          />
+          /> */}
           {/* page css */}
-          <link rel="stylesheet" href="/client/assets/css/bootstrap.min.css" />
+          {/* <link rel="stylesheet" href="/client/assets/css/bootstrap.min.css" />
           <link rel="stylesheet" href="/client/assets/css/animate.min.css" />
           <link
             rel="stylesheet"
@@ -39,15 +39,16 @@ class CustomDocument extends Document {
           <link
             rel="stylesheet"
             href="/client/assets/css/owl.theme.default.min.css"
-          />
+          /> */}
           <link rel="stylesheet" href="/client/assets/css/navber.css" />
-          <link rel="stylesheet" href="/client/assets/css/meanmenu.css" />
-          <link rel="stylesheet" href="/client/assets/css/responsive.css" />
+          {/* <link rel="stylesheet" href="/client/assets/css/meanmenu.css" />
+          <link rel="stylesheet" href="/client/assets/css/responsive.css" /> */}
           {/* <link rel="icon" type="image/png" href="assets/img/favicon.png" /> */}
-          <link
+          {/* <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css"
-          />
+          /> */}
+          {/* for hotel detail carousel */}
           <link
             rel="stylesheet"
             type="text/css"
@@ -58,12 +59,13 @@ class CustomDocument extends Document {
             type="text/css"
             href="/client/assets/css/slick-theme.css"
           />
+          {/*   */}
           <link
             rel="stylesheet"
             type="text/css"
             href="/client/assets/css/custom.css"
           />
-          <script src="/client/assets/js/jquery-3.6.0.min.js" />
+          {/* <script src="/client/assets/js/jquery-3.6.0.min.js" />
           <script src="/client/assets/js/bootstrap.bundle.js" />
           <script src="/client/assets/js/jquery.meanmenu.js" />
           <script src="/client/assets/js/owl.carousel.min.js" />
@@ -71,8 +73,9 @@ class CustomDocument extends Document {
           <script src="/client/assets/js/custom.js" />
           <script src="/client/assets/js/add-form.js" />
           <script src="/client/assets/js/form-dropdown.js" />
-          <script src="/client/assets/js/slick.min.js" defer />
+          <script src="/client/assets/js/slick.min.js" defer /> */}
           {/* <script src="/client/assets/js/slick-slider.js"></script> */}
+
           {/* admin dashboard */}
           <link rel="stylesheet" href="/admin/css/bootstrap1.min.css" />
           <link rel="stylesheet" href="/client/assets/css/style.css" />

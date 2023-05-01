@@ -27,7 +27,7 @@ function HotelListDetail({ hotel }: any) {
             <div className="room_booking_right_side">
               <div className="room_booking_heading">
                 <div className="d-flex gap-3">
-                  <h3 className="mb-0">
+                  <h3 className="mb-0 cursor-pointer">
                     <a
                       className="text-capitalize purp"
                       onClick={() => router.push(`/hotels/${hotel.uuid}`)}
