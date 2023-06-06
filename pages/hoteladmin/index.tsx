@@ -67,16 +67,19 @@ function HoteladminIndex() {
             {/* Card */}
             <div className="d-flex gap-3">
               {/* total booking count */}
-              <div className="col-xl-3 col-lg-6">
+              <div className="col-sm-4">
                 <div className="d-card l-bg-blue-dark">
                   <div className="card-statistic-3 p-4">
                     <div className="card-icon card-icon-large">
                       <i className="fas fa-hotel"></i>
                     </div>
                     <div className="mb-4">
-                      <h4 className="card-title mb-0 text-white">
+                      <h3
+                        style={{ fontWeight: 700 }}
+                        className="mb-0 text-white"
+                      >
                         Total Booking Count
-                      </h4>
+                      </h3>
                     </div>
                     <div className="row align-items-center mb-2 d-flex">
                       <div className="col-8">
@@ -89,16 +92,19 @@ function HoteladminIndex() {
                 </div>
               </div>
               {/* total revenue */}
-              <div className="col-xl-3 col-lg-6">
+              <div className="col-sm-4">
                 <div className="d-card l-bg-green-dark">
                   <div className="card-statistic-3 p-4">
                     <div className="card-icon card-icon-large">
                       <i className="fas fa-dollar-sign"></i>
                     </div>
                     <div className="mb-4">
-                      <h4 className="card-title mb-0 text-white">
+                      <h3
+                        style={{ fontWeight: 700 }}
+                        className="card-title mb-0 text-white"
+                      >
                         Total Revenue
-                      </h4>
+                      </h3>
                     </div>
                     <div className="row align-items-center mb-2 d-flex">
                       <div className="col-8">
@@ -111,7 +117,7 @@ function HoteladminIndex() {
                 </div>
               </div>
               {/* current month revenue */}
-              <div className="col-xl-3 col-lg-6">
+              <div className="col-sm-4">
                 <div className="d-card l-bg-orange-dark">
                   <div className="card-statistic-3 p-4">
                     <div className="card-icon card-icon-large">
@@ -120,9 +126,12 @@ function HoteladminIndex() {
                       </h1>
                     </div>
                     <div className="mb-4">
-                      <h4 className="card-title mb-0 text-white">
+                      <h3
+                        style={{ fontWeight: 700 }}
+                        className="card-title mb-0 text-white"
+                      >
                         Current Month Revenue
-                      </h4>
+                      </h3>
                     </div>
                     <div className="row align-items-center mb-2 d-flex">
                       <div className="col-8">
