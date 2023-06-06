@@ -73,7 +73,8 @@ function BookingHistory() {
                 .join(" + "),
               total: "NRs.  " + booking.total_amount,
               totalpeople: booking.no_of_adult + booking.no_of_children,
-              checkinCheckout: booking.from + ", " + booking.to,
+              checkinCheckout:
+                booking.checkin_date + ", " + booking.Checkout_date,
             }))}
           />
           <div className="pagination_area">
