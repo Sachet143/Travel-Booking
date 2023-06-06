@@ -2,9 +2,7 @@ import BusFilter from "@/components/client/home/BusFilter";
 import FlightFilter from "@/components/client/home/FlightFilter";
 import HotelFilter from "@/components/client/home/HotelFilter";
 import ClientLayout from "@/components/layout/client/ClientLayout";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import useSWR from "swr";
+import { useEffect } from "react";
 
 const Home = () => {
   useEffect(() => {
@@ -58,8 +56,6 @@ const Home = () => {
     });
   }, []);
 
-  const { data } = useSWR("/featuredHotels");
-  const router = useRouter();
   return (
     <ClientLayout>
       <div>
