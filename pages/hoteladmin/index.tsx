@@ -2,7 +2,7 @@ import HoteladminLayout from "@/components/layout/hoteladmin";
 import axiosServer from "@/services/axios/serverfetch";
 import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
 import { appDecrypt } from "@/services/helper";
-import { Skeleton, Statistic } from "antd";
+import { Divider, Skeleton, Statistic } from "antd";
 import {
   BarElement,
   CategoryScale,
@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { deleteCookie, getCookie } from "cookies-next";
+import moment from "moment";
 import { NextPageContext } from "next";
 import { Bar } from "react-chartjs-2";
 import useSWR from "swr";
@@ -26,7 +27,8 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
+const options1 = {
+  indexAxis: "y" as const,
   responsive: true,
   plugins: {
     legend: {
@@ -38,59 +40,145 @@ export const options = {
     },
   },
 };
+const options2 = {
+  indexAxis: "y" as const,
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top" as const,
+    },
+    title: {
+      display: true,
+      text: "Room Revenue Cost",
+    },
+  },
+};
 
 function HoteladminIndex() {
   const { data: dashboard } = useSWR("/hotel/dashboard");
 
-  const data = {
-    datasets: [
-      {
-        label: "Room Bookings Count",
-        backgroundColor: "#8b3eea",
-        data: dashboard?.data?.room_bookings_count
-          ?.map((room: any) => room.room_bookings_count)
-          .slice(0, 10),
-      },
-    ],
-    labels: dashboard?.data?.room_bookings_count
-      ?.map((room: any) => room.title)
-      .slice(0, 10),
-  };
-
   return (
     <HoteladminLayout title="Dashboard">
       <>
-        {!data ? (
+        {!dashboard ? (
           <Skeleton active />
         ) : (
           <>
             {/* Card */}
-            <div className="d-flex gap-1">
-              <div
-                className="d-flex col-sm-6 card p-4"
-                style={{
-                  border: "1px solid #8b3eea",
-                }}
-              >
-                <Statistic
-                  title="Total Booking Count"
-                  value={dashboard?.data?.total_bookings_count}
+            <div className="d-flex gap-3">
+              {/* total booking count */}
+              <div className="col-xl-3 col-lg-6">
+                <div className="d-card l-bg-blue-dark">
+                  <div className="card-statistic-3 p-4">
+                    <div className="card-icon card-icon-large">
+                      <i className="fas fa-hotel"></i>
+                    </div>
+                    <div className="mb-4">
+                      <h4 className="card-title mb-0 text-white">
+                        Total Booking Count
+                      </h4>
+                    </div>
+                    <div className="row align-items-center mb-2 d-flex">
+                      <div className="col-8">
+                        <h2 className="d-flex align-items-center mb-0 text-white">
+                          {dashboard?.data?.total_bookings_count}
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* total revenue */}
+              <div className="col-xl-3 col-lg-6">
+                <div className="d-card l-bg-green-dark">
+                  <div className="card-statistic-3 p-4">
+                    <div className="card-icon card-icon-large">
+                      <i className="fas fa-dollar-sign"></i>
+                    </div>
+                    <div className="mb-4">
+                      <h4 className="card-title mb-0 text-white">
+                        Total Revenue
+                      </h4>
+                    </div>
+                    <div className="row align-items-center mb-2 d-flex">
+                      <div className="col-8">
+                        <h2 className="d-flex align-items-center mb-0 text-white">
+                          Rs. {dashboard?.data?.total_revenue}
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* current month revenue */}
+              <div className="col-xl-3 col-lg-6">
+                <div className="d-card l-bg-orange-dark">
+                  <div className="card-statistic-3 p-4">
+                    <div className="card-icon card-icon-large">
+                      <h1 style={{ fontWeight: 800 }}>
+                        {moment().format("MMM")}
+                      </h1>
+                    </div>
+                    <div className="mb-4">
+                      <h4 className="card-title mb-0 text-white">
+                        Current Month Revenue
+                      </h4>
+                    </div>
+                    <div className="row align-items-center mb-2 d-flex">
+                      <div className="col-8">
+                        <h2 className="d-flex align-items-center mb-0 text-white">
+                          Rs. {dashboard?.data?.current_month_revenue}
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <Divider className="mt-5" />
+            {/* Charts */}
+            <div className="row justify-content-center">
+              <div className="col-sm-6">
+                <Bar
+                  height={170}
+                  options={options1}
+                  data={{
+                    datasets: [
+                      {
+                        label: "Room Bookings Count",
+                        backgroundColor: "#8b3eea",
+                        data: dashboard?.data?.room_bookings_count
+                          ?.map((room: any) => room.room_bookings_count)
+                          ?.slice(0, 10),
+                      },
+                    ],
+                    labels: dashboard?.data?.room_bookings_count
+                      ?.map((room: any) => room.title)
+                      ?.slice(0, 10),
+                  }}
                 />
               </div>
-              <div
-                className="d-flex col-sm-6 card p-4"
-                style={{
-                  border: "1px solid #8b3eea",
-                }}
-              >
-                <Statistic
-                  title="Total Revenue"
-                  value={dashboard?.data?.total_revenue}
+              <div className="col-sm-6">
+                <Bar
+                  height={170}
+                  options={options2}
+                  data={{
+                    datasets: [
+                      {
+                        label: "Room Revenue",
+                        backgroundColor: "#3bad3d",
+                        data: dashboard?.data?.room_revenue
+                          ?.map((room: any) => room.room_revenue)
+                          ?.slice(0, 10),
+                      },
+                    ],
+                    labels: dashboard?.data?.room_revenue
+                      ?.map((room: any) => room.title)
+                      ?.slice(0, 10),
+                  }}
                 />
               </div>
             </div>
-            {/* Charts */}
-            <Bar className="mt-4" height={60} options={options} data={data} />
           </>
         )}
       </>
