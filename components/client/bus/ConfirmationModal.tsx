@@ -11,6 +11,7 @@ import KHALTI from "@/public/client/assets/img/khalti.png";
 import { CheckCircleFilled, LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useRouter } from "next/router";
+import useUser from "@/services/hooks/useUser";
 
 const ConfirmationModal = ({
   tripInfo,
@@ -90,13 +91,15 @@ const ConfirmationModal = ({
     document.body.appendChild(form);
     form.submit();
   }
+  const { user } = useUser();
+  console.log(user);
 
   const bookSeat = (data: any) => {
     if (!payment) {
       return toast.error("Please select the payment method to proceed.");
     } else {
       setLoading(true);
-      bookSeats(data)
+      bookSeats({ ...data })
         .then((res: any) => {
           toast.success(res.message);
           if (payment == "esewa") {

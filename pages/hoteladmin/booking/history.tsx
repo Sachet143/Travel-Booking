@@ -1,9 +1,12 @@
 import HoteladminLayout from "@/components/layout/hoteladmin";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import { Pagination, Skeleton, Table } from "antd";
+import { Pagination, Skeleton, Table, DatePicker } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { cleanUrlParams } from "@/services/helper";
+import moment from "moment";
 
+const { RangePicker } = DatePicker;
 interface DataType {
   id: number;
   key: string;
@@ -14,10 +17,15 @@ interface DataType {
 }
 
 function BookingHistory() {
+  const [date, setDate] = useState<any>([]);
   const [page, setPage] = useState(1);
 
-  const { data, error, mutate } = useSWR(
-    `/hotel/hotel-bookings-history?page=${page}`
+  const { data, error } = useSWR(
+    cleanUrlParams("/hotel/hotel-bookings-history", {
+      page,
+      start_date: date[0],
+      end_date: date[1],
+    })
   );
 
   const columns: ColumnsType<DataType> = [
@@ -31,11 +39,6 @@ function BookingHistory() {
       dataIndex: "price",
       key: "price",
     },
-    // {
-    //   title: "Discount Price",
-    //   dataIndex: "discount",
-    //   key: "discount",
-    // },
     {
       title: "Total Price",
       dataIndex: "total",
@@ -59,6 +62,15 @@ function BookingHistory() {
         <Skeleton active />
       ) : (
         <>
+          <div className="mb-2">
+            <RangePicker
+              format={"YYYY-MM-DD"}
+              size="large"
+              onChange={(_: any, val2) =>
+                val2 ? setDate(val2) : setDate([null, null])
+              }
+            />
+          </div>
           <Table
             pagination={false}
             columns={columns}
