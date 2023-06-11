@@ -1,8 +1,15 @@
+import HotelDashboardCard from "@/components/hoteladmin/dashboard/Card";
 import HoteladminLayout from "@/components/layout/hoteladmin";
+import axiosClient from "@/services/axios/clientfetch";
 import axiosServer from "@/services/axios/serverfetch";
 import { TOKEN_KEY, USER_TYPE_KEY } from "@/services/constants";
-import { appDecrypt } from "@/services/helper";
-import { Divider, Skeleton, Statistic } from "antd";
+import {
+  appDecrypt,
+  cleanUrlParams,
+  responseErrorHandler,
+} from "@/services/helper";
+import { Divider, Popover, Skeleton, DatePicker } from "antd";
+
 import {
   BarElement,
   CategoryScale,
@@ -15,8 +22,10 @@ import {
 import { deleteCookie, getCookie } from "cookies-next";
 import moment from "moment";
 import { NextPageContext } from "next";
+import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import useSWR from "swr";
+const { RangePicker } = DatePicker;
 
 ChartJS.register(
   CategoryScale,
@@ -55,7 +64,39 @@ const options2 = {
 };
 
 function HoteladminIndex() {
+  const [filterResponse, setFilterResponse] = useState<any>({
+    TotalRevenue: null,
+    RoomRevenue: null,
+    RoomBookingCount: null,
+    TotalBookingCount: null,
+  });
+  const [filter, setFilter] = useState<any>({
+    name: "",
+    start_date: null,
+    end_date: null,
+  });
+
   const { data: dashboard } = useSWR("/hotel/dashboard");
+
+  async function fetchFilter(name: string) {
+    filter.name
+      ? await axiosClient(cleanUrlParams("/hotel/reports", filter))
+          .then(({ data }: any) => {
+            setFilterResponse({
+              ...filterResponse,
+              [name]:
+                name === "RoomBookingCount" || name === "RoomRevenue"
+                  ? data
+                  : Object.values(data)[0],
+            });
+          })
+          .catch(responseErrorHandler)
+      : null;
+  }
+
+  useEffect(() => {
+    fetchFilter(filter.name);
+  }, [filter]);
 
   return (
     <HoteladminLayout title="Dashboard">
@@ -67,87 +108,98 @@ function HoteladminIndex() {
             {/* Card */}
             <div className="d-flex gap-3">
               {/* total booking count */}
-              <div className="col-sm-4">
-                <div className="d-card l-bg-blue-dark">
-                  <div className="card-statistic-3 p-4">
-                    <div className="card-icon card-icon-large">
-                      <i className="fas fa-hotel"></i>
-                    </div>
-                    <div className="mb-4">
-                      <h3
-                        style={{ fontWeight: 700 }}
-                        className="mb-0 text-white"
-                      >
-                        Total Booking Count
-                      </h3>
-                    </div>
-                    <div className="row align-items-center mb-2 d-flex">
-                      <div className="col-8">
-                        <h2 className="d-flex align-items-center mb-0 text-white">
-                          {dashboard?.data?.total_bookings_count}
-                        </h2>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <HotelDashboardCard
+                title="Total Booking Count"
+                data={
+                  filterResponse.TotalBookingCount !== null
+                    ? filterResponse.TotalBookingCount
+                    : dashboard?.data?.total_bookings_count
+                }
+                icon={<i className="fas fa-hotel"></i>}
+                color="l-bg-blue-dark"
+                filterName="TotalBookingCount"
+                onChangeDate={(name: string, val: Array<any> | null) =>
+                  val
+                    ? setFilter({
+                        name,
+                        start_date: moment(val[0].$d).format("YYYY-MM-DD"),
+                        end_date: moment(val[1].$d).format("YYYY-MM-DD"),
+                      })
+                    : setFilterResponse({
+                        ...filterResponse,
+                        TotalBookingCount: null,
+                      })
+                }
+              />
               {/* total revenue */}
-              <div className="col-sm-4">
-                <div className="d-card l-bg-green-dark">
-                  <div className="card-statistic-3 p-4">
-                    <div className="card-icon card-icon-large">
-                      <i className="fas fa-dollar-sign"></i>
-                    </div>
-                    <div className="mb-4">
-                      <h3
-                        style={{ fontWeight: 700 }}
-                        className="card-title mb-0 text-white"
-                      >
-                        Total Revenue
-                      </h3>
-                    </div>
-                    <div className="row align-items-center mb-2 d-flex">
-                      <div className="col-8">
-                        <h2 className="d-flex align-items-center mb-0 text-white">
-                          Rs. {dashboard?.data?.total_revenue}
-                        </h2>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <HotelDashboardCard
+                title="Total Revenue"
+                data={
+                  filterResponse.TotalRevenue !== null
+                    ? "Rs. " + filterResponse.TotalRevenue
+                    : "Rs. " + dashboard?.data?.total_revenue
+                }
+                icon={<i className="fas fa-dollar-sign"></i>}
+                color="l-bg-green-dark"
+                filterName="TotalRevenue"
+                onChangeDate={(name: string, val: Array<any> | null) =>
+                  val
+                    ? setFilter({
+                        name,
+                        start_date: moment(val[0].$d).format("YYYY-MM-DD"),
+                        end_date: moment(val[1].$d).format("YYYY-MM-DD"),
+                      })
+                    : setFilterResponse({
+                        ...filterResponse,
+                        TotalRevenue: null,
+                      })
+                }
+              />
               {/* current month revenue */}
-              <div className="col-sm-4">
-                <div className="d-card l-bg-orange-dark">
-                  <div className="card-statistic-3 p-4">
-                    <div className="card-icon card-icon-large">
-                      <h1 style={{ fontWeight: 800 }}>
-                        {moment().format("MMM")}
-                      </h1>
-                    </div>
-                    <div className="mb-4">
-                      <h3
-                        style={{ fontWeight: 700 }}
-                        className="card-title mb-0 text-white"
-                      >
-                        Current Month Revenue
-                      </h3>
-                    </div>
-                    <div className="row align-items-center mb-2 d-flex">
-                      <div className="col-8">
-                        <h2 className="d-flex align-items-center mb-0 text-white">
-                          Rs. {dashboard?.data?.current_month_revenue}
-                        </h2>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <HotelDashboardCard
+                title="Current Month Revenue"
+                data={"Rs. " + dashboard?.data?.current_month_revenue}
+                icon={
+                  <h1 style={{ fontWeight: 800 }}>{moment().format("MMM")}</h1>
+                }
+                color="l-bg-orange-dark"
+              />
             </div>
             <Divider className="mt-5" />
             {/* Charts */}
             <div className="row justify-content-center">
               <div className="col-sm-6">
+                <div className="w-100" style={{ textAlign: "right" }}>
+                  <Popover
+                    trigger="click"
+                    title="Choose a Date"
+                    content={
+                      <RangePicker
+                        onChange={(val: any) =>
+                          val
+                            ? setFilter({
+                                name: "RoomBookingCount",
+                                start_date: moment(val[0].$d).format(
+                                  "YYYY-MM-DD"
+                                ),
+                                end_date: moment(val[1].$d).format(
+                                  "YYYY-MM-DD"
+                                ),
+                              })
+                            : setFilterResponse({
+                                ...filterResponse,
+                                RoomBookingCount: null,
+                              })
+                        }
+                      />
+                    }
+                  >
+                    <i
+                      className="fa fa-ellipsis-v cursor-pointer"
+                      style={{ zIndex: 100 }}
+                    />
+                  </Popover>
+                </div>
                 <Bar
                   height={170}
                   options={options1}
@@ -156,18 +208,59 @@ function HoteladminIndex() {
                       {
                         label: "Room Bookings Count",
                         backgroundColor: "#8b3eea",
-                        data: dashboard?.data?.room_bookings_count
-                          ?.map((room: any) => room.room_bookings_count)
-                          ?.slice(0, 10),
+                        data:
+                          filterResponse.RoomBookingCount !== null
+                            ? filterResponse.RoomBookingCount?.map(
+                                (room: any) => room.room_bookings_count
+                              )?.slice(0, 10)
+                            : dashboard?.data?.room_bookings_count
+                                ?.map((room: any) => room.room_bookings_count)
+                                ?.slice(0, 10),
                       },
                     ],
-                    labels: dashboard?.data?.room_bookings_count
-                      ?.map((room: any) => room.title)
-                      ?.slice(0, 10),
+                    labels:
+                      filterResponse.RoomBookingCount !== null
+                        ? filterResponse.RoomBookingCount?.map(
+                            (room: any) => room.title
+                          )?.slice(0, 10)
+                        : dashboard?.data?.room_bookings_count
+                            ?.map((room: any) => room.title)
+                            ?.slice(0, 10),
                   }}
                 />
               </div>
               <div className="col-sm-6">
+                <div className="w-100" style={{ textAlign: "right" }}>
+                  <Popover
+                    trigger="click"
+                    title="Choose a Date"
+                    content={
+                      <RangePicker
+                        onChange={(val: any) =>
+                          val
+                            ? setFilter({
+                                name: "RoomRevenue",
+                                start_date: moment(val[0].$d).format(
+                                  "YYYY-MM-DD"
+                                ),
+                                end_date: moment(val[1].$d).format(
+                                  "YYYY-MM-DD"
+                                ),
+                              })
+                            : setFilterResponse({
+                                ...filterResponse,
+                                RoomRevenue: null,
+                              })
+                        }
+                      />
+                    }
+                  >
+                    <i
+                      className="fa fa-ellipsis-v cursor-pointer"
+                      style={{ zIndex: 100 }}
+                    />
+                  </Popover>
+                </div>
                 <Bar
                   height={170}
                   options={options2}
@@ -176,14 +269,24 @@ function HoteladminIndex() {
                       {
                         label: "Room Revenue",
                         backgroundColor: "#3bad3d",
-                        data: dashboard?.data?.room_revenue
-                          ?.map((room: any) => room.room_revenue)
-                          ?.slice(0, 10),
+                        data:
+                          filterResponse.RoomRevenue !== null
+                            ? filterResponse.RoomRevenue?.map(
+                                (room: any) => room.room_revenue
+                              )?.slice(0, 10)
+                            : dashboard?.data?.room_revenue
+                                ?.map((room: any) => room.room_revenue)
+                                ?.slice(0, 10),
                       },
                     ],
-                    labels: dashboard?.data?.room_revenue
-                      ?.map((room: any) => room.title)
-                      ?.slice(0, 10),
+                    labels:
+                      filterResponse.RoomRevenue !== null
+                        ? filterResponse.RoomRevenue?.map(
+                            (room: any) => room.title
+                          )?.slice(0, 10)
+                        : dashboard?.data?.room_revenue
+                            ?.map((room: any) => room.title)
+                            ?.slice(0, 10),
                   }}
                 />
               </div>
