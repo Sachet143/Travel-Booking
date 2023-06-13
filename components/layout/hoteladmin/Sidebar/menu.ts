@@ -2,17 +2,17 @@ export const HoteladminSidebarMenus = [
   {
     title: "Dashboard",
     link: "/hoteladmin",
-    icon: "/admin/img/menu-icon/7.svg",
+    icon: "/admin/img/menu-icon/dashboard.svg",
   },
   {
     title: "My Hotel",
     link: "/hoteladmin/hotel/update",
-    icon: "/admin/img/menu-icon/7.svg",
+    icon: "/admin/img/menu-icon/hotel.png",
   },
   {
     title: "Room Directory",
     parent: true,
-    icon: "/admin/img/menu-icon/7.svg",
+    icon: "/admin/img/menu-icon/directory.svg",
     children: [
       {
         title: "Create",
@@ -27,7 +27,7 @@ export const HoteladminSidebarMenus = [
   {
     title: "Hotel Room",
     parent: true,
-    icon: "/admin/img/menu-icon/7.svg",
+    icon: "/admin/img/menu-icon/room.svg",
     children: [
       {
         title: "Create",
@@ -42,7 +42,7 @@ export const HoteladminSidebarMenus = [
   {
     title: "Bookings",
     parent: true,
-    icon: "/admin/img/menu-icon/7.svg",
+    icon: "/admin/img/menu-icon/booking.png",
     children: [
       {
         title: "Current Bookings",
@@ -57,6 +57,6 @@ export const HoteladminSidebarMenus = [
   {
     title: "Gallery",
     link: "/hoteladmin/gallery",
-    icon: "/admin/img/menu-icon/7.svg",
+    icon: "/admin/img/menu-icon/gallery.svg",
   },
 ];

@@ -90,7 +90,7 @@ function HoteladminSidebar() {
                   aria-expanded="false"
                 >
                   <div className="nav_icon_small">
-                    <i className={menu.icon} alt={menu.title}></i>
+                    <img src={menu.icon} alt={menu.title} />
                   </div>
                   <div className="nav_title">
                     <span>{menu.title}</span>

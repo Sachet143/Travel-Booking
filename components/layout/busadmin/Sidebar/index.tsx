@@ -1,8 +1,8 @@
 // @ts-nocheck
-import Link from 'next/link';
-import Router, { useRouter } from 'next/router';
-import React, { useEffect } from 'react'
-import { BusadminSidebarMenus } from './menu';
+import Link from "next/link";
+import Router, { useRouter } from "next/router";
+import React, { useEffect } from "react";
+import { BusadminSidebarMenus } from "./menu";
 
 function BusadminSidebar() {
   const router = useRouter();
@@ -40,7 +40,11 @@ function BusadminSidebar() {
     <nav className="sidebar">
       <div className="logo d-flex justify-content-between">
         <Link href="/busadmin" className="cursor-pointer" legacyBehavior>
-          <img className="cursor-pointer" src="/client/assets/img/YS-purple.svg" alt="" />
+          <img
+            className="cursor-pointer"
+            src="/client/assets/img/YS-purple.svg"
+            alt=""
+          />
         </Link>
         {/* <Link href="/busadmin" className="cursor-pointer">
                     <img className="cursor-pointer" src="/client/assets/img/YS-purple.svg" alt="" />
@@ -50,7 +54,7 @@ function BusadminSidebar() {
         </div>
       </div>
       <ul id="sidebar_menu">
-        {BusadminSidebarMenus.map(menu => {
+        {BusadminSidebarMenus.map((menu) => {
           if (menu.parent) {
             return (
               <li key={menu.title}>
@@ -63,35 +67,33 @@ function BusadminSidebar() {
                   </div>
                 </a>
                 <ul>
-                  {
-                    menu.children.map(cmenu => {
-                      return (
-                        <Link
-                          key={cmenu.title}
-                          href={cmenu.link}
-                          className={isActive(cmenu.link) ? "cactive" : ""}>
-                          {cmenu.title}
-                        </Link>
-                      );
-                    }
-                    )
-                  }
+                  {menu.children.map((cmenu) => {
+                    return (
+                      <Link
+                        key={cmenu.title}
+                        href={cmenu.link}
+                        className={isActive(cmenu.link) ? "cactive" : ""}
+                      >
+                        {cmenu.title}
+                      </Link>
+                    );
+                  })}
                 </ul>
               </li>
             );
           } else {
             return (
-              <li key={menu.title}>
+              <li key={menu.title} className="cursor-pointer">
                 <a onClick={() => Router.push(menu.link)} aria-expanded="false">
                   <div className="nav_icon_small">
-                    <i className={menu.icon} alt={menu.title}></i>
+                    <img src={menu.icon} alt={menu.title} />
                   </div>
                   <div className="nav_title">
                     <span>{menu.title}</span>
                   </div>
                 </a>
               </li>
-            )
+            );
           }
         })}
       </ul>
@@ -99,4 +101,4 @@ function BusadminSidebar() {
   );
 }
 
-export default BusadminSidebar
+export default BusadminSidebar;
