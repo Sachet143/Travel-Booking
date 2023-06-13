@@ -10,7 +10,7 @@ function HotelListDetail({ hotel }: any) {
 
   return (
     <>
-      <div className="room_book_item" key={hotel.id}>
+      <div className="room_book_item bg-white" key={hotel.id}>
         <div className="room_book_img" style={{ zIndex: 1 }}>
           <img
             onClick={() => router.push(`/hotels/${hotel.uuid}`)}
