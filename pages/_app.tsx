@@ -15,7 +15,7 @@ function App({ Component, pageProps, session }: any) {
   // redeploy
   return (
     <>
-      <NextNProgress />
+      <NextNProgress color="#8b3eea" />
       <SWRConfig
         value={{
           revalidateOnFocus: false,

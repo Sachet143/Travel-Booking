@@ -89,7 +89,7 @@ function HotelListingFilter({ clearFilter, onSubmit, formHooks }: any) {
         </div>
         <div className="left_side_search_area">
           {/* filter by price */}
-          <div className="left_side_search_boxed">
+          <div className="left_side_search_boxed pt-0">
             <div>
               {/* minimum price */}
               <label>Price</label>

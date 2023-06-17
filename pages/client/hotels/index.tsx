@@ -117,8 +117,60 @@ const HotelListing = () => {
           <div className="container">
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-12">
-                <div className="section_heading_center"></div>
+                <div className="section_heading_center">
+                  {hotelLoading ? (
+                    <div className="w-25 mx-auto">
+                      <Skeleton active paragraph={false} />
+                    </div>
+                  ) : (
+                    <h2 className="number_heading">
+                      {router.query.state
+                        ? `${capitalizeFirstLetter(router.query.state)}- `
+                        : null}
+                      {hotels?.total} Properties found
+                    </h2>
+                  )}
+                </div>
               </div>
+            </div>
+            <div className="border-radius-20 d-flex justify-content-end">
+              <Controller
+                name="order"
+                control={control}
+                render={({ field: { value, onChange } }) => {
+                  return (
+                    <Select
+                      allowClear
+                      placeholder="Sort Filter"
+                      className="rounded mb-3"
+                      size="large"
+                      style={{
+                        width: "220px",
+                        marginLeft: "-10px",
+                      }}
+                      value={value}
+                      onChange={(e) => {
+                        onChange(e);
+                        handleOrder();
+                      }}
+                    >
+                      <Option value="rating_count-DESC">Top Reviewed</Option>
+                      <Option value="price-ASC">
+                        Price (lowest to highest)
+                      </Option>
+                      <Option value="price-DESC">
+                        Price (highest to lowest)
+                      </Option>
+                      <Option value="stars-ASC">
+                        Stars (lowest to highest)
+                      </Option>
+                      <Option value="stars-DESC">
+                        Stars (highest to lowest)
+                      </Option>
+                    </Select>
+                  );
+                }}
+              />
             </div>
             <div className="row">
               {/* filter section */}
@@ -129,61 +181,6 @@ const HotelListing = () => {
               />
               {/* hotels */}
               <div className="col-lg-9">
-                {hotelLoading ? (
-                  <div className="w-25 mx-auto">
-                    <Skeleton active paragraph={false} />
-                  </div>
-                ) : (
-                  <h2 className="number_heading">
-                    {router.query.state
-                      ? `${capitalizeFirstLetter(router.query.state)}- `
-                      : null}
-                    {hotels?.total} Properties found
-                  </h2>
-                )}
-
-                <div className="border-radius-20">
-                  <Controller
-                    name="order"
-                    control={control}
-                    render={({ field: { value, onChange } }) => {
-                      return (
-                        <Select
-                          allowClear
-                          placeholder="Sort Filter"
-                          className="rounded mb-3"
-                          size="large"
-                          style={{
-                            width: "220px",
-                            marginLeft: "-10px",
-                          }}
-                          value={value}
-                          onChange={(e) => {
-                            onChange(e);
-                            handleOrder();
-                          }}
-                        >
-                          <Option value="rating_count-DESC">
-                            Top Reviewed
-                          </Option>
-                          <Option value="price-ASC">
-                            Price (lowest to highest)
-                          </Option>
-                          <Option value="price-DESC">
-                            Price (highest to lowest)
-                          </Option>
-                          <Option value="stars-ASC">
-                            Stars (lowest to highest)
-                          </Option>
-                          <Option value="stars-DESC">
-                            Stars (highest to lowest)
-                          </Option>
-                        </Select>
-                      );
-                    }}
-                  />
-                </div>
-
                 <div className="row">
                   {hotelLoading ? (
                     <Skeleton active />
