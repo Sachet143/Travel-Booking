@@ -157,7 +157,7 @@ function HoteladminIndex() {
               />
               {/* current month revenue */}
               <HotelDashboardCard
-                title="Current Month Revenue"
+                title={"Revenue " + moment().format("(MMMM)")}
                 data={"Rs. " + dashboard?.data?.current_month_revenue}
                 icon={
                   <h1 style={{ fontWeight: 800 }}>{moment().format("MMM")}</h1>
@@ -166,8 +166,8 @@ function HoteladminIndex() {
               />
               {/* current_month_booking_count */}
               <HotelDashboardCard
-                title="Current Month Revenue"
-                data={"Rs. " + dashboard?.data?.current_month_booking_count}
+                title={"Booking Count " + moment().format("(MMMM)")}
+                data={dashboard?.data?.current_month_booking_count}
                 color="l-bg-cherry"
               />
             </div>
