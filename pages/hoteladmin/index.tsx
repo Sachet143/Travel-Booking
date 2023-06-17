@@ -164,6 +164,12 @@ function HoteladminIndex() {
                 }
                 color="l-bg-orange-dark"
               />
+              {/* current_month_booking_count */}
+              <HotelDashboardCard
+                title="Current Month Revenue"
+                data={"Rs. " + dashboard?.data?.current_month_booking_count}
+                color="l-bg-cherry"
+              />
             </div>
             <Divider className="mt-5" />
             {/* Charts */}

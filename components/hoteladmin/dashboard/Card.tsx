@@ -6,8 +6,12 @@ const { RangePicker } = DatePicker;
 interface IProps {
   data: number | string;
   title: string;
-  icon: ReactElement;
-  color: "l-bg-blue-dark" | "l-bg-green-dark" | "l-bg-orange-dark";
+  icon?: ReactElement;
+  color:
+    | "l-bg-blue-dark"
+    | "l-bg-green-dark"
+    | "l-bg-orange-dark"
+    | "l-bg-cherry";
   filterName?: string;
   onChangeDate?: (name: string, val: Array<any> | null) => void;
 }
@@ -21,7 +25,7 @@ function HotelDashboardCard({
   onChangeDate,
 }: IProps) {
   return (
-    <div className="col-sm-4">
+    <div className="col-sm-3">
       <div className={clsx("d-card", color)}>
         <div className="card-statistic-3 p-4">
           <div className="card-icon card-icon-large">{icon}</div>
