@@ -1,20 +1,9 @@
 import HoteladminLayout from "@/components/layout/hoteladmin";
-import React, { useEffect, useState } from "react";
-import useSWR from "swr";
-import {
-  Pagination,
-  Skeleton,
-  Table,
-  DatePicker,
-  TableColumnsType,
-  Badge,
-  Space,
-  Dropdown,
-} from "antd";
-import type { ColumnsType } from "antd/es/table";
 import { cleanUrlParams } from "@/services/helper";
-import moment from "moment";
-import { DownOutlined } from "@ant-design/icons";
+import { DatePicker, Pagination, Skeleton, Table } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { useState } from "react";
+import useSWR from "swr";
 import ExpandedTable from "./ExpandedTable";
 
 const { RangePicker } = DatePicker;
@@ -29,14 +18,19 @@ interface DataType {
 
 const columns: ColumnsType<DataType> = [
   {
-    title: "Title",
-    dataIndex: "title",
-    key: "title",
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
   },
+  // {
+  //   title: "Phone",
+  //   dataIndex: "phone",
+  //   key: "phone",
+  // },
   {
-    title: "Price",
-    dataIndex: "price",
-    key: "price",
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
   },
   {
     title: "Total Price",
@@ -49,9 +43,14 @@ const columns: ColumnsType<DataType> = [
     key: "totalpeople",
   },
   {
-    title: "Checkin, Checkout",
-    dataIndex: "checkinCheckout",
-    key: "checkinCheckout",
+    title: "Checkin",
+    dataIndex: "checkin",
+    key: "checkin",
+  },
+  {
+    title: "Checkout",
+    dataIndex: "checkout",
+    key: "checkout",
   },
 ];
 
@@ -67,8 +66,6 @@ function BookingHistory() {
     })
   );
 
-  console.log(1, data?.data?.data);
-
   const expandedRowRender = (record: any) => {
     return (
       <ExpandedTable
@@ -81,19 +78,19 @@ function BookingHistory() {
   };
   return (
     <HoteladminLayout title="Booking History">
+      <div className="mb-4">
+        <RangePicker
+          format={"YYYY-MM-DD"}
+          size="large"
+          onChange={(_: any, val2) => {
+            val2 ? setDate(val2) : setDate([null, null]);
+          }}
+        />
+      </div>
       {!data && !error ? (
         <Skeleton active />
       ) : (
         <>
-          <div className="mb-2">
-            <RangePicker
-              format={"YYYY-MM-DD"}
-              size="large"
-              onChange={(_: any, val2) =>
-                val2 ? setDate(val2) : setDate([null, null])
-              }
-            />
-          </div>
           <Table
             expandable={{
               expandedRowRender,
@@ -103,6 +100,9 @@ function BookingHistory() {
             dataSource={data?.data?.data?.map((booking: any) => ({
               key: booking.id,
               id: booking.id,
+              name: booking.user.name,
+              // phone: booking.user.phone,
+              email: booking.user.email,
               rooms: booking?.room_selected_bookings,
               title: booking?.room_selected_bookings
                 ?.map((room: any) => room.hotel_room.title)
@@ -112,8 +112,8 @@ function BookingHistory() {
                 .join(" + "),
               total: "NRs.  " + booking.total_amount,
               totalpeople: booking.no_of_adult + booking.no_of_children,
-              checkinCheckout:
-                booking.checkin_date + ", " + booking.Checkout_date,
+              checkin: booking.checkin_date,
+              checkout: booking.Checkout_date,
             }))}
           />
           <div className="pagination_area">
