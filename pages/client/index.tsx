@@ -81,7 +81,7 @@ const Home = () => {
         {/* imagination Area */}
         <section id="go_beyond_area" className="section_padding_top">
           <div className="container">
-            <div className="row align-items-center">
+            <div className="row gap-4 align-items-center">
               <div className="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div className="heading_left_area">
                   <h2>
