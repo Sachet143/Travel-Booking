@@ -129,7 +129,7 @@ function HotelPage() {
           <>
             <section id="tour_details_main" className="section_padding">
               <div className="container">
-                <div className="row bg-white px-4 pt-3 pb-5">
+                <div className="row bg-white md:px-4 pt-3 pb-5">
                   <Breadcrumb className="mt-3 mb-5">
                     <Breadcrumb.Item>
                       <Link href="/">Home</Link>
@@ -184,7 +184,7 @@ function HotelPage() {
                                   return (
                                     <div
                                       key={item.id}
-                                      className="single-slider-wrapper"
+                                      className="single-slider-wrapper h-[250px] md:h-full"
                                     >
                                       <img
                                         src={imageFullPath(item.path)}

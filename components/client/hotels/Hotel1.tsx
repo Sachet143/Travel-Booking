@@ -17,6 +17,7 @@ function HotelListDetail({ hotel }: any) {
             <img
               onClick={() => router.push(`/hotels/${hotel.uuid}`)}
               className="cursor-pointer"
+              width={"100%"}
               style={{
                 objectFit: "cover",
                 maxHeight: "250px",
