@@ -1,4 +1,3 @@
-import LogoWhite from "@/public/client/assets/img/YS-White.svg";
 import LogoPurple from "@/public/client/assets/img/YS-purple.svg";
 import Plane from "@/public/client/assets/img/airplane.png";
 import Hotel from "@/public/client/assets/img/resort.png";
@@ -11,9 +10,9 @@ import { deleteCookie, getCookie } from "cookies-next";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import SearchBar from "./SearchBar";
 import { LargeTopbar } from "./LargeTopbar";
 import { MediumTopbar } from "./MediumTopbar";
+import SearchBar from "./SearchBar";
 
 const TopBar = () => {
   const router = useRouter();
@@ -119,13 +118,16 @@ const TopBar = () => {
   );
 
   useEffect(() => {
-    setPath(router.pathname);
-    const onScroll = (e: any) => {
-      setOffset(window.pageYOffset);
-    };
-    window.removeEventListener("scroll", onScroll);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    // show two navbars only on large screens
+    if (window.innerWidth > 1024) {
+      setPath(router.pathname);
+      const onScroll = (e: any) => {
+        setOffset(window.pageYOffset);
+      };
+      window.removeEventListener("scroll", onScroll);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      return () => window.removeEventListener("scroll", onScroll);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -135,20 +137,20 @@ const TopBar = () => {
 
       <header className="main_header_arae">
         {/* Top Bar */}
-        <LargeTopbar date={date} user={user} menu={menu}/>
-        <MediumTopbar date={date} user={user} menu={menu}/>
+        <LargeTopbar date={date} user={user} menu={menu} />
+        <MediumTopbar date={date} user={user} menu={menu} />
 
-        {/* {navbar type3} */}
+        {/* on scroll navbar only for large screens */}
         <div
           className={`navbar-type2 navbar-area ${
             router.pathname != "/client"
-              ? "is-sticky"
+              ? "hidden lg:block is-sticky"
               : offset > 100
-              ? "is-sticky"
+              ? "hidden lg:block is-sticky"
               : ""
           }`}
         >
-          <div className="container">
+          <div className="container hidden lg:block">
             <div className="row">
               <div className="col-md-12">
                 <div className="nav-wrapper">
@@ -315,4 +317,3 @@ const TopBar = () => {
 };
 
 export default TopBar;
-
