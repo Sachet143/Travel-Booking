@@ -1,4 +1,5 @@
-import React from 'react'
+import clsx from "clsx";
+import React from "react";
 
 function FlightFilter() {
   return (
@@ -10,8 +11,15 @@ function FlightFilter() {
     >
       <div className="row">
         <div className="col-lg-12">
-          <div className="flight_categories_search">
-            <ul className="nav nav-tabs" role="tablist">
+          {/* <div className="flight_categories_search"> */}
+          <div
+            className={clsx(
+              "absolute flex justify-evenly md:justify-end top-[35px]",
+              "left-0 right-0  w-full",
+              "md:right-0"
+            )}
+          >
+            <ul className="nav" role="tablist">
               <li className="nav-item" role="presentation">
                 <button
                   className="nav-link active"
@@ -58,7 +66,7 @@ function FlightFilter() {
           </div>
         </div>
       </div>
-      <div className="tab-content" id="myTabContent1">
+      <div className="tab-content mt-3" id="myTabContent1">
         <div
           className="tab-pane fade show active"
           id="oneway_flight"
@@ -73,14 +81,8 @@ function FlightFilter() {
                     <div className="col-lg-3 col-md-6 col-sm-12 col-12">
                       <div className="flight_Search_boxed">
                         <p>From</p>
-                        <input
-                          type="text"
-                          defaultValue="New York"
-                        />
-                        <span>
-                          JFK - John F. Kennedy
-                          International...
-                        </span>
+                        <input type="text" defaultValue="New York" />
+                        <span>JFK - John F. Kennedy International...</span>
                         <div className="plan_icon_posation">
                           <i className="fas fa-plane-departure" />
                         </div>
@@ -89,10 +91,7 @@ function FlightFilter() {
                     <div className="col-lg-3 col-md-6 col-sm-12 col-12">
                       <div className="flight_Search_boxed">
                         <p>To</p>
-                        <input
-                          type="text"
-                          defaultValue="London "
-                        />
+                        <input type="text" defaultValue="London " />
                         <span>LCY, London city airport </span>
                         <div className="plan_icon_posation">
                           <i className="fas fa-plane-arrival" />
@@ -107,10 +106,7 @@ function FlightFilter() {
                         <div className="flight_Search_boxed date_flex_area">
                           <div className="Journey_date">
                             <p>Journey date</p>
-                            <input
-                              type="date"
-                              defaultValue="2022-05-05"
-                            />
+                            <input type="date" defaultValue="2022-05-05" />
                             <span>Thursday</span>
                           </div>
                         </div>
@@ -140,19 +136,14 @@ function FlightFilter() {
                                 <div className="passengers-types">
                                   <div className="passengers-type">
                                     <div className="text">
-                                      <span className="count pcount">
-                                        2
-                                      </span>
+                                      <span className="count pcount">2</span>
                                       <div className="type-label">
                                         <p>Adult</p>
                                         <span>12+ yrs</span>
                                       </div>
                                     </div>
                                     <div className="button-set">
-                                      <button
-                                        type="button"
-                                        className="btn-add"
-                                      >
+                                      <button type="button" className="btn-add">
                                         <i className="fas fa-plus" />
                                       </button>
                                       <button
@@ -165,16 +156,10 @@ function FlightFilter() {
                                   </div>
                                   <div className="passengers-type">
                                     <div className="text">
-                                      <span className="count ccount">
-                                        0
-                                      </span>
+                                      <span className="count ccount">0</span>
                                       <div className="type-label">
-                                        <p className="fz14 mb-xs-0">
-                                          Children
-                                        </p>
-                                        <span>
-                                          2 - Less than 12 yrs
-                                        </span>
+                                        <p className="fz14 mb-xs-0">Children</p>
+                                        <span>2 - Less than 12 yrs</span>
                                       </div>
                                     </div>
                                     <div className="button-set">
@@ -194,16 +179,10 @@ function FlightFilter() {
                                   </div>
                                   <div className="passengers-type">
                                     <div className="text">
-                                      <span className="count incount">
-                                        0
-                                      </span>
+                                      <span className="count incount">0</span>
                                       <div className="type-label">
-                                        <p className="fz14 mb-xs-0">
-                                          Infant
-                                        </p>
-                                        <span>
-                                          Less than 2 yrs
-                                        </span>
+                                        <p className="fz14 mb-xs-0">Infant</p>
+                                        <span>Less than 2 yrs</span>
                                       </div>
                                     </div>
                                     <div className="button-set">
@@ -259,9 +238,7 @@ function FlightFilter() {
                       </div>
                     </div>
                     <div className="top_form_search_button">
-                      <button className="btn btn_theme btn_md">
-                        Search
-                      </button>
+                      <button className="btn btn_theme btn_md">Search</button>
                     </div>
                   </div>
                 </form>
@@ -283,14 +260,8 @@ function FlightFilter() {
                     <div className="col-lg-3  col-md-6 col-sm-12 col-12">
                       <div className="flight_Search_boxed">
                         <p>From</p>
-                        <input
-                          type="text"
-                          defaultValue="New York"
-                        />
-                        <span>
-                          JFK - John F. Kennedy
-                          International...
-                        </span>
+                        <input type="text" defaultValue="New York" />
+                        <span>JFK - John F. Kennedy International...</span>
                         <div className="plan_icon_posation">
                           <i className="fas fa-plane-departure" />
                         </div>
@@ -299,10 +270,7 @@ function FlightFilter() {
                     <div className="col-lg-3  col-md-6 col-sm-12 col-12">
                       <div className="flight_Search_boxed">
                         <p>To</p>
-                        <input
-                          type="text"
-                          defaultValue="London "
-                        />
+                        <input type="text" defaultValue="London " />
                         <span>LCY, London city airport </span>
                         <div className="plan_icon_posation">
                           <i className="fas fa-plane-arrival" />
@@ -317,18 +285,12 @@ function FlightFilter() {
                         <div className="flight_Search_boxed date_flex_area">
                           <div className="Journey_date">
                             <p>Journey date</p>
-                            <input
-                              type="date"
-                              defaultValue="2022-05-05"
-                            />
+                            <input type="date" defaultValue="2022-05-05" />
                             <span>Thursday</span>
                           </div>
                           <div className="Journey_date">
                             <p>Return date</p>
-                            <input
-                              type="date"
-                              defaultValue="2022-05-08"
-                            />
+                            <input type="date" defaultValue="2022-05-08" />
                             <span>Saturday</span>
                           </div>
                         </div>
@@ -358,19 +320,14 @@ function FlightFilter() {
                                 <div className="passengers-types">
                                   <div className="passengers-type">
                                     <div className="text">
-                                      <span className="count pcount">
-                                        2
-                                      </span>
+                                      <span className="count pcount">2</span>
                                       <div className="type-label">
                                         <p>Adult</p>
                                         <span>12+ yrs</span>
                                       </div>
                                     </div>
                                     <div className="button-set">
-                                      <button
-                                        type="button"
-                                        className="btn-add"
-                                      >
+                                      <button type="button" className="btn-add">
                                         <i className="fas fa-plus" />
                                       </button>
                                       <button
@@ -383,16 +340,10 @@ function FlightFilter() {
                                   </div>
                                   <div className="passengers-type">
                                     <div className="text">
-                                      <span className="count ccount">
-                                        0
-                                      </span>
+                                      <span className="count ccount">0</span>
                                       <div className="type-label">
-                                        <p className="fz14 mb-xs-0">
-                                          Children
-                                        </p>
-                                        <span>
-                                          2 - Less than 12 yrs
-                                        </span>
+                                        <p className="fz14 mb-xs-0">Children</p>
+                                        <span>2 - Less than 12 yrs</span>
                                       </div>
                                     </div>
                                     <div className="button-set">
@@ -412,16 +363,10 @@ function FlightFilter() {
                                   </div>
                                   <div className="passengers-type">
                                     <div className="text">
-                                      <span className="count incount">
-                                        0
-                                      </span>
+                                      <span className="count incount">0</span>
                                       <div className="type-label">
-                                        <p className="fz14 mb-xs-0">
-                                          Infant
-                                        </p>
-                                        <span>
-                                          Less than 2 yrs
-                                        </span>
+                                        <p className="fz14 mb-xs-0">Infant</p>
+                                        <span>Less than 2 yrs</span>
                                       </div>
                                     </div>
                                     <div className="button-set">
@@ -478,9 +423,7 @@ function FlightFilter() {
                     </div>
                   </div>
                   <div className="top_form_search_button">
-                    <button className="btn btn_theme btn_md">
-                      Search
-                    </button>
+                    <button className="btn btn_theme btn_md">Search</button>
                   </div>
                 </form>
               </div>
@@ -503,14 +446,8 @@ function FlightFilter() {
                         <div className="col-lg-3 col-md-6 col-sm-12 col-12">
                           <div className="flight_Search_boxed">
                             <p>From</p>
-                            <input
-                              type="text"
-                              defaultValue="New York"
-                            />
-                            <span>
-                              DAC, Hazrat Shahajalal
-                              International...
-                            </span>
+                            <input type="text" defaultValue="New York" />
+                            <span>DAC, Hazrat Shahajalal International...</span>
                             <div className="plan_icon_posation">
                               <i className="fas fa-plane-departure" />
                             </div>
@@ -519,13 +456,8 @@ function FlightFilter() {
                         <div className="col-lg-3 col-md-6 col-sm-12 col-12">
                           <div className="flight_Search_boxed">
                             <p>To</p>
-                            <input
-                              type="text"
-                              defaultValue="London "
-                            />
-                            <span>
-                              LCY, London city airport{" "}
-                            </span>
+                            <input type="text" defaultValue="London " />
+                            <span>LCY, London city airport </span>
                             <div className="plan_icon_posation">
                               <i className="fas fa-plane-arrival" />
                             </div>
@@ -539,18 +471,12 @@ function FlightFilter() {
                             <div className="flight_Search_boxed date_flex_area">
                               <div className="Journey_date">
                                 <p>Journey date</p>
-                                <input
-                                  type="date"
-                                  defaultValue="2022-05-05"
-                                />
+                                <input type="date" defaultValue="2022-05-05" />
                                 <span>Thursday</span>
                               </div>
                               <div className="Journey_date">
                                 <p>Return date</p>
-                                <input
-                                  type="date"
-                                  defaultValue="2022-05-10"
-                                />
+                                <input type="date" defaultValue="2022-05-10" />
                                 <span>Saturday</span>
                               </div>
                             </div>
@@ -585,9 +511,7 @@ function FlightFilter() {
                                           </span>
                                           <div className="type-label">
                                             <p>Adult</p>
-                                            <span>
-                                              12+ yrs
-                                            </span>
+                                            <span>12+ yrs</span>
                                           </div>
                                         </div>
                                         <div className="button-set">
@@ -614,10 +538,7 @@ function FlightFilter() {
                                             <p className="fz14 mb-xs-0">
                                               Children
                                             </p>
-                                            <span>
-                                              2 - Less than 12
-                                              yrs
-                                            </span>
+                                            <span>2 - Less than 12 yrs</span>
                                           </div>
                                         </div>
                                         <div className="button-set">
@@ -644,9 +565,7 @@ function FlightFilter() {
                                             <p className="fz14 mb-xs-0">
                                               Infant
                                             </p>
-                                            <span>
-                                              Less than 2 yrs
-                                            </span>
+                                            <span>Less than 2 yrs</span>
                                           </div>
                                         </div>
                                         <div className="button-set">
@@ -708,14 +627,8 @@ function FlightFilter() {
                         <div className="col-lg-3 col-md-6 col-sm-12 col-12">
                           <div className="flight_Search_boxed">
                             <p>From</p>
-                            <input
-                              type="text"
-                              defaultValue="New York"
-                            />
-                            <span>
-                              DAC, Hazrat Shahajalal
-                              International...
-                            </span>
+                            <input type="text" defaultValue="New York" />
+                            <span>DAC, Hazrat Shahajalal International...</span>
                             <div className="plan_icon_posation">
                               <i className="fas fa-plane-departure" />
                             </div>
@@ -724,13 +637,8 @@ function FlightFilter() {
                         <div className="col-lg-3 col-md-6 col-sm-12 col-12">
                           <div className="flight_Search_boxed">
                             <p>To</p>
-                            <input
-                              type="text"
-                              defaultValue="London "
-                            />
-                            <span>
-                              LCY, London city airport{" "}
-                            </span>
+                            <input type="text" defaultValue="London " />
+                            <span>LCY, London city airport </span>
                             <div className="plan_icon_posation">
                               <i className="fas fa-plane-arrival" />
                             </div>
@@ -744,18 +652,12 @@ function FlightFilter() {
                             <div className="flight_Search_boxed date_flex_area">
                               <div className="Journey_date">
                                 <p>Journey date</p>
-                                <input
-                                  type="date"
-                                  defaultValue="2022-05-05"
-                                />
+                                <input type="date" defaultValue="2022-05-05" />
                                 <span>Thursday</span>
                               </div>
                               <div className="Journey_date">
                                 <p>Return date</p>
-                                <input
-                                  type="date"
-                                  defaultValue="2022-05-12"
-                                />
+                                <input type="date" defaultValue="2022-05-12" />
                                 <span>Saturday</span>
                               </div>
                             </div>
@@ -790,9 +692,7 @@ function FlightFilter() {
                                           </span>
                                           <div className="type-label">
                                             <p>Adult</p>
-                                            <span>
-                                              12+ yrs
-                                            </span>
+                                            <span>12+ yrs</span>
                                           </div>
                                         </div>
                                         <div className="button-set">
@@ -819,10 +719,7 @@ function FlightFilter() {
                                             <p className="fz14 mb-xs-0">
                                               Children
                                             </p>
-                                            <span>
-                                              2 - Less than 12
-                                              yrs
-                                            </span>
+                                            <span>2 - Less than 12 yrs</span>
                                           </div>
                                         </div>
                                         <div className="button-set">
@@ -849,9 +746,7 @@ function FlightFilter() {
                                             <p className="fz14 mb-xs-0">
                                               Infant
                                             </p>
-                                            <span>
-                                              Less than 2 yrs
-                                            </span>
+                                            <span>Less than 2 yrs</span>
                                           </div>
                                         </div>
                                         <div className="button-set">
@@ -912,19 +807,14 @@ function FlightFilter() {
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="add_multy_form">
-                        <button
-                          type="button"
-                          id="addMulticityRow"
-                        >
+                        <button type="button" id="addMulticityRow">
                           + Add another flight
                         </button>
                       </div>
                     </div>
                   </div>
                   <div className="top_form_search_button">
-                    <button className="btn btn_theme btn_md">
-                      Search
-                    </button>
+                    <button className="btn btn_theme btn_md">Search</button>
                   </div>
                 </form>
               </div>
@@ -933,7 +823,7 @@ function FlightFilter() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default FlightFilter
+export default FlightFilter;

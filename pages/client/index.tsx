@@ -1,6 +1,8 @@
 import BusFilter from "@/components/client/home/BusFilter";
 import FlightFilter from "@/components/client/home/FlightFilter";
 import HotelFilter from "@/components/client/home/HotelFilter";
+import MediumLandingForm from "@/components/client/home/LandingForm/Medium";
+import MobileLandingForm from "@/components/client/home/LandingForm/Mobile";
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import { useEffect } from "react";
 
@@ -60,7 +62,7 @@ const Home = () => {
     <ClientLayout>
       <div>
         {/* Banner Area */}
-        <section className="top_home_wrapper">
+        <section className="relative h-[85vh] md:h-[80vh]">
           <section id="home_one_banner">
             <div className="container">
               <div className="row align-items-center">
@@ -72,70 +74,8 @@ const Home = () => {
           </section>
           <div className="blurry"></div>
           {/* Form Area */}
-          <section id="theme_search_form">
-            <div className="container">
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="theme_search_form_area">
-                    <div className="theme_search_form_tabbtn">
-                      <ul className="nav nav-tabs" role="tablist">
-                        <li className="nav-item" role="presentation">
-                          <button
-                            className="nav-link active"
-                            id="flights-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#flights"
-                            type="button"
-                            role="tab"
-                            aria-controls="flights"
-                            aria-selected="true"
-                          >
-                            <i className="fas fa-plane-departure" />
-                            Flights
-                          </button>
-                        </li>
-                        <li className="nav-item" role="presentation">
-                          <button
-                            className="nav-link"
-                            id="bus-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#bus"
-                            type="button"
-                            role="tab"
-                            aria-controls="bus"
-                            aria-selected="false"
-                          >
-                            <i className="fas fa-bus" />
-                            Buses
-                          </button>
-                        </li>
-                        <li className="nav-item" role="presentation">
-                          <button
-                            className="nav-link"
-                            id="hotels-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#hotels"
-                            type="button"
-                            role="tab"
-                            aria-controls="hotels"
-                            aria-selected="false"
-                          >
-                            <i className="fas fa-hotel" />
-                            Stays
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="tab-content" id="myTabContent">
-                      <FlightFilter />
-                      <BusFilter />
-                      <HotelFilter />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+          <MobileLandingForm />
+          <MediumLandingForm />
         </section>
 
         {/* imagination Area */}
