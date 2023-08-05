@@ -10,4 +10,4 @@ const nextConfig = {
   swcMinify: true,
 }
 
-module.exports = withPWA(nextConfig)
+module.exports = (nextConfig)
