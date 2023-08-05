@@ -1,4 +1,4 @@
-import HotelListDetail from "@/components/client/hotels/Hotel";
+import HotelListDetail from "@/components/client/hotels/Hotel1";
 import HotelListingFilter from "@/components/client/hotels/Listing/Filter";
 import ClientLayout from "@/components/layout/client/ClientLayout";
 import { capitalizeFirstLetter, cleanUrlParams } from "@/services/helper";

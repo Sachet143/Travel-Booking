@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { LargeTopbar } from "./LargeTopbar";
 import { MediumTopbar } from "./MediumTopbar";
 import SearchBar from "./SearchBar";
+import clsx from "clsx";
 
 const TopBar = () => {
   const router = useRouter();
@@ -142,13 +143,24 @@ const TopBar = () => {
 
         {/* on scroll navbar only for large screens */}
         <div
-          className={`navbar-type2 navbar-area ${
-            router.pathname != "/client"
-              ? "hidden lg:block is-sticky"
-              : offset > 100
-              ? "hidden lg:block is-sticky"
+          className={clsx(
+            "navbar-type2 navbar-area",
+            router.pathname !== "/client"
+              ? // always visible when not in home
+                // "lg:fixed lg:top-0 lg:left-0 lg:w-full lg:z-99 !lg:bg-white"
+                "is-sticky lg:fixed"
+              : // when in home
+              offset > 100
+              ? "is-sticky lg:fixed"
               : ""
-          }`}
+          )}
+          // className={`navbar-type2 navbar-area ${
+          //   router.pathname != "/client"
+          //     ? "hidden lg:block is-sticky"
+          //     : offset > 100
+          //     ? "hidden lg:block is-sticky"
+          //     : ""
+          // }`}
         >
           <div className="container hidden lg:block">
             <div className="row">
